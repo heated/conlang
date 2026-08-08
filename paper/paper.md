@@ -51,21 +51,30 @@ Contributions:
 
 ## 2. Why not faster speech or reading: the throughput ceiling
 
-[TODO: full literature review.] Key findings the design respects:
+A language designed for *speed* would be optimizing the wrong variable.
+Across 17 typologically diverse languages, information rate in speech
+converges near ~39 bits/s: languages with information-dense syllables are
+spoken proportionally slower, and sparse ones faster, so the product stays
+flat [@coupe2019]. The ceiling appears to be cognitive rather than
+articulatory — inner speech, silent reading, and deliberate sequential
+thought cluster in the same band. Reading tells the same story from the
+other side: comprehension of normal prose degrades in proportion to speed
+past roughly 400–500 WPM, RSVP presentation demonstrates that eye
+movements were never the bottleneck, and subvocalization is load-bearing
+for the working-memory rehearsal that comprehension depends on — not a
+removable inefficiency [@rayner2016]. Nor does script density pass
+through to throughput: denser scripts induce proportionally shorter
+saccades, holding information-per-fixation roughly constant. [TODO-verify:
+saccade-scaling citation for Chinese/English reading rates.]
 
-- Cross-linguistic information rate converges near ~39 bits/s; syllable-rate
-  compensates for per-syllable information density [@coupe2019].
-- Reading comprehension degrades in proportion to speed past ~400–500 WPM;
-  RSVP shows the eyes were never the bottleneck [@rayner2016].
-- Subvocalization is load-bearing for working memory during reading, not a
-  removable inefficiency.
-- Script density does not raise reading throughput: saccades shrink to hold
-  information-per-fixation roughly constant across Chinese and English.
-
-Therefore the exploitable margins are: **learning** (transparent
-orthography, systematic morphology), **input speed** (chording), 
-**compactness and scannability** (dense glyphs, structure visible
-pre-comprehension), and **machine legibility** — not throughput.
+What is *not* pinned: time-to-fluency (transparent orthographies reach
+accurate decoding in roughly a year of schooling versus two to three times
+that for English [@seymour2003]); text input speed (chorded systems
+demonstrate 200+ WPM, gated by learning cost, not motor limits); working
+memory economy (span is measured in articulatory time, so shorter
+high-frequency words buy real capacity [@baddeley1975]); compactness and
+scannability of text; and machine legibility. These are the margins this
+design spends on.
 
 ## 3. Channel phonology
 
