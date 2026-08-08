@@ -1,0 +1,116 @@
+# Design Brief — engineered conlang (working title: TBD)
+
+Distilled from the 2026-08-08 design conversation (full transcript:
+`docs/archive/2026-08-08-design-chat.md`). This is the project's north star.
+The name is deliberately undecided; the spec uses a placeholder until the
+phonaesthetics pass (Tier 4).
+
+## Goal
+
+A language that is **maximally fast to learn**, where fast **typing**
+(chording) and fast-to-acquire **reading** (featural script) fall out of the
+architecture for free. Explicit non-goals: raw speaking/reading throughput
+(pinned by cognition at ~39 bits/s regardless of code), speech density (the
+"wide phonology" branch is dead), full FEC in casual speech.
+
+## Core architecture
+
+A syllable is a **channel vector**: onset × vowel × coda × register. Everything
+else is defined over these coordinates.
+
+1. **Channel phonology, baseline size.** ~10 content onsets
+   (`p t k m n s l w j h` territory; `h` reserved for particles), 5 vowels
+   (`a e i o u`), ~4–5 codas (`∅ n s l` core), 2 registers. Every phoneme sits
+   inside essentially every L1's comfort zone — nobody is asked to hear a
+   distinction their native language didn't give them.
+2. **Decoupled featural script.** Written unit = morpheme = one block glyph =
+   one chord; glyph components ARE the syllables of its pronunciation
+   (Hangul-style blocks, zero exceptions). Deterministic two-way spell-out
+   between glyph and the small spoken syllable inventory. Speech is the
+   verbose serialization; text the compressed one.
+3. **Error correction as structured redundancy, not uniform spacing.**
+   Inner parity (register = parity of other channels → distance-2, any
+   single-channel mishearing yields a non-word), perceptually weighted
+   distance (spend codespace where ears are weak, e.g. never contrast by
+   register alone), cross-syllable checks in disyllables, phonotactic
+   templates, conversational repair as the free outermost layer.
+4. **Self-segregating morphology, prosodic implementation.** Particles =
+   single syllable with reserved onset `h`; content words 1–3 syllables,
+   first-syllable stress as the boundary signal; exactly one legal parse of
+   any syllable stream. Prefer stress-plus-boundary-marker over Lojban-style
+   cluster requirements (loanwords pass through spell mode untouched).
+
+## Tiered roadmap (from the conversation's priority ranking)
+
+- **Tier 1 (frozen core, spec first):** channel inventory; featural block
+  script + deterministic spell-out; perceptually weighted spacing + inner
+  parity; SSM. Freeze early, version the spec, own the spec.
+- **Tier 2:** mode particles (numbers/dates/times/coords/spell-out on
+  reserved `h-` onset); Esperanto-style systematic derivation + correlative
+  grids for all closed paradigms; part-of-speech on a dedicated channel
+  (decide early — constrains word shapes); Zipf assignment of monosyllables.
+- **Tier 3:** cross-syllable outer code + register profiles (casual /
+  careful / safety-critical); chorded keyboard **and phone/touch input**;
+  semantic-classifier zone (written-only); evidentials, attitudinals, spoken
+  punctuation.
+- **Tier 4 / spin-offs:** phonaesthetics pass + true name; degraded modes
+  (whistled/drummed), shorthand projection, accessibility serializations;
+  spatial sentence layer (**designated sequel project**, not this one).
+
+## Key numbers & findings to respect
+
+- Raw syllable space at baseline ≈ 400–900 depending on final inventory;
+  after parity + weighted spacing expect ~200–600 usable monosyllables.
+  Above ~200 usable syllables is Japanese territory and fine; the knee is
+  below ~100.
+- Content vocabulary ~1,500–3,000 closed-core roots + productive derivation;
+  content words average ~1.6–1.8 syllables spoken; monosyllables assigned by
+  corpus frequency (Zipf policy) from the first dictionary draft.
+- Numbers: digit-pairs, base-100 positional; tens→onset, units→rime; 0–99 in
+  one syllable. Dates: month/day gridded onto channels. Time: hour ×
+  quarter-hour = 96 values targeted at ONE syllable (user directive);
+  minutes mode only for exact times.
+- Mode payloads: **try the anti-parity complement** (user directive) —
+  payload syllables self-flag as non-lexical; known cost: a single-channel
+  error can land back on a valid lexical point, so payload integrity leans
+  on mode boundary + optional checksum syllable (mandatory in safety
+  registers). Price this when the modes are designed.
+- Modes win for payloads of 2+ syllables; casual speech uses lexical number
+  words for small numbers.
+
+## Design lessons imported (steal list)
+
+- Esperanto: correlative grid mechanism for ALL closed paradigms; POS on a
+  dedicated channel; systematic derivation; governance failure = unregulated
+  borrowing (so: closed core, owned spec, versioned releases).
+- Lojban: spoken punctuation/terminators as particles; machine-parseability
+  worked, semantic-logic half didn't; phonotactics botched confusability.
+- Toaq: syntax-on-a-channel is validated — but put it in the glyph layer /
+  particle class / one register bit, NOT tone (tone = worst-perceived
+  channel; syntax = worst cargo for it). Versioned releases + single design
+  authority + community dictionary process.
+- Hangul: featural glyphs learnable in days. Chinese radicals: semantic
+  classifier zone, but at 100% reliability (written-only channel). Zipf:
+  design the erosion in from day one. Talking drums / Silbo: degraded modes
+  via conventional redundancy. ASL: spatial reference tracking (bridge to
+  sequel). Solresol: multimodal serialization ambition, but never below the
+  articulatory floor (~20–25 usable syllables absolute minimum).
+- Sociology: adoption gradients beat cliffs — ship number/date/time modes and
+  input methods as standalone tools usable inside English. A language ships
+  better inside a world (stories, beauty budget at Tier 4). Ithkuil died of
+  completeness: pick the load-bearing set, resist feature accretion.
+
+## User directives on record
+
+- 2026-08-08: try complement-restricted mode payloads; single-syllable
+  hour+quarter time; name decision deferred ("don't care about the name rn");
+  **consider phone text input** as a first-class input method.
+
+## Open questions (tracked as beads)
+
+- Exact onset/coda/register counts and the tens-digit-0 / month-count fits
+  (need 10 tens values and 12 month values against a ~10-onset content
+  inventory — resolve in spec with generator arithmetic).
+- POS channel placement (final vowel vs coda; monosyllable exemption?).
+- Register phonetic realization (vowel length favored over pitch/stress).
+- Complement-payload pricing vs full-space payloads for each mode.

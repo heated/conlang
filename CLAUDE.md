@@ -1,13 +1,35 @@
 # conlang — Agent Instructions
 
-Fresh project; scope not yet defined. The duke seat owns project shape and
-translates human direction into beads.
+An engineered conlang optimized for learning speed. North star:
+`docs/design-brief.md`. Versioned spec: `docs/spec/`. Living research paper:
+`paper/paper.md`. The duke seat owns project shape and translates human
+direction into beads.
 
 - Duke role: load the `duke` skill (`/duke`) and `human-gates`.
 - Issue tracking: **bd** (beads). `bd ready`, `bd create`, `bd show`, `bd close`.
 - Land work on `origin/main`; don't let branches accumulate.
 - This file is the source of truth for project conventions; grow it as the
   project takes shape.
+
+## Conventions
+
+- **Remotes:** `origin` = local crew landing target (bare repo); `github` =
+  public mirror (github.com/heated/conlang). After landing on `origin/main`,
+  also `git push github main`. The repo is PUBLIC — nothing sensitive in
+  commits.
+- **Paper:** every substantive bead updates its section of `paper/paper.md`
+  as part of the bead (tracker: conlang-8c2). Citations seeded from the
+  design chat stay marked TODO-verify until checked against primary sources.
+- **Notes/plans/audits:** gitignored `.ship-notes/` (never `.claude/` in-repo).
+- **Bead scopes:** `scope:arch` (spec/design), `scope:tooling`, `scope:build`.
+- **Review policy (Edward, 2026-08-08):** one combined duke+crew seat.
+  Code review = exactly one Codex reviewer (`gpt-5.6-sol`, reasoning
+  `xhigh`) for substantive changes (behavior, architecture, invariants,
+  security/privacy, persistence/wire formats, public APIs, nontrivial
+  algorithms, risky refactors); skip for trivial docs/format/lint/naming/
+  mechanical edits. No multi-agent review tiers unless Edward changes this.
+- **Invariant-bearing paths** (full playbook, no narrow lane): `docs/spec/`
+  and anything that changes frozen-core language definitions.
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker
