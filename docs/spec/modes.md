@@ -1,6 +1,6 @@
 # Mode Subsystems — Tier-2 Specification
 
-**Version:** 0.1.1-draft · **Status: NOT FROZEN.** Mode particle
+**Version:** 0.2.0-draft · **Status: NOT FROZEN.** Mode particle
 assignments are **PROVISIONAL** until conlang-jbw fixes the particle
 budget; the digit-pair code itself is frozen with the core (SPEC §10).
 
@@ -169,8 +169,9 @@ tracked here.
 
 ## 10. Relation to the frozen core
 
-Modes consume: the digit-pair assignments (SPEC §10, frozen), the
-anti-check complement (SPEC §4.2, frozen), and eight provisional
-particle slots (not frozen). The h-onset payload ban (§5) is a modes
-policy, not a core change. Nothing here constrains the lexicon beyond
-SPEC v0.1.
+Modes consume: the digit-pair assignments (SPEC §10, freeze
+candidate), the written-layer anti-check convention (SPEC §4.2 v0.2 —
+itself subject to the tentative check-demotion decision, which this
+document tracks), and eight provisional particle slots. The h-onset
+payload ban (§5) is a modes policy, not a core change. Nothing here
+constrains the lexicon beyond the current SPEC draft.

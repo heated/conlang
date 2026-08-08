@@ -44,9 +44,10 @@ else is defined over these coordinates.
 
 ## Tiered roadmap (from the conversation's priority ranking)
 
-- **Tier 1 (frozen core, spec first):** channel inventory; featural block
-  script + deterministic spell-out; perceptually weighted spacing + inner
-  parity; SSM. Freeze early, version the spec, own the spec.
+- **Tier 1 (frozen core, spec first):** channel inventory; featural
+  block script + deterministic spell-out; humility assignment + the
+  derived written-layer check bit (v0.2); SSM. Freeze early, version
+  the spec, own the spec.
 - **Tier 2:** mode particles (numbers/dates/times/coords/spell-out on
   reserved `h-` onset); Esperanto-style systematic derivation + correlative
   grids for all closed paradigms; part-of-speech on a dedicated channel
@@ -61,10 +62,11 @@ else is defined over these coordinates.
 
 ## Key numbers & findings to respect
 
-- Raw syllable space at baseline ≈ 400–900 depending on final inventory;
-  after parity + weighted spacing expect ~200–600 usable monosyllables.
-  Above ~200 usable syllables is Japanese territory and fine; the knee is
-  below ~100.
+- Settled (v0.2): 220 spoken segmental syllables (200 content), 440
+  written-layer codepoints; 22 monosyllabic root bodies under humility
+  assignment (15 assignable after reserve), ~8.5k disyllabic bodies —
+  disyllable-dominant, Japanese-like profile. (The chat-era 400–900 /
+  200–600 estimates are historical.)
 - Content vocabulary ~1,500–3,000 closed-core roots + productive derivation;
   content words average ~1.6–1.8 syllables spoken; monosyllables assigned by
   corpus frequency (Zipf policy) from the first dictionary draft.
@@ -72,11 +74,10 @@ else is defined over these coordinates.
   one syllable. Dates: month/day gridded onto channels. Time: hour ×
   quarter-hour = 96 values targeted at ONE syllable (user directive);
   minutes mode only for exact times.
-- Mode payloads: **try the anti-parity complement** (user directive) —
-  payload syllables self-flag as non-lexical; known cost: a single-channel
-  error can land back on a valid lexical point, so payload integrity leans
-  on mode boundary + optional checksum syllable (mandatory in safety
-  registers). Price this when the modes are designed.
+- Mode payloads carry anti-check polarity **in the written layer**
+  (self-flagging for text and machines); casual spoken payload integrity
+  = boundary particles + frame grammar + mod-101 checksum (mandatory in
+  safety registers).
 - Modes win for payloads of 2+ syllables; casual speech uses lexical number
   words for small numbers.
 
@@ -128,11 +129,13 @@ else is defined over these coordinates.
   design. Tracked as a standing bead; findings land in the paper's
   alternatives/discussion sections and as design proposals.
 
-## Open questions (tracked as beads)
+## Decisions log (previously open questions)
 
-- Exact onset/coda/register counts and the tens-digit-0 / month-count fits
-  (need 10 tens values and 12 month values against a ~10-onset content
-  inventory — resolve in spec with generator arithmetic).
-- POS channel placement (final vowel vs coda; monosyllable exemption?).
-- Register phonetic realization (vowel length favored over pitch/stress).
-- Complement-payload pricing vs full-space payloads for each mode.
+- Inventory: 10+1 onsets (c added for digit-0), a e i o u, ∅/n/s/l —
+  settled in SPEC v0.1; digits/dates reuse one digit-pair code.
+- POS channel: final coda (∅ noun / n verb / s modifier) — settled.
+- Assignment policy: humility (conlang-bf2, 2026-08-09) — settled.
+- Check/register: demoted to written layer with optional careful-speech
+  realization — **tentative**; re-promotion or deletion are documented
+  minor-version paths (SPEC §9). The one genuinely open core question.
+- Payloads: written-layer anti-check marking + frame grammar — settled.

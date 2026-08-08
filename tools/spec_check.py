@@ -138,6 +138,18 @@ class Checker:
             self.expect(f | w == residual.get(ch, set()),
                         f"confusion_policy {ch}: forbidden+weighted must equal residual pairs")
 
+        # humility invariant (conlang-bf2): the runtime forbidden set must
+        # equal covered ∪ confusion_policy.forbidden per channel
+        try:
+            import phonology
+            rt = phonology.ConflictRules(phonology.Inventory(d))
+            for ch in CHANNELS:
+                want = forbidden.get(ch, set())                     | {frozenset(p) for p in d["covered_confusion_pairs"].get(ch, [])}
+                self.expect(rt.forbidden.get(ch, set()) == want,
+                            f"runtime forbidden[{ch}] != covered ∪ forbidden")
+        except Exception as e:  # pragma: no cover
+            self.fail(f"runtime humility check failed to run: {e}")
+
         # structured cell rules must reference real inventory values
         cells = d["lexical_cell_rules"]
         onset_romans = {o["roman"] for o in content}

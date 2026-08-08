@@ -171,8 +171,8 @@
     "rule": "register_index == (check(onset) + check(vowel) + check(coda)) mod 2",
     "lexical_side": "syllables satisfying the rule; the only side words may use",
     "complement_side": "anti-check syllables; reserved for mode payloads",
-    "what_it_detects": "register-channel noise trivially, plus every single-channel substitution between two values with different check bits; check bits are assigned to cover the perceptually likely confusions (see covered_confusion_pairs)",
-    "what_it_does_not_detect": "substitutions between same-check-bit values (see residual_confusion_pairs); those are the lexicon generator's responsibility via pairwise spacing",
+    "what_it_detects": "WRITTEN LAYER / CAREFUL REGISTERS ONLY: check-value noise trivially, plus every single-channel substitution between two values with different check bits (covered_confusion_pairs); casual speech carries no check — its protection is the humility assignment, templates, context, repair",
+    "what_it_does_not_detect": "substitutions between same-check-bit values; forbidden residual pairs are banned by the humility rule, weighted residual pairs are licensable at a scored cost",
     "note": "an earlier draft used index parity and claimed uniform Hamming distance 2; that claim was wrong (same-parity substitutions were invisible) and the uniform-distance-2 alternative caps the space at 20 codewords (mod-10 check over the largest channel), which is why coverage is confusion-weighted instead",
     "status": "WRITTEN-LAYER CHANNEL (tentative demotion, Edward 2026-08-09, conlang-bf2): the check bit is computed and always present in the written layer (glyph zone, romanization doubling); spoken realization as vowel length is OPTIONAL and belongs to careful/safety registers; casual speech does not carry it. Re-promotion to a mandatory spoken channel is a documented minor-version path."
   },
@@ -238,7 +238,7 @@
     ]
   },
   "residual_confusion_pairs": {
-    "comment": "same-check-bit pairs the register cannot catch; the lexicon generator must enforce spacing between words differing only in one of these",
+    "comment": "same-check-bit pairs the written-layer check cannot catch; the humility rule bans the forbidden subset as unrelated minimal pairs, the weighted subset is licensable at a scored cost",
     "onset": [
       [
         "p",
@@ -370,15 +370,6 @@
       }
     ]
   },
-  "spacing_rules_v01": [
-    "register-only contrast: impossible by construction (register is computed)",
-    "residual-pair rule: no two UNRELATED lexical words may differ by a single residual_confusion_pairs substitution (generator-enforced); same-root POS alternations are exempt — verb/modifier coda n/s pairs are morphology, and a misheard class is caught by syntax or recovered semantically",
-    "echo-vowel rule (all positions): a coda s/l and the same consonant plus an echo vowel may not both occur where they could be confused — /...Cs/ vs /...Csu/ and medial equivalents",
-    "fake-geminate rule: a coda consonant followed by an identical onset may not contrast with the single-consonant parse (/nas.sa/ vs /na.sa/)",
-    "glide-cell rule: syllables ji and wu are not lexical (the glide onset perceptually fuses with the homorganic vowel, producing an apparently onset-less syllable that would misparse as a particle); jV/wV cells with near-homorganic vowels (je, wo) carry extra weighting",
-    "coronal-i rule: no t/c or s/c lexical minimal pairs before vowel i (ti->[tʃi], si->[ɕi] palatalization for several major L1s lands inside c's space)",
-    "anti-resyllabification (tosmabru-class): for any lexical word ending in a consonant coda followed by any particle, the resyllabified surface string may not parse as a legal word sequence — generator-enforced over the actual lexicon and particle inventory"
-  ],
   "budget_expected": {
     "raw_total": 440,
     "content_raw": 400,
@@ -508,5 +499,14 @@
     "monosyllable_root_bodies_adopted": 22,
     "monosyllable_assignable_after_reserve": 15,
     "disyllable_root_bodies_upper_bound": 8496
-  }
+  },
+  "spacing_rules": [
+    "register-only contrast: impossible by construction (register is computed)",
+    "humility rule (v0.2, conlang-bf2): no two UNRELATED lexical words may differ by a single high-confusion substitution — covered_confusion_pairs UNION confusion_policy.forbidden; weighted pairs are licensable at a scored cost; same-root POS alternations exempt",
+    "echo-vowel rule (all positions): a coda s/l and the same consonant plus an echo vowel may not both occur where they could be confused — /...Cs/ vs /...Csu/ and medial equivalents",
+    "fake-geminate rule: a coda consonant followed by an identical onset may not contrast with the single-consonant parse (/nas.sa/ vs /na.sa/)",
+    "glide-cell rule: syllables ji and wu are not lexical (the glide onset perceptually fuses with the homorganic vowel, producing an apparently onset-less syllable that would misparse as a particle); jV/wV cells with near-homorganic vowels (je, wo) carry extra weighting",
+    "coronal-i rule: no t/c or s/c lexical minimal pairs before vowel i (ti->[tʃi], si->[ɕi] palatalization for several major L1s lands inside c's space)",
+    "anti-resyllabification (tosmabru-class): for any lexical word ending in a consonant coda followed by any particle, the resyllabified surface string may not parse as a legal word sequence — generator-enforced over the actual lexicon and particle inventory"
+  ]
 }

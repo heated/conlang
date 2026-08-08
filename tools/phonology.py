@@ -1,5 +1,10 @@
-"""Library over docs/spec/channels.json: syllables, registers, romanization,
-enumeration, and word validation. Stdlib only.
+"""Library over docs/spec/channels.json: syllables, the written-layer
+check value, romanization, enumeration, and word validation. Stdlib only.
+
+v0.2 semantics: the "register" here is the derived written-layer check
+value (SPEC 2.4). Romanization doubling marks it in text; casual speech
+does not carry it; parse modes validate asserted doubling against the
+computed value.
 
 The spec file is the single source of truth; nothing phonological is
 hardcoded here except the romanization surface conventions (single-letter

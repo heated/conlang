@@ -62,10 +62,11 @@ brain, not the notation.
 Contributions:
 
 1. A syllable-as-channel-vector phonology with an explicit codespace budget.
-2. An error-correction stack for human speech: a confusion-weighted check
-   channel, perceptually weighted spacing, cross-syllable checks,
-   phonotactic templates, and conversational repair as the outermost free
-   layer.
+2. A two-layer error-correction stack: casual speech protected by a
+   humility assignment policy (no unrelated minimal pairs on likely
+   confusions), word templates, phonotactics, and conversational repair;
+   the written layer and careful speech registers add a
+   confusion-weighted check bit on top.
 3. A featural block script deterministically coupled to the phonology, with
    chorded (desktop) and touch (phone) input methods derived mechanically
    from the same spec.
@@ -187,40 +188,35 @@ speech registers, absent from casual speech, whose protection instead
 comes from the humility assignment policy, templates, context, and
 repair (§12). A uniform minimum-distance-2 code over this space is
 not available at this price — a binary check cannot separate all values
-of a ten-valued channel, and the honest distance-2 construction (a mod-10
-check over the largest channel) collapses the space to 20 codewords. The
-design instead chooses *which* substitutions the one cheap bit catches:
-check bits are assigned so that the perceptually likely confusions (s/tʃ,
-p/t, t/k, m/n, n/l, e/i, o/u, coda ∅/n, ∅/s, n/l, s/l) all flip the
-register, while the invisible distance-1 pairs (660 of them, enumerated
-mechanically) are deliberately the unlikely confusions, which the lexicon
-generator refuses to assign as minimal pairs. Two properties fall out.
-The weakest perceptual channel (length) carries only redundancy — a
-listener who cannot hear it loses detection, never content. And the
-anti-check complement is reserved for closed-domain mode payloads (§7):
-payload syllables are non-lexical by construction, though audibly so only
-to register-sensitive listeners, so mode boundaries must be independently
-robust.
+of a ten-valued channel, and the honest distance-2 construction (a
+mod-10 check over the largest channel) collapses the space to 20
+codewords. The check bits are instead assigned so that the perceptually
+likely confusions (s/tʃ, p/t, t/k, m/n, n/l, e/i, o/u, coda ∅/n, ∅/s,
+n/l, s/l) all flip the written check, giving text and careful speech
+pre-lexical error detection exactly where ears fail.
 
-Above the check-bit floor, distance is measured perceptually rather than
-uniformly [TODO: confusion-matrix construction, tooling]: register-only
-contrasts are impossible by construction; check-invisible minimal pairs
-are forbidden outright; coda consonants and their echo-vowel epentheses
-(/nas/ ~ [nasɯ̥]) are treated as near-identical, so the lexicon never
-contains both members of such a pair; and word+particle sequences whose
-resyllabification would spell another word are excluded (the Lojban
-tosmabru class). Outer layers — cross-syllable checks in disyllables,
-prosodic checksums, register profiles with mandatory checksums for
-safety-critical speech — are deliberately outside the frozen core.
-Conversational repair ("what?") is the free outermost retransmission
-layer; casual speech buys detection and lets repair do correction.
+Casual speech is protected differently — by the lexicon itself. The
+**humility assignment policy** bans any two unrelated words from
+differing by a single high-confusion substitution (the covered set
+above plus the forbidden residual pairs p/k, a/e, a/o, coda ∅/l);
+mildly confusable pairs (p/m, k/m, t/n, w/j, e/o, i/u, coda n/s) are
+licensable at a scored cost and avoided among high-frequency words.
+Layered on that: echo-vowel epenthesis pairs (/nas/ ~ [nasɯ̥]) are never
+both lexical, word+particle sequences whose resyllabification would
+spell another word are excluded (the Lojban tosmabru class), and
+conversational repair ("what?") is the free outermost retransmission
+layer. Outer engineered layers — cross-syllable checks, prosodic
+checksums, mandatory checksums for safety-critical speech — live in the
+register-profile periphery, not the core.
 
 ## 5. Self-segregating morphology
 
 Two word classes with disjoint shapes: particles are exactly one
 unstressed weak-onset ([h]~[x]~[ʔ]) syllable; content words are one to
-three syllables with initial stress (realized as pitch/intensity — never
-duration, which is the register channel's carrier). At the phonemic
+three syllables with initial stress (realized with pitch, intensity, and
+— since the check left casual speech — duration, the most robust stress
+cue; careful registers that realize the check as length narrow stress to
+pitch/intensity). At the phonemic
 level, given boundary-preserving realizations, any syllable stream has
 exactly one parse: stressed syllables open content words, weak-onset
 syllables are particles, and a content word runs to the next stressed or
@@ -234,12 +230,13 @@ rather than parse wrongly), and parse robustness under degraded stress is
 an explicit simulation target (§11) rather than a theorem about
 connected speech.
 
-The final-syllable coda of a content word encodes part of speech (∅ noun,
-n verb, s modifier, l reserved): 50 monosyllabic wordforms per class
-against 40 under an Esperanto-style final-vowel scheme, cross-class
-mishearings become syntax-detectable, and derivation is a channel
-operation — swap the coda, recompute the register (sala → salaan →
-salaas). Loanwords bypass the templates entirely via the spell/phonetic
+The final-syllable coda of a content word encodes part of speech (∅
+noun, n verb, s modifier, l reserved): 50 monosyllabic wordforms per
+class against 40 under an Esperanto-style final-vowel scheme,
+cross-class mishearings are caught by syntactic expectation (with a
+written-layer check flag on the ∅/n and ∅/s flips), and derivation is a
+channel operation — swap the coda, recompute the written check (sala →
+salaan → salaas, the doubling being written marking). Loanwords bypass the templates entirely via the spell/phonetic
 modes, avoiding Lojban's loanword-mangling failure mode.
 
 ## 6. The decoupled featural script
@@ -254,9 +251,11 @@ literature) without claiming expert reading speedups.]
 Where the semantic space is a grid rather than a fuzzy web — numbers,
 dates, times, letter sequences — the language drops redundancy and uses
 the raw channel product, fenced off by reserved-onset mode particles.
-Payloads occupy the anti-check complement, so they never collide with
-the lexicon even if a boundary is missed (§4); a digit pair 00–99 is one
-syllable (tens→onset, units→rime, the code frozen with the core), and
+In the written layer payloads carry the anti-check polarity, so text and
+machines separate them from the lexicon per syllable; in casual speech a
+payload syllable and a lexical one can share a segmental shape, and the
+boundary particles, frame grammar, and checksum carry the burden (§4);
+a digit pair 00–99 is one syllable (tens→onset, units→rime, the code frozen with the core), and
 larger numbers are positional base-100. Dates and coordinate digits
 reuse the same pairs verbatim — no month names, no separate tables — and
 clock time is a single syllable via two orthogonal rules on the same
@@ -267,8 +266,9 @@ hour). Sample renderings (machine-generated from the spec): 4,207 =
 
 The density is honestly priced. Because digit payloads use the full
 grid, 87.5% of single-channel mishearings of a digit syllable yield
-another valid digit (60% of those flip the computed register and are
-machine-detectable; the rest are fully silent). The mode system
+another valid digit (60% of those flip the computed check — detectable
+in writing and careful registers; in casual speech all are silent until
+the checksum). The mode system
 therefore carries its own outer code: an optional closing checksum
 syllable — a position-weighted sum mod 101 over per-symbol values, which
 provably changes under every single-symbol substitution and every
@@ -334,13 +334,15 @@ several run without human subjects.
 **Simulation studies (no subjects, run against the implemented spec):**
 
 - *Channel-noise robustness.* Corrupt syllable streams with an
-  L1-parameterized confusion model (e.g. a listener who merges vowel
-  length, or realizes /tʃ/ as [ʃ]); measure the fraction of errors that
-  are (a) detected by parity, (b) detected by template/segmentation
-  violations, (c) silent word substitutions. Baselines: Esperanto and
-  English wordlists under matched noise. Claim under test: structured
-  redundancy yields fewer silent substitutions per unit of codespace
-  spent than uniform spacing or natural lexicons.
+  L1-parameterized confusion model (e.g. a speaker who realizes /tʃ/ as
+  [ʃ]); measure the fraction of errors that are (a) detected by
+  lexical-gap and template/segmentation violations (casual layer),
+  (b) additionally flagged by the written-layer check (text and careful
+  registers), (c) silent word substitutions. Baselines: Esperanto and
+  English wordlists under matched noise. Claim under test: humility
+  assignment yields fewer silent substitutions per unit of codespace
+  than uniform spacing or natural lexicons — established in
+  simulation (§12), to be replicated with calibrated confusion data.
 - *Segmentation stress test.* Generate syllable streams with and without
   the prosodic boundary signal degraded; verify the unique-parse property
   holds and measure how gracefully parsing degrades when stress detection
@@ -406,7 +408,9 @@ configuration was the one choice strictly wrong for the population the
 design claims to serve. [Resolution, adopted tentatively: humility
 assignment in the core, the check bit demoted to a written-layer
 channel with optional careful-register realization — the configuration
-described throughout this paper.]
+described throughout this paper. Re-promoting the check to a mandatory
+spoken channel, or deleting it outright, remain documented
+minor-version paths in the spec.]
 
 **Is the a-priori lexicon worth it?** Vocabulary, not grammar, is
 plausibly the long pole of adult language learning: full regularity

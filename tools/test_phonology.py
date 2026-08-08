@@ -109,6 +109,33 @@ class TestConflictRules(unittest.TestCase):
         ta, sa = [Syllable("t", "a", "")], [Syllable("s", "a", "")]
         self.assertEqual(RULES.classify_pair(ta, sa), "ok")  # unlisted pair
 
+    def test_all_covered_pairs_forbidden_for_unrelated(self):
+        # table-driven over every covered pair (review conlang-b8q #7)
+        spec = INV.spec["covered_confusion_pairs"]
+        for a, b in spec["onset"]:
+            w1, w2 = [Syllable(a, "a", "")], [Syllable(b, "a", "")]
+            self.assertEqual(RULES.classify_pair(w1, w2), "forbidden", (a, b))
+        for a, b in spec["vowel"]:
+            w1, w2 = [Syllable(t := "t", a, "")], [Syllable(t, b, "")]
+            self.assertEqual(RULES.classify_pair(w1, w2), "forbidden", (a, b))
+        for a, b in spec["coda"]:
+            w1, w2 = [Syllable("t", "a", a)], [Syllable("t", "a", b)]
+            self.assertEqual(RULES.classify_pair(w1, w2), "forbidden", (a, b))
+            # same-root exemption must clear every covered coda pair,
+            # else every root's own POS family would be illegal
+            self.assertEqual(RULES.classify_pair(w1, w2, same_root=True),
+                             "ok", (a, b))
+
+    def test_pos_family_alternations_legal(self):
+        noun = [Syllable("t", "a", "")]
+        verb = [Syllable("t", "a", "n")]
+        mod = [Syllable("t", "a", "s")]
+        for x, y in ((noun, verb), (noun, mod), (verb, mod)):
+            self.assertEqual(RULES.classify_pair(x, y, same_root=True), "ok")
+        self.assertEqual(RULES.classify_pair(noun, verb), "forbidden")
+        self.assertEqual(RULES.classify_pair(noun, mod), "forbidden")
+        self.assertEqual(RULES.classify_pair(verb, mod), "weighted")
+
     def test_coronal_i(self):
         ti, ci = [Syllable("t", "i", "")], [Syllable("c", "i", "")]
         self.assertEqual(RULES.classify_pair(ti, ci), "forbidden")

@@ -17,20 +17,23 @@ undecided by design.
 
 ## 1. The channel model
 
-The primitive unit is the **syllable**, defined as a vector of four
-independent channels:
+The primitive spoken unit is the **syllable**, a vector of three
+independent segmental channels, plus one derived written coordinate:
 
 | channel  | values | role |
 |----------|--------|------|
 | onset    | 11 (10 content + 1 particle) | lexical + word-class boundary |
 | vowel    | 5      | lexical |
 | coda     | 4      | lexical (non-final) / part-of-speech (word-final) |
-| check    | 2      | **written-layer check bit** — never lexical, not carried in casual speech (§2.4, §4) |
+| check    | 2      | **derived, written-layer** (§2.4, §4): computed from the segmental channels and the syllable's frame role; optionally realized in careful speech; absent in casual speech |
 
 Everything in the language — words, glyphs, chords, digit codes — is
-defined over these coordinates. The written glyph, the typed chord, and the
-spoken syllable are three renderings of the same vector; none is derived
-from another by convention or memorization.
+defined over these coordinates. The written glyph and the typed chord
+render the full four-coordinate vector; casual speech is a projection
+onto the three segmental channels. The round trip is still deterministic
+with one qualification: hearing a lexical word recovers its check by
+computation, while payload syllables recover theirs from mode-frame
+context (§4.2).
 
 ## 2. Inventory
 
@@ -190,14 +193,14 @@ profile (mandatory in safety registers). A single-channel error on a
 payload syllable can land on the lexical side either way, so payload
 integrity leans on boundaries plus checksum, not on spacing.
 
-### 4.3 Weighted spacing (v0.1 policy)
+### 4.3 Lexicon spacing rules (v0.2)
 
-Uniform Hamming distance treats all errors as equally likely; ears do not.
-v0.1 states the policy qualitatively; the tooling bead (conlang-wfs)
-operationalizes it with an explicit confusion matrix:
+Uniform Hamming distance treats all errors as equally likely; ears do
+not. The rules below are normative (`channels.json spacing_rules`); the
+generator (tools/lexgen.py) enforces them:
 
-1. **Register-only contrasts: impossible by construction** (register is
-   computed).
+1. **Check-only contrasts: impossible by construction** (the check is
+   computed — no two words differ only in the written check zone).
 2. **Humility rule (adopted 2026-08-09, conlang-bf2).** No two
    *unrelated* lexical words may differ by a single **high-confusion**
    substitution — the union of `covered_confusion_pairs` (s/c, p/t,
@@ -313,10 +316,10 @@ scheme: a 25% capacity edge, plus two structural wins. Cross-class
 minimal pairs land in different syntactic slots, so class mishearings are
 syntax-detectable ("a noun ending where syntax demands a verb" is a
 caught error, not a substitution). And derivation becomes a channel
-operation — swap the final coda, then recompute the register (§4.1),
-since coda check bits differ across classes: `sala` (noun, register
-short) → `salaan` (verb) → `salaas` (modifier) are one root's forms,
-Esperanto's -o/-i/-a on a cleaner axis. Non-final codas remain fully
+operation — swap the final coda, then recompute the written check
+(§4.1), since coda check bits differ across classes: `sala` (noun) →
+`salaan` (verb) → `salaas` (modifier) are one root's forms (the doubling
+is written-layer marking), Esperanto's -o/-i/-a on a cleaner axis. Non-final codas remain fully
 lexical.
 
 Because the three class forms of a root share their onset–vowel body,
@@ -327,18 +330,19 @@ conlang-jbw; the default design intent is obligatory sharing, which is
 kinder to learners and to error correction, and the budget below counts
 root bodies on that assumption.
 
-Honest costs of parking POS on the coda: noun↔verb and noun↔modifier
-flips are register-flagged (coda check bits differ), but the verb↔
-modifier flip (n/s, same bit) is check-invisible by construction — it is
-exactly the exempted morphological alternation of §4.3, caught by syntax
-or absorbed as a near-miss. Worse, coda lenition is a *systematic* L1
-process, not noise: Caribbean-Spanish-type s-deletion reads a modifier as
-a noun, and noun/modifier confusion inside a noun phrase is often
-syntax-blind. The mitigations are the register flag (∅/s bits differ),
-semantics, and repair; conlang-jbw must weigh whether high-frequency
-modifiers should prefer disyllabic forms whose first syllable carries
+Honest costs of parking POS on the coda, v0.2 accounting: in casual
+speech there is no check, so ALL class flips (∅/n, ∅/s, n/s) ride on
+syntactic expectation, semantics, word shape, and repair — the
+deconfounded simulation puts this same-root "syntax class" at ~18% of
+mishearing events. Written text and careful registers add the check
+flag on top for the ∅/n and ∅/s flips (bits differ); the n/s flip is
+check-invisible everywhere. Coda lenition is a *systematic* L1 process,
+not noise: Caribbean-Spanish-type s-deletion reads a modifier as a
+noun, and noun/modifier confusion inside a noun phrase is often
+syntax-blind. conlang-jbw must weigh whether high-frequency modifiers
+should prefer disyllabic forms whose first syllable carries
 disambiguating material. When class l activates (§9), l-vocalization
-joins this list (coda l→∅ is check-invisible).
+joins this list (coda l→∅ is check-invisible even in writing).
 
 Semantics of the class system (what "the verb of a root" means, argument
 structure, whether class l becomes a fourth class) belong to the grammar
@@ -369,9 +373,10 @@ given obligatory cross-class derivation, §6):
 
 | quantity | value |
 |----------|-------|
-| raw syllables | 440 (400 content, 40 particle) |
-| lexical codepoints (register computed) | 200 content + 20 particle |
-| payload complement | 200 content-shaped + 20 particle-shaped |
+| spoken segmental syllables | 220 (200 content, 20 particle) |
+| written-layer codepoints (incl. derived check) | 440 (400 content, 40 particle) |
+| lexical codepoints (check computed) | 200 content + 20 particle |
+| payload complement (written-layer marking) | 200 content-shaped + 20 particle-shaped |
 | monosyllabic wordforms per POS class | 50 (150 across active classes) |
 | high-confusion-free monosyllabic root bodies (humility) | 22 |
 | monosyllabic **root bodies** | 50, before spacing and reserve |
