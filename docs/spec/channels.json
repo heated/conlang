@@ -2,45 +2,171 @@
   "spec_version": "0.1.0-draft",
   "frozen": false,
   "comment": "Machine-readable Tier-1 core inventory. Single source of truth: SPEC.md prose and tools/spec_check.py both derive from this file. Indices and check bits are normative (the register rule and digit assignments depend on them).",
-
   "onsets": {
     "content": [
-      {"index": 0, "roman": "c", "ipa": "tʃ", "check": 1, "digit_tens": 0, "notes": "acceptable realizations [tʃ]~[ts]~[ʃ]"},
-      {"index": 1, "roman": "p", "ipa": "p", "check": 0, "digit_tens": 1},
-      {"index": 2, "roman": "t", "ipa": "t", "check": 1, "digit_tens": 2},
-      {"index": 3, "roman": "k", "ipa": "k", "check": 0, "digit_tens": 3},
-      {"index": 4, "roman": "m", "ipa": "m", "check": 0, "digit_tens": 4},
-      {"index": 5, "roman": "n", "ipa": "n", "check": 1, "digit_tens": 5},
-      {"index": 6, "roman": "s", "ipa": "s", "check": 0, "digit_tens": 6},
-      {"index": 7, "roman": "l", "ipa": "l", "check": 0, "digit_tens": 7, "notes": "acceptable realizations [l]~[ɾ]"},
-      {"index": 8, "roman": "w", "ipa": "w", "check": 1, "digit_tens": 8},
-      {"index": 9, "roman": "j", "ipa": "j", "check": 1, "digit_tens": 9, "notes": "y-sound; romanization hazard acknowledged"}
+      {
+        "index": 0,
+        "roman": "c",
+        "ipa": "tʃ",
+        "check": 1,
+        "digit_tens": 0,
+        "notes": "licensed realizations [tʃ]~[ts] (affricate standard); [ʃ] is attested L1 drift, not licensed — keeps t+i vs c+i distinct under palatalization"
+      },
+      {
+        "index": 1,
+        "roman": "p",
+        "ipa": "p",
+        "check": 0,
+        "digit_tens": 1
+      },
+      {
+        "index": 2,
+        "roman": "t",
+        "ipa": "t",
+        "check": 1,
+        "digit_tens": 2
+      },
+      {
+        "index": 3,
+        "roman": "k",
+        "ipa": "k",
+        "check": 0,
+        "digit_tens": 3
+      },
+      {
+        "index": 4,
+        "roman": "m",
+        "ipa": "m",
+        "check": 0,
+        "digit_tens": 4
+      },
+      {
+        "index": 5,
+        "roman": "n",
+        "ipa": "n",
+        "check": 1,
+        "digit_tens": 5
+      },
+      {
+        "index": 6,
+        "roman": "s",
+        "ipa": "s",
+        "check": 0,
+        "digit_tens": 6
+      },
+      {
+        "index": 7,
+        "roman": "l",
+        "ipa": "l",
+        "check": 0,
+        "digit_tens": 7,
+        "notes": "acceptable realizations [l]~[ɾ]"
+      },
+      {
+        "index": 8,
+        "roman": "w",
+        "ipa": "w",
+        "check": 1,
+        "digit_tens": 8
+      },
+      {
+        "index": 9,
+        "roman": "j",
+        "ipa": "j",
+        "check": 1,
+        "digit_tens": 9,
+        "notes": "y-sound; romanization hazard acknowledged"
+      }
     ],
     "particle": [
-      {"index": 10, "roman": "h", "ipa": "h", "check": 0, "notes": "reserved for particles; canonical realizations [h]~[x]~[ʔ] — never bare resyllabification (see SPEC §2.1, §5.2)"}
+      {
+        "index": 10,
+        "roman": "h",
+        "ipa": "h",
+        "check": 0,
+        "notes": "reserved for particles; canonical realizations [h]~[x]~[ʔ] — never bare resyllabification (see SPEC §2.1, §5.2)"
+      }
     ]
   },
-
   "vowels": [
-    {"index": 0, "roman": "a", "ipa": "a", "check": 0, "digit_units_short": 0},
-    {"index": 1, "roman": "e", "ipa": "e", "check": 0, "digit_units_short": 1},
-    {"index": 2, "roman": "i", "ipa": "i", "check": 1, "digit_units_short": 2},
-    {"index": 3, "roman": "o", "ipa": "o", "check": 0, "digit_units_short": 3},
-    {"index": 4, "roman": "u", "ipa": "u", "check": 1, "digit_units_short": 4}
+    {
+      "index": 0,
+      "roman": "a",
+      "ipa": "a",
+      "check": 0,
+      "digit_units_short": 0
+    },
+    {
+      "index": 1,
+      "roman": "e",
+      "ipa": "e",
+      "check": 0,
+      "digit_units_short": 1
+    },
+    {
+      "index": 2,
+      "roman": "i",
+      "ipa": "i",
+      "check": 1,
+      "digit_units_short": 2
+    },
+    {
+      "index": 3,
+      "roman": "o",
+      "ipa": "o",
+      "check": 0,
+      "digit_units_short": 3
+    },
+    {
+      "index": 4,
+      "roman": "u",
+      "ipa": "u",
+      "check": 1,
+      "digit_units_short": 4
+    }
   ],
-
   "codas": [
-    {"index": 0, "roman": "", "ipa": "", "check": 0, "pos_class": "noun"},
-    {"index": 1, "roman": "n", "ipa": "n", "check": 1, "pos_class": "verb"},
-    {"index": 2, "roman": "s", "ipa": "s", "check": 1, "pos_class": "modifier"},
-    {"index": 3, "roman": "l", "ipa": "l", "check": 0, "pos_class": "reserved"}
+    {
+      "index": 0,
+      "roman": "",
+      "ipa": "",
+      "check": 0,
+      "pos_class": "noun"
+    },
+    {
+      "index": 1,
+      "roman": "n",
+      "ipa": "n",
+      "check": 1,
+      "pos_class": "verb"
+    },
+    {
+      "index": 2,
+      "roman": "s",
+      "ipa": "s",
+      "check": 1,
+      "pos_class": "modifier"
+    },
+    {
+      "index": 3,
+      "roman": "l",
+      "ipa": "l",
+      "check": 0,
+      "pos_class": "reserved"
+    }
   ],
-
   "registers": [
-    {"index": 0, "roman": "short", "realization": "short vowel"},
-    {"index": 1, "roman": "long", "realization": "long vowel, romanized by doubling"}
+    {
+      "index": 0,
+      "roman": "short",
+      "realization": "short vowel"
+    },
+    {
+      "index": 1,
+      "roman": "long",
+      "realization": "long vowel, target duration >= 1.5x short in careful speech; romanized by doubling (optional, derivable)"
+    }
   ],
-
   "register_rule": {
     "rule": "register_index == (check(onset) + check(vowel) + check(coda)) mod 2",
     "lexical_side": "syllables satisfying the rule; the only side words may use",
@@ -49,56 +175,209 @@
     "what_it_does_not_detect": "substitutions between same-check-bit values (see residual_confusion_pairs); those are the lexicon generator's responsibility via pairwise spacing",
     "note": "an earlier draft used index parity and claimed uniform Hamming distance 2; that claim was wrong (same-parity substitutions were invisible) and the uniform-distance-2 alternative caps the space at 20 codewords (mod-10 check over the largest channel), which is why coverage is confusion-weighted instead"
   },
-
   "covered_confusion_pairs": {
     "comment": "high-likelihood same-channel confusions that MUST have different check bits; spec_check.py asserts each",
-    "onset": [["s", "c"], ["m", "n"], ["n", "l"], ["p", "t"], ["t", "k"], ["l", "j"], ["l", "w"]],
-    "vowel": [["e", "i"], ["o", "u"]],
-    "coda": [["", "n"], ["", "s"], ["n", "l"], ["s", "l"]]
+    "onset": [
+      [
+        "s",
+        "c"
+      ],
+      [
+        "m",
+        "n"
+      ],
+      [
+        "n",
+        "l"
+      ],
+      [
+        "p",
+        "t"
+      ],
+      [
+        "t",
+        "k"
+      ],
+      [
+        "l",
+        "j"
+      ],
+      [
+        "l",
+        "w"
+      ]
+    ],
+    "vowel": [
+      [
+        "e",
+        "i"
+      ],
+      [
+        "o",
+        "u"
+      ]
+    ],
+    "coda": [
+      [
+        "",
+        "n"
+      ],
+      [
+        "",
+        "s"
+      ],
+      [
+        "n",
+        "l"
+      ],
+      [
+        "s",
+        "l"
+      ]
+    ]
   },
-
   "residual_confusion_pairs": {
     "comment": "same-check-bit pairs the register cannot catch; the lexicon generator must enforce spacing between words differing only in one of these",
-    "onset": [["p", "k"], ["p", "m"], ["k", "m"], ["w", "j"], ["t", "n"]],
-    "vowel": [["a", "e"], ["a", "o"], ["e", "o"], ["i", "u"]],
-    "coda": [["n", "s"], ["", "l"]]
+    "onset": [
+      [
+        "p",
+        "k"
+      ],
+      [
+        "p",
+        "m"
+      ],
+      [
+        "k",
+        "m"
+      ],
+      [
+        "w",
+        "j"
+      ],
+      [
+        "t",
+        "n"
+      ]
+    ],
+    "vowel": [
+      [
+        "a",
+        "e"
+      ],
+      [
+        "a",
+        "o"
+      ],
+      [
+        "e",
+        "o"
+      ],
+      [
+        "i",
+        "u"
+      ]
+    ],
+    "coda": [
+      [
+        "n",
+        "s"
+      ],
+      [
+        "",
+        "l"
+      ]
+    ]
   },
-
   "syllable_template": {
     "shape": "C V (C)",
     "onset": "mandatory (content or particle onset)",
     "clusters": false,
     "diphthongs": false
   },
-
   "word_shapes": {
-    "particle": {"syllables": {"min": 1, "max": 1}, "onset": "h", "stress": "unstressed", "namespace_width": "PROVISIONAL until conlang-jbw enumerates the structural inventory — not part of the freeze candidate"},
-    "content": {"syllables": {"min": 1, "max": 3}, "stress": "first syllable, realized as pitch/intensity (never duration)", "pos_coda": "final syllable coda encodes part of speech"}
+    "particle": {
+      "syllables": {
+        "min": 1,
+        "max": 1
+      },
+      "onset": "h",
+      "stress": "unstressed",
+      "namespace_width": "PROVISIONAL until conlang-jbw enumerates the structural inventory — not part of the freeze candidate"
+    },
+    "content": {
+      "syllables": {
+        "min": 1,
+        "max": 3
+      },
+      "stress": "first syllable, realized as pitch/intensity (never duration)",
+      "pos_coda": "final syllable coda encodes part of speech"
+    }
   },
-
   "digit_units_rimes": {
     "comment": "units digit -> rime; 0-4 = bare vowel (coda index 0), 5-9 = vowel + coda n (coda index 1)",
     "map": [
-      {"digit": 0, "vowel": "a", "coda": ""},
-      {"digit": 1, "vowel": "e", "coda": ""},
-      {"digit": 2, "vowel": "i", "coda": ""},
-      {"digit": 3, "vowel": "o", "coda": ""},
-      {"digit": 4, "vowel": "u", "coda": ""},
-      {"digit": 5, "vowel": "a", "coda": "n"},
-      {"digit": 6, "vowel": "e", "coda": "n"},
-      {"digit": 7, "vowel": "i", "coda": "n"},
-      {"digit": 8, "vowel": "o", "coda": "n"},
-      {"digit": 9, "vowel": "u", "coda": "n"}
+      {
+        "digit": 0,
+        "vowel": "a",
+        "coda": ""
+      },
+      {
+        "digit": 1,
+        "vowel": "e",
+        "coda": ""
+      },
+      {
+        "digit": 2,
+        "vowel": "i",
+        "coda": ""
+      },
+      {
+        "digit": 3,
+        "vowel": "o",
+        "coda": ""
+      },
+      {
+        "digit": 4,
+        "vowel": "u",
+        "coda": ""
+      },
+      {
+        "digit": 5,
+        "vowel": "a",
+        "coda": "n"
+      },
+      {
+        "digit": 6,
+        "vowel": "e",
+        "coda": "n"
+      },
+      {
+        "digit": 7,
+        "vowel": "i",
+        "coda": "n"
+      },
+      {
+        "digit": 8,
+        "vowel": "o",
+        "coda": "n"
+      },
+      {
+        "digit": 9,
+        "vowel": "u",
+        "coda": "n"
+      }
     ]
   },
-
   "spacing_rules_v01": [
     "register-only contrast: impossible by construction (register is computed)",
-    "words differing by a single residual_confusion_pairs substitution: forbidden (generator-enforced)",
-    "echo-vowel rule: /...Cas/-shaped and /...Casu/-shaped pairs (coda s or l vs same consonant + echo vowel) may not both be lexical words",
+    "residual-pair rule: no two UNRELATED lexical words may differ by a single residual_confusion_pairs substitution (generator-enforced); same-root POS alternations are exempt — verb/modifier coda n/s pairs are morphology, and a misheard class is caught by syntax or recovered semantically",
+    "echo-vowel rule (all positions): a coda s/l and the same consonant plus an echo vowel may not both occur where they could be confused — /...Cs/ vs /...Csu/ and medial equivalents",
+    "fake-geminate rule: a coda consonant followed by an identical onset may not contrast with the single-consonant parse (/nas.sa/ vs /na.sa/)",
+    "glide-cell rule: syllables ji and wu are not lexical (the glide onset perceptually fuses with the homorganic vowel, producing an apparently onset-less syllable that would misparse as a particle); jV/wV cells with near-homorganic vowels (je, wo) carry extra weighting",
+    "coronal-i rule: no t/c or s/c lexical minimal pairs before vowel i (ti->[tʃi], si->[ɕi] palatalization for several major L1s lands inside c's space)",
     "anti-resyllabification (tosmabru-class): for any lexical word ending in a consonant coda followed by any particle, the resyllabified surface string may not parse as a legal word sequence — generator-enforced over the actual lexicon and particle inventory"
   ],
-
   "budget_expected": {
     "raw_total": 440,
     "content_raw": 400,

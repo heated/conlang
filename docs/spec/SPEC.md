@@ -40,7 +40,7 @@ Content onsets (indices are normative; they drive parity and digit codes):
 
 | idx | roman | IPA | digit | notes |
 |-----|-------|-----|-------|-------|
-| 0 | c | /tʃ/ | 0 | acceptable realizations [tʃ]~[ts]~[ʃ] |
+| 0 | c | /tʃ/ | 0 | licensed [tʃ]~[ts]; [ʃ] is unlicensed L1 drift (§4.3 coronal-i rule) |
 | 1 | p | /p/ | 1 | |
 | 2 | t | /t/ | 2 | |
 | 3 | k | /k/ | 3 | |
@@ -98,9 +98,20 @@ constraint, not by the phonology (§4.3, echo-vowel rule).
 
 ### 2.4 Registers
 
-Two values: **short** vs **long** vowel. Romanized by vowel doubling
-(`sa` vs `saa`). Register is the parity channel (§4): it never
-distinguishes two words.
+Two values: **short** vs **long** vowel; the long target is ≥1.5× the
+short duration in careful speech. Romanized by vowel doubling (`sa` vs
+`saa`) — optional in romanization, since register is always derivable
+from the check bits. Register is the check channel (§4): it never
+distinguishes two words. Honest billing: length is the least perceptible
+channel for many L1s, it interacts with phrase-final lengthening and with
+stress in production, and a contrast carrying no lexical load invites
+erosion. The inner code is therefore a careful-register and
+machine-facing guarantee that degrades gracefully — a length-deaf
+listener or a fast talker falls back to generator spacing, templates, and
+repair, never losing content. Realization of long vowels in unstressed
+syllables and in CVVC (long + coda) shapes is typologically marked;
+production guidance and its perceptual reality are evaluation targets,
+not assumptions.
 
 ## 3. Syllable template and phonotactics
 
@@ -176,14 +187,26 @@ operationalizes it with an explicit confusion matrix:
 
 1. **Register-only contrasts: impossible by construction** (register is
    computed).
-2. **Residual-pair rule.** No two lexical words may differ by a single
-   substitution within `residual_confusion_pairs` (the check-invisible
-   substitutions).
-3. **Echo-vowel rule.** Coda s/l invite epenthesis from some L1s
-   (/nas/ → [nasɯ̥]-like). The lexicon must never contain both /…Cs/ and
-   /…Csu/-type pairs (a coda consonant vs the same consonant plus an echo
-   vowel); weighted distance treats these as near-identical.
-4. **Anti-resyllabification rule** (Lojban's tosmabru class). For any
+2. **Residual-pair rule.** No two *unrelated* lexical words may differ by
+   a single substitution within `residual_confusion_pairs` (the
+   check-invisible substitutions). Same-root POS alternations are exempt:
+   every root's verb/modifier pair differs by coda n/s by design (§6) —
+   that is morphology, not a lexical minimal pair, and a misheard class is
+   caught by syntax or recovered semantically.
+3. **Echo-vowel rule, all positions.** Coda s/l invite epenthesis from
+   some L1s (/nas/ → [nasɯ̥]-like). The lexicon must never contain
+   confusable /…Cs/-vs-/…Csu/-type pairs, finally or medially.
+4. **Fake-geminate rule.** A coda consonant followed by an identical
+   onset may not contrast with the single-consonant parse
+   (/nas.sa/ vs /na.sa/).
+5. **Glide-cell rule.** Syllables `ji` and `wu` are not lexical: the
+   glide fuses with its homorganic vowel and the result sounds
+   onset-less — which the parser would read as a particle (§2.1). The
+   near-homorganic cells (`je`, `wo`) carry extra weighting.
+6. **Coronal-i rule.** No t/c or s/c lexical minimal pairs before /i/:
+   ti→[tʃi] and si→[ɕi] palatalization (Japanese, Korean, Brazilian
+   Portuguese, Quebec French) lands inside c's realization space.
+7. **Anti-resyllabification rule** (Lojban's tosmabru class). For any
    lexical word ending in a consonant coda followed by any particle, the
    resyllabified surface string must not parse as a legal word sequence —
    enforced by the generator over the actual lexicon plus particle
@@ -225,9 +248,12 @@ the reduced string should fail to parse rather than parse wrongly, and
 conversational repair does the rest. (2) Stress detection: stress is the
 word-boundary signal; it is realized as pitch/intensity precisely so it
 cannot be confused with the register channel, but degraded-stress speech
-shifts segmentation onto the particle cues and word templates. The
-robustness of the parse under both degradations is a simulation target in
-the evaluation plan, not an assumed property.
+shifts segmentation onto the particle cues and word templates — and
+sequences of monosyllabic words (which Zipf assignment makes frequent)
+produce stress clash, which natural speech resolves by destressing,
+eroding exactly this cue. The robustness of the parse under both
+degradations is a simulation target in the evaluation plan, not an
+assumed property.
 
 Particles are structural function words only (mode markers, clause
 openers, terminators, case/topic markers, conjunctions). Pro-forms,
@@ -274,6 +300,19 @@ conlang-jbw; the default design intent is obligatory sharing, which is
 kinder to learners and to error correction, and the budget below counts
 root bodies on that assumption.
 
+Honest costs of parking POS on the coda: noun↔verb and noun↔modifier
+flips are register-flagged (coda check bits differ), but the verb↔
+modifier flip (n/s, same bit) is check-invisible by construction — it is
+exactly the exempted morphological alternation of §4.3, caught by syntax
+or absorbed as a near-miss. Worse, coda lenition is a *systematic* L1
+process, not noise: Caribbean-Spanish-type s-deletion reads a modifier as
+a noun, and noun/modifier confusion inside a noun phrase is often
+syntax-blind. The mitigations are the register flag (∅/s bits differ),
+semantics, and repair; conlang-jbw must weigh whether high-frequency
+modifiers should prefer disyllabic forms whose first syllable carries
+disambiguating material. When class l activates (§9), l-vocalization
+joins this list (coda l→∅ is check-invisible).
+
 Semantics of the class system (what "the verb of a root" means, argument
 structure, whether class l becomes a fourth class) belong to the grammar
 bead (conlang-jbw), not the frozen core. The core freezes only: *final
@@ -284,7 +323,9 @@ coda = class channel, with ∅/n/s assigned as above.*
 - Onsets: `c p t k m n s l w j` + `h`; `c` = "ch as in church" (loosely),
   `j` = the y-sound. These two are the known naive-reader hazards; the
   public-facing rule of thumb is "c → ch, j → y."
-- Vowels: `a e i o u`; long register doubles the vowel (`saa`).
+- Vowels: `a e i o u`; long register doubles the vowel (`saa`). Doubling
+  is derivable from the check bits, so plain spelling without doubling is
+  also valid romanization; pedagogical text doubles, casual text may not.
 - Codas: `-n -s -l`.
 - Stress: unwritten (predictable: word-initial).
 - Word boundaries: ordinary spaces.
@@ -385,12 +426,19 @@ the core because the onset indices are load-bearing:
 
 Example: 42 = `mi`, 4207 = `mi cin` (pairs 42, 07) — both payload
 registers compute short here (check sums are odd, so the anti-check
-register is 0). Digit-onset robustness note: the tens code uses both c
-and s (digits 0 and 6), whose confusion is real for some L1s; their check
-bits differ, so c/s substitutions flip the register, but a length-deaf
-listener does not hear that flip — digit integrity for such listeners
-rests on the mode boundary and the checksum profile (conlang-bcq must
-test the ten-onset set under the confusion model directly).
+register is 0).
+
+**Known weak digit cells** (the grid freezes with the core, so these are
+priced, not hidden — conlang-bcq must test the full set under the
+confusion model and design the checksum profile around them):
+c/s tens confusion (digits 0X vs 6X; check bits differ, but the flip is
+inaudible to length-deaf listeners); the coronal-i column (02 `ci`,
+22 `ti`, 62 `si` merge under palatalizing L1s — prescribed realizations:
+c strictly affricate); the glide-fusion cells (84 `wu`, 92 `ji` — 
+prescribed fortified realizations [β̞u], [ʝi], since the lexical
+glide-cell ban cannot apply inside the frozen grid); and the units 5–9
+final /n/, which is fragile in noise (the aviation "niner" lesson —
+careful-register digit readout is a conlang-bcq deliverable).
 
 ## 11. Out of scope for the frozen core
 
