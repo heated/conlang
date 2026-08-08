@@ -70,8 +70,9 @@ Contributions:
    chorded (desktop) and touch (phone) input methods derived mechanically
    from the same spec.
 4. Mode subsystems: closed semantic grids (numbers, dates, times,
-   coordinates, spell-out) encoded in the complement of the lexicon's
-   codespace, self-flagging as non-lexical.
+   coordinates, spell-out) fenced by reserved boundary particles and a
+   provably transposition-catching checksum, with written-layer
+   anti-check marking.
 5. A governance model: small frozen core, versioned spec, open periphery.
 
 ## 2. Why not faster speech or reading: the throughput ceiling
