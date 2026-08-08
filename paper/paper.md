@@ -369,39 +369,48 @@ community adoption historically dominates design quality (Esperanto and
 Klingon outlived better-engineered rivals). Two design explorations,
 conducted adversarially against our own architecture, sharpen both.
 
-**Does the inner code earn its keep?** A simulation over matched
-Zipf-weighted lexicons (tools/explore_noparity.py) compared the
-check-bit register against a "natural-grade" alternative: no engineered
-redundancy in the core lexicon at all — just phonotactics, word
-templates, sparse assignment, and repair. The result indicts the
-engineered code on its own accessibility terms: because the check bit
-licenses high-confusion minimal pairs among the most frequent words, a
-length-deaf listener (the design's own priority population) suffers a
-20% silent-mishearing rate under the check-bit architecture versus 3.7%
-under the natural one, while length-sensitive listeners do equally well
-under either (3.5% vs 3.7%). The register also taxes production —
-speakers of length-less L1s must produce a contrast their L1 lacks —
-and, carrying zero lexical load, invites erosion. The natural
-architecture frees duration to reinforce the stress-based segmentation
-signal, at a modest cost in monosyllable capacity (22 vs 34 root
-bodies). Engineered redundancy survives where it demonstrably pays: the
-closed-domain mode frames and their checksum. [Adoption pending a
-design gate at the time of writing.]
+**Does the inner code earn its keep?** A simulation over matched,
+morphology-inclusive Zipf-weighted lexicons (tools/explore_noparity.py,
+itself twice adversarially reviewed) separates two decisions the
+original design conflated: the *assignment policy* and the *register*.
+The assignment policy dominates. Licensing high-confusion minimal pairs
+among the most frequent words — which the check bit invites, since the
+register "catches" those substitutions — produces a 22% silent-
+substitution rate (conditional on a mishearing event; 15% exposure-
+weighted) for length-deaf listeners, the design's own priority
+population. A humility policy that refuses such pairs cuts this to 3.9%
+with or without the register, at a capacity cost of 34→22 monosyllabic
+root bodies. With humility assignment adopted, the register is pure
+insurance for length-sensitive listeners — residual silent rate 3.9% →
+1.4%, and audible flagging of noun↔verb/noun↔modifier morphology flips
+— while delivering exactly nothing to length-deaf listeners and taxing
+all speakers (length production, a stress-duration conflict, erosion
+exposure of a zero-load contrast). Whether that insurance justifies its
+costs, or belongs only in the written layer and a careful-speech
+register, is a values decision the simulation cannot make; what it
+establishes firmly is the humility policy, and that the original
+configuration was the one choice strictly wrong for the population the
+design claims to serve. [Design gate open at the time of writing.]
 
-**Is the a-priori lexicon worth it?** Vocabulary, not grammar, is the
-long pole of adult language learning: full regularity saves tens of
-hours while thousands of arbitrary roots cost hundreds. An
-Esperanto-like alternative — a-posteriori roots half-known to
-European-language speakers, plus the same systematic chording layer over
-an already-phonemic orthography — plausibly beats this design on raw
+**Is the a-priori lexicon worth it?** Vocabulary, not grammar, is
+plausibly the long pole of adult language learning: full regularity
+saves tens of hours while thousands of arbitrary roots cost hundreds
+[TODO-verify: vocabulary-acquisition rate literature]. An
+Esperanto-like alternative — a-posteriori roots partially known to
+European-language speakers (a steep Romance-tilted gradient, not a flat
+discount), plus the same systematic chording layer over an
+already-phonemic orthography — plausibly beats this design on raw
 time-to-use for the realistic early-adopter population, while losing
 global phonological fairness, machine parseability, and the featural
-script. The designs optimize different objectives (fastest for anyone on
-Earth versus fastest for those who show up), and the honest resolution
-may be complementary: ship the input engineering and mode subsystems
-Esperanto-first as the adoption wedge and evaluation vehicle, keeping
-the channel language as the research artifact whose fairness and
-machine-legibility claims justify its from-scratch vocabulary.
+script. The designs optimize different objectives — fastest for anyone
+on Earth versus fastest for those who show up — and that is a values
+choice, not an engineering result. A hybrid (ship the input engineering
+and mode subsystems into an existing host language as the adoption
+wedge, keeping the channel language as the research artifact) is
+attractive but underdetermined: the host could as easily be English as
+Esperanto, and the hybrid defers rather than answers the values
+question. We record it as an open program decision rather than a
+conclusion.
 
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:

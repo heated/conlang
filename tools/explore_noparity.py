@@ -1,32 +1,45 @@
 #!/usr/bin/env python3
-"""Exploration experiment (conlang-zec): does the check-bit register earn
-its keep, or can the core lexicon run on natural-grade emergent
-redundancy (phonotactics + SSM templates + sparse assignment + repair)?
+"""Exploration experiment v2 (conlang-zec): what does the register buy,
+under which lexicon-assignment policy, for whom?
 
-Compares two architectures over matched lexicons:
+v1 was reviewed adversarially (Codex + Fable) and found confounded: it
+varied the register and the assignment policy together, omitted the
+compromise architecture, and simulated a lexicon with no morphology —
+excluding the same-root POS minimal pairs (∅/n/s final codas) that no
+assignment policy can avoid and that the register's covered pairs
+partially protect. v2 fixes all of that.
 
-  A  (current spec): register = confusion-weighted check bit. Lexicon
-     assignment may use "covered" minimal pairs (register differs, so a
-     register-sensitive listener detects the substitution).
-  B  (no-parity): no register channel at all. Assignment policy treats
-     high-confusion pairs (covered + forbidden) as conflicts for
-     monosyllable assignment — the "humility" policy — and relies on
-     lexical-gap detection, templates, context, and repair.
+Architectures (assignment policy × register):
+  A       spec assignment (covered minimal pairs licensed) + register
+  Aprime  humility assignment (covered pairs refused)      + register
+  B       humility assignment                              + no register
 
-Error model: single-channel substitutions with class-dependent relative
-probabilities (high-confusion pairs likelier than distinct ones), applied
-to Zipf-weighted word tokens. Listener models:
-  sensitive — perceives vowel length (register); in A, a substitution
-              that flips the check bit is detected even if the segmental
-              result is another word's body.
-  deaf      — cannot perceive length; register information contributes
-              nothing in either architecture.
+Lexicon: root bodies (monosyllabic per architecture policy + one SHARED
+disyllabic pool, distance >= 2 at body level), each expanded to three
+POS wordforms (final coda ∅ noun / n verb / s modifier) with
+class-conditional token frequencies (0.5 / 0.3 / 0.2 of the root's
+Zipf mass). Cross-length substitution collisions are impossible
+(substitutions preserve length), so sharing the disyllable pool is
+sound and removes v1's pool-divergence confound.
 
-Metric: silent-substitution rate = P(corrupted percept is another legal
-word, undetected) over the error distribution, per listener, per
-architecture, split by mono/disyllables. Detection channels tallied:
-  parity   (A + sensitive only), lexgap (percept is not a word),
-  none     (silent substitution).
+Error model: single-channel substitutions, class-weighted (confusable
+pairs W_HIGH, others W_LOW). Listeners: length-sensitive (perceives the
+register; in A/Aprime a check-bit flip is audibly malformed) and
+length-deaf.
+
+Outcome classes per corrupted percept:
+  parity — register architectures + sensitive listener + bit flip
+  syntax — percept is a different POS form of the SAME root; caught by
+           syntactic expectation or recovered semantically with some
+           unmodeled probability — its own class, folded into neither
+           silent nor detected
+  silent — percept is a form of a DIFFERENT root: wrong meaning
+  lexgap — percept is not a word: caught by lexical lookup
+
+Metrics, both reported (review requirement):
+  conditional — P(outcome | exactly one substitution in this word)
+  exposure    — global event-weighted rate (longer words carry more
+                corruption surface)
 
 Run: python3 tools/explore_noparity.py [--json PATH]
 """
@@ -34,6 +47,7 @@ Run: python3 tools/explore_noparity.py [--json PATH]
 from __future__ import annotations
 
 import json
+import os
 import random
 import sys
 from itertools import combinations
@@ -41,20 +55,24 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lexgen import max_independent_set  # noqa: E402
-from phonology import ConflictRules, Inventory, Syllable  # noqa: E402
+from phonology import Inventory, Syllable  # noqa: E402
 
-# relative substitution likelihood by pair class (not absolute rates;
-# only ratios matter for comparing architectures)
-import os
-W_HIGH = float(os.environ.get("W_HIGH", 10.0))  # covered + forbidden pairs
-W_LOW = 1.0     # weighted + unlisted same-channel pairs
-
-ZIPF_S = 1.0    # Zipf exponent for word-frequency weighting
-N_DISYLL = 1000
+W_HIGH = float(os.environ.get("W_HIGH", 10.0))
+W_LOW = 1.0
+ZIPF_S = 1.0
+N_DISYLL_ROOTS = 800
+POS_CODAS = ("", "n", "s")          # noun / verb / modifier wordforms
+POS_FREQ = (0.5, 0.3, 0.2)
 SEED = 7
 
+ARCHS = {  # name -> (assignment_level, has_register)
+    "A": ("spec", True),
+    "Aprime": ("humility", True),
+    "B": ("humility", False),
+}
 
-def pair_class_tables(inv: Inventory):
+
+def pair_tables(inv: Inventory):
     spec = inv.spec
     cov = {ch: {frozenset(p) for p in prs}
            for ch, prs in spec["covered_confusion_pairs"].items()
@@ -62,44 +80,32 @@ def pair_class_tables(inv: Inventory):
     forb = {ch: {frozenset(p) for p in prs}
             for ch, prs in spec["confusion_policy"]["forbidden"].items()
             if ch != "comment"}
-
-    def weight(channel: str, a: str, b: str) -> float:
-        pair = frozenset((a, b))
-        if pair in cov.get(channel, set()) or pair in forb.get(channel, set()):
-            return W_HIGH
-        return W_LOW
-
-    return weight, cov, forb
+    coronal = {frozenset(p) for p in
+               spec["lexical_cell_rules"]["coronal_i_pairs"]}
+    return cov, forb, coronal
 
 
 def check_bits(inv: Inventory):
-    ob = {o["roman"]: o["check"]
-          for o in inv.spec["onsets"]["content"] + inv.spec["onsets"]["particle"]}
-    vb = {v["roman"]: v["check"] for v in inv.spec["vowels"]}
-    cb = {c["roman"]: c["check"] for c in inv.spec["codas"]}
-    return ob, vb, cb
+    return ({o["roman"]: o["check"] for o in inv.spec["onsets"]["content"]},
+            {v["roman"]: v["check"] for v in inv.spec["vowels"]},
+            {c["roman"]: c["check"] for c in inv.spec["codas"]})
 
 
-def build_body_graph(inv, rules, conflict_level: str):
-    """Monosyllable body conflict graph.
-    conflict_level 'spec'    — forbidden pairs only (architecture A's rule)
-    conflict_level 'humility'— forbidden + covered pairs (architecture B)"""
-    weight, cov, forb = pair_class_tables(inv)
+def body_graph(inv, level: str):
+    cov, forb, coronal = pair_tables(inv)
     bodies = [(o, v) for o in inv.content_onsets for v in inv.vowels
               if (o, v) not in inv.glide_cells]
     edges = {b: set() for b in bodies}
     for a, b in combinations(bodies, 2):
         if (a[0] == b[0]) == (a[1] == b[1]):
-            continue  # need exactly one differing channel
+            continue
         channel = "onset" if a[0] != b[0] else "vowel"
         pair = frozenset((a[0], b[0])) if channel == "onset" \
             else frozenset((a[1], b[1]))
         conflicted = pair in forb.get(channel, set())
-        if conflict_level == "humility":
+        if level == "humility":
             conflicted = conflicted or pair in cov.get(channel, set())
-        # coronal-i applies in both
-        if channel == "onset" and a[1] == "i" \
-                and pair in ({frozenset(("t", "c")), frozenset(("s", "c"))}):
+        if channel == "onset" and a[1] == "i" and pair in coronal:
             conflicted = True
         if conflicted:
             edges[a].add(b)
@@ -107,121 +113,145 @@ def build_body_graph(inv, rules, conflict_level: str):
     return bodies, edges
 
 
-def assign_lexicon(inv, rules, arch: str, rng: random.Random):
-    """Return a list of words (tuples of Syllable), most-frequent first.
-    Monosyllables: MIS of the architecture's body graph (nouns, coda ∅).
-    Disyllables: sampled, avoiding glide cells, fake geminates, and any
-    single-substitution neighbor already in the lexicon (both
-    architectures can afford this — the space is huge)."""
-    level = "spec" if arch == "A" else "humility"
-    bodies, edges = build_body_graph(inv, rules, level)
-    mis = max_independent_set(bodies, edges)
-    words = [(Syllable(o, v, ""),) for (o, v) in sorted(mis)]
-
+def shared_disyllable_roots(inv, rng):
+    """One disyllabic root pool reused by every architecture; distance
+    >= 2 enforced at body level within the pool."""
     firsts = [s for s in inv.lexical_content_syllables()
               if (s.onset, s.vowel) not in inv.glide_cells]
-    finals = [Syllable(o, v, "") for o in inv.content_onsets
-              for v in inv.vowels if (o, v) not in inv.glide_cells]
-    taken = set(words)
+    final_bodies = [(o, v) for o in inv.content_onsets for v in inv.vowels
+                    if (o, v) not in inv.glide_cells]
+    pool, taken = [], set()
 
-    def neighbors(word):
+    def neighbors(body):
+        s1, fb = body
         out = []
-        for i, syl in enumerate(word):
-            for o in inv.content_onsets:
-                if o != syl.onset:
-                    out.append(word[:i] + (Syllable(o, syl.vowel, syl.coda),)
-                               + word[i + 1:])
-            for v in inv.vowels:
-                if v != syl.vowel:
-                    out.append(word[:i] + (Syllable(syl.onset, v, syl.coda),)
-                               + word[i + 1:])
-            for c in inv.codas:
-                if c != syl.coda:
-                    out.append(word[:i] + (Syllable(syl.onset, syl.vowel, c),)
-                               + word[i + 1:])
+        for o in inv.content_onsets:
+            if o != s1.onset:
+                out.append((Syllable(o, s1.vowel, s1.coda), fb))
+        for v in inv.vowels:
+            if v != s1.vowel:
+                out.append((Syllable(s1.onset, v, s1.coda), fb))
+        for c in inv.codas:
+            if c != s1.coda:
+                out.append((Syllable(s1.onset, s1.vowel, c), fb))
+        for o in inv.content_onsets:
+            if o != fb[0]:
+                out.append((s1, (o, fb[1])))
+        for v in inv.vowels:
+            if v != fb[1]:
+                out.append((s1, (fb[0], v)))
         return out
 
     attempts = 0
-    while sum(1 for w in taken if len(w) == 2) < N_DISYLL and attempts < 200000:
+    while len(pool) < N_DISYLL_ROOTS and attempts < 300000:
         attempts += 1
-        s1, s2 = rng.choice(firsts), rng.choice(finals)
-        if s1.coda and s1.coda == s2.onset:      # fake geminate
+        s1 = rng.choice(firsts)
+        fb = rng.choice(final_bodies)
+        if s1.coda and s1.coda == fb[0]:   # fake geminate
             continue
-        w = (s1, s2)
-        if w in taken:
+        body = (s1, fb)
+        if body in taken or any(n in taken for n in neighbors(body)):
             continue
-        if any(n in taken for n in neighbors(w)):
-            continue  # keep distance 2 among disyllables — space is cheap
-        taken.add(w)
-        words.append(w)
-    return words
+        taken.add(body)
+        pool.append(body)
+    return pool
 
 
-def simulate(inv, rules, words, arch: str, listener: str):
-    """Expected detection outcomes over Zipf-weighted words and
-    class-weighted single-channel substitutions."""
-    weight, _, _ = pair_class_tables(inv)
+def build_lexicon(inv, level, disyll_pool):
+    """Roots (most frequent first) expanded to POS wordforms.
+    Returns (forms, monosyllable_root_count) with forms =
+    [(word_tuple, root_id, freq), ...]."""
+    bodies, edges = body_graph(inv, level)
+    monos = sorted(max_independent_set(bodies, edges))
+    roots = [("m", b) for b in monos] + [("d", b) for b in disyll_pool]
+    forms = []
+    for rank, (kind, body) in enumerate(roots):
+        zipf = 1.0 / (rank + 1) ** ZIPF_S
+        for coda, share in zip(POS_CODAS, POS_FREQ):
+            if kind == "m":
+                o, v = body
+                word = (Syllable(o, v, coda),)
+            else:
+                s1, (fo, fv) = body
+                word = (s1, Syllable(fo, fv, coda))
+            forms.append((word, rank, zipf * share))
+    return forms, len(monos)
+
+
+def simulate(inv, forms, has_register, listener):
+    cov, forb, _ = pair_tables(inv)
     ob, vb, cb = check_bits(inv)
-    lexicon = set(words)
-    freq = [1.0 / (rank + 1) ** ZIPF_S for rank in range(len(words))]
-    ftot = sum(freq)
+    bit = {"onset": ob, "vowel": vb, "coda": cb}
+    values = {"onset": inv.content_onsets, "vowel": inv.vowels,
+              "coda": list(inv.codas)}
+    form_root = {word: root for word, root, _ in forms}
 
-    tallies = {"parity": 0.0, "lexgap": 0.0, "silent": 0.0}
-    for word, f in zip(words, freq):
+    def weight(channel, a, b):
+        pair = frozenset((a, b))
+        if pair in cov.get(channel, set()) or pair in forb.get(channel, set()):
+            return W_HIGH
+        return W_LOW
+
+    cond = {"parity": 0.0, "syntax": 0.0, "silent": 0.0, "lexgap": 0.0}
+    events = []
+    ftot = sum(f for _, _, f in forms)
+    for word, root_id, f in forms:
         subs = []
         for i, syl in enumerate(word):
-            for channel, values, bits in (("onset", inv.content_onsets, ob),
-                                          ("vowel", inv.vowels, vb),
-                                          ("coda", inv.codas, cb)):
+            for channel in ("onset", "vowel", "coda"):
                 cur = getattr(syl, channel)
-                for new in values:
+                for new in values[channel]:
                     if new == cur:
                         continue
                     kw = {"onset": syl.onset, "vowel": syl.vowel,
                           "coda": syl.coda}
                     kw[channel] = new
                     corrupted = word[:i] + (Syllable(**kw),) + word[i + 1:]
-                    w = weight(channel, cur, new)
-                    flips = bits[cur] != bits[new]
-                    subs.append((corrupted, w, flips))
+                    subs.append((corrupted, weight(channel, cur, new),
+                                 bit[channel][cur] != bit[channel][new]))
         wtot = sum(w for _, w, _ in subs)
         for corrupted, w, flips in subs:
-            p = (f / ftot) * (w / wtot)
-            if arch == "A" and listener == "sensitive" and flips:
-                # percept keeps the original duration; check fails audibly
-                tallies["parity"] += p
-            elif corrupted in lexicon:
-                tallies["silent"] += p
+            if has_register and listener == "sensitive" and flips:
+                outcome = "parity"
+            elif corrupted in form_root:
+                outcome = ("syntax" if form_root[corrupted] == root_id
+                           else "silent")
             else:
-                tallies["lexgap"] += p
-    return tallies
+                outcome = "lexgap"
+            cond[outcome] += (f / ftot) * (w / wtot)
+            events.append((outcome, f * w))
+    expo = {k: 0.0 for k in cond}
+    etot = sum(w for _, w in events)
+    for outcome, w in events:
+        expo[outcome] += w / etot
+    rnd = lambda d: {k: round(v, 5) for k, v in d.items()}
+    return rnd(cond), rnd(expo)
 
 
 def main() -> int:
     rng = random.Random(SEED)
     inv = Inventory()
-    rules = ConflictRules(inv)
-    report = {}
-    lexicons = {arch: assign_lexicon(inv, rules, arch, rng)
-                for arch in ("A", "B")}
-    # concept-matched comparison: truncate both to the same concept count
-    # so every frequency rank carries identical Zipf mass in both
-    # architectures; B's higher ranks are simply longer words.
-    total = min(len(w) for w in lexicons.values())
-    for arch in ("A", "B"):
-        words = lexicons[arch][:total]
-        monos = sum(1 for w in words if len(w) == 1)
-        report[f"{arch}_monosyllables"] = monos
-        report[f"{arch}_disyllables"] = len(words) - monos
+    disyll_pool = shared_disyllable_roots(inv, rng)
+    built = {name: build_lexicon(inv, level, disyll_pool)
+             for name, (level, _) in ARCHS.items()}
+    # concept-match: same root count in every architecture, identical
+    # Zipf mass per root rank
+    total_roots = min(len(f) // len(POS_CODAS) for f, _ in built.values())
+    report = {"disyllable_roots_shared": len(disyll_pool),
+              "concept_roots_compared": total_roots,
+              "w_high": W_HIGH}
+    for name, (level, has_register) in ARCHS.items():
+        forms, monos = built[name]
+        forms = forms[:total_roots * len(POS_CODAS)]
+        report[f"{name}_monosyllable_roots"] = monos
         for listener in ("sensitive", "deaf"):
-            t = simulate(inv, rules, words, arch, listener)
-            key = f"{arch}_{listener}"
-            report[key] = {k: round(v, 5) for k, v in t.items()}
-    report["concepts"] = total
+            cond, expo = simulate(inv, forms, has_register, listener)
+            report[f"{name}_{listener}_conditional"] = cond
+            report[f"{name}_{listener}_exposure"] = expo
     print(json.dumps(report, indent=2))
     if "--json" in sys.argv:
-        out = sys.argv[sys.argv.index("--json") + 1]
-        Path(out).write_text(json.dumps(report, indent=2))
+        Path(sys.argv[sys.argv.index("--json") + 1]).write_text(
+            json.dumps(report, indent=2))
     return 0
 
 

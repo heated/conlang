@@ -1,7 +1,7 @@
 # Alternative: a chorded Esperanto-like (cut learning time further)
 
-**Status:** exploration (bead conlang-0y7); three-way comparison and
-recommendation at the end.
+**Status:** exploration (bead conlang-0y7), revised after adversarial
+review (Fable: SOUND-WITH-CAVEATS; caveats folded in below and marked).
 
 ## The pitch
 
@@ -45,13 +45,20 @@ community of speakers from day one.
 ## Honest comparison with the channel-coded design
 
 The uncomfortable observation the original design conversation never
-priced: **vocabulary is the long pole of language learning.** Grammar
-regularity saves tens of hours; acquiring 2,000–3,000 roots costs
-hundreds. The channel design's a-priori lexicon makes every root
-arbitrary for every learner — maximally fair, and maximally expensive.
-Esperanto's Euro-familiar roots give perhaps a 2–3× vocabulary discount
-to speakers of European languages (a billion-plus people, and the
-realistic early-adopter pool) while giving others nothing.
+priced: **vocabulary is plausibly the long pole of language learning.**
+Grammar regularity saves tens of hours; acquiring 2,000–3,000 roots
+costs hundreds. [Review caveat: directionally supported by vocabulary-
+acquisition research but uncited here — needs proper grounding before
+this drives a decision.] The channel design's a-priori lexicon makes
+every root arbitrary for every learner — maximally fair, and maximally
+expensive. Esperanto's roots give a large vocabulary discount to
+speakers of European languages — but the discount is a steep gradient,
+not a constant: the root stock skews Romance, so Spanish/French/Italian
+speakers get far more for free than German, English, or especially
+Slavic speakers, and everyone else gets little beyond international
+scientific vocabulary. [Concrete next step, per review: score cognate
+transparency over the ~2,500 official roots against several major L1s
+instead of hand-waving a 2–3× figure.]
 
 | | channel-coded (current) | chorded Esperanto-like |
 |---|---|---|
@@ -76,23 +83,32 @@ engineering call.
 ## The hybrid worth taking seriously (option C)
 
 The Tier-2 adoption strategy was always "ship pieces that work inside a
-host language." Esperanto can *be* that host: the chord/touch input
+host language." Esperanto could *be* that host: the chord/touch input
 engineering, the digit-pair number/date/time modes (as an Esperanto
 extension vocabulary), and the trainer app all ship against Esperanto's
-existing community as the wedge — while the channel language continues
-as the research track sharing the same input-methods codebase. E1 is
-then not a rival but the channel project's distribution channel, and
-real usage data from it (chord learning curves, mode adoption) feeds the
-paper's evaluation section with subjects who already exist.
+existing community — while the channel language continues as the
+research track sharing the same input-methods codebase.
 
-## Recommendation
+Review-imposed honesty about C: (1) the "evaluation vehicle" claim is
+mostly false — Esperanto chord data validates the chord-learning-curve
+study and almost nothing else in the paper's §11 program (decoding,
+digit span, mishearing studies all need the channel language itself);
+(2) C roughly doubles project scope while deferring the values question,
+and its "reassess later" step is structurally rigged against the
+research track (the Esperanto side accrues users and momentum while the
+channel side accrues only spec); (3) the brief's existing wedge — modes
+and input methods hosted in *English* — was never compared against the
+Esperanto host, and English hosting reaches strictly more people.
 
-Pursue **C**: build the input layer Esperanto-first (E1 scope, no
-language reforms — the Ido lesson stands), explicitly as the adoption
-wedge and evaluation vehicle for the shared input engineering; keep the
-channel language as the research artifact. Reassess after real chord
-learning-curve data whether the channel language's from-scratch
-vocabulary cost is defensible for its fairness and machine-legibility
-wins. This reshapes the input-methods bead (conlang-6sa) into a
-two-target deliverable and adds an Esperanto chord-theory work item —
-project-shape change, Edward's call (gated with conlang-w77).
+## Recommendation (revised)
+
+Hold **C** to explicit terms before adopting it: a host comparison
+(Esperanto vs English as the wedge's host language) on reach, community
+receptivity, and engineering delta; the cognate-transparency scoring to
+replace the guessed discount; and pre-committed exit criteria for the
+reassessment so the research track cannot be starved by default. E2
+(reforming Esperanto) stays rejected on the Ido precedent. Without
+those terms, the safe default is the brief's original strategy: one
+language, with modes and input methods wedging inside English.
+Project-shape change either way — Edward's call (gated with
+conlang-w77).
