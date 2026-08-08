@@ -1,0 +1,10 @@
+.crew-worktrees/
+.crew-identity
+.ship-notes/
+target/
+.DS_Store
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
