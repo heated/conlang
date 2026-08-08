@@ -187,12 +187,19 @@ operationalizes it with an explicit confusion matrix:
 
 1. **Register-only contrasts: impossible by construction** (register is
    computed).
-2. **Residual-pair rule.** No two *unrelated* lexical words may differ by
-   a single substitution within `residual_confusion_pairs` (the
-   check-invisible substitutions). Same-root POS alternations are exempt:
-   every root's verb/modifier pair differs by coda n/s by design (§6) —
-   that is morphology, not a lexical minimal pair, and a misheard class is
-   caught by syntax or recovered semantically.
+2. **Residual-pair rule, two tiers.** The check-invisible substitutions
+   (`residual_confusion_pairs`) are partitioned by `confusion_policy`
+   (asserted by `spec_check.py`): **forbidden** pairs (p/k; a/e, a/o;
+   coda ∅/l — true confusables the check bit missed) may never form
+   unrelated minimal pairs; **weighted** pairs (p/m, k/m, t/n, w/j; e/o,
+   i/u; coda n/s — same-bit but perceptually distinct) may, at a scored
+   cost, avoided among high-frequency assignments. Strict application of
+   a single forbidden tier would cap monosyllabic root bodies at 19; the
+   two-tier policy yields 34 (`tools/lexgen.py report`). Same-root POS
+   alternations are exempt: every root's verb/modifier pair differs by
+   coda n/s by design (§6) — that is morphology, not a lexical minimal
+   pair, and a misheard class is caught by syntax or recovered
+   semantically.
 3. **Echo-vowel rule, all positions.** Coda s/l invite epenthesis from
    some L1s (/nas/ → [nasɯ̥]-like). The lexicon must never contain
    confusable /…Cs/-vs-/…Csu/-type pairs, finally or medially.
@@ -355,15 +362,18 @@ given obligatory cross-class derivation, §6):
 | hour × quarter-hour values / available | 96 / 200 ✓ |
 | month × day values / available | 372 / 200 ⇒ two payload syllables |
 
-Weighted spacing (§4.3) will price these down — root bodies are the
-scarce resource, and the honest usable counts (after the residual-pair,
-echo-vowel, and anti-resyllabification rules) are an *output of the
-generator* (conlang-wfs), not a promise of this spec. The root target
-(1,500–3,000) still sits far below disyllabic capacity. The syllable
-inventory in active use (200 content codepoints) is in Japanese/Hawaiian
-territory; whether the working monosyllabic vocabulary lands above the
-comfort knee is likewise settled by the generator plus lexicon, not
-assumed here. **Zipf policy:** monosyllable slots are assigned strictly
+Weighted spacing (§4.3) prices these down — root bodies are the scarce
+resource. Generator outputs (`tools/lexgen.py report`, current spec
+data): **34 monosyllabic root bodies** under the adopted two-tier policy
+(19 under strict single-tier; 48 raw after the glide-cell ban), of which
+**23 are assignable** after the 30% reserve; **8,496 disyllabic root
+bodies** upper bound before assignment-time checks (echo-vowel,
+tosmabru, pairwise spacing). The root target (1,500–3,000) still sits
+far below disyllabic capacity. The syllable inventory in active use (200
+content codepoints) is in Japanese/Hawaiian territory; the working
+monosyllabic vocabulary (~23 words initially) covers only the very top
+of the Zipf curve — the language is disyllable-dominant by consequence,
+not accident. **Zipf policy:** monosyllable slots are assigned strictly
 by corpus frequency from the first dictionary draft; everything rarer is
 disyllabic by rule.
 

@@ -397,5 +397,68 @@
     "hour_quarter_values": 96,
     "month_day_values": 372,
     "one_syllable_payload_points": 200
+  },
+  "confusion_policy": {
+    "comment": "two-tier pricing of the check-invisible (residual) pairs; forbidden+weighted must exactly partition residual_confusion_pairs (spec_check asserts). Forbidden = true confusables the check bit missed; weighted = same-bit but perceptually distinct, allowed as minimal pairs at a scored cost, avoided among high-frequency assignments.",
+    "forbidden": {
+      "onset": [
+        [
+          "p",
+          "k"
+        ]
+      ],
+      "vowel": [
+        [
+          "a",
+          "e"
+        ],
+        [
+          "a",
+          "o"
+        ]
+      ],
+      "coda": [
+        [
+          "",
+          "l"
+        ]
+      ]
+    },
+    "weighted": {
+      "onset": [
+        [
+          "p",
+          "m"
+        ],
+        [
+          "k",
+          "m"
+        ],
+        [
+          "w",
+          "j"
+        ],
+        [
+          "t",
+          "n"
+        ]
+      ],
+      "vowel": [
+        [
+          "e",
+          "o"
+        ],
+        [
+          "i",
+          "u"
+        ]
+      ],
+      "coda": [
+        [
+          "n",
+          "s"
+        ]
+      ]
+    }
   }
 }

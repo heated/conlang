@@ -112,15 +112,18 @@ lexical codepoints. Accounting must separate codepoints, wordforms, and
 root bodies: the part-of-speech channel (final coda; §5) yields 50
 monosyllabic wordforms per class (150 across the three active classes),
 but since a root's noun/verb/modifier forms share one onset–vowel body,
-only **50 monosyllabic root bodies** exist before spacing, some of which
-are held in reserve for coinage and drift. Disyllabic capacity (10,000
-root bodies, 30,000 wordforms, before constraints) dwarfs the
-1,500–3,000-root target. The syllable inventory in active use (200
-codepoints) sits in Japanese/Hawaiian territory; whether the working
-monosyllabic vocabulary clears the comfort knee below which
-working-memory and recognition costs bite is an output of the
-spacing-constrained generator, not an assumption. [TODO: cite mora
-inventories, word-length effect @baddeley1975.]
+only 50 monosyllabic root bodies exist before spacing. The implemented
+spacing engine then gives the honest count: after the glide-cell ban (48)
+and pairwise confusion constraints, an exact maximum-independent-set
+computation yields **34 assignable monosyllabic root bodies** under the
+adopted two-tier confusion policy (19 under strict single-tier spacing),
+of which 23 are initially assigned and the rest held in reserve for
+coinage and drift. Disyllabic capacity (8,496 root bodies before
+assignment-time checks) dwarfs the 1,500–3,000-root target, so the
+language is disyllable-dominant by consequence: monosyllables cover only
+the very top of the Zipf curve, as in Japanese or Hawaiian. Whether this
+profile clears the working-memory comfort line is an explicit evaluation
+target. [TODO: cite mora inventories, word-length effect @baddeley1975.]
 
 ### 3.4 Rejected alternatives, and the expansion path
 

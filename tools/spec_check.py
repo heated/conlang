@@ -114,6 +114,20 @@ class Checker:
                 self.expect(table[channel][a] == table[channel][b],
                             f"residual pair {channel} {a!r}/{b!r} has different bits — move to covered")
 
+        # confusion_policy must exactly partition the residual pairs
+        def pairset(block):
+            return {ch: {frozenset(p) for p in prs}
+                    for ch, prs in block.items() if ch != "comment"}
+        residual = pairset(d["residual_confusion_pairs"])
+        forbidden = pairset(d["confusion_policy"]["forbidden"])
+        weighted = pairset(d["confusion_policy"]["weighted"])
+        for ch in residual:
+            f, w = forbidden.get(ch, set()), weighted.get(ch, set())
+            self.expect(not (f & w),
+                        f"confusion_policy {ch}: pair in both forbidden and weighted")
+            self.expect(f | w == residual[ch],
+                        f"confusion_policy {ch}: forbidden+weighted must equal residual pairs")
+
         # --- enumeration: lexical codespace and distance profile ---
         content_bits = [(o["roman"], o["check"]) for o in content]
         lex = [(o, v, c) for (o, _ob) in content_bits
@@ -211,6 +225,10 @@ MUTATIONS = [
      lambda d: d["register_rule"].__setitem__("rule", "always short")),
     ("s/c share a check bit",
      lambda d: d["onsets"]["content"][0].__setitem__("check", 0)),
+    ("forbidden pair dropped from policy",
+     lambda d: d["confusion_policy"]["forbidden"]["onset"].clear()),
+    ("pair in both forbidden and weighted",
+     lambda d: d["confusion_policy"]["weighted"]["onset"].append(["p", "k"])),
     ("POS of coda n changed",
      lambda d: d["codas"][1].__setitem__("pos_class", "noun")),
     ("content words allowed 4 syllables",
