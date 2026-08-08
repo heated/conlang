@@ -28,6 +28,9 @@ direction into beads.
   security/privacy, persistence/wire formats, public APIs, nontrivial
   algorithms, risky refactors); skip for trivial docs/format/lint/naming/
   mechanical edits. No multi-agent review tiers unless Edward changes this.
+  Addendum (Edward, 2026-08-08): additionally run an **occasional Fable
+  review for language-design substance** (fresh Fable agent; at minimum at
+  major linguistic milestones — core spec, grammar, lexicon, modes).
 - **Invariant-bearing paths** (full playbook, no narrow lane): `docs/spec/`
   and anything that changes frozen-core language definitions.
 

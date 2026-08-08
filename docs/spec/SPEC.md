@@ -64,12 +64,18 @@ merger); the one deliberate stretch is /tʃ/, needed as the tenth digit
 onset, whose drift realizations ([ts], [ʃ]) collide only weakly with /s/
 and are additionally protected by spacing (§4.3).
 
-**The h-reservation is deletion-robust.** /h/ is absent from many L1s
-(Spanish, French, Italian, Russian, Portuguese speakers variously drop it
-or realize it as [x]). Because content syllables never have a zero onset,
-a syllable heard with [h], [x], or no onset at all is *still* unambiguously
-a particle. The particle onset is "the maximally weak onset," tolerant of
-its own deletion.
+**The h-reservation is substitution-robust, with a normative floor.**
+/h/ is absent from many L1s (Spanish, French, Italian, Russian, Portuguese
+speakers variously drop it or realize it as [x]). Any audible weak-onset
+realization — canonically **[h] ~ [x] ~ [ʔ]** — is acceptable and remains
+unambiguously a particle, because no content onset occupies that space.
+The floor is the glottal stop: a speaker who cannot produce [h] uses [ʔ],
+which every human can produce (it is the universal hiatus-filler). What is
+**not** licensed is deleting the onset entirely and resyllabifying across
+the boundary (e.g. /tas ha/ surfacing as [ta.sa]) — that destroys the
+segmentation guarantee (§5.2). The lexicon additionally carries an
+anti-resyllabification constraint (§4.3) so that even this non-canonical
+reduction tends to produce a non-parse rather than a wrong parse.
 
 ### 2.2 Vowels
 
@@ -107,35 +113,60 @@ Legal syllable count: 11 × 5 × 4 × 2 = **440** raw
 
 ## 4. Error correction
 
-### 4.1 Inner parity
+### 4.1 The check channel (confusion-weighted register)
 
-> **register_index = (onset_index + vowel_index + coda_index) mod 2**
+Every channel value carries a normative **check bit** (`channels.json`),
+and the register of every lexical syllable is computed from them:
 
-Every lexical syllable satisfies this rule. Consequences:
+> **register = (check(onset) + check(vowel) + check(coda)) mod 2**
 
-- The register of every word is computed, not chosen: **register carries
-  zero lexical information.** A listener who cannot perceive vowel length
-  (many L1s) loses error-detection capability but never content. The
-  design never asks any human to *hear* a distinction their L1 didn't give
-  them in order to *identify* any word.
-- Any single-channel mishearing (onset, vowel, or coda substitution)
-  flips parity and lands on a non-word — guaranteed minimum distance 2 —
-  at the classical cost of exactly half the raw space.
-- Because register is duration, **stress must never be realized as
-  duration** (§5.1); pitch/intensity only.
+What this buys, stated honestly:
 
-Lexical space after parity: **200 content + 20 particle** syllables.
+- **Register carries zero lexical information.** A listener who cannot
+  perceive vowel length (many L1s) loses error-detection capability but
+  never content. The design never asks any human to *hear* a distinction
+  their L1 didn't give them in order to *identify* any word.
+- **Every substitution between two values with different check bits flips
+  the register** and lands on a non-word. The check bits are assigned to
+  cover the perceptually likely confusions: s/c, p/t, t/k, m/n, n/l, l/j,
+  l/w among onsets; e/i and o/u among vowels; ∅/n, ∅/s, n/l, s/l among
+  codas (`covered_confusion_pairs`, asserted by `spec_check.py`).
+- **Substitutions between same-bit values are invisible to the register**
+  (660 such distance-1 pairs across the 200 content triples —
+  `spec_check.py` enumerates them). These are deliberately the *unlikely*
+  confusions (p/k, a/o, coda n/s, …, `residual_confusion_pairs`), and the
+  lexicon generator (conlang-wfs) must not assign both members of any
+  such minimal pair as words.
 
-### 4.2 The anti-parity complement
+What this is **not**: a uniform minimum-distance-2 code. An earlier draft
+claimed that; the claim was wrong (a binary check cannot separate all
+values of a ten-valued channel), and the honest uniform-distance-2
+alternative — a mod-10 check over the largest channel — would cap the
+space at **20** codewords (`uniform_distance2_bound`). The design instead
+concentrates the one cheap check bit on the high-probability errors and
+delegates the rest to generator-enforced spacing: structured redundancy
+where the ears are weak, capacity where they are strong.
 
-The 220 syllables violating the parity rule are **reserved for mode
+Because register is duration, **stress must never be realized as
+duration** (§5.1); pitch/intensity only.
+
+Lexical space under the register rule: **200 content + 20 particle**
+syllables (register determined for every (onset, vowel, coda) triple).
+
+### 4.2 The anti-check complement
+
+The 220 syllables violating the register rule are **reserved for mode
 payloads** (numbers, dates, times, spell-out — Tier 2, bead conlang-bcq).
-Payload syllables are thereby self-flagging: heard in isolation, any
-payload syllable is audibly a non-word. Payload register is also computed
-(anti-parity), so modes likewise never require length perception.
-Known cost, priced in the modes bead: a single-channel error on a payload
+Payload register is likewise computed (anti-check), so modes never require
+length perception to *decode a payload's value*. Two honest
+qualifications. First, a payload syllable differs from its lexical
+counterpart **only in length**, so payloads are self-flagging only to
+register-sensitive listeners and machines; a length-deaf listener relies
+entirely on the mode boundary. The mode-boundary particle must therefore
+be robust on its own, and safety registers add a checksum syllable
+(priced in conlang-bcq). Second, a single-channel error on a payload
 syllable can land back on the lexical side, so payload integrity leans on
-the mode boundary plus optional checksum, not on raw spacing.
+the mode boundary plus checksum, not on spacing.
 
 ### 4.3 Weighted spacing (v0.1 policy)
 
@@ -143,14 +174,20 @@ Uniform Hamming distance treats all errors as equally likely; ears do not.
 v0.1 states the policy qualitatively; the tooling bead (conlang-wfs)
 operationalizes it with an explicit confusion matrix:
 
-1. **Register-only contrasts: impossible by construction** (parity).
-2. **Echo-vowel rule.** Coda s/l invite epenthesis from some L1s
+1. **Register-only contrasts: impossible by construction** (register is
+   computed).
+2. **Residual-pair rule.** No two lexical words may differ by a single
+   substitution within `residual_confusion_pairs` (the check-invisible
+   substitutions).
+3. **Echo-vowel rule.** Coda s/l invite epenthesis from some L1s
    (/nas/ → [nasɯ̥]-like). The lexicon must never contain both /…Cs/ and
    /…Csu/-type pairs (a coda consonant vs the same consonant plus an echo
    vowel); weighted distance treats these as near-identical.
-3. **Extra spacing between s/c onset minimal pairs** (drift realizations
-   of c approach s for some L1s).
-4. **Extra spacing between coda n/l minimal pairs.**
+4. **Anti-resyllabification rule** (Lojban's tosmabru class). For any
+   lexical word ending in a consonant coda followed by any particle, the
+   resyllabified surface string must not parse as a legal word sequence —
+   enforced by the generator over the actual lexicon plus particle
+   inventory. This is the lexical backstop for the §2.1 boundary floor.
 
 Further layers (cross-syllable outer checks in disyllables, prosodic
 checksum, register profiles) are Tier 3 and intentionally out of the
@@ -169,22 +206,39 @@ Stress is realized as **pitch/intensity, never duration** (duration is the
 register channel). Non-initial syllables of content words are unstressed
 and have content onsets.
 
-### 5.2 Unique-parse property
+### 5.2 Unique-parse property (scope and conditions)
 
-Any syllable stream segments into words in exactly one way: every stressed
-syllable opens a content word; every h-onset (or onset-less, per §2.1)
-syllable is a one-syllable particle; a content word extends from its
-stressed syllable to the next stressed or particle syllable (bounded at 3).
-A mishearing that breaks a word template is detected by shape before the
-lexicon is consulted — segmentation doubles as an error-correction layer.
+**At the phonemic level, given boundary-preserving realizations,** any
+syllable stream segments into words in exactly one way: every stressed
+syllable opens a content word; every weak-onset ([h]~[x]~[ʔ]) syllable is
+a one-syllable particle; a content word extends from its stressed syllable
+to the next stressed or particle syllable (bounded at 3). A mishearing
+that breaks a word template is detected by shape before the lexicon is
+consulted — segmentation doubles as an error-correction layer.
+
+The conditions are load-bearing and the spec names them rather than
+hiding them. (1) The particle onset must surface as *some* audible onset
+(§2.1 floor: [ʔ]); full deletion with cross-boundary resyllabification
+(/tas ha/ → [ta.sa]) is a non-canonical reduction that the phonology does
+not license and the lexicon's anti-resyllabification rule (§4.3) defuses:
+the reduced string should fail to parse rather than parse wrongly, and
+conversational repair does the rest. (2) Stress detection: stress is the
+word-boundary signal; it is realized as pitch/intensity precisely so it
+cannot be confused with the register channel, but degraded-stress speech
+shifts segmentation onto the particle cues and word templates. The
+robustness of the parse under both degradations is a simulation target in
+the evaluation plan, not an assumed property.
 
 Particles are structural function words only (mode markers, clause
 openers, terminators, case/topic markers, conjunctions). Pro-forms,
 correlatives, and other contentful "small words" are content words, not
-particles. Budget: 20 lexical particle slots. If the grammar bead
-(conlang-jbw) overflows this, the documented escape hatches — particle-only
-diphthongs, or a particle-only coda addition — are spoken-layer-local and
-do not disturb the content lexicon.
+particles. **The particle namespace width is provisional in v0.1** — 20
+lexical slots exist under the current template, but whether 20 suffices is
+established by conlang-jbw's enumeration *before* freeze, not assumed.
+If it overflows, widening the particle encoding (particle-only diphthongs
+or codas) is a real phonotactic change with script- and input-layer costs;
+§9 records it as a priced expansion path, and the freeze decision must see
+the enumerated inventory first.
 
 ### 5.3 Loanwords
 
@@ -197,16 +251,28 @@ never mangle names (contra Lojban).
 **The final-syllable coda of a content word encodes its part of speech:**
 ∅ = noun, n = verb, s = modifier, l = reserved.
 
-Why coda, not the Esperanto final-vowel: the coda **partitions** the
-monosyllable space instead of shrinking it — 10 onsets × 5 vowels = 50
-monosyllabic forms *per class* (150 usable under v0.1's three active
-classes, 200 when class l is assigned) versus 40 total under a final-vowel
-scheme. Cross-class minimal pairs land in different syntactic slots, so
-class mishearings are syntax-detectable ("a noun ending where syntax
-demands a verb" is a caught error, not a substitution). And derivation
-becomes a channel operation: `sala` (noun) → `salan` (verb) → `salas`
-(modifier) are one root's forms — Esperanto's -o/-i/-a on a cleaner axis.
-Non-final codas remain fully lexical.
+Why coda, not the Esperanto final-vowel: both schemes partition the
+monosyllable space, but the coda partitions it into **more and larger
+classes for this inventory** — 10 onsets × 5 vowels = 50 monosyllabic
+wordforms per class (150 across v0.1's three active classes) versus
+10 onsets × 4 codas = 40 per class (120 across three) under a final-vowel
+scheme: a 25% capacity edge, plus two structural wins. Cross-class
+minimal pairs land in different syntactic slots, so class mishearings are
+syntax-detectable ("a noun ending where syntax demands a verb" is a
+caught error, not a substitution). And derivation becomes a channel
+operation — swap the final coda, then recompute the register (§4.1),
+since coda check bits differ across classes: `sala` (noun, register
+short) → `salaan` (verb) → `salaas` (modifier) are one root's forms,
+Esperanto's -o/-i/-a on a cleaner axis. Non-final codas remain fully
+lexical.
+
+Because the three class forms of a root share their onset–vowel body,
+monosyllabic **root bodies** number 50, not 150 — the 150 are wordforms.
+Whether cross-class sharing is obligatory (every monosyllabic body is one
+root family, never three unrelated roots) is a grammar decision for
+conlang-jbw; the default design intent is obligatory sharing, which is
+kinder to learners and to error correction, and the budget below counts
+root bodies on that assumption.
 
 Semantics of the class system (what "the verb of a root" means, argument
 structure, whether class l becomes a fourth class) belong to the grammar
@@ -228,25 +294,48 @@ The native script (bead conlang-657) renders channel vectors directly.
 
 ## 8. Codespace budget
 
-Verified by `tools/spec_check.py` against `channels.json`:
+Verified by `tools/spec_check.py` against `channels.json`. The table
+separates **codepoints** (syllable-sized slots), **wordforms** (inflected
+surface words), and **root bodies** (independently assignable meanings,
+given obligatory cross-class derivation, §6):
 
 | quantity | value |
 |----------|-------|
 | raw syllables | 440 (400 content, 40 particle) |
-| lexical after parity | 200 content + 20 particle |
+| lexical codepoints (register computed) | 200 content + 20 particle |
 | payload complement | 200 content-shaped + 20 particle-shaped |
-| content monosyllables per POS class | 50 |
-| usable content monosyllables (3 active classes) | 150 |
-| disyllable lexical points (before spacing) | 40,000 |
+| monosyllabic wordforms per POS class | 50 (150 across active classes) |
+| monosyllabic **root bodies** | 50, before spacing and reserve |
+| disyllabic wordforms (active classes, before constraints) | 30,000 |
+| disyllabic **root bodies** (before constraints) | 10,000 |
+| uniform-distance-2 bound (why weighted spacing exists) | 20 |
+| check-invisible distance-1 pairs (generator must space) | 660 |
 | digit pairs needed / available in one payload syllable | 100 / 200 ✓ |
 | hour × quarter-hour values / available | 96 / 200 ✓ |
 | month × day values / available | 372 / 200 ⇒ two payload syllables |
 
-Weighted spacing (§4.3) will price some of the 150 monosyllables and a
-fraction of disyllable space; the root target (1,500–3,000) sits orders of
-magnitude below capacity. **Zipf policy:** monosyllable slots are assigned
-strictly by corpus frequency from the first dictionary draft; everything
-rarer is disyllabic by rule.
+Weighted spacing (§4.3) will price these down — root bodies are the
+scarce resource, and the honest usable counts (after the residual-pair,
+echo-vowel, and anti-resyllabification rules) are an *output of the
+generator* (conlang-wfs), not a promise of this spec. The root target
+(1,500–3,000) still sits far below disyllabic capacity. The syllable
+inventory in active use (200 content codepoints) is in Japanese/Hawaiian
+territory; whether the working monosyllabic vocabulary lands above the
+comfort knee is likewise settled by the generator plus lexicon, not
+assumed here. **Zipf policy:** monosyllable slots are assigned strictly
+by corpus frequency from the first dictionary draft; everything rarer is
+disyllabic by rule.
+
+**Reserved headroom for coinage and drift** (Edward directive,
+2026-08-08): the short-form space is never exhausted. At every release, at
+least **30% of the generator-approved monosyllabic root bodies** (≥15 if
+all 50 survive spacing) remain unassigned, held for future coinage,
+borrowed-root nativization, and frequency drift (when a rising word earns
+a short form, one is available without evicting anything). Disyllable
+assignments likewise keep spacing slack rather than packing optimally.
+Drift is absorbed through versioned lexicon releases (governance: bead
+conlang-70m) — the reserve is what makes absorbing it cheap. The 30%
+figure is adjustable until freeze.
 
 ## 9. Extensibility: widening the inventory is a supported evolution
 
@@ -262,7 +351,15 @@ as a *versioned point in an expansion-compatible family*, not a dead end:
   new POS class), additional content onsets, diphthongs as new vowel-channel
   values. Each must price its L1-perception cost against the design-brief
   accessibility constraint when proposed — expansion trades learnability
-  deliberately, never accidentally.
+  deliberately, never accidentally. New values also get check bits, priced
+  against the confusion pairs they introduce.
+- **Particle-space widening** (minor version, but not free): if the
+  structural inventory overflows 20 slots (conlang-jbw settles this before
+  freeze), particle-only diphthongs or codas widen the namespace. This is
+  a real phonotactic change — the script and input layers must render the
+  new shapes — so it rides the same headroom obligations as any widening,
+  and the freeze decision must see the enumerated particle inventory
+  first.
 - **Expensive expansion** (major version): a third register value
   (parity becomes mod-3; the complement doubles relative to the lexical
   side). Supported by the rule's form but touches every downstream table.
@@ -283,11 +380,17 @@ the core because the onset indices are load-bearing:
 - **Tens digit → onset:** 0=c 1=p 2=t 3=k 4=m 5=n 6=s 7=l 8=w 9=j
 - **Units digit → rime:** 0=a 1=e 2=i 3=o 4=u 5=an 6=en 7=in 8=on 9=un
 - A digit pair (00–99) is one syllable; multi-pair numbers are positional
-  base-100. Payload syllables live on the anti-parity side (§4.2), with
+  base-100. Payload syllables live on the anti-check side (§4.2), with
   register computed accordingly.
 
-Example (romanized, register marking omitted): 42 = `mi`, 4207 = `mi cin`
-(pairs 42, 07).
+Example: 42 = `mi`, 4207 = `mi cin` (pairs 42, 07) — both payload
+registers compute short here (check sums are odd, so the anti-check
+register is 0). Digit-onset robustness note: the tens code uses both c
+and s (digits 0 and 6), whose confusion is real for some L1s; their check
+bits differ, so c/s substitutions flip the register, but a length-deaf
+listener does not hear that flip — digit integrity for such listeners
+rests on the mode boundary and the checksum profile (conlang-bcq must
+test the ten-onset set under the confusion model directly).
 
 ## 11. Out of scope for the frozen core
 

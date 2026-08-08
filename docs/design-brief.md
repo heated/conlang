@@ -111,6 +111,10 @@ else is defined over these coordinates.
   codepoints model later, or to push the inventory a little** — the core
   freezes as an expansion-compatible family (SPEC §9); script and input
   layers carry explicit headroom obligations.
+- 2026-08-08 (later still): **reserve codespace for new words and language
+  drift** (SPEC §8 headroom policy: ≥30% of monosyllable slots per class
+  unassigned at every release). **Occasional Fable review for
+  language-design substance**, alongside the Codex code-review policy.
 
 ## Open questions (tracked as beads)
 
