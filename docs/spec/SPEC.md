@@ -1,6 +1,6 @@
 # Language Specification — Tier-1 Core
 
-**Version:** 0.1.0-draft · **Status: NOT FROZEN** (freeze is a human
+**Version:** 0.2.0-draft · **Status: NOT FROZEN** (freeze is a human
 decision; downstream work may build against this draft and must absorb
 pre-freeze changes)
 
@@ -25,7 +25,7 @@ independent channels:
 | onset    | 11 (10 content + 1 particle) | lexical + word-class boundary |
 | vowel    | 5      | lexical |
 | coda     | 4      | lexical (non-final) / part-of-speech (word-final) |
-| register | 2      | **parity only** — never lexical (§4) |
+| check    | 2      | **written-layer check bit** — never lexical, not carried in casual speech (§2.4, §4) |
 
 Everything in the language — words, glyphs, chords, digit codes — is
 defined over these coordinates. The written glyph, the typed chord, and the
@@ -96,22 +96,26 @@ too many L1s. Codas s and l are themselves a stretch for Mandarin/Japanese
 L1 speakers; the epenthesis hazard this creates is handled by a lexicon
 constraint, not by the phonology (§4.3, echo-vowel rule).
 
-### 2.4 Registers
+### 2.4 The check zone (registers, demoted to the written layer)
 
-Two values: **short** vs **long** vowel; the long target is ≥1.5× the
-short duration in careful speech. Romanized by vowel doubling (`sa` vs
-`saa`) — optional in romanization, since register is always derivable
-from the check bits. Register is the check channel (§4): it never
-distinguishes two words. Honest billing: length is the least perceptible
-channel for many L1s, it interacts with phrase-final lengthening and with
-stress in production, and a contrast carrying no lexical load invites
-erosion. The inner code is therefore a careful-register and
-machine-facing guarantee that degrades gracefully — a length-deaf
-listener or a fast talker falls back to generator spacing, templates, and
-repair, never losing content. Realization of long vowels in unstressed
-syllables and in CVVC (long + coda) shapes is typologically marked;
-production guidance and its perceptual reality are evaluation targets,
-not assumptions.
+**Tentative decision (Edward, 2026-08-09, conlang-bf2):** the check
+channel is a **written-layer channel**. Every syllable's check bit is
+computed (§4.1) and always present in the written layer — a glyph zone
+in the native script and optional vowel doubling in romanization — but
+**casual speech does not carry it**. Spoken realization (long vowel,
+≥1.5× the short duration) belongs to careful and safety-critical
+registers only, where a speaker may realize the check audibly the way
+one spells out a word for confirmation.
+
+Rationale (docs/design/alternatives/no-parity-core.md, v2 experiment +
+two adversarial reviews): with humility assignment (§4.3) the spoken
+inner code was pure insurance for length-sensitive listeners only,
+while its costs — producing a length contrast most L1s lack, the
+stress-vs-duration conflict, the erosion exposure of a zero-load
+contrast — fell on everyone. Demotion keeps the machine-facing and
+careful-register value at zero casual-speech cost, and frees duration
+to strengthen the stress signal (§5.1). Re-promotion to a mandatory
+spoken channel is a documented minor-version path (§9).
 
 ## 3. Syllable template and phonotactics
 
@@ -119,65 +123,72 @@ not assumptions.
 syllables. The mandatory onset is load-bearing: self-segregating
 morphology (§5) and the h-robustness argument (§2.1) both depend on it.
 
-Legal syllable count: 11 × 5 × 4 × 2 = **440** raw
-(400 content-onset, 40 particle-onset).
+Legal spoken syllable count: 11 × 5 × 4 = **220** segmental triples
+(200 content-onset, 20 particle-onset). The written layer carries one
+computed check bit per syllable on top (§2.4), giving 440 written-layer
+codepoints.
 
 ## 4. Error correction
 
-### 4.1 The check channel (confusion-weighted register)
+### 4.1 The check bit (written-layer, confusion-weighted)
 
 Every channel value carries a normative **check bit** (`channels.json`),
-and the register of every lexical syllable is computed from them:
+and every syllable's check value is computed from them:
 
-> **register = (check(onset) + check(vowel) + check(coda)) mod 2**
+> **check = (check(onset) + check(vowel) + check(coda)) mod 2**
 
-What this buys, stated honestly:
+Where it lives (§2.4): always in the written layer and available to
+machines; audibly realized (as vowel length) only in careful/safety
+speech registers. What it buys, stated honestly:
 
-- **Register carries zero lexical information.** A listener who cannot
-  perceive vowel length (many L1s) loses error-detection capability but
-  never content. The design never asks any human to *hear* a distinction
-  their L1 didn't give them in order to *identify* any word.
-- **Every substitution between two values with different check bits flips
-  the register** and lands on a non-word. The check bits are assigned to
-  cover the perceptually likely confusions: s/c, p/t, t/k, m/n, n/l, l/j,
-  l/w among onsets; e/i and o/u among vowels; ∅/n, ∅/s, n/l, s/l among
+- **The check carries zero lexical information** — it is computed, so
+  no reader, listener, or speaker ever needs it to identify a word, and
+  casual speech omits it entirely.
+- In the written layer and careful registers, **every substitution
+  between two values with different check bits flips the check** and is
+  detectable before lexical lookup. The bits are assigned to cover the
+  perceptually likely confusions: s/c, p/t, t/k, m/n, n/l, l/j, l/w
+  among onsets; e/i and o/u among vowels; ∅/n, ∅/s, n/l, s/l among
   codas (`covered_confusion_pairs`, asserted by `spec_check.py`).
-- **Substitutions between same-bit values are invisible to the register**
-  (660 such distance-1 pairs across the 200 content triples —
-  `spec_check.py` enumerates them). These are deliberately the *unlikely*
-  confusions (p/k, a/o, coda n/s, …, `residual_confusion_pairs`), and the
-  lexicon generator (conlang-wfs) must not assign both members of any
-  such minimal pair as words.
+- Substitutions between same-bit values are invisible to the check (660
+  such distance-1 pairs across the 200 content triples). In v0.2 this
+  matters less than in v0.1, because casual-speech protection no longer
+  routes through the check at all — it routes through the humility
+  assignment policy (§4.3), which bans high-confusion minimal pairs
+  outright.
 
-What this is **not**: a uniform minimum-distance-2 code. An earlier draft
-claimed that; the claim was wrong (a binary check cannot separate all
-values of a ten-valued channel), and the honest uniform-distance-2
-alternative — a mod-10 check over the largest channel — would cap the
-space at **20** codewords (`uniform_distance2_bound`). The design instead
-concentrates the one cheap check bit on the high-probability errors and
-delegates the rest to generator-enforced spacing: structured redundancy
-where the ears are weak, capacity where they are strong.
+**Casual speech protection, v0.2:** lexical sparsity under humility
+assignment + word templates (§5) + phonotactic rules + context +
+conversational repair. The deconfounded simulation
+(`tools/explore_noparity.py`) puts residual silent substitution at
+~3.9% of mishearing events (conditional; 2.5% exposure-weighted) for
+all listeners — versus 22% for length-deaf listeners under the v0.1
+policy that licensed covered minimal pairs because the spoken register
+"caught" them.
 
-Because register is duration, **stress must never be realized as
-duration** (§5.1); pitch/intensity only.
+What the check is **not**: a uniform minimum-distance-2 code (a binary
+check cannot separate all values of a ten-valued channel; the honest
+uniform-distance-2 alternative caps the space at **20** codewords,
+`uniform_distance2_bound`).
 
-Lexical space under the register rule: **200 content + 20 particle**
-syllables (register determined for every (onset, vowel, coda) triple).
+Stress may be realized with **pitch, intensity, and duration** in casual
+speech (§5.1) — duration is free there. In careful registers that
+realize the check as length, stress falls back to pitch/intensity.
 
-### 4.2 The anti-check complement
+Lexical space: **200 content + 20 particle** segmental syllables (the
+check is determined for every triple).
 
-The 220 syllables violating the register rule are **reserved for mode
-payloads** (numbers, dates, times, spell-out — Tier 2, bead conlang-bcq).
-Payload register is likewise computed (anti-check), so modes never require
-length perception to *decode a payload's value*. Two honest
-qualifications. First, a payload syllable differs from its lexical
-counterpart **only in length**, so payloads are self-flagging only to
-register-sensitive listeners and machines; a length-deaf listener relies
-entirely on the mode boundary. The mode-boundary particle must therefore
-be robust on its own, and safety registers add a checksum syllable
-(priced in conlang-bcq). Second, a single-channel error on a payload
-syllable can land back on the lexical side, so payload integrity leans on
-the mode boundary plus checksum, not on spacing.
+### 4.2 The anti-check complement (written layer)
+
+In the written layer, payload syllables (mode contents — numbers, dates,
+times, spell-out; Tier 2, conlang-bcq) carry the **anti-check** value:
+written text and machines can distinguish payload from lexical material
+per syllable. In speech this marking exists only in careful registers;
+casual spoken payload integrity rests where it honestly always did — on
+the mode-boundary particles, the frame grammar, and the checksum
+profile (mandatory in safety registers). A single-channel error on a
+payload syllable can land on the lexical side either way, so payload
+integrity leans on boundaries plus checksum, not on spacing.
 
 ### 4.3 Weighted spacing (v0.1 policy)
 
@@ -187,19 +198,22 @@ operationalizes it with an explicit confusion matrix:
 
 1. **Register-only contrasts: impossible by construction** (register is
    computed).
-2. **Residual-pair rule, two tiers.** The check-invisible substitutions
-   (`residual_confusion_pairs`) are partitioned by `confusion_policy`
-   (asserted by `spec_check.py`): **forbidden** pairs (p/k; a/e, a/o;
-   coda ∅/l — true confusables the check bit missed) may never form
-   unrelated minimal pairs; **weighted** pairs (p/m, k/m, t/n, w/j; e/o,
-   i/u; coda n/s — same-bit but perceptually distinct) may, at a scored
-   cost, avoided among high-frequency assignments. Strict application of
-   a single forbidden tier would cap monosyllabic root bodies at 19; the
-   two-tier policy yields 34 (`tools/lexgen.py report`). Same-root POS
-   alternations are exempt: every root's verb/modifier pair differs by
-   coda n/s by design (§6) — that is morphology, not a lexical minimal
-   pair, and a misheard class is caught by syntax or recovered
-   semantically.
+2. **Humility rule (adopted 2026-08-09, conlang-bf2).** No two
+   *unrelated* lexical words may differ by a single **high-confusion**
+   substitution — the union of `covered_confusion_pairs` (s/c, p/t,
+   t/k, m/n, n/l, l/j, l/w; e/i, o/u; ∅/n, ∅/s, n/l, s/l) and the
+   **forbidden** residual pairs (p/k; a/e, a/o; coda ∅/l). The v0.1
+   policy licensed covered minimal pairs because the spoken register
+   flagged them; the deconfounded experiment showed that policy
+   produced a 22% silent-substitution rate for length-deaf listeners
+   and it is withdrawn. **Weighted** pairs (p/m, k/m, t/n, w/j; e/o,
+   i/u; coda n/s) may form minimal pairs at a scored cost, avoided
+   among high-frequency assignments. Capacity: 22 monosyllabic root
+   bodies (18 under strict weighted-inclusive spacing;
+   `tools/lexgen.py report`). Same-root POS alternations are exempt:
+   every root's verb/modifier pair differs by coda n/s by design (§6)
+   — that is morphology, not a lexical minimal pair, and a misheard
+   class is caught by syntax or recovered semantically.
 3. **Echo-vowel rule, all positions.** Coda s/l invite epenthesis from
    some L1s (/nas/ → [nasɯ̥]-like). The lexicon must never contain
    confusable /…Cs/-vs-/…Csu/-type pairs, finally or medially. The
@@ -235,8 +249,11 @@ frozen core.
 | particle | exactly 1 syllable | h | unstressed |
 | content word | 1–3 syllables | content onset | first syllable stressed |
 
-Stress is realized as **pitch/intensity, never duration** (duration is the
-register channel). Non-initial syllables of content words are unstressed
+Stress is realized with **pitch, intensity, and duration** — duration
+became available to stress when the check moved to the written layer
+(§2.4), strengthening the boundary signal. In careful registers that
+audibly realize the check as vowel length, stress narrows to
+pitch/intensity. Non-initial syllables of content words are unstressed
 and have content onsets.
 
 ### 5.2 Unique-parse property (scope and conditions)
@@ -256,8 +273,8 @@ hiding them. (1) The particle onset must surface as *some* audible onset
 not license and the lexicon's anti-resyllabification rule (§4.3) defuses:
 the reduced string should fail to parse rather than parse wrongly, and
 conversational repair does the rest. (2) Stress detection: stress is the
-word-boundary signal; it is realized as pitch/intensity precisely so it
-cannot be confused with the register channel, but degraded-stress speech
+word-boundary signal; in casual speech it may use duration alongside
+pitch and intensity (§5.1), but degraded-stress speech
 shifts segmentation onto the particle cues and word templates — and
 sequences of monosyllabic words (which Zipf assignment makes frequent)
 produce stress clash, which natural speech resolves by destressing,
@@ -290,7 +307,7 @@ never mangle names (contra Lojban).
 Why coda, not the Esperanto final-vowel: both schemes partition the
 monosyllable space, but the coda partitions it into **more and larger
 classes for this inventory** — 10 onsets × 5 vowels = 50 monosyllabic
-wordforms per class (150 across v0.1's three active classes) versus
+wordforms per class (150 across the three active classes) versus
 10 onsets × 4 codas = 40 per class (120 across three) under a final-vowel
 scheme: a 25% capacity edge, plus two structural wins. Cross-class
 minimal pairs land in different syntactic slots, so class mishearings are
@@ -356,6 +373,7 @@ given obligatory cross-class derivation, §6):
 | lexical codepoints (register computed) | 200 content + 20 particle |
 | payload complement | 200 content-shaped + 20 particle-shaped |
 | monosyllabic wordforms per POS class | 50 (150 across active classes) |
+| high-confusion-free monosyllabic root bodies (humility) | 22 |
 | monosyllabic **root bodies** | 50, before spacing and reserve |
 | disyllabic wordforms (active classes, before constraints) | 30,000 |
 | disyllabic **root bodies** (before constraints) | 10,000 |
@@ -367,23 +385,23 @@ given obligatory cross-class derivation, §6):
 
 Weighted spacing (§4.3) prices these down — root bodies are the scarce
 resource. Generator outputs (`tools/lexgen.py report`, current spec
-data): **34 monosyllabic root bodies** under the adopted two-tier policy
-(19 under strict single-tier; 48 raw after the glide-cell ban), of which
-**23 are assignable** after the 30% reserve; **8,496 disyllabic root
-bodies** upper bound before assignment-time checks (echo-vowel,
-tosmabru, pairwise spacing). The root target (1,500–3,000) still sits
-far below disyllabic capacity. The syllable inventory in active use (200
-content codepoints) is in Japanese/Hawaiian territory; the working
-monosyllabic vocabulary (~23 words initially) covers only the very top
-of the Zipf curve — the language is disyllable-dominant by consequence,
-not accident. **Zipf policy:** monosyllable slots are assigned strictly
+data): **22 monosyllabic root bodies** under the adopted humility
+policy (18 under strict weighted-inclusive spacing; 48 raw after the
+glide-cell ban), of which **15 are assignable** after the 30% reserve;
+**8,496 disyllabic root bodies** upper bound before assignment-time
+checks (echo-vowel, tosmabru, pairwise spacing). The root target
+(1,500–3,000) still sits far below disyllabic capacity. The syllable
+inventory in active use (200 content codepoints) is in
+Japanese/Hawaiian territory; the working monosyllabic vocabulary (~15
+words initially) covers only the very top of the Zipf curve — the
+language is disyllable-dominant by consequence, not accident. **Zipf policy:** monosyllable slots are assigned strictly
 by corpus frequency from the first dictionary draft; everything rarer is
 disyllabic by rule.
 
 **Reserved headroom for coinage and drift** (Edward directive,
 2026-08-08): the short-form space is never exhausted. At every release, at
-least **30% of the generator-approved monosyllabic root bodies** (≥15 if
-all 50 survive spacing) remain unassigned, held for future coinage,
+least **30% of the generator-approved monosyllabic root bodies** (7 of
+the current 22) remain unassigned, held for future coinage,
 borrowed-root nativization, and frequency drift (when a rising word earns
 a short form, one is available without evicting anything). Disyllable
 assignments likewise keep spacing slack rather than packing optimally.
@@ -424,7 +442,11 @@ as a *versioned point in an expansion-compatible family*, not a dead end:
   conlang-657 and conlang-6sa.
 - A written-only channel (a visual zone with no spoken counterpart, e.g.
   the semantic-classifier zone) remains available at any time without
-  touching the spoken core.
+  touching the spoken core. The check zone itself is now such a channel
+  (§2.4); **re-promoting it to a mandatory spoken register** is a
+  minor-version path (the demotion is tentative), as is the converse —
+  deleting it outright if the written layer's checkability proves
+  unearned.
 
 ## 10. Digit assignment (normative preview)
 
@@ -434,18 +456,20 @@ the core because the onset indices are load-bearing:
 - **Tens digit → onset:** 0=c 1=p 2=t 3=k 4=m 5=n 6=s 7=l 8=w 9=j
 - **Units digit → rime:** 0=a 1=e 2=i 3=o 4=u 5=an 6=en 7=in 8=on 9=un
 - A digit pair (00–99) is one syllable; multi-pair numbers are positional
-  base-100. Payload syllables live on the anti-check side (§4.2), with
-  register computed accordingly.
+  base-100. In the written layer, payload syllables carry the
+  anti-check value (§4.2); casual speech carries no check either way.
 
-Example: 42 = `mi`, 4207 = `mi cin` (pairs 42, 07) — both payload
-registers compute short here (check sums are odd, so the anti-check
-register is 0).
+Example: 42 = `mi`, 4207 = `mi cin` (pairs 42, 07) — both written-layer
+payload check values compute short here (check sums are odd, so the
+anti-check value is 0); doubling, where it appears in payload
+romanizations, is written-layer marking, silent in casual speech.
 
 **Known weak digit cells** (the grid freezes with the core, so these are
 priced, not hidden — conlang-bcq must test the full set under the
 confusion model and design the checksum profile around them):
-c/s tens confusion (digits 0X vs 6X; check bits differ, but the flip is
-inaudible to length-deaf listeners); the coronal-i column (02 `ci`,
+c/s tens confusion (digits 0X vs 6X; check bits differ, but the flip
+lives in the written layer — casual spoken digits rely on checksum and
+context); the coronal-i column (02 `ci`,
 22 `ti`, 62 `si` merge under palatalizing L1s — prescribed realizations:
 c strictly affricate); the glide-fusion cells (84 `wu`, 92 `ji` — 
 prescribed fortified realizations [β̞u], [ʝi], since the lexical
@@ -462,4 +486,10 @@ derivational semantics and particle inventory (jbw); lexicon content
 
 ## Version history
 
+- **0.2.0-draft** (2026-08-09): humility assignment adopted (covered
+  minimal pairs banned for unrelated words; 22 root bodies, 15
+  assignable); check channel tentatively demoted to the written layer
+  (casual speech carries no register; stress gains duration; careful/
+  safety registers may realize the check as length). Decisions:
+  conlang-bf2, evidence in docs/design/alternatives/no-parity-core.md.
 - **0.1.0-draft** (2026-08-08): initial draft for freeze review.

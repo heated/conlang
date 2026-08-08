@@ -9,8 +9,9 @@ bibliography: references.bib
 ## Abstract
 
 [Draft.] We present the design of a constructed language that treats the
-syllable as a vector of independent channels (onset, vowel, coda, register)
-and applies coding-theoretic error correction over that space. The design
+syllable as a vector of independent channels (onset, vowel, coda, plus a
+computed written-layer check bit) and applies coding-theoretic error
+correction over that space. The design
 goal is minimal time-to-fluency for second-language learners, with fast
 chorded text input and rapidly-acquired reading falling out of the same
 channel architecture rather than being separate systems. We describe (1) a
@@ -37,7 +38,8 @@ any first language. Every other property is either derived from that
 target, priced against it explicitly, or declared a non-goal.
 
 The central design move is to treat the syllable not as an atom but as a
-**vector of independent channels** — onset, vowel, coda, register — and
+**vector of independent channels** — onset, vowel, coda, and a computed
+check bit — and
 to engineer over that coordinate space the way coding theory engineers
 over symbol alphabets: an error-detecting check channel, deliberate
 spacing between codewords weighted by human mishearing rather than
@@ -104,13 +106,15 @@ design spends on.
 
 ### 3.1 The channel decomposition
 
-A syllable is a vector over four channels: onset × vowel × coda ×
-register. The v0.1 inventory (SPEC.md, `channels.json`): ten content
-onsets /p t k m n s l w j tʃ/ plus a particle-reserved /h/; five vowels
-/a e i o u/; four codas /∅ n s l/; two registers realized as vowel length.
-The syllable template is CV(C) with a mandatory onset — a constraint that
-self-segregating morphology (§5) and particle identification both lean on.
-Raw space: 11 × 5 × 4 × 2 = 440 syllables.
+A syllable is a vector over four channels: onset × vowel × coda, plus a
+computed check bit that lives in the written layer (v0.2; §4). The
+inventory (SPEC.md, `channels.json`): ten content onsets
+/p t k m n s l w j tʃ/ plus a particle-reserved /h/; five vowels
+/a e i o u/; four codas /∅ n s l/. The syllable template is CV(C) with a
+mandatory onset — a constraint that self-segregating morphology (§5) and
+particle identification both lean on. Spoken space: 220 segmental
+syllables; the written layer carries the check bit on top (440
+codepoints).
 
 ### 3.2 Perceptual accessibility constraint
 
@@ -121,9 +125,11 @@ deliberate accommodations go further. First, the particle onset /h/ is
 onset, a particle realized [h], [x], or [ʔ] (the normative floor — full
 deletion with resyllabification is not licensed, and the lexicon carries
 an anti-resyllabification constraint as backstop) remains unambiguously a
-particle. Second, the register channel carries no lexical information at
-all (§4), so the many L1s without length contrasts lose only
-error-detection, never content. The deliberate stretches are /tʃ/
+particle. Second, the check channel carries no lexical information and
+(since v0.2) is not carried in casual speech at all — it lives in the
+written layer, optionally realized as vowel length in careful registers
+— so no speaker or listener is ever asked to produce or perceive a
+length contrast in everyday use. The deliberate stretches are /tʃ/
 (required as the tenth digit onset), whose drift realizations are handled
 by check-bit coverage and spacing, and codas /s l/, which invite
 epenthesis from Mandarin/Japanese-type L1s and are priced by an
@@ -131,18 +137,19 @@ echo-vowel constraint on the lexicon.
 
 ### 3.3 Codespace budget
 
-The computed register halves the raw space: 200 content + 20 particle
-lexical codepoints. Accounting must separate codepoints, wordforms, and
+The segmental space is 200 content + 20 particle codepoints (the
+written-layer check bit is computed, never free). Accounting must separate codepoints, wordforms, and
 root bodies: the part-of-speech channel (final coda; §5) yields 50
 monosyllabic wordforms per class (150 across the three active classes),
 but since a root's noun/verb/modifier forms share one onset–vowel body,
 only 50 monosyllabic root bodies exist before spacing. The implemented
-spacing engine then gives the honest count: after the glide-cell ban (48)
-and pairwise confusion constraints, an exact maximum-independent-set
-computation yields **34 assignable monosyllabic root bodies** under the
-adopted two-tier confusion policy (19 under strict single-tier spacing),
-of which 23 are initially assigned and the rest held in reserve for
-coinage and drift. Disyllabic capacity (8,496 root bodies before
+spacing engine then gives the honest count: after the glide-cell ban
+(48) and the humility policy adopted after the deconfounding study
+(§12) — no unrelated minimal pairs on high-confusion substitutions — an
+exact maximum-independent-set computation yields **22 monosyllabic root
+bodies** (18 under strict weighted-inclusive spacing), of which 15 are
+initially assigned and the rest held in reserve for coinage and
+drift. Disyllabic capacity (8,496 root bodies before
 assignment-time checks) dwarfs the 1,500–3,000-root target, so the
 language is disyllable-dominant by consequence: monosyllables cover only
 the very top of the Zipf curve, as in Japanese or Hawaiian. Whether this
@@ -170,9 +177,14 @@ than a redesign.
 
 ## 4. The error-correction stack
 
-The inner code is a **confusion-weighted check bit**: every channel value
-carries a normative bit, and register := (check(onset) + check(vowel) +
-check(coda)) mod 2. A uniform minimum-distance-2 code over this space is
+The inner code is a **confusion-weighted check bit**: every channel
+value carries a normative bit, and check := (check(onset) +
+check(vowel) + check(coda)) mod 2. Since v0.2 it is a *written-layer*
+channel — always present in glyphs and available to machines,
+optionally realized as vowel length in careful and safety-critical
+speech registers, absent from casual speech, whose protection instead
+comes from the humility assignment policy, templates, context, and
+repair (§12). A uniform minimum-distance-2 code over this space is
 not available at this price — a binary check cannot separate all values
 of a ten-valued channel, and the honest distance-2 construction (a mod-10
 check over the largest channel) collapses the space to 20 codewords. The
@@ -390,7 +402,10 @@ costs, or belongs only in the written layer and a careful-speech
 register, is a values decision the simulation cannot make; what it
 establishes firmly is the humility policy, and that the original
 configuration was the one choice strictly wrong for the population the
-design claims to serve. [Design gate open at the time of writing.]
+design claims to serve. [Resolution, adopted tentatively: humility
+assignment in the core, the check bit demoted to a written-layer
+channel with optional careful-register realization — the configuration
+described throughout this paper.]
 
 **Is the a-priori lexicon worth it?** Vocabulary, not grammar, is
 plausibly the long pole of adult language learning: full regularity

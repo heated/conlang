@@ -98,10 +98,16 @@ class TestConflictRules(unittest.TestCase):
     def test_forbidden_and_weighted(self):
         pa, ka = [Syllable("p", "a", "")], [Syllable("k", "a", "")]
         self.assertEqual(RULES.classify_pair(pa, ka), "forbidden")
+        # humility assignment (conlang-bf2): covered pairs are banned for
+        # unrelated minimal pairs too
+        pa2, ta = [Syllable("p", "a", "")], [Syllable("t", "a", "")]
+        self.assertEqual(RULES.classify_pair(pa2, ta), "forbidden")
+        se, si = [Syllable("s", "e", "")], [Syllable("s", "i", "")]
+        self.assertEqual(RULES.classify_pair(se, si), "forbidden")  # e/i covered
         pa2, ma = [Syllable("p", "a", "")], [Syllable("m", "a", "")]
         self.assertEqual(RULES.classify_pair(pa2, ma), "weighted")
         ta, sa = [Syllable("t", "a", "")], [Syllable("s", "a", "")]
-        self.assertEqual(RULES.classify_pair(ta, sa), "ok")  # covered pair
+        self.assertEqual(RULES.classify_pair(ta, sa), "ok")  # unlisted pair
 
     def test_coronal_i(self):
         ti, ci = [Syllable("t", "i", "")], [Syllable("c", "i", "")]

@@ -24,8 +24,10 @@ def body_conflict_graph(inv: Inventory, rules: ConflictRules,
                         policy: str) -> tuple[list[tuple[str, str]], dict]:
     """Monosyllabic root-body candidates (onset, vowel) and conflict edges.
 
-    policy 'strict'  — forbidden AND weighted pairs conflict
-    policy 'adopted' — only forbidden pairs (incl. coronal-i) conflict
+    Humility assignment (adopted 2026-08-09, conlang-bf2): high-confusion
+    pairs — covered AND forbidden — always conflict for unrelated words.
+    policy 'adopted' — covered + forbidden (+ coronal-i) conflict
+    policy 'strict'  — adopted plus weighted pairs
     """
     bodies = [(o, v) for o in inv.content_onsets for v in inv.vowels
               if (o, v) not in inv.glide_cells]

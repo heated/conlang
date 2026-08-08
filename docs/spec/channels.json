@@ -1,5 +1,5 @@
 {
-  "spec_version": "0.1.0-draft",
+  "spec_version": "0.2.0-draft",
   "frozen": false,
   "comment": "Machine-readable Tier-1 core inventory. Single source of truth: SPEC.md prose and tools/spec_check.py both derive from this file. Indices and check bits are normative (the register rule and digit assignments depend on them).",
   "onsets": {
@@ -164,7 +164,7 @@
     {
       "index": 1,
       "roman": "long",
-      "realization": "long vowel, target duration >= 1.5x short in careful speech; romanized by doubling (optional, derivable)"
+      "realization": "long: always marked in the written layer (romanized by doubling, derivable); optionally realized as vowel length >= 1.5x in careful/safety speech registers; absent in casual speech"
     }
   ],
   "register_rule": {
@@ -173,7 +173,8 @@
     "complement_side": "anti-check syllables; reserved for mode payloads",
     "what_it_detects": "register-channel noise trivially, plus every single-channel substitution between two values with different check bits; check bits are assigned to cover the perceptually likely confusions (see covered_confusion_pairs)",
     "what_it_does_not_detect": "substitutions between same-check-bit values (see residual_confusion_pairs); those are the lexicon generator's responsibility via pairwise spacing",
-    "note": "an earlier draft used index parity and claimed uniform Hamming distance 2; that claim was wrong (same-parity substitutions were invisible) and the uniform-distance-2 alternative caps the space at 20 codewords (mod-10 check over the largest channel), which is why coverage is confusion-weighted instead"
+    "note": "an earlier draft used index parity and claimed uniform Hamming distance 2; that claim was wrong (same-parity substitutions were invisible) and the uniform-distance-2 alternative caps the space at 20 codewords (mod-10 check over the largest channel), which is why coverage is confusion-weighted instead",
+    "status": "WRITTEN-LAYER CHANNEL (tentative demotion, Edward 2026-08-09, conlang-bf2): the check bit is computed and always present in the written layer (glyph zone, romanization doubling); spoken realization as vowel length is OPTIONAL and belongs to careful/safety registers; casual speech does not carry it. Re-promotion to a mandatory spoken channel is a documented minor-version path."
   },
   "covered_confusion_pairs": {
     "comment": "high-likelihood same-channel confusions that MUST have different check bits; spec_check.py asserts each",
@@ -310,7 +311,7 @@
         "min": 1,
         "max": 3
       },
-      "stress": "first syllable, realized as pitch/intensity (never duration)",
+      "stress": "first syllable, realized as pitch/intensity/duration (duration available in casual speech since the register is written-layer)",
       "pos_coda": "final syllable coda encodes part of speech"
     }
   },
@@ -399,7 +400,7 @@
     "one_syllable_payload_points": 200
   },
   "confusion_policy": {
-    "comment": "two-tier pricing of the check-invisible (residual) pairs; forbidden+weighted must exactly partition residual_confusion_pairs (spec_check asserts). Forbidden = true confusables the check bit missed; weighted = same-bit but perceptually distinct, allowed as minimal pairs at a scored cost, avoided among high-frequency assignments.",
+    "comment": "HUMILITY ASSIGNMENT (adopted 2026-08-09, conlang-bf2): no two UNRELATED lexical words may differ by a single high-confusion substitution — covered_confusion_pairs AND forbidden both conflict; weighted pairs are allowed as minimal pairs at a scored cost, avoided among high-frequency assignments. forbidden+weighted must still exactly partition residual_confusion_pairs (spec_check asserts). Same-root POS alternations exempt.",
     "forbidden": {
       "onset": [
         [
@@ -503,9 +504,9 @@
   },
   "capacity_expected": {
     "comment": "exact outputs of tools/lexgen.py capacity_report; spec_check asserts these so SPEC/paper prose cannot drift from the computed truth",
-    "monosyllable_root_bodies_strict": 19,
-    "monosyllable_root_bodies_adopted": 34,
-    "monosyllable_assignable_after_reserve": 23,
+    "monosyllable_root_bodies_strict": 18,
+    "monosyllable_root_bodies_adopted": 22,
+    "monosyllable_assignable_after_reserve": 15,
     "disyllable_root_bodies_upper_bound": 8496
   }
 }

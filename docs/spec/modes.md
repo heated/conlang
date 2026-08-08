@@ -11,15 +11,15 @@ cannot drift from the code.
 
 ## 1. Design principles
 
-1. **Payloads live on the anti-check side** (SPEC §4.2). Adopted as
-   policy: with dates at digit-pair syllables (learnability beats
-   monosyllable dates — Edward directive), no mode needs more than the
-   200 content-shaped payload points per syllable, so the restriction
-   costs nothing and buys machine-layer self-flagging. The length-deaf
-   qualification stands: mode *boundaries* carry the burden for
-   listeners who cannot hear register — which is why **no payload
-   symbol may use the h onset** (a payload h-syllable differs from a
-   particle only by register; see §6).
+1. **Payloads carry the anti-check value in the written layer**
+   (SPEC §4.2; since v0.2 the check is a written-layer channel, so this
+   marking serves text and machines — casual speech carries no check at
+   all). Spoken mode integrity rests on mode *boundaries*, the frame
+   grammar, and the checksum — which is why **no payload symbol may use
+   the h onset** (an h-shaped payload would differ from a particle only
+   by the written check; see §5). With dates at digit-pair syllables
+   (learnability beats monosyllable dates — Edward directive), no mode
+   needs more than the 200 content-shaped payload points per syllable.
 2. **Everything is the one digit-pair code.** No month tables, no hour
    tables: dates reuse the SPEC §10 pairs verbatim; time adds two
    orthogonal rules to the same grid. Learning all core modes ≈
@@ -97,8 +97,8 @@ Design rules: onset-matching consonants use onset + e; the five vowel
 letters use c + vowel + coda l (c as a neutral carrier; coda l never
 occurs in digit rimes); remaining consonants take a nearest-sound onset
 + a (or + u where + a is taken); **no letter uses the h onset** — an
-h-shaped payload differs from a mode particle only by register, which a
-length-deaf listener cannot hear, so h-shapes are banned from all
+h-shaped payload differs from a mode particle only by the written-layer
+check, which speech does not carry, so h-shapes are banned from all
 open-ended payloads. Table is PROVISIONAL pending a naive-listener
 confusion pass.
 
@@ -156,7 +156,10 @@ dense. Generated analysis *(generated: `tools/modes.py confusion`)*:
 
 > total single-channel corruptions: 1600; silent digit substitutions: 1400 (87%); caught by the frame grammar: 200; silent but register-flagged: 840 (60% of silent)
 
-The checksum is therefore load-bearing, not decorative. **Register
+(The register-flagged fraction is a written-layer and careful-register
+property in v0.2; casual spoken digits rely on the frame grammar,
+checksum, and repair.) The checksum is therefore load-bearing, not
+decorative. **Register
 profiles:** casual — checksum optional, conversational repair does
 correction. Careful/readback — repeat the payload. Safety-critical —
 checksum mandatory, fortified realizations for the known-weak digit

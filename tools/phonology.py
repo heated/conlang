@@ -189,7 +189,11 @@ class ConflictRules:
     def __init__(self, inv: Inventory):
         self.inv = inv
         pol = inv.spec["confusion_policy"]
+        # humility assignment (conlang-bf2): covered pairs are banned for
+        # unrelated minimal pairs just like forbidden ones
         self.forbidden = _pair_set(pol["forbidden"])
+        for ch, pairs in _pair_set(inv.spec["covered_confusion_pairs"]).items():
+            self.forbidden.setdefault(ch, set()).update(pairs)
         self.weighted = _pair_set(pol["weighted"])
         self.coronal_i_onsets = [
             frozenset(p) for p in

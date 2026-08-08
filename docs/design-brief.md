@@ -28,12 +28,14 @@ else is defined over these coordinates.
    (Hangul-style blocks, zero exceptions). Deterministic two-way spell-out
    between glyph and the small spoken syllable inventory. Speech is the
    verbose serialization; text the compressed one.
-3. **Error correction as structured redundancy, not uniform spacing.**
-   Inner parity (register = parity of other channels → distance-2, any
-   single-channel mishearing yields a non-word), perceptually weighted
-   distance (spend codespace where ears are weak, e.g. never contrast by
-   register alone), cross-syllable checks in disyllables, phonotactic
-   templates, conversational repair as the free outermost layer.
+3. **Error correction as structured redundancy, not uniform spacing**
+   (v0.2 shape, post conlang-bf2): casual speech is protected by the
+   HUMILITY ASSIGNMENT (no unrelated minimal pairs on high-confusion
+   substitutions), word templates, phonotactics, context, and repair;
+   the confusion-weighted check bit lives in the WRITTEN LAYER (glyph
+   zone / romanization doubling), always machine-checkable, optionally
+   realized as vowel length in careful/safety registers only. Mode
+   frames carry their own grammar + mod-101 checksum.
 4. **Self-segregating morphology, prosodic implementation.** Particles =
    single syllable with reserved onset `h`; content words 1–3 syllables,
    first-syllable stress as the boundary signal; exactly one legal parse of
@@ -115,6 +117,10 @@ else is defined over these coordinates.
   drift** (SPEC §8 headroom policy: ≥30% of monosyllable slots per class
   unassigned at every release). **Occasional Fable review for
   language-design substance**, alongside the Codex code-review policy.
+- 2026-08-09: conlang-bf2 decisions — **humility assignment adopted**;
+  **register tentatively demoted to the written layer**; alternative
+  track reframed as a **zonal auxlang program** (pick the zone with the
+  best bootstrap/adoption mechanics; start with a Romance zonal lang).
 - 2026-08-08 (later still): **standing permission to explore alternative
   paths to the whole endeavor** while building — alternatives at any
   level (architecture, error correction, script, or a different framing
