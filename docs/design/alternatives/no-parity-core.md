@@ -45,7 +45,27 @@ undetected — i.e., wrong meaning delivered):
 | **B** (no parity, humility) | 3.7% | **3.7%** |
 
 Robust across error-model weights (at uniform substitution
-probabilities: A-deaf 34% vs B 16%; the ordering never changes).
+probabilities: A-deaf 34% vs B 16%; the ordering never changes), and
+robust to concept-matching (truncating both lexicons to identical
+concept counts so every frequency rank carries the same Zipf mass —
+B's ranks 23–34 simply become disyllables — moves the numbers by less
+than 0.1 point).
+
+**The compromise architecture A′** — keep the register but adopt B's
+humility assignment, using parity as pure insurance — deserves explicit
+disposal, because it is the natural reviewer counterproposal. A′ gets
+B's silent rates for everyone plus early audible detection of part of
+the residual 3.7% for length-sensitive listeners. But it retains every
+*structural* cost of the register: the production burden on speakers of
+length-less L1s (and their false-alarm noise in others' detectors), the
+stress-vs-duration conflict that weakens the SSM boundary cue, the
+erosion exposure of a zero-load contrast, vowel doubling in the
+orthography, an extra zone in the script and input layers, and half of
+spec §4. Paying all of that to sharpen detection of a residual that
+repair already handles is the min-maxing this proposal exists to stop.
+A′ is defensible only if the safety register turns out to need
+per-syllable audible checking that the mode checksum cannot provide —
+which no current requirement asserts.
 
 **The mechanism is damning for A.** A's assignment packs covered
 minimal pairs (pa/ta, e/i neighbors…) into the highest-frequency words

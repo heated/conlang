@@ -202,8 +202,14 @@ def main() -> int:
     inv = Inventory()
     rules = ConflictRules(inv)
     report = {}
+    lexicons = {arch: assign_lexicon(inv, rules, arch, rng)
+                for arch in ("A", "B")}
+    # concept-matched comparison: truncate both to the same concept count
+    # so every frequency rank carries identical Zipf mass in both
+    # architectures; B's higher ranks are simply longer words.
+    total = min(len(w) for w in lexicons.values())
     for arch in ("A", "B"):
-        words = assign_lexicon(inv, rules, arch, rng)
+        words = lexicons[arch][:total]
         monos = sum(1 for w in words if len(w) == 1)
         report[f"{arch}_monosyllables"] = monos
         report[f"{arch}_disyllables"] = len(words) - monos
@@ -211,6 +217,7 @@ def main() -> int:
             t = simulate(inv, rules, words, arch, listener)
             key = f"{arch}_{listener}"
             report[key] = {k: round(v, 5) for k, v in t.items()}
+    report["concepts"] = total
     print(json.dumps(report, indent=2))
     if "--json" in sys.argv:
         out = sys.argv[sys.argv.index("--json") + 1]
