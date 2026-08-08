@@ -122,6 +122,13 @@ else is defined over these coordinates.
   **register tentatively demoted to the written layer**; alternative
   track reframed as a **zonal auxlang program** (pick the zone with the
   best bootstrap/adoption mechanics; start with a Romance zonal lang).
+- 2026-08-09 (later): zonal program shape — **a replicable per-zone
+  method, not a generator** ("we just generate for the next zone if it
+  works"; don't build or manage that automation); **tentatively use the
+  wide chorded script for the zonal lang** (flagged: tension with the
+  receptive-first bootstrap — proposed resolution is Latin primary +
+  chorded script as input/optional dense layer); add a **Sanskritic
+  Interlingua** (Indo-Aryan zone) as a lower-priority second zone.
 - 2026-08-08 (later still): **standing permission to explore alternative
   paths to the whole endeavor** while building — alternatives at any
   level (architecture, error correction, script, or a different framing
