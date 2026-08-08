@@ -59,6 +59,22 @@ class TestParseRoundTrip(unittest.TestCase):
             with self.assertRaises(ValueError, msg=bad):
                 INV.parse_word(bad)
 
+    def test_parse_register_checking(self):
+        # 'can' is lexical-short: doubling asserts a false long register
+        with self.assertRaises(ValueError):
+            INV.parse_word("caan", mode="lexical")
+        self.assertEqual(len(INV.parse_word("caan", mode="structural")), 1)
+        # 'mii' is lexical-long: doubling fine lexically, wrong for payload
+        self.assertEqual(len(INV.parse_word("mii", mode="lexical")), 1)
+        with self.assertRaises(ValueError):
+            INV.parse_word("mii", mode="payload")
+        # undoubled spelling of a long syllable is always acceptable
+        self.assertEqual(INV.parse_word("mi", mode="lexical"),
+                         INV.parse_word("mii", mode="lexical"))
+        # multisyllable: false doubling on first syllable of salaan
+        with self.assertRaises(ValueError):
+            INV.parse_word("saalaan", mode="lexical")
+
 
 class TestValidation(unittest.TestCase):
     def test_glide_cells_rejected(self):
@@ -104,19 +120,50 @@ class TestConflictRules(unittest.TestCase):
         self.assertFalse(RULES.fake_geminate(
             [Syllable("n", "a", "s"), Syllable("t", "a", "")]))
 
-    def test_echo_vowel(self):
+    def test_echo_vowel_final(self):
         nas = [Syllable("n", "a", "s")]
         nasu = [Syllable("n", "a", ""), Syllable("s", "u", "")]
         self.assertTrue(RULES.echo_vowel_conflict(nas, nasu))
+        self.assertTrue(RULES.echo_vowel_conflict(nasu, nas))  # symmetric
         natu = [Syllable("n", "a", ""), Syllable("t", "u", "")]
         self.assertFalse(RULES.echo_vowel_conflict(nas, natu))
+        # non-echo vowel: 'a' is not epenthetic
+        nasa = [Syllable("n", "a", ""), Syllable("s", "a", "")]
+        self.assertFalse(RULES.echo_vowel_conflict(nas, nasa))
 
-    def test_tosmabru(self):
+    def test_echo_vowel_medial(self):
+        # /nas.ta/ vs /na.su.ta/ — the medial case the review caught
+        nasta = [Syllable("n", "a", "s"), Syllable("t", "a", "")]
+        nasuta = [Syllable("n", "a", ""), Syllable("s", "u", ""),
+                  Syllable("t", "a", "")]
+        self.assertTrue(RULES.echo_vowel_conflict(nasta, nasuta))
+        # differing suffix breaks the match
+        nasuti = [Syllable("n", "a", ""), Syllable("s", "u", ""),
+                  Syllable("t", "i", "")]
+        self.assertFalse(RULES.echo_vowel_conflict(nasta, nasuti))
+
+    def test_tosmabru_normalized(self):
         tas = [Syllable("t", "a", "s")]
         particles = [Syllable("h", "a", "")]
-        lex = {"tasa"}
-        self.assertEqual(RULES.tosmabru_conflict(tas, particles, lex), ["tasa"])
-        self.assertEqual(RULES.tosmabru_conflict(tas, particles, {"tasi"}), [])
+        # lexicon is normalized syllable tuples — spelling-independent
+        tasa_word = (Syllable("t", "a", ""), Syllable("s", "a", ""))
+        hazards = RULES.tosmabru_conflict(tas, particles, {tasa_word})
+        self.assertEqual(len(hazards), 1)
+        # canonical romanization of the hazard: 'ta' is check-long (t=1)
+        self.assertEqual(hazards[0], "taasa")
+        other = (Syllable("t", "a", ""), Syllable("s", "i", ""))
+        self.assertEqual(RULES.tosmabru_conflict(tas, particles, {other}), [])
+
+    def test_tosmabru_word_sequence(self):
+        # merged stream parses as TWO monosyllabic words — still a hazard
+        tas = [Syllable("t", "a", "s")]
+        particles = [Syllable("h", "a", "")]
+        ta = (Syllable("t", "a", ""),)
+        sa = (Syllable("s", "a", ""),)
+        self.assertEqual(len(RULES.tosmabru_conflict(tas, particles, {ta, sa})), 1)
+        # coda-less word: no hazard possible
+        na = [Syllable("n", "a", "")]
+        self.assertEqual(RULES.tosmabru_conflict(na, particles, {ta, sa}), [])
 
 
 class TestCapacity(unittest.TestCase):
@@ -126,24 +173,41 @@ class TestCapacity(unittest.TestCase):
         edges = {"a": {"b", "c"}, "b": {"a", "c"}, "c": {"a", "b"}, "d": set()}
         self.assertEqual(len(max_independent_set(nodes, edges)), 2)
 
-    def test_mis_verified_brute_force(self):
-        bodies, edges = body_conflict_graph(INV, RULES, "adopted")
-        mis = max_independent_set(bodies, edges)
-        # independence
-        for a, b in combinations(mis, 2):
-            self.assertNotIn(b, edges[a])
-        # local maximality (no free node addable)
-        for n in bodies:
-            if n not in mis:
-                if not any(m in edges[n] for m in mis):
-                    self.fail(f"MIS not maximal: {n} addable")
+    def test_mis_against_brute_force_oracle(self):
+        import random
+        rng = random.Random(42)
+        for trial in range(60):
+            n = rng.randint(1, 12)
+            nodes = list(range(n))
+            edges = {v: set() for v in nodes}
+            for a, b in combinations(nodes, 2):
+                if rng.random() < 0.35:
+                    edges[a].add(b)
+                    edges[b].add(a)
+            best = 0
+            for mask in range(1 << n):
+                subset = [v for v in nodes if mask >> v & 1]
+                if all(b not in edges[a] for a, b in combinations(subset, 2)):
+                    best = max(best, len(subset))
+            got = len(max_independent_set(nodes, edges))
+            self.assertEqual(got, best, f"trial {trial}: MIS {got} != oracle {best}")
 
-    def test_report_shape_and_bounds(self):
+    def test_real_graph_independence_and_pinned_cardinality(self):
+        exp = INV.spec["capacity_expected"]
+        for policy, key in (("adopted", "monosyllable_root_bodies_adopted"),
+                            ("strict", "monosyllable_root_bodies_strict")):
+            bodies, edges = body_conflict_graph(INV, RULES, policy)
+            mis = max_independent_set(bodies, edges)
+            for a, b in combinations(mis, 2):
+                self.assertNotIn(b, edges[a])
+            self.assertEqual(len(mis), exp[key], policy)
+
+    def test_report_matches_capacity_expected(self):
         rep = capacity_report(INV, RULES)
-        self.assertLessEqual(rep["monosyllable_root_bodies_strict"],
-                             rep["monosyllable_root_bodies_adopted"])
-        self.assertLessEqual(rep["monosyllable_root_bodies_adopted"], 48)
-        self.assertGreater(rep["monosyllable_root_bodies_strict"], 10)
+        for key, want in INV.spec["capacity_expected"].items():
+            if key == "comment":
+                continue
+            self.assertEqual(rep[key], want, key)
         self.assertLess(rep["monosyllable_assignable_after_reserve"],
                         rep["monosyllable_root_bodies_adopted"])
 

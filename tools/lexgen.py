@@ -80,7 +80,7 @@ def capacity_report(inv: Inventory, rules: ConflictRules) -> dict:
         out[f"monosyllable_root_bodies_{policy}"] = len(mis)
         out[f"monosyllable_example_{policy}"] = sorted(
             f"{o}{v}" for o, v in mis)
-    reserve = inv.spec.get("reserve_fraction", 0.30)
+    reserve = inv.spec["reserve_fraction"]  # required key — no silent default
     adopted = out["monosyllable_root_bodies_adopted"]
     out["reserve_fraction"] = reserve
     out["monosyllable_assignable_after_reserve"] = int(adopted * (1 - reserve))

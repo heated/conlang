@@ -19,6 +19,8 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 SPEC = Path(__file__).resolve().parent.parent / "docs" / "spec" / "channels.json"
 
 # Frozen normative assignments (SPEC.md §2, §6, §10). A change here is a
@@ -114,19 +116,44 @@ class Checker:
                 self.expect(table[channel][a] == table[channel][b],
                             f"residual pair {channel} {a!r}/{b!r} has different bits — move to covered")
 
-        # confusion_policy must exactly partition the residual pairs
+        # confusion_policy must exactly partition the residual pairs,
+        # over exactly the supported channels — no extras anywhere
+        CHANNELS = {"onset", "vowel", "coda"}
+
         def pairset(block):
             return {ch: {frozenset(p) for p in prs}
                     for ch, prs in block.items() if ch != "comment"}
         residual = pairset(d["residual_confusion_pairs"])
         forbidden = pairset(d["confusion_policy"]["forbidden"])
         weighted = pairset(d["confusion_policy"]["weighted"])
-        for ch in residual:
+        for name, block in (("residual", residual), ("forbidden", forbidden),
+                            ("weighted", weighted)):
+            self.expect(set(block) == CHANNELS,
+                        f"{name} pairs must cover exactly {sorted(CHANNELS)}, "
+                        f"got {sorted(block)}")
+        for ch in CHANNELS:
             f, w = forbidden.get(ch, set()), weighted.get(ch, set())
             self.expect(not (f & w),
                         f"confusion_policy {ch}: pair in both forbidden and weighted")
-            self.expect(f | w == residual[ch],
+            self.expect(f | w == residual.get(ch, set()),
                         f"confusion_policy {ch}: forbidden+weighted must equal residual pairs")
+
+        # structured cell rules must reference real inventory values
+        cells = d["lexical_cell_rules"]
+        onset_romans = {o["roman"] for o in content}
+        vowel_romans2 = {v["roman"] for v in vowels}
+        for key in ("banned_cells", "weighted_cells"):
+            for o, v in cells[key]:
+                self.expect(o in onset_romans and v in vowel_romans2,
+                            f"{key} cell ({o},{v}) not in inventory")
+        for a, b in cells["coronal_i_pairs"]:
+            self.expect(a in onset_romans and b in onset_romans,
+                        f"coronal_i pair ({a},{b}) not in inventory")
+        for v in cells["echo_vowels"]:
+            self.expect(v in vowel_romans2, f"echo vowel {v!r} not in inventory")
+        self.expect(isinstance(d.get("reserve_fraction"), float)
+                    and 0 < d["reserve_fraction"] < 1,
+                    "reserve_fraction must be present and in (0,1)")
 
         # --- enumeration: lexical codespace and distance profile ---
         content_bits = [(o["roman"], o["check"]) for o in content]
@@ -202,9 +229,27 @@ class Checker:
         return computed, len(lex), undetected
 
 
-def run_file_checks(data, verbose=True):
+def run_file_checks(data, verbose=True, capacity=True):
     ck = Checker(data)
     computed, lex_size, undetected = ck.run()
+    if capacity:
+        # assert the exact spacing-capacity numbers the docs quote, by
+        # actually running the generator against this spec data
+        try:
+            import lexgen
+            import phonology
+            inv = phonology.Inventory(data)
+            rules = phonology.ConflictRules(inv)
+            rep = lexgen.capacity_report(inv, rules)
+            for key, want in data["capacity_expected"].items():
+                if key == "comment":
+                    continue
+                got = rep.get(key)
+                if got != want:
+                    ck.fail(f"capacity_expected.{key}: spec claims {want}, "
+                            f"generator computed {got}")
+        except KeyError as e:
+            ck.fail(f"capacity check aborted, missing key: {e}")
     if verbose:
         print(f"lexical content triples enumerated: {lex_size}")
         print(f"check-invisible distance-1 pairs (generator's responsibility): {undetected}")
@@ -229,6 +274,12 @@ MUTATIONS = [
      lambda d: d["confusion_policy"]["forbidden"]["onset"].clear()),
     ("pair in both forbidden and weighted",
      lambda d: d["confusion_policy"]["weighted"]["onset"].append(["p", "k"])),
+    ("extra channel smuggled into policy",
+     lambda d: d["confusion_policy"]["forbidden"].__setitem__("tone", [["x", "y"]])),
+    ("banned cell references unknown onset",
+     lambda d: d["lexical_cell_rules"]["banned_cells"].append(["q", "a"])),
+    ("reserve_fraction removed",
+     lambda d: d.__delitem__("reserve_fraction")),
     ("POS of coda n changed",
      lambda d: d["codas"][1].__setitem__("pos_class", "noun")),
     ("content words allowed 4 syllables",
@@ -243,12 +294,20 @@ def selftest(data):
     for name, mutate in MUTATIONS:
         mutant = copy.deepcopy(data)
         mutate(mutant)
-        failures = run_file_checks(mutant, verbose=False)
+        # capacity recomputation is slow; only the capacity mutation needs it
+        failures = run_file_checks(mutant, verbose=False, capacity=False)
         if failures:
             print(f"  selftest ok: caught mutation '{name}'")
         else:
             print(f"  SELFTEST FAILURE: mutation '{name}' passed all checks")
             bad += 1
+    mutant = copy.deepcopy(data)
+    mutant["capacity_expected"]["monosyllable_root_bodies_adopted"] = 35
+    if run_file_checks(mutant, verbose=False, capacity=True):
+        print("  selftest ok: caught mutation 'capacity number corrupted'")
+    else:
+        print("  SELFTEST FAILURE: mutation 'capacity number corrupted' passed")
+        bad += 1
     return bad
 
 

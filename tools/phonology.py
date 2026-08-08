@@ -47,7 +47,10 @@ class Inventory:
         ws = self.spec["word_shapes"]
         self.content_syllable_range = (ws["content"]["syllables"]["min"],
                                        ws["content"]["syllables"]["max"])
-        self.glide_cells = {("j", "i"), ("w", "u")}
+        cells = self.spec["lexical_cell_rules"]
+        self.glide_cells = {tuple(c) for c in cells["banned_cells"]}
+        self.weighted_cells = {tuple(c) for c in cells["weighted_cells"]}
+        self.echo_vowels = set(cells["echo_vowels"])
 
     # --- register ---
 
@@ -76,18 +79,26 @@ class Inventory:
         return "".join(self.romanize_syllable(s, payload, double_long)
                        for s in syllables)
 
-    def parse_word(self, text: str) -> list[Syllable]:
+    def parse_word(self, text: str, mode: str = "lexical") -> list[Syllable]:
         """Parse one romanized word (no spaces) into syllables.
 
         Deterministic because onsets are mandatory: a consonant followed
         by a vowel is always an onset; a consonant not followed by a
-        vowel is a coda. Doubled vowels (long register) are accepted and
-        collapsed — register is derivable, so parsing ignores it.
+        vowel is a coda.
+
+        Register checking (doubling asserts the long register; omission
+        is always allowed since register is derivable):
+          mode='lexical'    doubled vowels must match the lexical register
+          mode='payload'    doubled vowels must match the anti-check register
+          mode='structural' doubling accepted without register checking
         """
+        if mode not in ("lexical", "payload", "structural"):
+            raise ValueError(f"unknown parse mode {mode!r}")
         onsets = set(self.onset_records)
         vowels = set(self.vowel_records)
         codas = {c for c in self.coda_records if c}
         sylls: list[Syllable] = []
+        doubled: list[bool] = []
         i, n = 0, len(text)
         while i < n:
             if text[i] not in onsets:
@@ -98,7 +109,8 @@ class Inventory:
                 raise ValueError(f"expected vowel at {i} in {text!r}")
             vowel = text[i]
             i += 1
-            if i < n and text[i] == vowel:  # doubled = long register marking
+            is_double = i < n and text[i] == vowel
+            if is_double:
                 i += 1
             coda = ""
             if i < n and text[i] in codas:
@@ -108,6 +120,14 @@ class Inventory:
                     coda = text[i]
                     i += 1
             sylls.append(Syllable(onset, vowel, coda))
+            doubled.append(is_double)
+        if mode != "structural":
+            payload = mode == "payload"
+            for syl, dbl in zip(sylls, doubled):
+                if dbl and self.register(syl, payload=payload) != 1:
+                    raise ValueError(
+                        f"doubled vowel in {syl} asserts the long register, "
+                        f"but the {mode} register of this syllable is short")
         return sylls
 
     # --- enumeration ---
@@ -171,9 +191,14 @@ class ConflictRules:
         pol = inv.spec["confusion_policy"]
         self.forbidden = _pair_set(pol["forbidden"])
         self.weighted = _pair_set(pol["weighted"])
-        cor = inv.spec["spacing_rules_v01"]
-        # coronal-i pairs are a structural rule, not in confusion_policy
-        self.coronal_i_onsets = [frozenset(("t", "c")), frozenset(("s", "c"))]
+        self.coronal_i_onsets = [
+            frozenset(p) for p in
+            inv.spec["lexical_cell_rules"]["coronal_i_pairs"]]
+
+    def weighted_cell_cost(self, onset: str, vowel: str) -> int:
+        """Unary cost for assignment scoring: 1 if the cell carries the
+        extra glide-fusion weighting (je, wo), else 0."""
+        return 1 if (onset, vowel) in self.inv.weighted_cells else 0
 
     def single_substitution(self, a: list[Syllable], b: list[Syllable]
                             ) -> tuple[str, frozenset[str]] | None:
@@ -219,34 +244,64 @@ class ConflictRules:
                    for s1, s2 in zip(word, word[1:]))
 
     def echo_vowel_conflict(self, a: list[Syllable], b: list[Syllable]) -> bool:
-        """True if b is a plus an echo vowel on a final s/l coda:
-        /...Cs/ vs /...C + su/-type (any echo vowel)."""
+        """True if one word is the other with an s/l coda at ANY syllable
+        replaced by that consonant plus an epenthetic echo vowel (the set
+        comes from lexical_cell_rules.echo_vowels): /nas.../ vs /na.su.../,
+        finally or medially (SPEC §4.3 rule 3)."""
         for shorter, longer in ((a, b), (b, a)):
             if len(longer) != len(shorter) + 1:
                 continue
-            if not shorter or shorter[-1].coda not in ("s", "l"):
-                continue
-            if longer[:-1] == [*shorter[:-1],
-                               Syllable(shorter[-1].onset, shorter[-1].vowel, "")] \
-                    and longer[-1].onset == shorter[-1].coda \
-                    and longer[-1].coda == "":
-                return True
+            for k, syl in enumerate(shorter):
+                if syl.coda not in ("s", "l"):
+                    continue
+                candidate = [*shorter[:k],
+                             Syllable(syl.onset, syl.vowel, ""),
+                             *shorter[k + 1:]]
+                inserted = longer[k + 1] if k + 1 < len(longer) else None
+                if (inserted is not None
+                        and longer[:k + 1] == candidate[:k + 1]
+                        and longer[k + 2:] == candidate[k + 1:]
+                        and inserted.onset == syl.coda
+                        and inserted.coda == ""
+                        and inserted.vowel in self.inv.echo_vowels):
+                    return True
         return False
+
+    def segmentations(self, sylls: tuple, lexicon: frozenset,
+                      lo: int = 1, hi: int = 3) -> bool:
+        """True if the syllable tuple parses as a sequence of 1+ lexicon
+        words (each a tuple of lo..hi syllables)."""
+        n = len(sylls)
+        ok = [False] * (n + 1)
+        ok[0] = True
+        for i in range(1, n + 1):
+            for span in range(lo, hi + 1):
+                if i - span >= 0 and ok[i - span] \
+                        and sylls[i - span:i] in lexicon:
+                    ok[i] = True
+                    break
+        return ok[n]
 
     def tosmabru_conflict(self, word: list[Syllable],
                           particles: list[Syllable],
-                          lexicon: set[str]) -> list[str]:
-        """Resyllabification hazards: word ends in a consonant coda and a
-        following h-dropped particle could resyllabify into a legal word.
-        Returns the romanized hazard strings found in `lexicon`."""
+                          lexicon: set) -> list[str]:
+        """Resyllabification hazards (SPEC §4.3 rule 7): the word ends in
+        a consonant coda; an h-dropped following particle resyllabifies
+        that coda into an onset. Hazard if the merged syllable stream
+        parses as any sequence of lexicon words.
+
+        `lexicon` entries are tuples of Syllable (normalized structure,
+        not spellings — presentation/doubling is irrelevant here).
+        Returns romanized hazard strings (canonical spelling).
+        """
         hazards = []
         if not word or not word[-1].coda:
             return hazards
+        lex = frozenset(tuple(w) for w in lexicon)
         final = word[-1]
         for p in particles:
-            merged = [*word[:-1], Syllable(final.onset, final.vowel, ""),
-                      Syllable(final.coda, p.vowel, p.coda)]
-            key = "".join(str(s) for s in merged)
-            if key in lexicon:
-                hazards.append(key)
+            merged = (*word[:-1], Syllable(final.onset, final.vowel, ""),
+                      Syllable(final.coda, p.vowel, p.coda))
+            if self.segmentations(merged, lex):
+                hazards.append(self.inv.romanize_word(list(merged)))
         return hazards

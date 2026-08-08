@@ -460,5 +460,52 @@
         ]
       ]
     }
+  },
+  "reserve_fraction": 0.3,
+  "lexical_cell_rules": {
+    "comment": "structured lexicon-rule data (SPEC 4.3); tools load these — nothing phonological is hardcoded in code",
+    "banned_cells": [
+      [
+        "j",
+        "i"
+      ],
+      [
+        "w",
+        "u"
+      ]
+    ],
+    "weighted_cells": [
+      [
+        "j",
+        "e"
+      ],
+      [
+        "w",
+        "o"
+      ]
+    ],
+    "coronal_i_pairs": [
+      [
+        "t",
+        "c"
+      ],
+      [
+        "s",
+        "c"
+      ]
+    ],
+    "echo_vowels": [
+      "u",
+      "i",
+      "o"
+    ],
+    "echo_vowels_note": "epenthetic vowel qualities attested in the target L1s: Japanese [ɯ]->u and [o] after coronal stops, Korean [i] after palatals"
+  },
+  "capacity_expected": {
+    "comment": "exact outputs of tools/lexgen.py capacity_report; spec_check asserts these so SPEC/paper prose cannot drift from the computed truth",
+    "monosyllable_root_bodies_strict": 19,
+    "monosyllable_root_bodies_adopted": 34,
+    "monosyllable_assignable_after_reserve": 23,
+    "disyllable_root_bodies_upper_bound": 8496
   }
 }

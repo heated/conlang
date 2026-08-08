@@ -202,7 +202,10 @@ operationalizes it with an explicit confusion matrix:
    semantically.
 3. **Echo-vowel rule, all positions.** Coda s/l invite epenthesis from
    some L1s (/nas/ → [nasɯ̥]-like). The lexicon must never contain
-   confusable /…Cs/-vs-/…Csu/-type pairs, finally or medially.
+   confusable /…Cs/-vs-/…Csu/-type pairs, finally or medially. The
+   epenthetic vowel set is normative data
+   (`lexical_cell_rules.echo_vowels`: u, i, o — the attested epenthesis
+   qualities of the coda-averse L1s).
 4. **Fake-geminate rule.** A coda consonant followed by an identical
    onset may not contrast with the single-consonant parse
    (/nas.sa/ vs /na.sa/).

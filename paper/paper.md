@@ -28,19 +28,42 @@ outline an evaluation program.
 
 ## 1. Introduction and design goal
 
-[TODO: expand.] The single optimization target is **learning speed** —
-time from zero to functional use, for adult second-language learners of any
-first language. Explicit non-goals, argued in §2: raw speech and reading
-throughput (empirically pinned near ~39 bits/s by cognition, not by the
-code [@coupe2019]), and spoken density (the "wide phonology" branch is
-rejected in §3.4).
+Constructed languages have historically optimized for expressive
+completeness (Ithkuil), logical transparency (Lojban), community
+neutrality (Esperanto), or minimalism (Toki Pona). This project optimizes
+a single variable those designs treat as incidental: **learning speed** —
+time from zero to functional use, for adult second-language learners of
+any first language. Every other property is either derived from that
+target, priced against it explicitly, or declared a non-goal.
+
+The central design move is to treat the syllable not as an atom but as a
+**vector of independent channels** — onset, vowel, coda, register — and
+to engineer over that coordinate space the way coding theory engineers
+over symbol alphabets: an error-detecting check channel, deliberate
+spacing between codewords weighted by human mishearing rather than
+uniform Hamming distance, dense closed-domain codes where semantics form
+a grid (numbers, dates, times), and generous redundancy where they do
+not. Because glyphs, chords, and articulations are all renderings of the
+same vector, learning any one of the three renderings teaches the other
+two: the writing system, the input method, and the phonology are one
+object, not three curricula.
+
+Explicit non-goals, argued in §2: raw speech and reading throughput
+(empirically pinned near ~39 bits/s by cognition, not by the code
+[@coupe2019]), and spoken density (the "wide phonology" branch is
+rejected in §3.4). The honest pitch is therefore narrow: large gains in
+time-to-literacy and input speed, real gains in compactness,
+scannability, and machine legibility, and approximately zero gains in
+how fast a human can talk or comprehend — those walls belong to the
+brain, not the notation.
 
 Contributions:
 
 1. A syllable-as-channel-vector phonology with an explicit codespace budget.
-2. An error-correction stack for human speech: inner parity, perceptually
-   weighted spacing, cross-syllable checks, phonotactic templates, and
-   conversational repair as the outermost free layer.
+2. An error-correction stack for human speech: a confusion-weighted check
+   channel, perceptually weighted spacing, cross-syllable checks,
+   phonotactic templates, and conversational repair as the outermost free
+   layer.
 3. A featural block script deterministically coupled to the phonology, with
    chorded (desktop) and touch (phone) input methods derived mechanically
    from the same spec.
@@ -63,9 +86,10 @@ past roughly 400–500 WPM, RSVP presentation demonstrates that eye
 movements were never the bottleneck, and subvocalization is load-bearing
 for the working-memory rehearsal that comprehension depends on — not a
 removable inefficiency [@rayner2016]. Nor does script density pass
-through to throughput: denser scripts induce proportionally shorter
-saccades, holding information-per-fixation roughly constant. [TODO-verify:
-saccade-scaling citation for Chinese/English reading rates.]
+through to throughput: Chinese and English readers show similar reading
+rates, with Chinese forward saccades about half the length — denser
+scripts induce proportionally shorter saccades, holding
+information-per-fixation roughly constant [@sun1985].
 
 What is *not* pinned: time-to-fluency (transparent orthographies reach
 accurate decoding in roughly a year of schooling versus two to three times
