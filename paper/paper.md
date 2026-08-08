@@ -70,17 +70,39 @@ pre-comprehension), and **machine legibility** — not throughput.
 ## 3. Channel phonology
 
 ### 3.1 The channel decomposition
-[TODO: final inventory from SPEC v0.1 — onsets, vowels, codas, register;
-mandatory-onset syllable template; romanization.]
+
+A syllable is a vector over four channels: onset × vowel × coda ×
+register. The v0.1 inventory (SPEC.md, `channels.json`): ten content
+onsets /p t k m n s l w j tʃ/ plus a particle-reserved /h/; five vowels
+/a e i o u/; four codas /∅ n s l/; two registers realized as vowel length.
+The syllable template is CV(C) with a mandatory onset — a constraint that
+self-segregating morphology (§5) and particle identification both lean on.
+Raw space: 11 × 5 × 4 × 2 = 440 syllables.
 
 ### 3.2 Perceptual accessibility constraint
-[TODO: every contrast present in essentially all major L1 phonologies; no
-tone; the L1-blind-spot argument against the "wide" inventory.]
+
+Every lexical contrast must be perceptible by speakers of essentially any
+L1: no voicing pairs, no r/l contrast, no tone, five cardinal vowels. Two
+deliberate accommodations go further. First, the particle onset /h/ is
+*deletion-robust*: since content syllables never begin with a vowel, a
+particle realized [h], [x], or ∅ (the attested L1 drift realizations)
+remains unambiguously a particle. Second, the register channel carries no
+lexical information at all (§4), so the many L1s without length contrasts
+lose only error-detection, never content. The lone stretch is /tʃ/
+(required as the tenth digit onset), whose drift realizations are handled
+by weighted spacing.
 
 ### 3.3 Codespace budget
-[TODO: raw space arithmetic; parity spend; POS-channel spend; usable
-monosyllable count; comparison to Japanese/Hawaiian inventories and the
-~200-syllable "knee".]
+
+Parity halves the raw space: 200 content + 20 particle lexical syllables.
+The part-of-speech channel (final coda; §5) partitions content
+monosyllables into 50 forms per class — 150 usable under the three active
+classes. Disyllable space (40,000 lexical points before spacing) dwarfs
+the 1,500–3,000-root target. The resulting profile — a few hundred
+monosyllables, Zipf-assigned; content words averaging under two syllables
+— sits in Japanese/Hawaiian territory, above the ~200-usable-syllable knee
+below which working-memory and recognition costs bite. [TODO: cite mora
+inventories, word-length effect @baddeley1975.]
 
 ### 3.4 Rejected alternatives
 [TODO: wide (~5k) and much-wider (~50k) inventories; why the ceiling binds
@@ -88,17 +110,44 @@ only the spoken channel; Ithkuil and steno as cautionary poles.]
 
 ## 4. The error-correction stack
 
-[TODO: inner parity register (distance-2 via parity check, cost exactly 1/q);
-perceptually weighted distance over a confusion matrix vs uniform Hamming;
-cross-syllable outer checks in disyllables; phonotactic templates;
-conversational repair as retransmission; redundancy budget ~10–15% vs 50%
-for naive distance-2.]
+The inner code is a parity check: register := (onset + vowel + coda) mod 2
+over channel indices. This is the classical optimal distance-2
+construction — any single-channel substitution yields a non-word — at the
+classical price (half the raw space), but with a design twist: by spending
+the *perceptually weakest* channel on parity, the code never asks a
+listener to hear vowel length to identify a word, only to detect
+corruption. The anti-parity complement is reserved for closed-domain mode
+payloads (§7), making payload syllables audibly non-lexical.
+
+Above the parity floor, distance is measured perceptually rather than
+uniformly [TODO: confusion-matrix construction, tooling]: register-only
+contrasts are impossible by construction; coda consonants and their
+echo-vowel epentheses (/nas/ ~ [nasɯ̥]) are treated as near-identical, so
+the lexicon never contains both members of such a pair; drift-prone onset
+pairs (s/tʃ) and coda pairs (n/l) get extra spacing. Outer layers —
+cross-syllable checks in disyllables, prosodic checksums, register
+profiles with mandatory checksums for safety-critical speech — are
+deliberately outside the frozen core. Conversational repair ("what?") is
+the free outermost retransmission layer; casual speech buys detection and
+lets repair do correction.
 
 ## 5. Self-segregating morphology
 
-[TODO: particle class on reserved onset; content-word templates; initial
-stress as boundary signal; unique-parse property; loanword pass-through via
-spell mode (contra Lojban's cluster requirement).]
+Two word classes with disjoint shapes: particles are exactly one
+unstressed /h/-initial syllable; content words are one to three syllables
+with initial stress (realized as pitch/intensity — never duration, which
+is the register channel's carrier). Any syllable stream then has exactly
+one parse: stressed syllables open content words, /h/-syllables are
+particles, and a content word runs to the next stressed or particle
+syllable. Segmentation doubles as error detection — a mishearing that
+breaks a word template is caught before lexical lookup.
+
+The final-syllable coda of a content word encodes part of speech (∅ noun,
+n verb, s modifier, l reserved), which partitions rather than shrinks the
+monosyllable space, makes cross-class mishearings syntax-detectable, and
+turns derivation into a channel operation (sala → salan → salas).
+Loanwords bypass the templates entirely via the spell/phonetic modes,
+avoiding Lojban's loanword-mangling failure mode.
 
 ## 6. The decoupled featural script
 
