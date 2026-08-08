@@ -362,7 +362,10 @@ coda = class channel, with ∅/n/s assigned as above.*
 - Word boundaries: ordinary spaces.
 
 The romanization is a projection for the installed base, not the script.
-The native script (bead conlang-657) renders channel vectors directly.
+The native script renders channel vectors directly: a featural block per
+syllable (onset zone, vowel carrier, coda strip, check slot), specified
+in `script.md` with its feature data normative in `channels.json`
+(`script_features`).
 
 ## 8. Codespace budget
 
@@ -484,8 +487,9 @@ careful-register digit readout is a conlang-bcq deliverable).
 
 ## 11. Out of scope for the frozen core
 
-Deferred to their beads, with the core deliberately silent: mode-particle
-assignments and payload grammar (bcq); the glyph geometry (657);
+Defined outside the core, with the core deliberately silent: mode-particle
+assignments and payload grammar (`modes.md`); the glyph geometry
+(`script.md` — featural mapping normative, stroke metrics restyleable);
 derivational semantics and particle inventory (jbw); lexicon content
 (kps); input methods (6sa); everything Tier 3+ (qmg, d47).
 

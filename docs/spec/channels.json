@@ -508,5 +508,97 @@
     "glide-cell rule: syllables ji and wu are not lexical (the glide onset perceptually fuses with the homorganic vowel, producing an apparently onset-less syllable that would misparse as a particle); jV/wV cells with near-homorganic vowels (je, wo) carry extra weighting",
     "coronal-i rule: no t/c or s/c lexical minimal pairs before vowel i (ti->[tʃi], si->[ɕi] palatalization for several major L1s lands inside c's space)",
     "anti-resyllabification (tosmabru-class): for any lexical word ending in a consonant coda followed by any particle, the resyllabified surface string may not parse as a legal word sequence — generator-enforced over the actual lexicon and particle inventory"
-  ]
+  ],
+  "script_features": {
+    "comment": "articulatory features driving the featural script (docs/spec/script.md). Visual grammar: place -> base element, manner -> modifier, vowel height/backness -> carrier-tick position. Normative; spec_check asserts completeness and injectivity.",
+    "onset_features": {
+      "p": {
+        "place": "labial",
+        "manner": "stop"
+      },
+      "m": {
+        "place": "labial",
+        "manner": "nasal"
+      },
+      "w": {
+        "place": "labial",
+        "manner": "approximant"
+      },
+      "t": {
+        "place": "coronal",
+        "manner": "stop"
+      },
+      "n": {
+        "place": "coronal",
+        "manner": "nasal"
+      },
+      "s": {
+        "place": "coronal",
+        "manner": "fricative"
+      },
+      "l": {
+        "place": "coronal",
+        "manner": "lateral"
+      },
+      "c": {
+        "place": "palatal",
+        "manner": "affricate"
+      },
+      "j": {
+        "place": "palatal",
+        "manner": "approximant"
+      },
+      "k": {
+        "place": "velar",
+        "manner": "stop"
+      },
+      "h": {
+        "place": "glottal",
+        "manner": "fricative"
+      }
+    },
+    "vowel_features": {
+      "a": {
+        "height": "low",
+        "backness": "central"
+      },
+      "e": {
+        "height": "mid",
+        "backness": "front"
+      },
+      "i": {
+        "height": "high",
+        "backness": "front"
+      },
+      "o": {
+        "height": "mid",
+        "backness": "back"
+      },
+      "u": {
+        "height": "high",
+        "backness": "back"
+      }
+    },
+    "visual_grammar": {
+      "place_base": {
+        "labial": "circle",
+        "coronal": "vertical stroke",
+        "palatal": "diagonal stroke",
+        "velar": "top-left angle",
+        "glottal": "short tick"
+      },
+      "manner_modifier": {
+        "stop": "plain",
+        "nasal": "floating bar above",
+        "fricative": "doubled element",
+        "affricate": "mid crossbar",
+        "approximant": "broken stroke",
+        "lateral": "bottom foot hook"
+      },
+      "vowel": "carrier bar; tick height = vowel height (high/mid/low), tick direction = backness (front=left, back=right, central=both)",
+      "coda": "miniature onset form in the bottom strip; empty strip = zero coda (noun silhouette)",
+      "check_slot": "top-right dot: filled = written check 1 (lexical), ring = payload polarity 1, absent = 0",
+      "headroom": "5 places x 6 manners = 30 onset capacity; 3x3 vowel grid + rounding modifier; voicing = future inner-dot modifier (wide model per SPEC 9)"
+    }
+  }
 }

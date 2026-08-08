@@ -241,10 +241,65 @@ modes, avoiding Lojban's loanword-mangling failure mode.
 
 ## 6. The decoupled featural script
 
-[TODO: morpheme = glyph = chord; Hangul-style blocks; deterministic two-way
-spell-out; silhouette skimming (POS/particle visual segregation); why
-transparency accelerates acquisition (Finnish-vs-English decoding
-literature) without claiming expert reading speedups.]
+The script (spec: `docs/spec/script.md`, v0.1) is featural with zero
+exceptions: every glyph is computed from the syllable's channel values,
+so learning roughly fourteen visual features yields the entire written
+inventory. A syllable is one square block with four zones mirroring the
+channel vector — onset top-left, vowel carrier at right, coda strip at
+bottom, and a small check slot in the top-right corner. Onset letters
+decompose articulatorily: place of articulation selects a base element
+(labial = circle, coronal = vertical stroke, palatal = diagonal, velar =
+angle, glottal = tick) and manner selects a modifier (nasal = floating
+bar, fricative = doubling, affricate = crossbar, approximant = broken
+stroke, lateral = foot hook). Vowels are one tick on the carrier —
+vertical position codes height, direction codes backness. Codas render
+as miniatures of the corresponding onset letter, costing zero new
+letters. The design follows Hangul's featural insight [@sampson1985] but
+removes its residual irregularities, and the confusion structure of the
+ear is mirrored rather than hidden: onsets one articulatory feature
+apart differ by exactly one visual feature, so a reader who knows the
+map can see which mishearings a given word invites.
+
+Two grammatical facts are visible before any letter is read. The coda
+strip is the part-of-speech marker (§5): an empty strip is a noun, a
+mini-n a verb, a mini-s a modifier. And word assembly makes syntax
+skimmable by silhouette — content words stack their blocks vertically
+into glyphs one to three blocks tall, while particles render as single
+blocks at ~70% scale, so the grammatical scaffold reads as a height
+rhythm. The written-layer check bit (§4) occupies the check slot: a
+filled dot for a lexical check of 1, a ring for payload polarity 1,
+empty otherwise — the glyph-level equivalent of romanization vowel
+doubling, computed and never distinctive. Because payload polarity is
+the anti-check, a payload syllable's block always differs from its
+lexical twin, which is how written mode payloads stay machine-separable
+per syllable (§7).
+
+The learnability claim is deliberately asymmetric. Orthographic
+transparency demonstrably accelerates *decoding* acquisition — regular
+shallow orthographies reach accurate word reading years earlier than
+deep ones [@seymour2003], and a compositional featural system is the
+transparent limit of that scale — but fluent reading runs on a trained
+whole-word visual lexicon that any novel script resets to zero, so we
+claim fast decoding acquisition and make no expert-speed claims beyond
+the saccade-scaling observation of §2 [@rayner2016]. The script is also
+where this design parts company with Toaq's tone-grammar insight (§10):
+grammar-on-a-channel is kept, but relocated from the worst-perceived
+auditory channel to the best-perceived visual ones — height, position,
+and silhouette.
+
+The feature grammar has headroom by construction: five places × six
+manners = 30 expressible onset letters against 11 used, nine vowel grid
+positions against five, so the wider codepoint model (§12) fits without
+new visual features, and a voicing modifier is reserved. The block
+diagram is simultaneously the chord diagram — one input axis per zone —
+which is what makes glyph, chord, and pronunciation three projections
+of one channel vector rather than three systems to learn. The mapping
+is enforced, not aspirational: the feature assignments are normative
+data in `channels.json`, validated for completeness and injectivity by
+`spec_check.py`; a stdlib SVG renderer (`tools/script.py`) generates
+every glyph from that data, and the test suite asserts that all 220
+syllable blocks — and their payload-marked variants — are pairwise
+distinct.
 
 ## 7. Mode subsystems
 

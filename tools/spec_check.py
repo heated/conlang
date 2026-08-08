@@ -37,6 +37,21 @@ FROZEN_POS = {"": "noun", "n": "verb", "s": "modifier", "l": "reserved"}
 FROZEN_REGISTERS = {0: "short", 1: "long"}
 PARTICLE_ONSET = "h"
 
+# Frozen featural-script assignments (script.md §3–§4). The articulatory
+# decomposition is normative data: glyphs are computed from it.
+FROZEN_ONSET_FEATURES = {
+    "p": ("labial", "stop"), "m": ("labial", "nasal"),
+    "w": ("labial", "approximant"), "t": ("coronal", "stop"),
+    "n": ("coronal", "nasal"), "s": ("coronal", "fricative"),
+    "l": ("coronal", "lateral"), "c": ("palatal", "affricate"),
+    "j": ("palatal", "approximant"), "k": ("velar", "stop"),
+    "h": ("glottal", "fricative"),
+}
+FROZEN_VOWEL_FEATURES = {
+    "a": ("low", "central"), "e": ("mid", "front"), "i": ("high", "front"),
+    "o": ("mid", "back"), "u": ("high", "back"),
+}
+
 
 class Checker:
     def __init__(self, data):
@@ -78,6 +93,34 @@ class Checker:
         self.expect(d["register_rule"]["rule"]
                     == "register_index == (check(onset) + check(vowel) + check(coda)) mod 2",
                     "register rule string changed")
+
+        # --- featural script (script.md) ---
+        sf = d.get("script_features")
+        if sf is None:
+            self.fail("script_features missing from channels.json")
+        else:
+            of = {k: (v["place"], v["manner"])
+                  for k, v in sf["onset_features"].items()}
+            vf = {k: (v["height"], v["backness"])
+                  for k, v in sf["vowel_features"].items()}
+            self.expect(of == FROZEN_ONSET_FEATURES,
+                        "onset_features differ from frozen table")
+            self.expect(vf == FROZEN_VOWEL_FEATURES,
+                        "vowel_features differ from frozen table")
+            self.expect(len(set(of.values())) == len(of),
+                        "onset (place,manner) pairs must be injective")
+            self.expect(len(set(vf.values())) == len(vf),
+                        "vowel (height,backness) pairs must be injective")
+            vg = sf["visual_grammar"]
+            places, manners = set(vg["place_base"]), set(vg["manner_modifier"])
+            for o, (p, m) in of.items():
+                self.expect(p in places, f"onset {o}: unmapped place {p!r}")
+                self.expect(m in manners, f"onset {o}: unmapped manner {m!r}")
+            for v, (hgt, bck) in vf.items():
+                self.expect(hgt in ("high", "mid", "low"),
+                            f"vowel {v}: unknown height {hgt!r}")
+                self.expect(bck in ("front", "central", "back"),
+                            f"vowel {v}: unknown backness {bck!r}")
 
         # --- structural invariants ---
         for group, items in (("onsets", content + particle), ("vowels", vowels),
@@ -298,6 +341,14 @@ MUTATIONS = [
      lambda d: d["word_shapes"]["content"]["syllables"].__setitem__("max", 4)),
     ("budget number corrupted",
      lambda d: d["budget_expected"].__setitem__("content_lexical", 201)),
+    ("t reassigned to labial (collides with p)",
+     lambda d: d["script_features"]["onset_features"]["t"]
+     .__setitem__("place", "labial")),
+    ("vowel u fronted (collides with i)",
+     lambda d: d["script_features"]["vowel_features"]["u"]
+     .__setitem__("backness", "front")),
+    ("script_features removed",
+     lambda d: d.__delitem__("script_features")),
 ]
 
 
