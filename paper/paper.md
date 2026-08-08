@@ -238,11 +238,34 @@ literature) without claiming expert reading speedups.]
 
 ## 7. Mode subsystems
 
-[TODO: reserved-onset mode particles; digit-pair base-100 numbers; date,
-time (hour×quarter in one syllable), coordinate, spell-out modes;
-complement-restricted payloads (anti-parity points) and their failure
-pricing; checksum syllables; casual/careful/safety-critical registers;
-modes as standalone adoption wedges inside English.]
+Where the semantic space is a grid rather than a fuzzy web — numbers,
+dates, times, letter sequences — the language drops redundancy and uses
+the raw channel product, fenced off by reserved-onset mode particles.
+Payloads occupy the anti-check complement, so they never collide with
+the lexicon even if a boundary is missed (§4); a digit pair 00–99 is one
+syllable (tens→onset, units→rime, the code frozen with the core), and
+larger numbers are positional base-100. Dates and coordinate digits
+reuse the same pairs verbatim — no month names, no separate tables — and
+clock time is a single syllable via two orthogonal rules on the same
+grid (onset = hour's last digit, coda = hour's tens, vowel = quarter
+hour). Sample renderings (machine-generated from the spec): 4,207 =
+*huu mi cin* (3 syllables against roughly ten in English); 2026-08-08 =
+*ho ta teen coon coon*; 14:30 = *hii miin*.
+
+The density is honestly priced. Because digit payloads use the full
+grid, 87.5% of single-channel mishearings of a digit syllable yield
+another valid digit (60% of those flip the computed register and are
+machine-detectable; the rest are fully silent). The mode system
+therefore carries its own outer code: an optional closing checksum
+syllable (position-weighted mod 97, one syllable), mandatory in a
+safety-critical register profile, in the tradition of aviation readbacks
+and ASD-STE100. Casual speech omits it and leans on conversational
+repair, which costs nothing until an error actually occurs.
+
+Modes double as the project's adoption wedge: the number, date, and time
+codes function inside a host language without learning the lexicon, and
+the chorded/touch input methods (§8) can ship them as standalone tools —
+adoption gradients rather than cliffs.
 
 ## 8. Input methods
 
