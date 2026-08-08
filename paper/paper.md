@@ -361,10 +361,52 @@ dense script should NOT exceed matched Latin-orthography reading
 cross-linguistic band [@coupe2019]. Finding otherwise would falsify the
 throughput-ceiling framing, not vindicate the design.
 
-## 12. Discussion and limitations
+## 12. Discussion, limitations, and live alternatives
 
-[TODO: meaning stays soft (Lojban's lesson); community adoption dominates
-design quality; what the sequel project (spatial sentence layer) would ask.]
+Two structural humilities bound everything above: meaning stays soft no
+matter how hard the form layer is engineered (Lojban's lesson), and
+community adoption historically dominates design quality (Esperanto and
+Klingon outlived better-engineered rivals). Two design explorations,
+conducted adversarially against our own architecture, sharpen both.
+
+**Does the inner code earn its keep?** A simulation over matched
+Zipf-weighted lexicons (tools/explore_noparity.py) compared the
+check-bit register against a "natural-grade" alternative: no engineered
+redundancy in the core lexicon at all — just phonotactics, word
+templates, sparse assignment, and repair. The result indicts the
+engineered code on its own accessibility terms: because the check bit
+licenses high-confusion minimal pairs among the most frequent words, a
+length-deaf listener (the design's own priority population) suffers a
+20% silent-mishearing rate under the check-bit architecture versus 3.7%
+under the natural one, while length-sensitive listeners do equally well
+under either (3.5% vs 3.7%). The register also taxes production —
+speakers of length-less L1s must produce a contrast their L1 lacks —
+and, carrying zero lexical load, invites erosion. The natural
+architecture frees duration to reinforce the stress-based segmentation
+signal, at a modest cost in monosyllable capacity (22 vs 34 root
+bodies). Engineered redundancy survives where it demonstrably pays: the
+closed-domain mode frames and their checksum. [Adoption pending a
+design gate at the time of writing.]
+
+**Is the a-priori lexicon worth it?** Vocabulary, not grammar, is the
+long pole of adult language learning: full regularity saves tens of
+hours while thousands of arbitrary roots cost hundreds. An
+Esperanto-like alternative — a-posteriori roots half-known to
+European-language speakers, plus the same systematic chording layer over
+an already-phonemic orthography — plausibly beats this design on raw
+time-to-use for the realistic early-adopter population, while losing
+global phonological fairness, machine parseability, and the featural
+script. The designs optimize different objectives (fastest for anyone on
+Earth versus fastest for those who show up), and the honest resolution
+may be complementary: ship the input engineering and mode subsystems
+Esperanto-first as the adoption wedge and evaluation vehicle, keeping
+the channel language as the research artifact whose fairness and
+machine-legibility claims justify its from-scratch vocabulary.
+
+The spatial sentence layer — rendering argument structure for parallel
+vision rather than the serial channel — remains the designated sequel:
+it is the only direction that attacks the ~39 bits/s wall itself rather
+than routing around it.
 
 ## References
 
