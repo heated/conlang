@@ -1,17 +1,28 @@
 #!/usr/bin/env python3
-"""Mode subsystems: numbers, dates, times, spell-out — encoders/decoders
-over the payload (anti-check) space, plus the digit confusion analysis.
+"""Mode subsystems: numbers, dates, times, spell-out — frame encoders AND
+decoders over the payload (anti-check) space, with checksum verification
+and the digit confusion analysis.
 
-All worked examples in docs/spec/modes.md are generated here (see
-`worked_examples`) so the documentation cannot drift from the code.
+Frame grammar (romanized, space-separated tokens):
+  frame    := particle payload* [close]
+  close    := 'haas' | 'hoos' checksum-symbol
+  number   := hu pair+                     (base-100, big-endian)
+  date     := ho pair{2}                   (yearless: month day)
+            | ho pair{4} | ho pair{5}      (year 4 or 6 digits, month, day)
+  time     := hi cell [offset-pair [seconds-pair]]
+  spell    := he letter+
 
-Usage:
-  python3 tools/modes.py number 4207
-  python3 tools/modes.py date 2026-08-08 [--year/--no-year]
-  python3 tools/modes.py time 14:30 [also 14:37]
-  python3 tools/modes.py spell NTNU
-  python3 tools/modes.py examples          (regenerate the doc block)
-  python3 tools/modes.py confusion         (digit corruption analysis)
+Checksum: every payload symbol has a value <= 100 (digit pairs: the pair
+value; time cells: 4*hour+quarter; letters: A=0..Z=25; offset pairs: the
+pair value). checksum = sum((i+1) * value_i) mod 101 over the payload,
+frame capped at 100 symbols. 101 is prime and exceeds every value delta,
+so every single-symbol substitution (within the same symbol class) and
+every transposition changes the checksum. The checksum symbol encodes
+0-99 as a digit pair and 100 as `cas` (payload register).
+
+All doc tables in docs/spec/modes.md are generated here (`examples`,
+`particles`, `letters`, `confusion` subcommands) and exactly asserted by
+tools/test_modes.py.
 """
 
 from __future__ import annotations
@@ -30,7 +41,7 @@ MODE_PARTICLES = {
     "time": ("i", ""),
     "spell": ("e", ""),
     "phonetic": ("e", "n"),   # reserved, mechanism only
-    "coord": ("i", "n"),
+    "coord": ("i", "n"),      # reserved, sketch only
     "close": ("a", "s"),
     "close_checksum": ("o", "s"),
 }
@@ -38,24 +49,34 @@ MODE_PARTICLES = {
 QUARTER_VOWELS = {0: "a", 15: "e", 30: "i", 45: "o"}
 HOUR_TENS_CODA = {0: "", 1: "n", 2: "s"}
 
-# Spell mode letter table — PROVISIONAL normative data (modes.md).
-# Consonant letters that exist as onsets: onset + e. Vowel letters:
-# payload-register h syllables. Others: nearest-sound onset + a
-# (voiced stops to voiceless, r to l, f/v to w, x/z to s, q/g to k,
-# y to j, b to p, d to t, h-the-letter to h+a... h letter uses ("h","a")
-# which collides with vowel-letter A = ("h","a") — so letter H = ("h","u")
-# wait, U = ("h","u"). Letter H uses coda: ("h","a","n").)
+CHECKSUM_MOD = 101
+MAX_FRAME_SYMBOLS = 100
+CHECKSUM_100 = ("c", "a", "s")  # symbol for checksum value 100
+
+# Spell mode letter table — PROVISIONAL normative data. Design rules:
+# consonants whose sound is an onset: onset + e; vowel letters: c + that
+# vowel + coda l (no h-onset anywhere in payloads — a payload h-syllable
+# differs from a mode particle only by register, which length-deaf
+# listeners cannot hear); remaining consonants: nearest-sound onset + a
+# (or +u where +a is taken). No letter uses a digit rime shape with its
+# tens onset... (letters and digit pairs share the space; the mode
+# separates them — the constraint that matters is no h-onsets).
 LETTERS = {
-    "a": ("h", "a", ""), "b": ("p", "a", ""), "c": ("c", "e", ""),
-    "d": ("t", "a", ""), "e": ("h", "e", ""), "f": ("w", "a", ""),
-    "g": ("k", "a", ""), "h": ("h", "a", "n"), "i": ("h", "i", ""),
+    "a": ("c", "a", "l"), "b": ("p", "a", ""), "c": ("c", "e", ""),
+    "d": ("t", "a", ""), "e": ("c", "e", "l"), "f": ("w", "a", ""),
+    "g": ("k", "a", ""), "h": ("k", "a", "l"), "i": ("c", "i", "l"),
     "j": ("j", "e", ""), "k": ("k", "e", ""), "l": ("l", "e", ""),
-    "m": ("m", "e", ""), "n": ("n", "e", ""), "o": ("h", "o", ""),
+    "m": ("m", "e", ""), "n": ("n", "e", ""), "o": ("c", "o", "l"),
     "p": ("p", "e", ""), "q": ("k", "u", ""), "r": ("l", "a", ""),
-    "s": ("s", "e", ""), "t": ("t", "e", ""), "u": ("h", "u", ""),
+    "s": ("s", "e", ""), "t": ("t", "e", ""), "u": ("c", "u", "l"),
     "v": ("w", "e", ""), "w": ("w", "u", ""), "x": ("s", "a", ""),
     "y": ("j", "a", ""), "z": ("s", "u", ""),
 }
+LETTER_ORDER = "abcdefghijklmnopqrstuvwxyz"
+
+
+class FrameError(ValueError):
+    pass
 
 
 class Modes:
@@ -67,6 +88,8 @@ class Modes:
         self.units_rime = {u["digit"]: (u["vowel"], u["coda"])
                            for u in self.inv.spec["digit_units_rimes"]["map"]}
         self.rime_units = {v: k for k, v in self.units_rime.items()}
+        self.particle_by_shape = {v: k for k, v in MODE_PARTICLES.items()}
+        self.letter_by_shape = {v: k for k, v in LETTERS.items()}
 
     # --- primitives ---
 
@@ -87,13 +110,31 @@ class Modes:
             raise ValueError(f"not a digit-pair syllable: {syl}")
         return tens * 10 + units
 
-    def rom(self, sylls: list[Syllable]) -> str:
-        """Payload romanization (anti-check register, canonical doubling)."""
-        return " ".join(self.inv.romanize_syllable(s, payload=True)
-                        for s in sylls)
+    def rom(self, sylls: list[Syllable]) -> list[str]:
+        return [self.inv.romanize_syllable(s, payload=True) for s in sylls]
 
-    def rom_particle(self, syl: Syllable) -> str:
-        return self.inv.romanize_syllable(syl, payload=False)
+    def rom_particle(self, mode: str) -> str:
+        return self.inv.romanize_syllable(self.particle(mode), payload=False)
+
+    # --- checksum over payload symbol values ---
+
+    @staticmethod
+    def checksum(values: list[int]) -> int:
+        if len(values) > MAX_FRAME_SYMBOLS:
+            raise FrameError(f"frame exceeds {MAX_FRAME_SYMBOLS} symbols")
+        if any(not 0 <= v <= 100 for v in values):
+            raise FrameError("checksum values must be 0-100")
+        return sum((i + 1) * v for i, v in enumerate(values)) % CHECKSUM_MOD
+
+    def checksum_syllable(self, value: int) -> Syllable:
+        if value == 100:
+            return Syllable(*CHECKSUM_100)
+        return self.digit_pair_syllable(value)
+
+    def read_checksum_syllable(self, syl: Syllable) -> int:
+        if (syl.onset, syl.vowel, syl.coda) == CHECKSUM_100:
+            return 100
+        return self.syllable_digit_pair(syl)
 
     # --- numbers ---
 
@@ -107,42 +148,40 @@ class Modes:
 
     def encode_number(self, n: int, checksum: bool = False) -> list[str]:
         pairs = self.number_pairs(n)
-        out = [self.rom_particle(self.particle("number"))]
-        out += [self.rom([self.digit_pair_syllable(p)]) for p in pairs]
+        out = [self.rom_particle("number")]
+        out += self.rom([self.digit_pair_syllable(p) for p in pairs])
         if checksum:
-            out.append(self.rom_particle(self.particle("close_checksum")))
-            out.append(self.rom([self.digit_pair_syllable(self.checksum(pairs))]))
+            out.append(self.rom_particle("close_checksum"))
+            out += self.rom([self.checksum_syllable(self.checksum(pairs))])
         return out
 
-    def decode_number_pairs(self, pairs: list[int]) -> int:
-        n = 0
-        for p in pairs:
-            n = n * 100 + p
-        return n
+    # --- dates (wire rule: year is 0, 4, or 6 digits — 0, 2, or 3 pairs;
+    #     payload lengths 2/4/5 pairs are the only legal date frames) ---
 
-    @staticmethod
-    def checksum(pairs: list[int]) -> int:
-        return sum((i + 1) * p for i, p in enumerate(pairs)) % 97
-
-    # --- dates ---
-
-    def encode_date(self, year: int | None, month: int, day: int) -> list[str]:
-        out = [self.rom_particle(self.particle("date"))]
-        if year is not None:
-            out += [self.rom([self.digit_pair_syllable(p)])
-                    for p in self.number_pairs(year)]
+    def date_pairs(self, year: str | None, month: int, day: int) -> list[int]:
         if not (1 <= month <= 12 and 1 <= day <= 31):
             raise ValueError("month 1-12, day 1-31")
-        out.append(self.rom([self.digit_pair_syllable(month)]))
-        out.append(self.rom([self.digit_pair_syllable(day)]))
+        pairs = []
+        if year is not None:
+            y = year.lstrip("-")
+            if len(y) not in (4, 6) or not y.isdigit():
+                raise ValueError("year must be 4 or 6 digits on the wire")
+            pairs += [int(y[i:i + 2]) for i in range(0, len(y), 2)]
+        return pairs + [month, day]
+
+    def encode_date(self, year: str | None, month: int, day: int,
+                    checksum: bool = False) -> list[str]:
+        pairs = self.date_pairs(year, month, day)
+        out = [self.rom_particle("date")]
+        out += self.rom([self.digit_pair_syllable(p) for p in pairs])
+        if checksum:
+            out.append(self.rom_particle("close_checksum"))
+            out += self.rom([self.checksum_syllable(self.checksum(pairs))])
         return out
 
     # --- times ---
 
     def time_syllable(self, hour: int, quarter: int) -> Syllable:
-        """hour 0-23, quarter in {0,15,30,45} -> ONE payload syllable:
-        onset = digit onset of hour%10, coda = hour tens (∅/n/s),
-        vowel = quarter (a/e/i/o)."""
         if not 0 <= hour <= 23:
             raise ValueError("hour 0-23")
         if quarter not in QUARTER_VOWELS:
@@ -152,50 +191,197 @@ class Modes:
                         HOUR_TENS_CODA[hour // 10])
 
     def decode_time_syllable(self, syl: Syllable) -> tuple[int, int]:
-        last = self.onset_tens[syl.onset]
-        tens = {v: k for k, v in HOUR_TENS_CODA.items()}[syl.coda]
-        quarter = {v: k for k, v in QUARTER_VOWELS.items()}[syl.vowel]
+        last = self.onset_tens.get(syl.onset)
+        tens = {v: k for k, v in HOUR_TENS_CODA.items()}.get(syl.coda)
+        quarter = {v: k for k, v in QUARTER_VOWELS.items()}.get(syl.vowel)
+        if last is None or tens is None or quarter is None:
+            raise ValueError(f"not a time syllable: {syl}")
         hour = tens * 10 + last
         if hour > 23:
             raise ValueError(f"not a time syllable: {syl}")
         return hour, quarter
 
-    def encode_time(self, hour: int, minute: int) -> list[str]:
+    def time_values(self, hour, quarter, offset, seconds) -> list[int]:
+        vals = [4 * hour + quarter // 15]
+        if offset is not None:
+            vals.append(offset)
+        if seconds is not None:
+            vals.append(seconds)
+        return vals
+
+    def encode_time(self, hour: int, minute: int, second: int | None = None,
+                    checksum: bool = False) -> list[str]:
         quarter = (minute // 15) * 15
         offset = minute - quarter
-        out = [self.rom_particle(self.particle("time")),
-               self.rom([self.time_syllable(hour, quarter)])]
-        if offset:
-            out.append(self.rom([self.digit_pair_syllable(offset)]))
+        out = [self.rom_particle("time")]
+        sylls = [self.time_syllable(hour, quarter)]
+        need_offset = bool(offset) or second is not None
+        if need_offset:
+            sylls.append(self.digit_pair_syllable(offset))
+        if second is not None:
+            sylls.append(self.digit_pair_syllable(second))
+        out += self.rom(sylls)
+        if checksum:
+            vals = self.time_values(hour, quarter,
+                                    offset if need_offset else None, second)
+            out.append(self.rom_particle("close_checksum"))
+            out += self.rom([self.checksum_syllable(self.checksum(vals))])
         return out
 
     # --- spell ---
 
-    def encode_spell(self, text: str) -> list[str]:
-        out = [self.rom_particle(self.particle("spell"))]
+    def encode_spell(self, text: str, checksum: bool = False) -> list[str]:
+        out = [self.rom_particle("spell")]
+        sylls, vals = [], []
         for ch in text.lower():
             if ch not in LETTERS:
                 raise ValueError(f"no letter name for {ch!r}")
-            o, v, c = LETTERS[ch]
-            out.append(self.rom([Syllable(o, v, c)]))
+            sylls.append(Syllable(*LETTERS[ch]))
+            vals.append(LETTER_ORDER.index(ch))
+        out += self.rom(sylls)
+        if checksum:
+            out.append(self.rom_particle("close_checksum"))
+            out += self.rom([self.checksum_syllable(self.checksum(vals))])
         return out
+
+    # --- frame decoding ---
+
+    def _classify(self, token: str) -> tuple[str, Syllable]:
+        """-> ('particle', syl) for lexical-register h tokens,
+              ('payload', syl) otherwise (payload register enforced)."""
+        try:
+            sylls = self.inv.parse_word(token, mode="structural")
+        except ValueError as e:
+            raise FrameError(f"unparseable token {token!r}: {e}")
+        if len(sylls) != 1:
+            raise FrameError(f"mode tokens are single syllables: {token!r}")
+        syl = sylls[0]
+        if syl.onset == "h":
+            shape = (syl.vowel, syl.coda)
+            if shape not in self.particle_by_shape:
+                raise FrameError(f"unknown particle {token!r}")
+            try:
+                self.inv.parse_word(token, mode="lexical")  # register check
+            except ValueError as e:
+                raise FrameError(str(e))
+            return "particle", syl
+        try:
+            self.inv.parse_word(token, mode="payload")
+        except ValueError as e:
+            raise FrameError(str(e))
+        return "payload", syl
+
+    def decode_frame(self, text: str) -> dict:
+        """Decode a romanized mode frame. Returns a dict with 'mode',
+        decoded fields, and 'checksum_ok' (None if no checksum given).
+        Raises FrameError on any violation."""
+        tokens = text.split()
+        if not tokens:
+            raise FrameError("empty frame")
+        kind, syl = self._classify(tokens[0])
+        if kind != "particle":
+            raise FrameError("frame must open with a mode particle")
+        mode = self.particle_by_shape[(syl.vowel, syl.coda)]
+        if mode in ("close", "close_checksum", "phonetic", "coord"):
+            raise FrameError(f"{mode} cannot open a frame")
+
+        payload: list[Syllable] = []
+        check_val = None
+        i = 1
+        while i < len(tokens):
+            kind, syl = self._classify(tokens[i])
+            if kind == "particle":
+                p = self.particle_by_shape[(syl.vowel, syl.coda)]
+                if p == "close":
+                    i += 1
+                    break
+                if p == "close_checksum":
+                    if i + 1 >= len(tokens):
+                        raise FrameError("hoos requires a checksum symbol")
+                    _, csyl = self._classify(tokens[i + 1])
+                    check_val = self.read_checksum_syllable(csyl)
+                    i += 2
+                    break
+                raise FrameError(f"unexpected particle {tokens[i]!r} in frame")
+            payload.append(syl)
+            i += 1
+        if i < len(tokens):
+            raise FrameError(f"trailing tokens after close: {tokens[i:]}")
+        if not payload:
+            raise FrameError("empty payload")
+
+        try:
+            return self._decode_payload(mode, payload, check_val)
+        except FrameError:
+            raise
+        except ValueError as e:
+            raise FrameError(str(e))
+
+    def _decode_payload(self, mode, payload, check_val) -> dict:
+        if mode == "number":
+            pairs = [self.syllable_digit_pair(s) for s in payload]
+            result = {"mode": mode, "value": self._fold(pairs), "pairs": pairs}
+            values = pairs
+        elif mode == "date":
+            pairs = [self.syllable_digit_pair(s) for s in payload]
+            if len(pairs) == 2:
+                year, (month, day) = None, pairs
+            elif len(pairs) in (4, 5):
+                ydigits = "".join(f"{p:02d}" for p in pairs[:-2])
+                year, month, day = ydigits, pairs[-2], pairs[-1]
+            else:
+                raise FrameError(f"date frames carry 2, 4, or 5 pairs, "
+                                 f"got {len(pairs)}")
+            if not (1 <= month <= 12 and 1 <= day <= 31):
+                raise FrameError(f"invalid month/day {month}/{day}")
+            result = {"mode": mode, "year": year, "month": month, "day": day}
+            values = pairs
+        elif mode == "time":
+            hour, quarter = self.decode_time_syllable(payload[0])
+            offset = second = None
+            if len(payload) >= 2:
+                offset = self.syllable_digit_pair(payload[1])
+                if not 0 <= offset <= 14:
+                    raise FrameError(f"minute offset 0-14, got {offset}")
+            if len(payload) >= 3:
+                second = self.syllable_digit_pair(payload[2])
+                if not 0 <= second <= 59:
+                    raise FrameError(f"seconds 0-59, got {second}")
+            if len(payload) > 3:
+                raise FrameError("time frames carry at most 3 symbols")
+            result = {"mode": mode, "hour": hour,
+                      "minute": quarter + (offset or 0), "second": second}
+            values = self.time_values(hour, quarter, offset, second)
+        elif mode == "spell":
+            letters = []
+            for s in payload:
+                shape = (s.onset, s.vowel, s.coda)
+                if shape not in self.letter_by_shape:
+                    raise FrameError(f"not a letter symbol: {s}")
+                letters.append(self.letter_by_shape[shape])
+            result = {"mode": mode, "text": "".join(letters)}
+            values = [LETTER_ORDER.index(ch) for ch in letters]
+        else:  # pragma: no cover
+            raise FrameError(f"undecodable mode {mode}")
+
+        result["checksum_ok"] = (None if check_val is None
+                                 else self.checksum(values) == check_val)
+        return result
+
+    @staticmethod
+    def _fold(pairs: list[int]) -> int:
+        n = 0
+        for p in pairs:
+            n = n * 100 + p
+        return n
 
     # --- digit confusion analysis (review obligation) ---
 
     def digit_confusion_analysis(self) -> dict:
         """Classify every single-channel corruption of every digit-pair
-        payload syllable. Categories:
-          silent      -> lands on another valid digit pair (only the
-                         checksum or context can catch it)
-          mode_gram   -> lands outside the digit grammar (invalid rime or
-                         non-digit shape): detected by the mode parser
-          register    -> the substituted value has a different check bit,
-                         so the payload register flips: detectable by
-                         register-sensitive listeners and machines even
-                         when the result is a valid digit pair
-        `register` overlaps `silent`: a silent-substitution that is also
-        register-flagged is counted in both (reported separately).
-        """
+        payload syllable: silent (another valid digit pair), mode_gram
+        (breaks the digit grammar — caught by the frame parser), and how
+        many silent ones are register-flagged (check bits differ)."""
         onsets = self.inv.content_onsets
         vowels = self.inv.vowels
         codas = self.inv.codas
@@ -224,22 +410,72 @@ class Modes:
         return stats
 
 
-def worked_examples(m: Modes) -> list[tuple[str, str]]:
-    ex = []
-    ex.append(("42", " ".join(m.encode_number(42))))
-    ex.append(("4207", " ".join(m.encode_number(4207))))
-    ex.append(("4207 with checksum", " ".join(m.encode_number(4207, checksum=True))))
-    ex.append(("0", " ".join(m.encode_number(0))))
-    ex.append(("1000000", " ".join(m.encode_number(1000000))))
-    ex.append(("date 2026-08-08", " ".join(m.encode_date(2026, 8, 8))))
-    ex.append(("date 08-08 (yearless)", " ".join(m.encode_date(None, 8, 8))))
-    ex.append(("time 14:30", " ".join(m.encode_time(14, 30))))
-    ex.append(("time 14:37", " ".join(m.encode_time(14, 37))))
-    ex.append(("time 08:00", " ".join(m.encode_time(8, 0))))
-    ex.append(("time 23:45", " ".join(m.encode_time(23, 45))))
-    ex.append(("spell NTNU", " ".join(m.encode_spell("NTNU"))))
-    ex.append(("spell ZOE", " ".join(m.encode_spell("ZOE"))))
-    return ex
+# --- generated doc blocks (asserted verbatim by tests) ---
+
+def examples_block(m: Modes) -> str:
+    rows = [
+        ("42", m.encode_number(42)),
+        ("4207", m.encode_number(4207)),
+        ("4207 with checksum", m.encode_number(4207, checksum=True)),
+        ("0", m.encode_number(0)),
+        ("1000000", m.encode_number(1000000)),
+        ("date 2026-08-08", m.encode_date("2026", 8, 8)),
+        ("date 08-08 (yearless)", m.encode_date(None, 8, 8)),
+        ("time 14:30", m.encode_time(14, 30)),
+        ("time 14:37", m.encode_time(14, 37)),
+        ("time 08:00", m.encode_time(8, 0)),
+        ("time 23:45", m.encode_time(23, 45)),
+        ("spell NTNU", m.encode_spell("NTNU")),
+        ("spell ZOE", m.encode_spell("ZOE")),
+    ]
+    lines = ["| value | rendering |", "|-------|-----------|"]
+    for label, toks in rows:
+        rendering = " ".join(toks)
+        decoded = m.decode_frame(rendering)  # every doc example must decode
+        assert decoded["checksum_ok"] is not False
+        lines.append(f"| {label} | `{rendering}` |")
+    return "\n".join(lines)
+
+
+def particles_block(m: Modes) -> str:
+    desc = {
+        "number": "number: digit pairs follow, base-100, big-endian",
+        "date": "date: [year pairs ×2-3] + month pair + day pair",
+        "time": "time: one hour×quarter syllable [+ offset pair [+ seconds]]",
+        "spell": "spell: one letter-name syllable per letter",
+        "phonetic": "phonetic mode — reserved, mechanism only in v0.1",
+        "coord": "coordinates — reserved, design sketched below",
+        "close": "mode close (optional in casual speech)",
+        "close_checksum": "mode close + checksum symbol follows",
+    }
+    lines = ["| particle | canonical | mode |", "|----------|-----------|------|"]
+    for mode, (v, c) in MODE_PARTICLES.items():
+        lines.append(f"| h-{v}{'-' + c if c else ''} | "
+                     f"`{m.rom_particle(mode)}` | {desc[mode]} |")
+    return "\n".join(lines)
+
+
+def letters_block(m: Modes) -> str:
+    lines = ["| letter | rendering | letter | rendering |",
+             "|--------|-----------|--------|-----------|"]
+    half = 13
+    for i in range(half):
+        row = []
+        for ch in (LETTER_ORDER[i], LETTER_ORDER[i + half]):
+            syl = Syllable(*LETTERS[ch])
+            row += [ch.upper(), f"`{m.inv.romanize_syllable(syl, payload=True)}`"]
+        lines.append("| " + " | ".join(row) + " |")
+    return "\n".join(lines)
+
+
+def confusion_block(m: Modes) -> str:
+    s = m.digit_confusion_analysis()
+    return (f"total single-channel corruptions: {s['total']}; "
+            f"silent digit substitutions: {s['silent']} "
+            f"({100 * s['silent'] // s['total']}%); "
+            f"caught by the frame grammar: {s['mode_gram']}; "
+            f"silent but register-flagged: {s['silent_register_flagged']} "
+            f"({100 * s['silent_register_flagged'] // s['silent']}% of silent)")
 
 
 def main() -> int:
@@ -254,19 +490,25 @@ def main() -> int:
                                        checksum="--checksum" in args)))
     elif cmd == "date":
         y, mo, dd = args[1].split("-")
-        year = None if "--no-year" in args else int(y)
-        print(" ".join(m.encode_date(year, int(mo), int(dd))))
+        year = None if "--no-year" in args else y
+        print(" ".join(m.encode_date(year, int(mo), int(dd),
+                                     checksum="--checksum" in args)))
     elif cmd == "time":
         hh, mm = args[1].split(":")
-        print(" ".join(m.encode_time(int(hh), int(mm))))
+        print(" ".join(m.encode_time(int(hh), int(mm),
+                                     checksum="--checksum" in args)))
     elif cmd == "spell":
-        print(" ".join(m.encode_spell(args[1])))
+        print(" ".join(m.encode_spell(args[1], checksum="--checksum" in args)))
+    elif cmd == "decode":
+        print(m.decode_frame(" ".join(args[1:])))
     elif cmd == "examples":
-        for label, rendering in worked_examples(m):
-            print(f"| {label} | `{rendering}` |")
+        print(examples_block(m))
+    elif cmd == "particles":
+        print(particles_block(m))
+    elif cmd == "letters":
+        print(letters_block(m))
     elif cmd == "confusion":
-        for k, v in m.digit_confusion_analysis().items():
-            print(f"{k:28s} {v}")
+        print(confusion_block(m))
     else:
         print(__doc__)
         return 2

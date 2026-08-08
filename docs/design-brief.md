@@ -115,6 +115,12 @@ else is defined over these coordinates.
   drift** (SPEC §8 headroom policy: ≥30% of monosyllable slots per class
   unassigned at every release). **Occasional Fable review for
   language-design substance**, alongside the Codex code-review policy.
+- 2026-08-08 (later still): **standing permission to explore alternative
+  paths to the whole endeavor** while building — alternatives at any
+  level (architecture, error correction, script, or a different framing
+  of the project) may be investigated and proposed, not just the settled
+  design. Tracked as a standing bead; findings land in the paper's
+  alternatives/discussion sections and as design proposals.
 
 ## Open questions (tracked as beads)
 

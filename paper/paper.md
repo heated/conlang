@@ -257,9 +257,10 @@ grid, 87.5% of single-channel mishearings of a digit syllable yield
 another valid digit (60% of those flip the computed register and are
 machine-detectable; the rest are fully silent). The mode system
 therefore carries its own outer code: an optional closing checksum
-syllable (position-weighted mod 97, one syllable), mandatory in a
-safety-critical register profile, in the tradition of aviation readbacks
-and ASD-STE100. Casual speech omits it and leans on conversational
+syllable — a position-weighted sum mod 101 over per-symbol values, which
+provably changes under every single-symbol substitution and every
+transposition — mandatory in a safety-critical register profile, in the
+tradition of aviation readbacks and ASD-STE100. Casual speech omits it and leans on conversational
 repair, which costs nothing until an error actually occurs.
 
 Modes double as the project's adoption wedge: the number, date, and time
