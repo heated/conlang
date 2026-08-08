@@ -105,6 +105,12 @@ else is defined over these coordinates.
 - 2026-08-08: try complement-restricted mode payloads; single-syllable
   hour+quarter time; name decision deferred ("don't care about the name rn");
   **consider phone text input** as a first-class input method.
+- 2026-08-08 (later): complement-payload directive is a soft preference,
+  "not hard at all" — modes bead weighs it freely. **Do not sacrifice
+  learnability for monosyllable dates.** **Keep room to switch to the wider
+  codepoints model later, or to push the inventory a little** — the core
+  freezes as an expansion-compatible family (SPEC §9); script and input
+  layers carry explicit headroom obligations.
 
 ## Open questions (tracked as beads)
 

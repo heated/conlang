@@ -248,7 +248,34 @@ magnitude below capacity. **Zipf policy:** monosyllable slots are assigned
 strictly by corpus frequency from the first dictionary draft; everything
 rarer is disyllabic by rule.
 
-## 9. Digit assignment (normative preview)
+## 9. Extensibility: widening the inventory is a supported evolution
+
+Design directive (Edward, 2026-08-08): keep room to move toward the wider
+codepoint model later, or to "push a little." The core is therefore frozen
+as a *versioned point in an expansion-compatible family*, not a dead end:
+
+- **Stable under expansion:** the parity rule's form (index-sum mod
+  register-count), every existing word's channel vector, the digit and POS
+  assignments, and the romanization of existing values. Adding a channel
+  value appends an index; it never renumbers existing ones.
+- **Cheap expansions** (minor version): a fifth coda (class-l roots or a
+  new POS class), additional content onsets, diphthongs as new vowel-channel
+  values. Each must price its L1-perception cost against the design-brief
+  accessibility constraint when proposed — expansion trades learnability
+  deliberately, never accidentally.
+- **Expensive expansion** (major version): a third register value
+  (parity becomes mod-3; the complement doubles relative to the lexical
+  side). Supported by the rule's form but touches every downstream table.
+- **Headroom obligations on downstream design:** the featural script's
+  visual zones and the chord/touch layouts must be compositional with
+  capacity for roughly the wide model's counts (~20 onsets, ~10 vowels,
+  ~8 codas) rather than saturating at today's inventory. Recorded on beads
+  conlang-657 and conlang-6sa.
+- A written-only channel (a visual zone with no spoken counterpart, e.g.
+  the semantic-classifier zone) remains available at any time without
+  touching the spoken core.
+
+## 10. Digit assignment (normative preview)
 
 Numbers are a Tier-2 mode (conlang-bcq), but the digit code is frozen with
 the core because the onset indices are load-bearing:
@@ -262,7 +289,7 @@ the core because the onset indices are load-bearing:
 Example (romanized, register marking omitted): 42 = `mi`, 4207 = `mi cin`
 (pairs 42, 07).
 
-## 10. Out of scope for the frozen core
+## 11. Out of scope for the frozen core
 
 Deferred to their beads, with the core deliberately silent: mode-particle
 assignments and payload grammar (bcq); the glyph geometry (657);
