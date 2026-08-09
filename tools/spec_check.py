@@ -51,6 +51,16 @@ FROZEN_VOWEL_FEATURES = {
     "a": ("low", "central"), "e": ("mid", "front"), "i": ("high", "front"),
     "o": ("mid", "back"), "u": ("high", "back"),
 }
+FROZEN_VISUAL_GRAMMAR = {
+    "place_base": {"labial": "circle", "coronal": "vertical stroke",
+                   "palatal": "diagonal stroke", "velar": "top-left angle",
+                   "glottal": "short tick"},
+    "manner_modifier": {"stop": "plain", "nasal": "floating bar above",
+                        "fricative": "doubled element",
+                        "affricate": "mid crossbar",
+                        "approximant": "broken stroke",
+                        "lateral": "bottom foot hook"},
+}
 
 
 class Checker:
@@ -112,6 +122,9 @@ class Checker:
             self.expect(len(set(vf.values())) == len(vf),
                         "vowel (height,backness) pairs must be injective")
             vg = sf["visual_grammar"]
+            for key, frozen in FROZEN_VISUAL_GRAMMAR.items():
+                self.expect(vg.get(key) == frozen,
+                            f"visual_grammar.{key} differs from frozen table")
             places, manners = set(vg["place_base"]), set(vg["manner_modifier"])
             for o, (p, m) in of.items():
                 self.expect(p in places, f"onset {o}: unmapped place {p!r}")
@@ -121,6 +134,15 @@ class Checker:
                             f"vowel {v}: unknown height {hgt!r}")
                 self.expect(bck in ("front", "central", "back"),
                             f"vowel {v}: unknown backness {bck!r}")
+            scp = sf.get("script_confusion_pairs")
+            if scp is None:
+                self.fail("script_confusion_pairs missing (eye-channel "
+                          "pricing input, lexgen strict_with_script)")
+            else:
+                known = set(of)
+                for a, b in scp["onset"]:
+                    self.expect(a in known and b in known and a != b,
+                                f"script_confusion_pairs: bad pair {a!r}/{b!r}")
 
         # --- structural invariants ---
         for group, items in (("onsets", content + particle), ("vowels", vowels),
@@ -343,27 +365,47 @@ MUTATIONS = [
      lambda d: d["budget_expected"].__setitem__("content_lexical", 201)),
     ("t reassigned to labial (collides with p)",
      lambda d: d["script_features"]["onset_features"]["t"]
-     .__setitem__("place", "labial")),
+     .__setitem__("place", "labial"),
+     "differ from frozen"),
     ("vowel u fronted (collides with i)",
      lambda d: d["script_features"]["vowel_features"]["u"]
-     .__setitem__("backness", "front")),
+     .__setitem__("backness", "front"),
+     "differ from frozen"),
     ("script_features removed",
-     lambda d: d.__delitem__("script_features")),
+     lambda d: d.__delitem__("script_features"),
+     "script_features missing"),
+    ("visual_grammar mapping corrupted (labial=triangle)",
+     lambda d: d["script_features"]["visual_grammar"]["place_base"]
+     .__setitem__("labial", "triangle"),
+     "visual_grammar.place_base"),
+    ("script confusion pair references unknown onset",
+     lambda d: d["script_features"]["script_confusion_pairs"]["onset"]
+     .append(["q", "t"]),
+     "script_confusion_pairs"),
+    ("script_confusion_pairs removed",
+     lambda d: d["script_features"].__delitem__("script_confusion_pairs"),
+     "script_confusion_pairs missing"),
 ]
 
 
 def selftest(data):
     bad = 0
-    for name, mutate in MUTATIONS:
+    for entry in MUTATIONS:
+        name, mutate = entry[0], entry[1]
+        expected = entry[2] if len(entry) > 2 else None
         mutant = copy.deepcopy(data)
         mutate(mutant)
         # capacity recomputation is slow; only the capacity mutation needs it
         failures = run_file_checks(mutant, verbose=False, capacity=False)
-        if failures:
-            print(f"  selftest ok: caught mutation '{name}'")
-        else:
+        if not failures:
             print(f"  SELFTEST FAILURE: mutation '{name}' passed all checks")
             bad += 1
+        elif expected and not any(expected in f for f in failures):
+            print(f"  SELFTEST FAILURE: mutation '{name}' caught, but no "
+                  f"failure mentions {expected!r}: {failures}")
+            bad += 1
+        else:
+            print(f"  selftest ok: caught mutation '{name}'")
     mutant = copy.deepcopy(data)
     mutant["capacity_expected"]["monosyllable_root_bodies_adopted"] = 35
     if run_file_checks(mutant, verbose=False, capacity=True):

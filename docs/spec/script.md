@@ -7,6 +7,30 @@ companion. Exact stroke metrics live in the reference implementation
 proportions freely as long as the feature grammar below stays legible
 and compositional.
 
+**Tentative direction (Edward, 2026-08-09), not yet applied:** replace
+mouth-shape iconicity with **anti-iconic assignment** — ear-confusable
+phonemes get maximally distinct marks, so the eye serves as independent
+redundancy — with letterforms optimized for degradation rather than
+articulatory storytelling; and grow the character space toward fused
+disyllabic blocks (~50k codepoints per character, ~7 components, at the
+visual-crowding ceiling), possibly with dedicated number characters.
+v0.1 below is the current, implemented mapping; the reassignment study
+is v0.2 work and keeps the compositional feature grammar — what changes
+is *which* phoneme gets *which* visual feature bundle, chosen against
+the measured confusion matrices of ear and eye jointly.
+
+## 0. Layers: what is spoken vs. what is written
+
+Casual speech carries **three** channels per syllable: onset, vowel,
+coda — 220 spoken segmental syllables. The written layer carries
+**four**: those three plus the computed check bit (SPEC §2.4, §4.1),
+giving 440 written codepoints (each syllable × two check-slot states:
+its lexical form and its payload form). Nothing about the check is
+spoken in casual speech; careful/safety registers *may* realize it as
+vowel length. The romanization renders channel 4 as vowel doubling;
+the native script renders it as the check slot (§6). Same bit, two
+costumes — a doubled vowel in romanized text is ink, not sound.
+
 ## 1. Design goals
 
 1. **Featural, zero exceptions.** Every glyph is computed from the
@@ -19,7 +43,13 @@ and compositional.
    doubles as the chord diagram for input (§7).
 3. **Silhouette carries grammar.** Word height = syllable count;
    particle blocks are visibly smaller; the coda zone (= POS, SPEC §6)
-   sits at a fixed position readable at skim distance.
+   occupies a reserved strip in every block. Under the current
+   top-aligned stacking the *final* coda — the POS — sits at the word's
+   bottom edge, whose height varies with syllable count: word-entry
+   height is fixed, POS position is not. (Bottom-aligning would invert
+   that trade; the alignment choice is deliberate v0.2/freeze-gate
+   material. Fixed word-entry height and fixed POS baseline are
+   mutually exclusive under stacking.)
 
 ## 2. Block geometry
 
@@ -81,11 +111,20 @@ The 11 onsets (`script_features.onset_features`):
 | k | velar stop | angle |
 | h | glottal fricative | doubled tick (=) |
 
-Every pair of onsets differs in base, modifier, or both; phonetically
-close pairs (differing by one articulatory feature) differ by exactly
-one visual feature — the confusion structure of the ear is mirrored, not
-hidden, so readers learn the map, and mishearings stay recoverable from
-the glyph.
+Every pair of onsets differs in base, modifier, or both. The
+ear-mirroring is partial, and the asymmetry is favorable: *place*
+confusion pairs (p/t, t/k, m/n, n/l) differ by exactly one visual
+feature, but three of the ear's worst cross-manner pairs — s/c, l/j,
+l/w — differ in base *and* modifier, i.e. they are visually far apart
+exactly where the ear is weakest. Conversely the v0.1 ink has visual
+collapses at small sizes that the ear never makes (s→t, c↔j, w→p —
+measured at 16–24 px); these are recorded as normative data in
+`channels.json` (`script_confusion_pairs`) and priced by `lexgen`'s
+`strict_with_script` policy so the lexicon is not blind to the eye's
+confusion matrix. At current inventory size that protection costs zero
+root bodies. The v0.2 ink pass aims to shrink the visual-collapse set
+to a subset of the phonetic one (and the tentative anti-iconic
+directive, header above, may replace the mapping wholesale).
 
 `h` (particle-only, SPEC §5) is the lightest letter in the script —
 appropriate for the unstressed grammatical scaffold, and its doubled-tick
@@ -135,6 +174,16 @@ the check's demoted, written-layer status. Dot vs ring keeps lexical and
 payload marking visually disjoint, mirroring the romanization rule that
 doubling means different bits in the two parses.
 
+Honest scoping of the detectability claims (SPEC §4.1–4.2): they hold
+**for machines and at print sizes**. Dot-vs-ring is a fill contrast and
+is not reliably distinguishable below ~24 px; and since only bit-1
+states are marked, a payload syllable with anti-check 0 shows an empty
+slot identical to a check-0 lexical syllable — per-syllable layer
+identification by a human reader requires computing the check. Payload
+*runs* are delimited by mode particles (SPEC modes.md), which is where
+frame integrity actually lives; a run-level payload marking (continuous
+rule alongside the span) is a v0.2 candidate.
+
 ## 7. Word assembly
 
 - **Content words: vertical stacking.** Syllable blocks stack top-to-
@@ -165,11 +214,16 @@ to the zone↔axis correspondence.
 
 ## 9. Headroom and the wide model
 
-- Onsets: 5 places × 6 manners = **30 expressible onset letters** (11
-  used). The wide model (SPEC §9) needs ~20; it fits without new visual
-  features. Voicing, if ever adopted, is one more modifier (inner dot).
+- Onsets: 5 places × 6 manners = **30 grid cells** (11 implemented).
+  The grid is *headroom, not inventory*: the renderer implements and
+  visually verifies exactly the 11 recipes in use and **rejects** the
+  other 19 cells rather than improvising them (`SUPPORTED_RECIPES` in
+  `tools/script.py`). The wide model (SPEC §9) needs ~20 onsets; the
+  feature grammar accommodates that without new visual features, but
+  each new cell is a designed-and-verified recipe, not a free lunch.
+  Voicing, if ever adopted, is one more modifier (inner dot).
 - Vowels: 9 grid positions + rounding modifier (5 used).
-- Codas: any onset letter can miniaturize (3 + ∅ used).
+- Codas: any implemented onset letter can miniaturize (3 + ∅ used).
 
 The same feature grammar is the substrate for the zonal auxlang's wide
 chorded script (as an input method / optional display layer, per the
@@ -189,8 +243,20 @@ python3 tools/script.py specimen --out specimen.svg
 
 The specimen sheet renders all 200 content syllables (including
 phonotactically banned glide cells — visual completeness is deliberate)
-and all 20 particle syllables — the full 220 — plus sample words and a
-payload example.
-`tools/test_script.py` asserts determinism, all-blocks distinctness, and
-lexical/payload marking; `tools/spec_check.py` validates the feature
-data (completeness and injectivity).
+and all 20 particle syllables — the full 220 — plus sample words, both
+payload cases (ring and honest empty slot), and a running pseudo-lexicon
+sentence in the stacking layout. `tools/test_script.py` asserts
+determinism, per-zone and whole-block distinctness (independent of the
+derived check mark), coda-strip ink bounds, check/romanization
+agreement via parsed XML, CLI behavior, and rejection of unimplemented
+grid cells; `tools/spec_check.py` freezes the feature tables and visual
+grammar and validates `script_confusion_pairs`.
+
+Known v0.2 ink work (from the 2026-08-09 reviews, kept as an honest
+defect list): modifier rescale (floating bars, breaks, and the dot are
+below the small-size legibility floor — the feature classes typographic
+history erodes first), strip-native coda marks (full-width, legible at
+16 px), payload run-marking, raster-distance regression tests, the
+stacking-vs-headstroke layout decision with a paragraph specimen in
+both, and a gestalt-diversity/style pass. The anti-iconic reassignment
+study (header) may subsume the modifier rescale.

@@ -255,10 +255,20 @@ stroke, lateral = foot hook). Vowels are one tick on the carrier —
 vertical position codes height, direction codes backness. Codas render
 as miniatures of the corresponding onset letter, costing zero new
 letters. The design follows Hangul's featural insight [@sampson1985] but
-removes its residual irregularities, and the confusion structure of the
-ear is mirrored rather than hidden: onsets one articulatory feature
-apart differ by exactly one visual feature, so a reader who knows the
-map can see which mishearings a given word invites.
+removes its residual irregularities. The ear-mirroring is partial and
+the asymmetry favorable: place-confusion pairs differ by exactly one
+visual feature, while three of the ear's worst cross-manner pairs land
+visually far apart. The eye also has confusions of its own that the ear
+never makes — small-size collapses measured in design review — and
+these are recorded as normative data and priced by the lexicon
+generator alongside the phonetic pairs, so neither channel's confusion
+matrix is invisible to word assignment. A tentative design directive
+(2026-08) points the next iteration further: *anti-iconic* assignment,
+in which ear-confusable phonemes receive maximally distinct marks so
+the eye functions as independent redundancy rather than a mirror, with
+letterforms optimized for degradation rather than articulatory
+storytelling — keeping the compositional grammar while reassigning
+which phoneme gets which visual bundle.
 
 Two grammatical facts are visible before any letter is read. The coda
 strip is the part-of-speech marker (§5): an empty strip is a noun, a

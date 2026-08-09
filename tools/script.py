@@ -29,17 +29,28 @@ BLOCK = 100
 STROKE = 5
 
 # onset-zone geometry
-OX, OY, OW, OH = 10, 10, 46, 48          # onset zone box
 CX, CY, CR = 33, 34, 20                  # labial circle
 VX = 33                                  # coronal vertical x
 # vowel carrier
 CARRIER_X, CARRIER_Y0, CARRIER_Y1 = 74, 12, 62
 TICK_LEN = 13
-HEIGHT_Y = {"high": 18, "mid": 37, "low": 56}
-# coda strip
+HEIGHT_Y = {"high": 20, "mid": 37, "low": 56}
+# coda strip: miniatures scaled so all ink (incl. stroke caps) stays
+# inside STRIP_Y0..STRIP_Y1
 STRIP_Y0, STRIP_Y1 = 72, 94
-# check slot
-DOT_X, DOT_Y, DOT_R = 88, 14, 4.5
+CODA_SCALE, CODA_DX, CODA_DY = 0.35, 24, 72
+# check slot (kept clear of the high-back vowel tick; see test bounds)
+DOT_X, DOT_Y, DOT_R = 91, 7, 4.5
+
+# (place, manner) pairs with implemented, visually verified recipes.
+# The 30-cell feature grid is headroom (script.md §9); unimplemented
+# cells raise rather than silently rendering a bare base.
+SUPPORTED_RECIPES = {
+    ("labial", "stop"), ("labial", "nasal"), ("labial", "approximant"),
+    ("coronal", "stop"), ("coronal", "nasal"), ("coronal", "fricative"),
+    ("coronal", "lateral"), ("palatal", "affricate"),
+    ("palatal", "approximant"), ("velar", "stop"), ("glottal", "fricative"),
+}
 
 
 def _el(name, **attrs):
@@ -78,8 +89,12 @@ class ScriptRenderer:
     # --- onset elements (place base + manner modifier) ---
 
     def _base(self, place, manner, scale=1.0, dx=0.0, dy=0.0):
-        """Base element for a place, already split for 'broken' manner."""
+        """Base element for a place, already split for 'broken' manner.
+
+        Stroke widths scale with the geometry so miniatures (codas) stay
+        legible instead of merging into blobs."""
         s = scale
+        w = STROKE * s
 
         def T(x, y):
             return (dx + x * s, dy + y * s)
@@ -89,9 +104,9 @@ class ScriptRenderer:
         if place == "labial":
             cx, cy = T(CX, CY)
             if broken:  # gap at the top
-                parts.append(_arc(cx, cy, CR * s, -50, 230))
+                parts.append(_arc(cx, cy, CR * s, -50, 230, w=w))
             else:
-                parts.append(_circle(cx, cy, CR * s))
+                parts.append(_circle(cx, cy, CR * s, w=w))
         elif place == "coronal":
             x, _ = T(VX, 0)
             _, y0 = T(0, 14)
@@ -99,36 +114,41 @@ class ScriptRenderer:
             if broken:
                 _, ym0 = T(0, 30)
                 _, ym1 = T(0, 40)
-                parts.append(_line(x, y0, x, ym0))
-                parts.append(_line(x, ym1, x, y1))
+                parts.append(_line(x, y0, x, ym0, w=w))
+                parts.append(_line(x, ym1, x, y1, w=w))
             else:
-                parts.append(_line(x, y0, x, y1))
+                parts.append(_line(x, y0, x, y1, w=w))
         elif place == "palatal":
             x0, y0 = T(16, 56)
             x1, y1 = T(50, 14)
             if broken:
                 xm0, ym0 = T(30, 39)
                 xm1, ym1 = T(36, 31)
-                parts.append(_line(x0, y0, xm0, ym0))
-                parts.append(_line(xm1, ym1, x1, y1))
+                parts.append(_line(x0, y0, xm0, ym0, w=w))
+                parts.append(_line(xm1, ym1, x1, y1, w=w))
             else:
-                parts.append(_line(x0, y0, x1, y1))
+                parts.append(_line(x0, y0, x1, y1, w=w))
         elif place == "velar":
             x0, y0 = T(16, 14)
             x1, _ = T(50, 14)
             _, y1 = T(0, 56)
-            parts.append(_line(x0, y0, x1, y0))
-            parts.append(_line(x0, y0, x0, y1))
+            parts.append(_line(x0, y0, x1, y0, w=w))
+            parts.append(_line(x0, y0, x0, y1, w=w))
         elif place == "glottal":
             x0, y = T(22, 34)
             x1, _ = T(44, 34)
-            parts.append(_line(x0, y, x1, y))
+            parts.append(_line(x0, y, x1, y, w=w))
         return parts
 
     def _onset(self, roman, scale=1.0, dx=0.0, dy=0.0):
         f = self.onset_features[roman]
         place, manner = f["place"], f["manner"]
+        if (place, manner) not in SUPPORTED_RECIPES:
+            raise ValueError(
+                f"no implemented recipe for {place} {manner} "
+                f"(wide-model headroom, script.md §9)")
         s = scale
+        w = STROKE * s
 
         def T(x, y):
             return (dx + x * s, dy + y * s)
@@ -137,29 +157,29 @@ class ScriptRenderer:
         if manner == "nasal":
             x0, y = T(20, 5)
             x1, _ = T(46, 5)
-            parts.append(_line(x0, y, x1, y))
+            parts.append(_line(x0, y, x1, y, w=w))
         elif manner == "fricative":
             if place == "coronal":
                 x, _ = T(VX + 11, 0)
                 _, y0 = T(0, 14)
                 _, y1 = T(0, 56)
-                parts.append(_line(x, y0, x, y1))
+                parts.append(_line(x, y0, x, y1, w=w))
             elif place == "glottal":
                 x0, y = T(22, 44)
                 x1, _ = T(44, 44)
-                parts.append(_line(x0, y, x1, y))
+                parts.append(_line(x0, y, x1, y, w=w))
             elif place == "labial":
                 cx, cy = T(CX, CY)
-                parts.append(_circle(cx, cy, (CR - 9) * s))
+                parts.append(_circle(cx, cy, (CR - 9) * s, w=w))
         elif manner == "affricate":
             x0, y0 = T(22, 40)
             x1, y1 = T(44, 32)
-            parts.append(_line(x0, y0, x1, y1))
+            parts.append(_line(x0, y0, x1, y1, w=w))
         elif manner == "lateral":
             x, _ = T(VX, 0)
             _, y = T(0, 56)
             x1, _ = T(VX + 13, 0)
-            parts.append(_line(x, y, x1, y))
+            parts.append(_line(x, y, x1, y, w=w))
         return parts
 
     # --- vowel carrier ---
@@ -188,8 +208,8 @@ class ScriptRenderer:
     def _coda(self, roman, dx=0.0, dy=0.0):
         if not roman:
             return []
-        # miniature: scale 0.42, centered in the strip
-        return self._onset(roman, scale=0.42, dx=dx + 20, dy=dy + STRIP_Y0 - 4)
+        return self._onset(roman, scale=CODA_SCALE,
+                           dx=dx + CODA_DX, dy=dy + CODA_DY)
 
     # --- check slot ---
 
@@ -279,23 +299,67 @@ def specimen(r: ScriptRenderer) -> str:
         glyph, _, _ = r.word_glyph(sylls)
         place(glyph, col, row, label, tall=len(sylls))
         col += 2
-    # digit payload example: 42 -> mi (payload)
+    # digit payload examples: ma=40 shows the ring (anti-check 1);
+    # mi=42 shows the honest empty slot (anti-check 0)
+    place(r.syllable_block(S("m", "a", ""), payload=True), col, row,
+          "payload ma=40 (ring)")
+    col += 2
     place(r.syllable_block(S("m", "i", ""), payload=True), col, row,
-          "payload mi=42")
+          "payload mi=42 (no mark)")
+    # running text: pseudo-lexicon sentence, vertical-stacking layout
+    row += 3
+    sentence = [
+        ("p", [S("h", "u", "")]),
+        ("w", [S("t", "a", ""), S("k", "o", "")]),
+        ("w", [S("s", "a", ""), S("l", "a", "n")]),
+        ("p", [S("h", "e", "")]),
+        ("w", [S("m", "e", ""), S("n", "o", ""), S("k", "i", "s")]),
+        ("p", [S("h", "a", "")]),
+        ("w", [S("k", "u", "")]),
+        ("w", [S("p", "i", ""), S("t", "o", "n")]),
+        ("p", [S("h", "o", "s")]),
+        ("w", [S("l", "e", ""), S("w", "a", "s")]),
+        ("w", [S("n", "a", ""), S("m", "u", "")]),
+    ]
+    x = pad
+    y = pad + row * rowh
+    roman_line = []
+    for kind, sylls in sentence:
+        if kind == "p":
+            g, gw, _ = r.particle_glyph(sylls[0])
+            parts.append(f'<g transform="translate({x} {y})">'
+                         + "".join(g) + "</g>")
+            x += gw + 18
+        else:
+            glyph, gw, _ = r.word_glyph(sylls)
+            parts.append(f'<g transform="translate({x} {y})">'
+                         + "".join(glyph) + "</g>")
+            x += gw + 18
+        roman_line.append(inv.romanize_word(sylls))
+    parts.append(f'<text x="{pad}" y="{y + 3 * BLOCK + 24}" font-size="13" '
+                 f'fill="currentColor" font-family="monospace">'
+                 f'sentence (pseudo-lexicon): {" ".join(roman_line)}</text>')
     w = pad * 2 + cell * 20
-    h = pad * 2 + rowh * (row + 3)
+    h = pad * 2 + rowh * (row + 4)
     return r.svg(parts, w, h)
 
 
-def main() -> int:
+def main(argv=None) -> int:
     r = ScriptRenderer()
     inv = r.inv
-    args = sys.argv[1:]
-    if not args:
-        print(__doc__)
+    args = sys.argv[1:] if argv is None else argv
+
+    def usage(msg):
+        print(f"error: {msg}", file=sys.stderr)
+        print(__doc__, file=sys.stderr)
         return 2
+
+    if not args:
+        return usage("no command")
     cmd = args[0]
     if cmd in ("word", "payload"):
+        if len(args) < 2:
+            return usage(f"{cmd} needs at least one romanized word")
         payload = cmd == "payload"
         mode = "payload" if payload else "lexical"
         all_parts, x = [], 0
@@ -309,13 +373,23 @@ def main() -> int:
             maxh = max(maxh, gh)
         print(r.svg(all_parts, x, maxh))
     elif cmd == "particle":
+        if len(args) != 2:
+            return usage("particle needs exactly one romanized particle")
         sylls = inv.parse_word(args[1], mode="lexical")
+        problems = inv.validate_particle(sylls)
+        if problems:
+            return usage(f"not a valid particle: {'; '.join(problems)}")
         glyph, gw, gh = r.particle_glyph(sylls[0])
         print(r.svg(glyph, gw, gh))
     elif cmd == "specimen":
         out = None
-        if "--out" in args:
-            out = args[args.index("--out") + 1]
+        rest = args[1:]
+        if rest and rest[0] == "--out":
+            if len(rest) != 2:
+                return usage("--out needs a path")
+            out = rest[1]
+        elif rest:
+            return usage(f"unknown specimen arguments: {rest}")
         svg = specimen(r)
         if out:
             Path(out).write_text(svg)
@@ -323,8 +397,7 @@ def main() -> int:
         else:
             print(svg)
     else:
-        print(__doc__)
-        return 2
+        return usage(f"unknown command {cmd!r}")
     return 0
 
 

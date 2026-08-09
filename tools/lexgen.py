@@ -26,21 +26,31 @@ def body_conflict_graph(inv: Inventory, rules: ConflictRules,
 
     Humility assignment (adopted 2026-08-09, conlang-bf2): high-confusion
     pairs — covered AND forbidden — always conflict for unrelated words.
-    policy 'adopted' — covered + forbidden (+ coronal-i) conflict
-    policy 'strict'  — adopted plus weighted pairs
+    policy 'adopted'            — covered + forbidden (+ coronal-i) conflict
+    policy 'strict'             — adopted plus weighted pairs
+    policy 'strict_with_script' — strict plus the eye's confusion pairs
+        (channels.json script_confusion_pairs: v0.1-ink small-size
+        collapses; advisory pricing, not in frozen capacity numbers)
     """
     bodies = [(o, v) for o in inv.content_onsets for v in inv.vowels
               if (o, v) not in inv.glide_cells]
     edges: dict[tuple, set[tuple]] = {b: set() for b in bodies}
+    script_pairs: set[frozenset] = set()
+    if policy == "strict_with_script":
+        table = inv.spec["script_features"]["script_confusion_pairs"]
+        script_pairs = {frozenset(p) for p in table["onset"]}
 
     def conflicted(a, b) -> bool:
         # bodies as bare-vowel noun forms; coda channel identical, so only
         # onset/vowel substitutions matter here
+        if frozenset((a[0], b[0])) in script_pairs:
+            return True
         cls = rules.classify_pair([Syllable(a[0], a[1], "")],
                                   [Syllable(b[0], b[1], "")])
         if cls == "forbidden":
             return True
-        return policy == "strict" and cls == "weighted"
+        return policy in ("strict", "strict_with_script") \
+            and cls == "weighted"
 
     for a, b in combinations(bodies, 2):
         if (a[0] == b[0]) != (a[1] == b[1]):  # exactly one channel differs
@@ -76,7 +86,7 @@ def max_independent_set(nodes: list, edges: dict) -> list:
 
 def capacity_report(inv: Inventory, rules: ConflictRules) -> dict:
     out: dict = {}
-    for policy in ("strict", "adopted"):
+    for policy in ("strict", "adopted", "strict_with_script"):
         bodies, edges = body_conflict_graph(inv, rules, policy)
         mis = max_independent_set(bodies, edges)
         out[f"monosyllable_root_bodies_{policy}"] = len(mis)

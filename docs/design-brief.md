@@ -135,6 +135,32 @@ else is defined over these coordinates.
   of the project) may be investigated and proposed, not just the settled
   design. Tracked as a standing bead; findings land in the paper's
   alternatives/discussion sections and as design proposals.
+- 2026-08-09 (script steering, post-review): script directions, all
+  **tentative** — (1) **anti-iconic assignment**: ear-confusable
+  phonemes get maximally distinct marks (eye = independent redundancy);
+  letterforms optimized for degradation, not articulatory storytelling.
+  (2) **~50k codepoints per character** via fused disyllabic blocks
+  (~7 components, at the crowding ceiling); maybe special characters
+  for numbers. (3) **Four-projections architecture**: every morpheme is
+  a channel vector; block glyph = 2D projection; romanization = linear
+  projection (check as doubling); chords = motor projection (mirrored
+  hands, one syllable each, one stroke per morpheme); skeleton input =
+  lossy projection (channel-subset briefs, onsets-first, IME-resolved —
+  no per-word memorization). Commitments: visible POS zone, mode
+  payloads visually flagged. Priced ceilings: density buys compactness
+  and skimming, never WPM; ~1–3k chord inventory saturates composition
+  at ~39 bits/s, so the chording layer is optimal. Deliverables (font
+  pipeline, IME, chord engine) run **alongside and lower priority than
+  straightening out the script itself**.
+- 2026-08-09 (capacity steering): explore a **cross-POS humility
+  exemption** — POS-inconsistent coda mishearings are rejected by the
+  parse (syntax as an outer code); if simulation confirms reliable
+  catch rates, unrelated words differing only in a high-confusion coda
+  may be exempted. **Maintain a bottleneck ledger** for the codepoint
+  count; price each relaxation rung (syntax exemption, context
+  partitioning, …) against the silent-mishearing metric; validate the
+  claimed 80–120 monosyllabic-root range reachable without touching
+  the phonology.
 
 ## Decisions log (previously open questions)
 

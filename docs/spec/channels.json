@@ -599,6 +599,31 @@
       "coda": "miniature onset form in the bottom strip; empty strip = zero coda (noun silhouette)",
       "check_slot": "top-right dot: filled = written check 1 (lexical), ring = payload polarity 1, absent = 0",
       "headroom": "5 places x 6 manners = 30 onset capacity; 3x3 vowel grid + rounding modifier; voicing = future inner-dot modifier (wide model per SPEC 9)"
+    },
+    "script_confusion_pairs": {
+      "comment": "Visual confusion pairs of the v0.1 ink, measured at 16-24px block renders (Fable review 2026-08-09): small-size collapses that are NOT phonetic confusion pairs get no protection from the humility rule unless listed here. m/p and n/t are also phonetically weighted. lexgen prices these as weighted conflicts in the strict_with_script policy (advisory; not in frozen capacity numbers). The v0.2 ink redesign aims to shrink this set to a subset of the phonetic pairs.",
+      "onset": [
+        [
+          "s",
+          "t"
+        ],
+        [
+          "c",
+          "j"
+        ],
+        [
+          "w",
+          "p"
+        ],
+        [
+          "m",
+          "p"
+        ],
+        [
+          "n",
+          "t"
+        ]
+      ]
     }
   }
 }
