@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-"""Tests for the featural block script renderer (tools/script.py)."""
+"""Tests for the featural block script renderer (tools/script.py, v0.2)."""
 
+import contextlib
+import io
+import itertools
+import json
 import sys
 import unittest
 import xml.etree.ElementTree as ET
@@ -8,8 +12,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from phonology import Syllable  # noqa: E402
-from script import (BLOCK, DOT_R, DOT_X, DOT_Y, STRIP_Y0, STRIP_Y1,  # noqa: E402
-                    ScriptRenderer, main, specimen)
+from script import (BLOCK, DOT_R, DOT_X, DOT_Y, RULE_X,  # noqa: E402
+                    STRIP_Y0, STRIP_Y1, ScriptRenderer, main,
+                    raster_distance, rasterize, specimen)
 
 
 def block_key(renderer, syl, payload=False):
@@ -26,26 +31,15 @@ def ink_bounds(parts):
     half-widths and round caps."""
     ymin, ymax = float("inf"), float("-inf")
     for el in parse_parts(parts):
-        tag = el.tag
         w = float(el.get("stroke-width", 0))
-        if tag == "line":
+        if el.tag == "line":
             y0, y1 = float(el.get("y1")), float(el.get("y2"))
-            lo, hi = min(y0, y1), max(y0, y1)
-            ymin = min(ymin, lo - w)      # half-width + round cap <= w
-            ymax = max(ymax, hi + w)
-        elif tag == "circle":
+            ymin = min(ymin, min(y0, y1) - w)   # half-width + cap <= w
+            ymax = max(ymax, max(y0, y1) + w)
+        elif el.tag == "circle":
             cy, r = float(el.get("cy")), float(el.get("r"))
             ymin = min(ymin, cy - r - w / 2)
             ymax = max(ymax, cy + r + w / 2)
-        elif tag == "path":
-            ys = []
-            tokens = el.get("d").replace(",", " ").split()
-            # M x y A rx ry rot large sweep x y — take explicit y coords
-            ys = [float(tokens[2]), float(tokens[-1])]
-            r = float(tokens[4])
-            for y in ys:
-                ymin = min(ymin, y - r - w)
-                ymax = max(ymax, y + r + w)
     return ymin, ymax
 
 
@@ -130,29 +124,33 @@ class TestZoneGeometry(unittest.TestCase):
             self.assertGreaterEqual(ymin, STRIP_Y0 - 0.5, c)
             self.assertLessEqual(ymax, STRIP_Y1 + 0.5, c)
 
-    def test_mini_s_strokes_do_not_overlap(self):
-        # the doubled vertical must survive miniaturization: gap between
-        # stroke edges must be positive (Fable finding 2a)
-        lines = [el for el in parse_parts(self.r._coda("s"))
-                 if el.tag == "line"]
-        self.assertEqual(len(lines), 2)
-        xs = sorted(float(el.get("x1")) for el in lines)
-        w = float(lines[0].get("stroke-width"))
-        self.assertGreater(xs[1] - xs[0] - w, 0.5)
+    def test_onset_ink_clear_of_strip_and_carrier(self):
+        for o in self.inv.content_onsets + ["h"]:
+            parts = self.r._onset(o)
+            _, ymax = ink_bounds(parts)
+            self.assertLess(ymax, STRIP_Y0, o)
+            for el in parse_parts(parts):
+                xs = []
+                if el.tag == "line":
+                    xs = [float(el.get("x1")), float(el.get("x2"))]
+                elif el.tag == "circle":
+                    xs = [float(el.get("cx")) + float(el.get("r"))]
+                w = float(el.get("stroke-width", 0))
+                self.assertLess(max(xs) + w, 74 - 2.5, o)
 
     def test_check_dot_clear_of_high_back_tick(self):
-        # Fable finding 1: the u-tick and the check mark must not touch
+        # the u-tick and the check dot must not touch
         tick = [el for el in parse_parts(self.r._vowel("u"))
                 if el.tag == "line" and el.get("y1") == el.get("y2")][0]
         tick_top = float(tick.get("y1")) - float(tick.get("stroke-width"))
-        ring_bottom = DOT_Y + DOT_R + 2.5 / 2  # ring outer edge
-        self.assertGreater(tick_top - ring_bottom, 1.0)
+        dot_bottom = DOT_Y + DOT_R
+        self.assertGreater(tick_top - dot_bottom, 1.0)
 
     def test_unsupported_recipe_rejected(self):
-        # wide-model grid cells without a verified recipe must raise,
-        # not silently render a bare base (Codex finding 2)
-        self.r.onset_features["_x"] = {"place": "velar",
-                                      "manner": "approximant"}
+        # feature-grid cells without a verified recipe must raise,
+        # not silently render a bare base
+        self.r.onset_features["_x"] = {"base": "angle",
+                                      "modifier": "crossed"}
         try:
             with self.assertRaises(ValueError):
                 self.r._onset("_x")
@@ -160,53 +158,97 @@ class TestZoneGeometry(unittest.TestCase):
             del self.r.onset_features["_x"]
 
 
+class TestRasterFloor(unittest.TestCase):
+    """Small-size legibility regression floor: occupancy-grid distances
+    at a 14x14 raster of the onset zone (~14 px rendering). Thresholds
+    sit below currently measured minima; a geometry change that erodes
+    a distinction trips them (the v0.1 collapses scored near zero)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = ScriptRenderer()
+        cls.inv = cls.r.inv
+        cls.onsets = cls.inv.content_onsets + ["h"]
+        cls.grids = {o: rasterize(cls.r._onset(o), 4, 4, 70, 62, 14)
+                     for o in cls.onsets}
+        spec = json.loads(
+            (Path(__file__).resolve().parent.parent / "docs" / "spec" /
+             "channels.json").read_text())
+        cls.phonetic = set()
+        for grp in (spec["covered_confusion_pairs"]["onset"],
+                    spec["confusion_policy"]["forbidden"].get("onset", []),
+                    spec["confusion_policy"]["weighted"].get("onset", [])):
+            for a, b in grp:
+                cls.phonetic.add(frozenset((a, b)))
+
+    def test_all_onset_pairs_above_floor(self):
+        for a, b in itertools.combinations(self.onsets, 2):
+            d = raster_distance(self.grids[a], self.grids[b])
+            self.assertGreaterEqual(d, 0.20, f"{a}/{b} at {d:.3f}")
+
+    def test_phonetic_pairs_far_apart(self):
+        # the anti-iconic code's payoff: ear-confusable pairs are
+        # visually FAR (v0.1 equivalents scored near-collapse)
+        for p in self.phonetic:
+            a, b = tuple(p)
+            d = raster_distance(self.grids[a], self.grids[b])
+            self.assertGreaterEqual(d, 0.60, f"{a}/{b} at {d:.3f}")
+
+    def test_coda_marks_far_apart(self):
+        grids = {c: rasterize(self.r._coda(c), 8, 70, 92, 96, 12)
+                 for c in ("n", "s", "l")}
+        for a, b in itertools.combinations(("n", "s", "l"), 2):
+            d = raster_distance(grids[a], grids[b])
+            self.assertGreaterEqual(d, 0.55, f"{a}/{b} at {d:.3f}")
+
+    def test_vowel_ticks_distinct_at_small_size(self):
+        grids = {v: rasterize(self.r._vowel(v), 58, 8, 92, 66, 12)
+                 for v in self.inv.vowels}
+        for a, b in itertools.combinations(self.inv.vowels, 2):
+            d = raster_distance(grids[a], grids[b])
+            self.assertGreater(d, 0.10, f"{a}/{b} at {d:.3f}")
+
+
 class TestCheckMarking(unittest.TestCase):
-    """Glyph check slot must agree with the written-layer check
-    (dot <=> romanization doubling) and with payload polarity."""
+    """Check slot: lexical dot iff written check 1 (= romanization
+    doubling); payload blocks carry no slot mark — payload words carry
+    the run-rule instead."""
 
     @classmethod
     def setUpClass(cls):
         cls.r = ScriptRenderer()
         cls.inv = cls.r.inv
 
-    def slot_mark(self, syl, payload):
-        """Return 'dot', 'ring', or None from parsed check-slot ink."""
-        marks = [el for el in parse_parts(
-                     self.r._check(syl, payload))
+    def slot_dot(self, syl, payload):
+        marks = [el for el in parse_parts(self.r._check(syl, payload))
                  if el.tag == "circle"
                  and float(el.get("cx")) == DOT_X
-                 and float(el.get("cy")) == DOT_Y]
-        if not marks:
-            return None
-        el = marks[0]
-        if el.get("fill") == "currentColor":
-            return "dot"
-        self.assertEqual(el.get("fill"), "none")
-        self.assertEqual(el.get("stroke"), "currentColor")
-        return "ring"
+                 and float(el.get("cy")) == DOT_Y
+                 and el.get("fill") == "currentColor"]
+        return bool(marks)
 
     def test_dot_iff_lexical_check(self):
         for syl in self.inv.iter_triples(self.inv.content_onsets):
-            mark = self.slot_mark(syl, payload=False)
+            has_dot = self.slot_dot(syl, payload=False)
             roman = self.inv.romanize_syllable(syl)
-            doubled = syl.vowel * 2 in roman
-            want = "dot" if self.inv.register(syl) == 1 else None
-            self.assertEqual(mark, want, syl)
-            self.assertEqual(mark == "dot", doubled, syl)
+            self.assertEqual(has_dot, self.inv.register(syl) == 1, syl)
+            self.assertEqual(has_dot, syl.vowel * 2 in roman, syl)
 
-    def test_ring_iff_payload_polarity(self):
+    def test_payload_blocks_carry_no_slot_mark(self):
         for syl in self.inv.iter_triples(self.inv.content_onsets):
-            mark = self.slot_mark(syl, payload=True)
-            want = ("ring" if self.inv.register(syl, payload=True) == 1
-                    else None)
-            self.assertEqual(mark, want, syl)
+            self.assertFalse(self.slot_dot(syl, payload=True), syl)
 
-    def test_lexical_and_payload_blocks_always_differ(self):
-        # payload polarity is the anti-check, so exactly one of the two
-        # modes marks the slot for every syllable
-        for syl in self.inv.iter_triples(self.inv.content_onsets):
-            self.assertNotEqual(block_key(self.r, syl),
-                                block_key(self.r, syl, payload=True), syl)
+    def test_payload_word_carries_run_rule(self):
+        sylls = [Syllable("m", "a", ""), Syllable("m", "i", "")]
+        lex, _, _ = self.r.word_glyph(sylls)
+        pay, _, h = self.r.word_glyph(sylls, payload=True)
+        rules = [el for el in parse_parts(pay)
+                 if el.tag == "line" and float(el.get("x1")) == RULE_X]
+        self.assertEqual(len(rules), 1)
+        self.assertEqual(float(rules[0].get("y2")), h - 4)
+        self.assertFalse([el for el in parse_parts(lex)
+                          if el.tag == "line"
+                          and float(el.get("x1")) == RULE_X])
 
 
 class TestAssembly(unittest.TestCase):
@@ -222,6 +264,16 @@ class TestAssembly(unittest.TestCase):
         _, w3, h3 = self.r.word_glyph(three)
         self.assertEqual((w3, h3), (BLOCK, 3 * BLOCK))
 
+    def test_horizontal_layout_runs_left_to_right(self):
+        sylls = [Syllable("s", "a", ""), Syllable("l", "a", "n")]
+        parts, w, h = self.r.word_glyph_horizontal(sylls)
+        self.assertEqual((w, h), (2 * BLOCK, BLOCK))
+        heads = [el for el in parse_parts(parts)
+                 if el.tag == "line" and float(el.get("y1")) == 4
+                 and float(el.get("y2")) == 4]
+        self.assertEqual(len(heads), 1)
+        self.assertEqual(float(heads[0].get("x2")), 2 * BLOCK - 4)
+
     def test_particle_glyph_is_scaled_block(self):
         parts, w, h = self.r.particle_glyph(Syllable("h", "u", ""))
         self.assertLess(w, BLOCK)
@@ -234,6 +286,10 @@ class TestAssembly(unittest.TestCase):
     def test_invalid_vowel_rejected(self):
         with self.assertRaises(KeyError):
             self.r.syllable_block(Syllable("t", "y", ""))
+
+    def test_invalid_coda_rejected(self):
+        with self.assertRaises(ValueError):
+            self.r.syllable_block(Syllable("t", "a", "x"))
 
     def test_specimen_covers_all_syllables(self):
         r = ScriptRenderer()
@@ -254,8 +310,6 @@ class TestAssembly(unittest.TestCase):
 
 class TestCLI(unittest.TestCase):
     def test_valid_paths_exit_zero(self):
-        import contextlib
-        import io
         for argv in (["word", "sala"], ["payload", "ma"],
                      ["particle", "hu"], ["specimen"]):
             buf = io.StringIO()
@@ -264,8 +318,6 @@ class TestCLI(unittest.TestCase):
             ET.fromstring(buf.getvalue().strip().splitlines()[-1])
 
     def test_bad_arity_and_operands_exit_two(self):
-        import contextlib
-        import io
         for argv in ([], ["word"], ["payload"], ["particle"],
                      ["particle", "hu", "ha"], ["particle", "sala"],
                      ["particle", "sa"], ["specimen", "--out"],

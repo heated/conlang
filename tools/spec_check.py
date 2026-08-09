@@ -37,30 +37,23 @@ FROZEN_POS = {"": "noun", "n": "verb", "s": "modifier", "l": "reserved"}
 FROZEN_REGISTERS = {0: "short", 1: "long"}
 PARTICLE_ONSET = "h"
 
-# Frozen featural-script assignments (script.md §3–§4). The articulatory
-# decomposition is normative data: glyphs are computed from it.
+# Frozen featural-script assignments (script.md §3–§4, v0.2
+# confusion-aware anti-iconic code, solved by tools/assign_glyphs.py).
+# The decomposition is normative data: glyphs are computed from it.
 FROZEN_ONSET_FEATURES = {
-    "p": ("labial", "stop"), "m": ("labial", "nasal"),
-    "w": ("labial", "approximant"), "t": ("coronal", "stop"),
-    "n": ("coronal", "nasal"), "s": ("coronal", "fricative"),
-    "l": ("coronal", "lateral"), "c": ("palatal", "affricate"),
-    "j": ("palatal", "approximant"), "k": ("velar", "stop"),
-    "h": ("glottal", "fricative"),
+    "c": ("circle", "plain"), "p": ("vertical", "plain"),
+    "t": ("diagonal", "crossed"), "k": ("angle", "doubled"),
+    "m": ("circle", "crossed"), "n": ("vertical", "doubled"),
+    "s": ("diagonal", "doubled"), "l": ("angle", "plain"),
+    "w": ("circle", "capped"), "j": ("vertical", "crossed"),
+    "h": ("tick", "doubled"),
 }
 FROZEN_VOWEL_FEATURES = {
     "a": ("low", "central"), "e": ("mid", "front"), "i": ("high", "front"),
     "o": ("mid", "back"), "u": ("high", "back"),
 }
-FROZEN_VISUAL_GRAMMAR = {
-    "place_base": {"labial": "circle", "coronal": "vertical stroke",
-                   "palatal": "diagonal stroke", "velar": "top-left angle",
-                   "glottal": "short tick"},
-    "manner_modifier": {"stop": "plain", "nasal": "floating bar above",
-                        "fricative": "doubled element",
-                        "affricate": "mid crossbar",
-                        "approximant": "broken stroke",
-                        "lateral": "bottom foot hook"},
-}
+FROZEN_BASES = {"circle", "vertical", "diagonal", "angle", "tick"}
+FROZEN_MODIFIERS = {"plain", "crossed", "doubled", "capped"}
 
 
 class Checker:
@@ -109,7 +102,7 @@ class Checker:
         if sf is None:
             self.fail("script_features missing from channels.json")
         else:
-            of = {k: (v["place"], v["manner"])
+            of = {k: (v["base"], v["modifier"])
                   for k, v in sf["onset_features"].items()}
             vf = {k: (v["height"], v["backness"])
                   for k, v in sf["vowel_features"].items()}
@@ -118,22 +111,39 @@ class Checker:
             self.expect(vf == FROZEN_VOWEL_FEATURES,
                         "vowel_features differ from frozen table")
             self.expect(len(set(of.values())) == len(of),
-                        "onset (place,manner) pairs must be injective")
+                        "onset (base,modifier) cells must be injective")
             self.expect(len(set(vf.values())) == len(vf),
                         "vowel (height,backness) pairs must be injective")
             vg = sf["visual_grammar"]
-            for key, frozen in FROZEN_VISUAL_GRAMMAR.items():
-                self.expect(vg.get(key) == frozen,
-                            f"visual_grammar.{key} differs from frozen table")
-            places, manners = set(vg["place_base"]), set(vg["manner_modifier"])
-            for o, (p, m) in of.items():
-                self.expect(p in places, f"onset {o}: unmapped place {p!r}")
-                self.expect(m in manners, f"onset {o}: unmapped manner {m!r}")
+            self.expect(set(vg.get("bases", {})) == FROZEN_BASES,
+                        "visual_grammar.bases differ from frozen set")
+            self.expect(set(vg.get("modifiers", {})) == FROZEN_MODIFIERS,
+                        "visual_grammar.modifiers differ from frozen set")
+            banned = {tuple(c) for c in vg.get("banned_cells", [])}
+            for o, (b, m) in of.items():
+                self.expect(b in FROZEN_BASES, f"onset {o}: unknown base {b!r}")
+                self.expect(m in FROZEN_MODIFIERS,
+                            f"onset {o}: unknown modifier {m!r}")
+                self.expect((b, m) not in banned,
+                            f"onset {o}: assigned to banned cell {(b, m)}")
             for v, (hgt, bck) in vf.items():
                 self.expect(hgt in ("high", "mid", "low"),
                             f"vowel {v}: unknown height {hgt!r}")
                 self.expect(bck in ("front", "central", "back"),
                             f"vowel {v}: unknown backness {bck!r}")
+            # the anti-iconic code's defining invariant: every phonetic
+            # confusion pair sits at visual distance 2 (base AND modifier
+            # differ), so no single degraded feature class can merge a
+            # phonetically confusable pair
+            phon_pairs = set()
+            for grp in (d["covered_confusion_pairs"]["onset"],
+                        d["confusion_policy"]["forbidden"].get("onset", []),
+                        d["confusion_policy"]["weighted"].get("onset", [])):
+                for a, b in grp:
+                    phon_pairs.add((a, b))
+            for a, b in phon_pairs:
+                self.expect(of[a][0] != of[b][0] and of[a][1] != of[b][1],
+                            f"phonetic pair {a}/{b} not at visual distance 2")
             scp = sf.get("script_confusion_pairs")
             if scp is None:
                 self.fail("script_confusion_pairs missing (eye-channel "
@@ -363,9 +373,9 @@ MUTATIONS = [
      lambda d: d["word_shapes"]["content"]["syllables"].__setitem__("max", 4)),
     ("budget number corrupted",
      lambda d: d["budget_expected"].__setitem__("content_lexical", 201)),
-    ("t reassigned to labial (collides with p)",
+    ("t reassigned to vertical (breaks p/t distance 2)",
      lambda d: d["script_features"]["onset_features"]["t"]
-     .__setitem__("place", "labial"),
+     .__setitem__("base", "vertical"),
      "differ from frozen"),
     ("vowel u fronted (collides with i)",
      lambda d: d["script_features"]["vowel_features"]["u"]
@@ -374,10 +384,19 @@ MUTATIONS = [
     ("script_features removed",
      lambda d: d.__delitem__("script_features"),
      "script_features missing"),
-    ("visual_grammar mapping corrupted (labial=triangle)",
-     lambda d: d["script_features"]["visual_grammar"]["place_base"]
-     .__setitem__("labial", "triangle"),
-     "visual_grammar.place_base"),
+    ("visual_grammar base set corrupted",
+     lambda d: d["script_features"]["visual_grammar"]["bases"]
+     .__setitem__("triangle", "three strokes"),
+     "visual_grammar.bases"),
+    ("confusable pair merged onto one base+modifier axis",
+     # p/t are phonetically confusable; give t p's modifier as well as a
+     # frozen-table-passing... (frozen check fires first, distance check
+     # must ALSO fire when frozen table itself is edited to match)
+     lambda d: (d["script_features"]["onset_features"]["t"]
+                .__setitem__("modifier", "plain"),
+                d["script_features"]["onset_features"]["t"]
+                .__setitem__("base", "vertical")),
+     "not at visual distance 2"),
     ("script confusion pair references unknown onset",
      lambda d: d["script_features"]["script_confusion_pairs"]["onset"]
      .append(["q", "t"]),

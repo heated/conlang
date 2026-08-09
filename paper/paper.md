@@ -241,48 +241,53 @@ modes, avoiding Lojban's loanword-mangling failure mode.
 
 ## 6. The decoupled featural script
 
-The script (spec: `docs/spec/script.md`, v0.1) is featural with zero
+The script (spec: `docs/spec/script.md`, v0.2) is featural with zero
 exceptions: every glyph is computed from the syllable's channel values,
-so learning roughly fourteen visual features yields the entire written
-inventory. A syllable is one square block with four zones mirroring the
-channel vector — onset top-left, vowel carrier at right, coda strip at
-bottom, and a small check slot in the top-right corner. Onset letters
-decompose articulatorily: place of articulation selects a base element
-(labial = circle, coronal = vertical stroke, palatal = diagonal, velar =
-angle, glottal = tick) and manner selects a modifier (nasal = floating
-bar, fricative = doubling, affricate = crossbar, approximant = broken
-stroke, lateral = foot hook). Vowels are one tick on the carrier —
-vertical position codes height, direction codes backness. Codas render
-as miniatures of the corresponding onset letter, costing zero new
-letters. The design follows Hangul's featural insight [@sampson1985] but
-removes its residual irregularities. The ear-mirroring is partial and
-the asymmetry favorable: place-confusion pairs differ by exactly one
-visual feature, while three of the ear's worst cross-manner pairs land
-visually far apart. The eye also has confusions of its own that the ear
-never makes — small-size collapses measured in design review — and
-these are recorded as normative data and priced by the lexicon
-generator alongside the phonetic pairs, so neither channel's confusion
-matrix is invisible to word assignment. A tentative design directive
-(2026-08) points the next iteration further: *anti-iconic* assignment,
-in which ear-confusable phonemes receive maximally distinct marks so
-the eye functions as independent redundancy rather than a mirror, with
-letterforms optimized for degradation rather than articulatory
-storytelling — keeping the compositional grammar while reassigning
-which phoneme gets which visual bundle.
+so learning five bases, four modifiers, and one assignment table yields
+the entire written inventory. A syllable is one square block with four
+zones mirroring the channel vector — onset top-left, vowel carrier at
+right, coda strip at bottom, and a small check slot in the top-right
+corner. The compositional grammar follows Hangul's featural insight
+[@sampson1985] minus its residual irregularities — but where Hangul
+maps articulation to ink, this script inverts the principle. The v0.1
+draft was articulatorily iconic (place → base shape, manner →
+modifier); design review showed that this hands the ear's most
+confusable pairs the script's most erodible visual distinctions while
+minting eye-only confusions the lexicon cannot see. v0.2 therefore
+assigns phonemes to (base, modifier) cells as an **error-correcting
+code**: every phonetic confusion pair in the spec differs in both base
+and modifier (visual distance 2), so no single degraded feature class
+can merge an ear-confusable pair; the letter grammar uses only
+degradation-robust contrasts (full strokes, wide doubling, attached
+caps and crossings — no floating bars, breaks, dots, or fill
+contrasts, the feature classes typographic history erodes first); and
+the visually closest pairs are, by construction, phonetically distant.
+The channels end up covering each other's weak pairs symmetrically: a
+misreading yields a phonetically implausible word, a mishearing yields
+a visually distant glyph. The assignment is solved deterministically
+from the spec's confusion data, is frozen as normative data, and
+yields a free regularity for the mode subsystem — glyph base = tens
+digit mod 4 — exactly where per-pair discrimination has no lexical
+safety net. An occupancy-grid raster floor in the test suite enforces
+the achieved distances (minimum 0.71 across phonetic pairs at a 14×14
+raster, against near-collapse for the v0.1 equivalents), so the
+"eye-only confusion pair" table in the spec data is empty and any
+geometry change that would repopulate it fails the build.
 
 Two grammatical facts are visible before any letter is read. The coda
-strip is the part-of-speech marker (§5): an empty strip is a noun, a
-mini-n a verb, a mini-s a modifier. And word assembly makes syntax
-skimmable by silhouette — content words stack their blocks vertically
-into glyphs one to three blocks tall, while particles render as single
-blocks at ~70% scale, so the grammatical scaffold reads as a height
-rhythm. The written-layer check bit (§4) occupies the check slot: a
-filled dot for a lexical check of 1, a ring for payload polarity 1,
-empty otherwise — the glyph-level equivalent of romanization vowel
-doubling, computed and never distinctive. Because payload polarity is
-the anti-check, a payload syllable's block always differs from its
-lexical twin, which is how written mode payloads stay machine-separable
-per syllable (§7).
+strip is the part-of-speech marker (§5), and it deliberately gets the
+loudest ink in the block — full-width strip bars (empty = noun, single
+= verb, double = modifier) — because the POS channel is simultaneously
+check-invisible and lenition-prone in speech, making the eye its main
+defense. And word assembly makes syntax skimmable by silhouette —
+content words stack their blocks vertically into glyphs one to three
+blocks tall, while particles render as single blocks at ~70% scale, so
+the grammatical scaffold reads as a height rhythm. The written-layer
+check bit (§4) occupies the check slot as a computed filled dot, the
+glyph-level equivalent of romanization vowel doubling; mode-payload
+spans are flagged by a continuous run-rule beside the glyph stack
+rather than per-block marks, matching where frame integrity actually
+lives (§7).
 
 The learnability claim is deliberately asymmetric. Orthographic
 transparency demonstrably accelerates *decoding* acquisition — regular
@@ -297,19 +302,20 @@ grammar-on-a-channel is kept, but relocated from the worst-perceived
 auditory channel to the best-perceived visual ones — height, position,
 and silhouette.
 
-The feature grammar has headroom by construction: five places × six
-manners = 30 expressible onset letters against 11 used, nine vowel grid
-positions against five, so the wider codepoint model (§12) fits without
-new visual features, and a voicing modifier is reserved. The block
-diagram is simultaneously the chord diagram — one input axis per zone —
-which is what makes glyph, chord, and pronunciation three projections
-of one channel vector rather than three systems to learn. The mapping
-is enforced, not aspirational: the feature assignments are normative
-data in `channels.json`, validated for completeness and injectivity by
-`spec_check.py`; a stdlib SVG renderer (`tools/script.py`) generates
-every glyph from that data, and the test suite asserts that all 220
-syllable blocks — and their payload-marked variants — are pairwise
-distinct.
+The feature grammar has headroom by construction: 18 usable onset
+cells against 11 assigned, nine vowel grid positions against five, so
+the wider codepoint model (§12) fits, with any new modifier required to
+pass the same robustness bar. The block diagram is simultaneously the
+chord diagram — one input axis per zone — which is what makes glyph,
+chord, and pronunciation three projections of one channel vector
+rather than three systems to learn (a fourth, lossy projection —
+channel-subset "skeleton" input resolved by an IME — is on the
+roadmap). The mapping is enforced, not aspirational: the assignments
+are normative data in `channels.json`; `spec_check.py` machine-checks
+the distance-2 invariant itself, so a reassignment that put two
+confusable phonemes on overlapping visual features would fail the spec
+build; and the renderer's test suite asserts pairwise distinctness of
+all 220 syllable blocks plus the raster floor above.
 
 ## 7. Mode subsystems
 

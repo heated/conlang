@@ -510,51 +510,51 @@
     "anti-resyllabification (tosmabru-class): for any lexical word ending in a consonant coda followed by any particle, the resyllabified surface string may not parse as a legal word sequence — generator-enforced over the actual lexicon and particle inventory"
   ],
   "script_features": {
-    "comment": "articulatory features driving the featural script (docs/spec/script.md). Visual grammar: place -> base element, manner -> modifier, vowel height/backness -> carrier-tick position. Normative; spec_check asserts completeness and injectivity.",
+    "comment": "v0.2 confusion-aware anti-iconic assignment (conlang-wqj): compositional base x modifier grammar retained; the phoneme->cell assignment is solved by tools/assign_glyphs.py as an error-correcting code — every phonetic confusion pair (covered+forbidden+weighted) differs in BOTH base and modifier. Emergent mnemonic: base = digit_tens mod 4. h keeps the tick base alone (lightest glyph).",
     "onset_features": {
+      "c": {
+        "base": "circle",
+        "modifier": "plain"
+      },
       "p": {
-        "place": "labial",
-        "manner": "stop"
-      },
-      "m": {
-        "place": "labial",
-        "manner": "nasal"
-      },
-      "w": {
-        "place": "labial",
-        "manner": "approximant"
+        "base": "vertical",
+        "modifier": "plain"
       },
       "t": {
-        "place": "coronal",
-        "manner": "stop"
-      },
-      "n": {
-        "place": "coronal",
-        "manner": "nasal"
-      },
-      "s": {
-        "place": "coronal",
-        "manner": "fricative"
-      },
-      "l": {
-        "place": "coronal",
-        "manner": "lateral"
-      },
-      "c": {
-        "place": "palatal",
-        "manner": "affricate"
-      },
-      "j": {
-        "place": "palatal",
-        "manner": "approximant"
+        "base": "diagonal",
+        "modifier": "crossed"
       },
       "k": {
-        "place": "velar",
-        "manner": "stop"
+        "base": "angle",
+        "modifier": "doubled"
+      },
+      "m": {
+        "base": "circle",
+        "modifier": "crossed"
+      },
+      "n": {
+        "base": "vertical",
+        "modifier": "doubled"
+      },
+      "s": {
+        "base": "diagonal",
+        "modifier": "doubled"
+      },
+      "l": {
+        "base": "angle",
+        "modifier": "plain"
+      },
+      "w": {
+        "base": "circle",
+        "modifier": "capped"
+      },
+      "j": {
+        "base": "vertical",
+        "modifier": "crossed"
       },
       "h": {
-        "place": "glottal",
-        "manner": "fricative"
+        "base": "tick",
+        "modifier": "doubled"
       }
     },
     "vowel_features": {
@@ -580,50 +580,37 @@
       }
     },
     "visual_grammar": {
-      "place_base": {
-        "labial": "circle",
-        "coronal": "vertical stroke",
-        "palatal": "diagonal stroke",
-        "velar": "top-left angle",
-        "glottal": "short tick"
+      "bases": {
+        "circle": "closed ring, onset-zone center",
+        "vertical": "full-height vertical stroke",
+        "diagonal": "full rising diagonal stroke",
+        "angle": "top-left corner (top arm + left arm)",
+        "tick": "short horizontal tick, particle-only (h)"
       },
-      "manner_modifier": {
-        "stop": "plain",
-        "nasal": "floating bar above",
-        "fricative": "doubled element",
-        "affricate": "mid crossbar",
-        "approximant": "broken stroke",
-        "lateral": "bottom foot hook"
+      "modifiers": {
+        "plain": "base alone",
+        "crossed": "full attached stroke crossing the base through its center",
+        "doubled": "wide-offset parallel copy (>=13 units perpendicular separation)",
+        "capped": "full attached horizontal stroke at the top of the base"
       },
+      "banned_cells": [
+        [
+          "circle",
+          "doubled"
+        ],
+        [
+          "angle",
+          "capped"
+        ]
+      ],
       "vowel": "carrier bar; tick height = vowel height (high/mid/low), tick direction = backness (front=left, back=right, central=both)",
-      "coda": "miniature onset form in the bottom strip; empty strip = zero coda (noun silhouette)",
-      "check_slot": "top-right dot: filled = written check 1 (lexical), ring = payload polarity 1, absent = 0",
-      "headroom": "5 places x 6 manners = 30 onset capacity; 3x3 vowel grid + rounding modifier; voicing = future inner-dot modifier (wide model per SPEC 9)"
+      "coda": "strip-native full-width marks (POS gets the loudest ink): empty=zero coda (noun), single bar=n (verb), double bar=s (modifier), hooked bar=l (reserved)",
+      "check_slot": "top-right filled dot = written check 1 (lexical); payload spans are marked by a continuous run-rule beside the glyph stack, not per-block marks",
+      "headroom": "5 bases x 4 modifiers - 2 banned cells = 18 onset cells (11 used, implemented cells whitelisted in the renderer); 3x3 vowel grid + rounding modifier; further modifiers (e.g. inner dot) are wide-model reserves (SPEC 9)"
     },
     "script_confusion_pairs": {
-      "comment": "Visual confusion pairs of the v0.1 ink, measured at 16-24px block renders (Fable review 2026-08-09): small-size collapses that are NOT phonetic confusion pairs get no protection from the humility rule unless listed here. m/p and n/t are also phonetically weighted. lexgen prices these as weighted conflicts in the strict_with_script policy (advisory; not in frozen capacity numbers). The v0.2 ink redesign aims to shrink this set to a subset of the phonetic pairs.",
-      "onset": [
-        [
-          "s",
-          "t"
-        ],
-        [
-          "c",
-          "j"
-        ],
-        [
-          "w",
-          "p"
-        ],
-        [
-          "m",
-          "p"
-        ],
-        [
-          "n",
-          "t"
-        ]
-      ]
+      "comment": "Visual confusion pairs of the CURRENT ink at reading sizes, priced by lexgen strict_with_script. v0.2 goal state achieved: empty — all letter pairs are separated by robust full-scale features and the raster-distance floor in test_script.py enforces it. Re-populate if a future ink change or measurement finds collapses.",
+      "onset": []
     }
   }
 }

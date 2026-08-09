@@ -168,6 +168,13 @@ else is defined over these coordinates.
   settled in SPEC v0.1; digits/dates reuse one digit-pair code.
 - POS channel: final coda (∅ noun / n verb / s modifier) — settled.
 - Assignment policy: humility (conlang-bf2, 2026-08-09) — settled.
+- Script iconicity (conlang-wqj, 2026-08-09; Edward delegated the call):
+  **confusion-aware anti-iconic** — compositional base×modifier grammar
+  retained; phoneme→cell assignment solved as an error-correcting code
+  (every phonetic confusion pair at visual distance 2; robust ink only;
+  emergent digit mnemonic base = tens mod 4); codas = full-width strip
+  marks; payload marking moved to run-level. Decision record:
+  docs/design/script-v02-assignment.md.
 - Check/register: demoted to written layer with optional careful-speech
   realization — **tentative**; re-promotion or deletion are documented
   minor-version paths (SPEC §9). The one genuinely open core question.
