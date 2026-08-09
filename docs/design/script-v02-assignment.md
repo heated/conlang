@@ -53,22 +53,30 @@ A perfect solution exists and the ordered DFS finds it in <0.1 s:
 1/5/9, diagonal 2/6, angle 3/7) — an artifact of digit-ordered search
 that makes mode reading trainable by rule.
 
-## Measured outcome (14×14 occupancy raster of the onset zone,
-`tools/script.py rasterize`, enforced by `test_script.py`)
+## Measured outcome (occupancy raster of the onset zone, minimized
+over sub-cell sampling phases; `tools/script.py rasterize`, enforced
+by `test_script.py`)
 
-- minimum distance over the 12 **phonetic** pairs: **0.714**
-  (v0.1's m/p and n/t differed by a floating bar that merges — the
-  collapse class; now every phonetic pair differs by base AND modifier)
-- minimum over **all** 55 onset pairs: **0.231** (c/w, plain vs capped
-  circle) — the closest pairs are same-base pairs, which are
-  phonetically distant by construction, so the *ear* disambiguates
-  exactly where the eye is weakest (symmetric redundancy, the reverse
-  of v0.1's failure mode); and their difference is added full-length
-  strokes, the ink class that survives degradation
-- coda marks (full-width strip bars): n/s 1.000, n/l 0.750, s/l 0.623
-- `script_confusion_pairs` is now **empty**; the raster floor in
-  `test_script.py` (all pairs ≥ 0.20, phonetic pairs ≥ 0.60, codas
-  ≥ 0.55) is the regression guard that keeps it empty
+- minimum distance over the 12 **phonetic** pairs at 14×14: **0.623**
+  (l/w; single-phase 0.714) — v0.1's m/p and n/t differed by a
+  floating bar that merges, the collapse class; now every phonetic
+  pair differs by base AND modifier
+- minimum over **all** 55 onset pairs at 14×14: **0.195** (c/m) — the
+  closest pairs are same-base pairs. For a *listener* those are safe
+  (phonetically distant); for a silent *reader* phonetic distance is
+  no protection (review correction, 2026-08-09), so the same-base
+  pairs are listed exhaustively in `script_confusion_pairs` and priced
+  by `lexgen strict_with_script`: cost at current inventory is one
+  root body (strict 18 → 17). `spec_check` enforces that every
+  same-base pair stays listed. w's cap was widened with end-drops
+  after review measurement showed c/w vanishing at a 7×7 raster
+  (0.000 → 0.250; 14×14 0.231 → 0.348).
+- coda marks (full-width strip bars): n/s 1.000, n/l 0.723, s/l 0.600
+  phase-min (the n/s 1.000 is partly an interleaved-bands artifact of
+  the occupancy metric — flagged for blur-based re-measurement at the
+  freeze gate)
+- regression floor: all pairs ≥ 0.15, phonetic ≥ 0.55, codas ≥ 0.50,
+  phase-minimized, ink window guarded
 
 ## What was given up
 

@@ -20,12 +20,16 @@ with dedicated number characters (bead conlang-r5y).
 Casual speech carries **three** channels per syllable: onset, vowel,
 coda — 220 spoken segmental syllables. The written layer carries
 **four**: those three plus the computed check bit (SPEC §2.4, §4.1),
-giving 440 written codepoints (each syllable × two check-slot states:
-its lexical form and its payload form). Nothing about the check is
-spoken in casual speech; careful/safety registers *may* realize it as
-vowel length. The romanization renders channel 4 as vowel doubling;
-the native script renders it as the check slot (§6). Same bit, two
-costumes — a doubled vowel in romanized text is ink, not sound.
+giving 440 written codepoints as *semantic* states (each syllable in a
+lexical role and in a payload role). Nothing about the check is spoken
+in casual speech; careful/safety registers *may* realize it as vowel
+length. The romanization renders channel 4 as per-syllable vowel
+doubling in both roles. The native script splits it: the lexical check
+renders as the check-slot dot (§6), while payload role is carried by
+span membership (the run-rule, §6–§7) plus the computable check — so
+the 440 semantic states map to 220 block shapes × {dot, no dot} with
+the payload distinction at run level, not 440 distinct block forms.
+A doubled vowel in romanized text is ink, not sound.
 
 ## 1. Design goals
 
@@ -40,9 +44,15 @@ costumes — a doubled vowel in romanized text is ink, not sound.
    different modifier — so no single degraded visual feature class can
    merge an ear-confusable pair. Conversely, the visually closest
    pairs (same base, different modifier) are phonetically distant by
-   construction: a misreading yields a phonetically implausible word,
-   a mishearing yields a visually distant glyph. Each channel covers
-   the other's weak pairs. Machine-checked by `spec_check.py`.
+   construction. For a *listener* that means mishearings land on
+   visually distant glyphs; for a silent *reader*, phonetic distance
+   is no protection at all, so the same-base pairs are the eye's
+   residual weak set — they are listed exhaustively in
+   `script_confusion_pairs` and priced by `lexgen`'s
+   `strict_with_script` policy (cost at current inventory: one root
+   body, 18→17 strict), so the lexicon avoids minting unrelated
+   minimal pairs on them. Both the distance-2 invariant and the
+   same-base⊆listed invariant are machine-checked by `spec_check.py`.
 3. **Letterforms optimized for degradation.** The letter grammar uses
    only robust contrast classes: full-length strokes, wide-offset
    doubling, attached caps and crossings. No floating bars, small
@@ -209,13 +219,16 @@ design brief, 2026-08-09.)
 
 ## 9. Headroom and the wide model
 
-- Onsets: 5 bases × 4 modifiers − 2 banned cells = **18 cells**
-  (11 used). The grid is *headroom, not inventory*: the renderer
-  implements and visually verifies exactly the cells in use and
-  **rejects** the rest (`SUPPORTED_RECIPES`) rather than improvising.
-  The wide model (SPEC §9) needs ~20 onsets; further modifiers (e.g.
-  an inner-dot voicing mark was the v0.1 idea — any addition must pass
-  the robustness bar of §1.3) extend the grid when needed.
+- Onsets: 4 content bases × 4 modifiers − 2 banned cells = **14
+  content cells** (10 used), plus the fixed h cell; the remaining tick
+  cells are reserved to the particle class by policy (the solver
+  searches content bases only). The grid is *headroom, not inventory*:
+  the renderer implements and visually verifies exactly the cells in
+  use and **rejects** the rest (`SUPPORTED_RECIPES`) rather than
+  improvising. The wide model (SPEC §9) needs ~20 onsets; that
+  requires either unreserving tick cells or new modifiers (any
+  addition must pass the robustness bar of §1.3) — a deliberate
+  policy change, not free space.
 - Vowels: 9 grid positions + rounding modifier (5 used).
 - Codas: strip marks generalize by stroke count/shape (3 + ∅ used).
 
@@ -235,15 +248,22 @@ example, and the same running sentence in both layouts. Verification
 is layered:
 
 - `spec_check.py`: frozen feature tables; **the distance-2 invariant**
-  (every phonetic confusion pair differs in base and modifier);
-  banned-cell avoidance; injectivity.
+  (every phonetic confusion pair differs in base and modifier); the
+  **same-base⊆`script_confusion_pairs` invariant** (the eye's weak set
+  stays priced); frozen banned cells; injectivity.
 - `test_script.py`: determinism; per-zone and whole-block
   distinctness; strip/zone ink bounds; check⇔doubling agreement;
-  payload run-rule; CLI; and the **raster regression floor** — 14×14
-  occupancy-grid distances (all onset pairs ≥ 0.20, phonetic pairs
-  ≥ 0.60, coda marks ≥ 0.55), which is what keeps
-  `script_confusion_pairs` empty. A geometry change that erodes a
-  distinction fails the floor before it reaches a reader.
+  payload run-rule clearance; CLI (including payload validity); the
+  **four-way consistency test** (solver ≡ spec data ≡ frozen tables ≡
+  renderer recipes); and the **raster regression floor** — 14×14
+  occupancy-grid distances minimized over sub-cell sampling phases,
+  with the ink window guarded (all onset pairs ≥ 0.15 against a
+  measured phase-min of 0.195; phonetic pairs ≥ 0.55 against 0.623;
+  coda marks ≥ 0.50 against 0.600). A geometry change that erodes a
+  distinction fails the floor before it reaches a reader. The IoU
+  floor is a regression ratchet, not legibility evidence — the
+  freeze-gate evaluation should re-measure with multi-resolution and
+  blur-based distances (noted on the freeze bead).
 
 Remaining known work: the style/beauty pass (freeze-gate material with
 the layout decision); fused disyllabic blocks study (conlang-r5y);

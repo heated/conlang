@@ -158,19 +158,36 @@ class TestZoneGeometry(unittest.TestCase):
             del self.r.onset_features["_x"]
 
 
+RASTER_PHASES = [(px, py) for px in (0, 1.57, 3.14) for py in (0, 1.38, 2.76)]
+
+
+def phase_min_distance(parts_a, parts_b, x0, y0, x1, y1, n):
+    """Minimum raster distance across sub-cell sampling phases, so the
+    floor cannot be passed by a lucky grid alignment (Codex finding)."""
+    return min(
+        raster_distance(rasterize(parts_a, x0 + px, y0 + py,
+                                  x1 + px, y1 + py, n),
+                        rasterize(parts_b, x0 + px, y0 + py,
+                                  x1 + px, y1 + py, n))
+        for px, py in RASTER_PHASES)
+
+
 class TestRasterFloor(unittest.TestCase):
     """Small-size legibility regression floor: occupancy-grid distances
-    at a 14x14 raster of the onset zone (~14 px rendering). Thresholds
-    sit below currently measured minima; a geometry change that erodes
-    a distinction trips them (the v0.1 collapses scored near zero)."""
+    at a 14x14 raster of the onset zone (~14 px rendering), minimized
+    over sampling phases. Thresholds sit below currently measured
+    phase-minima (all pairs 0.195, phonetic 0.623, codas 0.600); a
+    geometry change that erodes a distinction trips them (the v0.1
+    collapses scored near zero)."""
+
+    WINDOW = (4, 4, 70, 62)
 
     @classmethod
     def setUpClass(cls):
         cls.r = ScriptRenderer()
         cls.inv = cls.r.inv
         cls.onsets = cls.inv.content_onsets + ["h"]
-        cls.grids = {o: rasterize(cls.r._onset(o), 4, 4, 70, 62, 14)
-                     for o in cls.onsets}
+        cls.parts = {o: cls.r._onset(o) for o in cls.onsets}
         spec = json.loads(
             (Path(__file__).resolve().parent.parent / "docs" / "spec" /
              "channels.json").read_text())
@@ -181,32 +198,89 @@ class TestRasterFloor(unittest.TestCase):
             for a, b in grp:
                 cls.phonetic.add(frozenset((a, b)))
 
+    def test_onset_ink_inside_raster_window(self):
+        # ink outside the measured window would be invisible to the
+        # floor; guard the crop explicitly
+        x0, y0, x1, y1 = self.WINDOW
+        for o, parts in self.parts.items():
+            for el in parse_parts(parts):
+                # round cap/half-width extends w/2 beyond the geometry
+                w = float(el.get("stroke-width", 0))
+                pad = w / 2
+                if el.tag == "line":
+                    xs = [float(el.get("x1")), float(el.get("x2"))]
+                    ys = [float(el.get("y1")), float(el.get("y2"))]
+                else:
+                    r_ = float(el.get("r"))
+                    xs = [float(el.get("cx")) - r_, float(el.get("cx")) + r_]
+                    ys = [float(el.get("cy")) - r_, float(el.get("cy")) + r_]
+                self.assertGreaterEqual(min(xs) - pad, x0, o)
+                self.assertGreaterEqual(min(ys) - pad, y0, o)
+                self.assertLessEqual(max(xs) + pad, x1, o)
+                self.assertLessEqual(max(ys) + pad, y1, o)
+
     def test_all_onset_pairs_above_floor(self):
         for a, b in itertools.combinations(self.onsets, 2):
-            d = raster_distance(self.grids[a], self.grids[b])
-            self.assertGreaterEqual(d, 0.20, f"{a}/{b} at {d:.3f}")
+            d = phase_min_distance(self.parts[a], self.parts[b],
+                                   *self.WINDOW, 14)
+            self.assertGreaterEqual(d, 0.15, f"{a}/{b} at {d:.3f}")
 
     def test_phonetic_pairs_far_apart(self):
         # the anti-iconic code's payoff: ear-confusable pairs are
         # visually FAR (v0.1 equivalents scored near-collapse)
         for p in self.phonetic:
             a, b = tuple(p)
-            d = raster_distance(self.grids[a], self.grids[b])
-            self.assertGreaterEqual(d, 0.60, f"{a}/{b} at {d:.3f}")
-
-    def test_coda_marks_far_apart(self):
-        grids = {c: rasterize(self.r._coda(c), 8, 70, 92, 96, 12)
-                 for c in ("n", "s", "l")}
-        for a, b in itertools.combinations(("n", "s", "l"), 2):
-            d = raster_distance(grids[a], grids[b])
+            d = phase_min_distance(self.parts[a], self.parts[b],
+                                   *self.WINDOW, 14)
             self.assertGreaterEqual(d, 0.55, f"{a}/{b} at {d:.3f}")
 
+    def test_coda_marks_far_apart(self):
+        for a, b in itertools.combinations(("n", "s", "l"), 2):
+            d = phase_min_distance(self.r._coda(a), self.r._coda(b),
+                                   8, 70, 92, 96, 12)
+            self.assertGreaterEqual(d, 0.50, f"{a}/{b} at {d:.3f}")
+
     def test_vowel_ticks_distinct_at_small_size(self):
-        grids = {v: rasterize(self.r._vowel(v), 58, 8, 92, 66, 12)
-                 for v in self.inv.vowels}
         for a, b in itertools.combinations(self.inv.vowels, 2):
-            d = raster_distance(grids[a], grids[b])
+            d = phase_min_distance(self.r._vowel(a), self.r._vowel(b),
+                                   58, 8, 92, 66, 12)
             self.assertGreater(d, 0.10, f"{a}/{b} at {d:.3f}")
+
+
+class TestConsistency(unittest.TestCase):
+    """Four-way agreement: solver output == channels.json == frozen
+    tables (spec_check) == renderer SUPPORTED_RECIPES (Codex finding)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import assign_glyphs
+        cls.ag = assign_glyphs
+        cls.r = ScriptRenderer()
+        cls.spec = json.loads(
+            (Path(__file__).resolve().parent.parent / "docs" / "spec" /
+             "channels.json").read_text())
+
+    def test_solver_reproduces_normative_assignment(self):
+        onsets = [o["roman"] for o in self.spec["onsets"]["content"]]
+        pairs = self.ag.phonetic_pairs(self.spec)
+        solved = self.ag.solve(onsets, pairs)
+        self.assertIsNotNone(solved)
+        normative = {o: (v["base"], v["modifier"])
+                     for o, v in
+                     self.spec["script_features"]["onset_features"].items()
+                     if o != "h"}
+        self.assertEqual(solved, normative)
+
+    def test_banned_cells_agree(self):
+        vg = self.spec["script_features"]["visual_grammar"]
+        self.assertEqual({tuple(c) for c in vg["banned_cells"]},
+                         self.ag.BANNED_CELLS)
+
+    def test_supported_recipes_are_exactly_the_assigned_cells(self):
+        from script import SUPPORTED_RECIPES
+        assigned = {(v["base"], v["modifier"]) for v in
+                    self.spec["script_features"]["onset_features"].values()}
+        self.assertEqual(SUPPORTED_RECIPES, assigned)
 
 
 class TestCheckMarking(unittest.TestCase):
@@ -250,6 +324,24 @@ class TestCheckMarking(unittest.TestCase):
                           if el.tag == "line"
                           and float(el.get("x1")) == RULE_X])
 
+    def test_run_rule_clear_of_all_onsets(self):
+        # the rule must sit BESIDE the stack: positive gap between the
+        # rule's right edge and every onset's leftmost ink
+        from script import RULE_W
+        rule_edge = RULE_X + RULE_W / 2
+        for o in self.inv.content_onsets:
+            xmin = float("inf")
+            for el in parse_parts(self.r._onset(o)):
+                # round cap/half-width extends w/2 beyond the geometry
+                w = float(el.get("stroke-width", 0))
+                if el.tag == "line":
+                    xmin = min(xmin, min(float(el.get("x1")),
+                                         float(el.get("x2"))) - w / 2)
+                else:
+                    xmin = min(xmin, float(el.get("cx"))
+                               - float(el.get("r")) - w / 2)
+            self.assertGreater(xmin - rule_edge, 1.0, o)
+
 
 class TestAssembly(unittest.TestCase):
     def setUp(self):
@@ -265,14 +357,36 @@ class TestAssembly(unittest.TestCase):
         self.assertEqual((w3, h3), (BLOCK, 3 * BLOCK))
 
     def test_horizontal_layout_runs_left_to_right(self):
+        from script import HEAD_MARGIN
         sylls = [Syllable("s", "a", ""), Syllable("l", "a", "n")]
         parts, w, h = self.r.word_glyph_horizontal(sylls)
-        self.assertEqual((w, h), (2 * BLOCK, BLOCK))
+        self.assertEqual((w, h), (2 * BLOCK, BLOCK + HEAD_MARGIN))
         heads = [el for el in parse_parts(parts)
                  if el.tag == "line" and float(el.get("y1")) == 4
                  and float(el.get("y2")) == 4]
         self.assertEqual(len(heads), 1)
         self.assertEqual(float(heads[0].get("x2")), 2 * BLOCK - 4)
+
+    def test_headstroke_clear_of_block_ink(self):
+        # the rule must never fuse with check dots or letter ink: all
+        # non-headstroke elements start below the rule's capsule
+        sylls = [Syllable("k", "u", ""), Syllable("t", "u", "n")]  # check-1 dots
+        parts, _, _ = self.r.word_glyph_horizontal(sylls)
+        for el in parse_parts(parts):
+            if el.tag == "line" and float(el.get("y1")) == 4 \
+                    and float(el.get("y2")) == 4:
+                continue                      # the headstroke itself
+            w = float(el.get("stroke-width", 0))
+            if el.tag == "line":
+                ymin = min(float(el.get("y1")), float(el.get("y2"))) - w
+            else:
+                ymin = (float(el.get("cy")) - float(el.get("r")) - w / 2)
+            self.assertGreater(ymin, 4 + 1.75 + 1.0, ET.tostring(el))
+
+    def test_horizontal_payload_rejected(self):
+        with self.assertRaises(NotImplementedError):
+            self.r.word_glyph_horizontal([Syllable("m", "a", "")],
+                                         payload=True)
 
     def test_particle_glyph_is_scaled_block(self):
         parts, w, h = self.r.particle_glyph(Syllable("h", "u", ""))
@@ -320,10 +434,28 @@ class TestCLI(unittest.TestCase):
     def test_bad_arity_and_operands_exit_two(self):
         for argv in ([], ["word"], ["payload"], ["particle"],
                      ["particle", "hu", "ha"], ["particle", "sala"],
-                     ["particle", "sa"], ["specimen", "--out"],
+                     ["particle", "sa"], ["particle", "xyzzy"],
+                     ["payload", "ha"],      # particle onset in payload
+                     ["payload", "mii"],     # wrong anti-check doubling
+                     ["word", "xyzzy"],
+                     ["specimen", "--out"],
                      ["specimen", "stray"], ["frobnicate"]):
             with contextlib.redirect_stderr(io.StringIO()):
                 self.assertEqual(main(argv), 2, argv)
+
+    def test_payload_cli_output_semantics(self):
+        # run-rule present, no lexical check dots
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            # ma: anti-check 1 -> doubled; mi: anti-check 0 -> plain
+            self.assertEqual(main(["payload", "maami"]), 0)
+        svg = ET.fromstring(buf.getvalue().strip().splitlines()[-1])
+        ns = "{http://www.w3.org/2000/svg}"
+        from script import RULE_X
+        self.assertTrue(any(float(el.get("x1")) == RULE_X
+                            for el in svg.iter(f"{ns}line")))
+        for el in svg.iter(f"{ns}circle"):
+            self.assertNotEqual(el.get("fill"), "currentColor")
 
 
 if __name__ == "__main__":

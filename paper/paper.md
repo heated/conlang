@@ -268,11 +268,15 @@ a visually distant glyph. The assignment is solved deterministically
 from the spec's confusion data, is frozen as normative data, and
 yields a free regularity for the mode subsystem — glyph base = tens
 digit mod 4 — exactly where per-pair discrimination has no lexical
-safety net. An occupancy-grid raster floor in the test suite enforces
-the achieved distances (minimum 0.71 across phonetic pairs at a 14×14
-raster, against near-collapse for the v0.1 equivalents), so the
-"eye-only confusion pair" table in the spec data is empty and any
-geometry change that would repopulate it fails the build.
+safety net. Two guards make the property durable. An occupancy-grid
+raster floor in the test suite enforces the achieved distances
+(minimum 0.62 across phonetic pairs at a phase-minimized 14×14
+raster, against near-collapse for the v0.1 equivalents). And because
+phonetic distance protects listeners but not silent readers, the
+eye's residual weak set — exactly the same-base pairs — is enumerated
+in the spec data and priced by the lexicon generator, which costs one
+root body at the strict tier; the spec checker enforces that the
+enumeration stays complete.
 
 Two grammatical facts are visible before any letter is read. The coda
 strip is the part-of-speech marker (§5), and it deliberately gets the

@@ -120,6 +120,9 @@ class Checker:
             self.expect(set(vg.get("modifiers", {})) == FROZEN_MODIFIERS,
                         "visual_grammar.modifiers differ from frozen set")
             banned = {tuple(c) for c in vg.get("banned_cells", [])}
+            self.expect(banned == {("circle", "doubled"),
+                                   ("angle", "capped")},
+                        "banned_cells differ from frozen set")
             for o, (b, m) in of.items():
                 self.expect(b in FROZEN_BASES, f"onset {o}: unknown base {b!r}")
                 self.expect(m in FROZEN_MODIFIERS,
@@ -150,9 +153,22 @@ class Checker:
                           "pricing input, lexgen strict_with_script)")
             else:
                 known = set(of)
+                listed = set()
                 for a, b in scp["onset"]:
                     self.expect(a in known and b in known and a != b,
                                 f"script_confusion_pairs: bad pair {a!r}/{b!r}")
+                    listed.add(frozenset((a, b)))
+                # the eye's weak set is the same-base set BY CONSTRUCTION
+                # of the anti-iconic code; silent readers get no phonetic
+                # protection on them, so every same-base pair must be
+                # priced by the lexicon (Fable review, conlang-wqj)
+                for a in of:
+                    for b in of:
+                        if a < b and of[a][0] == of[b][0]:
+                            self.expect(
+                                frozenset((a, b)) in listed,
+                                f"same-base pair {a}/{b} missing from "
+                                f"script_confusion_pairs")
 
         # --- structural invariants ---
         for group, items in (("onsets", content + particle), ("vowels", vowels),
@@ -404,6 +420,14 @@ MUTATIONS = [
     ("script_confusion_pairs removed",
      lambda d: d["script_features"].__delitem__("script_confusion_pairs"),
      "script_confusion_pairs missing"),
+    ("same-base pair c/w dropped from eye pricing",
+     lambda d: d["script_features"]["script_confusion_pairs"]["onset"]
+     .remove(["c", "w"]),
+     "missing from script_confusion_pairs"),
+    ("banned_cells cleared",
+     lambda d: d["script_features"]["visual_grammar"]["banned_cells"]
+     .clear(),
+     "banned_cells differ from frozen"),
 ]
 
 

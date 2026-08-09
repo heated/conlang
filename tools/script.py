@@ -48,8 +48,10 @@ STRIP_Y0, STRIP_Y1 = 72, 94
 STRIP_X0, STRIP_X1 = 12, 88
 # check slot (kept clear of the high-back vowel tick; see test bounds)
 DOT_X, DOT_Y, DOT_R = 91, 7, 4.5
-# payload run-rule
-RULE_X, RULE_W = 4, 3
+# payload run-rule (left edge; kept clear of the s-onset's leftmost ink)
+RULE_X, RULE_W = 2.5, 2.5
+# horizontal layout: top margin so the headstroke clears the check dots
+HEAD_MARGIN = 14
 
 # (base, modifier) cells with implemented, visually verified recipes.
 # The rest of the feature grid is headroom (script.md §9); unimplemented
@@ -103,8 +105,10 @@ class ScriptRenderer:
             parts.append(_circle(dx + CX, dy + CY, CR))
             if mod == "crossed":       # Ø: full diagonal through center
                 parts.append(L(18, 49, 48, 19))
-            elif mod == "capped":      # attached top bar
-                parts.append(L(14, 11, 52, 11))
+            elif mod == "capped":      # attached top bar, wider than the
+                parts.append(L(8, 11, 58, 11))     # ring so it survives
+                parts.append(L(8, 11, 8, 20))      # coarse rasters; short
+                parts.append(L(58, 11, 58, 20))    # end-drops anchor it
         elif base == "vertical":
             if mod == "doubled":       # wide parallel pair
                 parts.append(L(24, ZY0, 24, ZY1))
@@ -194,15 +198,20 @@ class ScriptRenderer:
             parts.append(_line(RULE_X, 4, RULE_X, h - 4, w=RULE_W))
         return parts, BLOCK, h
 
-    def word_glyph_horizontal(self, sylls):
+    def word_glyph_horizontal(self, sylls, payload=False):
         """Documented alternative layout: blocks left-to-right under a
-        shared headstroke (freeze-gate comparison; content words only)."""
+        shared headstroke (freeze-gate comparison). Block ink is dropped
+        by HEAD_MARGIN so the rule never touches the check dots."""
+        if payload:
+            raise NotImplementedError(
+                "headstroke layout has no payload marking defined "
+                "(freeze-gate material, script.md §7)")
         parts = []
         for i, syl in enumerate(sylls):
-            parts += self.syllable_block(syl, dx=i * BLOCK)
+            parts += self.syllable_block(syl, dx=i * BLOCK, dy=HEAD_MARGIN)
         w = BLOCK * len(sylls)
         parts.append(_line(4, 4, w - 4, 4, w=3.5))
-        return parts, w, BLOCK
+        return parts, w, BLOCK + HEAD_MARGIN
 
     def particle_glyph(self, syl: Syllable):
         """Particle: single block at 70% scale (short silhouette)."""
@@ -386,7 +395,13 @@ def main(argv=None) -> int:
         all_parts, x = [], 0
         maxh = 0
         for wtext in args[1:]:
-            sylls = inv.parse_word(wtext, mode=mode)
+            try:
+                sylls = inv.parse_word(wtext, mode=mode)
+            except ValueError as e:
+                return usage(f"cannot parse {wtext!r}: {e}")
+            if payload and any(s.onset == "h" for s in sylls):
+                return usage(f"{wtext!r}: payload symbols never use the "
+                             f"particle onset h (modes.md)")
             glyph, gw, gh = r.word_glyph(sylls, payload=payload)
             all_parts.append(f'<g transform="translate({x} 0)">'
                              + "".join(glyph) + "</g>")
@@ -396,7 +411,10 @@ def main(argv=None) -> int:
     elif cmd == "particle":
         if len(args) != 2:
             return usage("particle needs exactly one romanized particle")
-        sylls = inv.parse_word(args[1], mode="lexical")
+        try:
+            sylls = inv.parse_word(args[1], mode="lexical")
+        except ValueError as e:
+            return usage(f"cannot parse {args[1]!r}: {e}")
         problems = inv.validate_particle(sylls)
         if problems:
             return usage(f"not a valid particle: {'; '.join(problems)}")

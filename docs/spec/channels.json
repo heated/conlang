@@ -609,8 +609,41 @@
       "headroom": "5 bases x 4 modifiers - 2 banned cells = 18 onset cells (11 used, implemented cells whitelisted in the renderer); 3x3 vowel grid + rounding modifier; further modifiers (e.g. inner dot) are wide-model reserves (SPEC 9)"
     },
     "script_confusion_pairs": {
-      "comment": "Visual confusion pairs of the CURRENT ink at reading sizes, priced by lexgen strict_with_script. v0.2 goal state achieved: empty — all letter pairs are separated by robust full-scale features and the raster-distance floor in test_script.py enforces it. Re-populate if a future ink change or measurement finds collapses.",
-      "onset": []
+      "comment": "The eye's residual weak pairs = the same-base pairs, BY CONSTRUCTION of the v0.2 anti-iconic code (same-base pairs are phonetically distant, so neither the humility rule nor the ear protects a silent READER from them; c/w and k/l additionally share check bits). Priced by lexgen strict_with_script so the lexicon avoids minting unrelated minimal pairs on them. 14x14 raster distances (test_script.py floor): c/w 0.231, c/m 0.250, m/w 0.388, p/j 0.368, p/n ~0.5, j/n ~0.5, t/s ~0.6, k/l 0.406. spec_check enforces that every same-base pair is listed here.",
+      "onset": [
+        [
+          "c",
+          "m"
+        ],
+        [
+          "c",
+          "w"
+        ],
+        [
+          "m",
+          "w"
+        ],
+        [
+          "p",
+          "j"
+        ],
+        [
+          "p",
+          "n"
+        ],
+        [
+          "j",
+          "n"
+        ],
+        [
+          "t",
+          "s"
+        ],
+        [
+          "k",
+          "l"
+        ]
+      ]
     }
   }
 }
