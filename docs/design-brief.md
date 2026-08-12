@@ -174,6 +174,15 @@ else is defined over these coordinates.
   against the greenfield on how much the Romance constraint wrecks
   chording / script / the other engineered low-hanging-fruit traits
   (bead ow7).
+- 2026-08-13 (later): Romance was picked for **recognizability to
+  Edward** — who is EN-L1 and got gist-only. **Switch focus to the
+  English-zone zonal** ("Atlantic" — the Anglo-Latinate stratum;
+  docs/design/zonal/atlantic-zonal-v0.md, bead: AZ) **without erasing
+  RZ**; both are recipe instantiations and share one measurement
+  program. Ownership escalation: the duke should pick the value
+  direction at each step and keep going — timed workshop blocks with
+  a real timer, filled fully; don't stop by default until languages
+  are fully fleshed out or goals exhausted.
 
 ## Decisions log (previously open questions)
 
