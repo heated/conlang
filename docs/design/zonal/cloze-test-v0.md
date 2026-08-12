@@ -48,7 +48,7 @@ Key: 1 forte/strong · 2 manto/cloak · 3 remover/take off ·
 > — Perfecte. Alora nos __16__.
 
 Key: 11 dia/day · 12 ben/well · 13 prender/take-have ·
-14 placer/pleasure · 15 cerca/near · 16 va/go
+14 placer/pleasure · 15 proxime/near · 16 va/go
 
 **Text C — expository:**
 
@@ -64,9 +64,16 @@ Key: 17 romance · 18 leger/read · 19 studiar/studying ·
 23 pronuncia/pronounces · 24 comprension/comprehension ·
 25 publica/publish
 
-**Item 26 (global):** "In one sentence, what was Text A about?"
-(scored pass/fail on gist; catches word-level guessing without
-comprehension).
+**Items 26–28 (gist, one per text):** "In one sentence, what was this
+text about?" — scored pass/fail.
+
+**Two published numbers, always** (reader test 01's lesson: "kinda
+knew what was going on" is a distinct state): the **specifics score**
+(cloze % correct) and the **gist score** (summary pass rate). In-zone
+readers should be high on both; out-of-zone Latinate readers (e.g.
+English) high-gist/low-specifics. If in-zone readers ever pattern
+gist-only, the lexicon is failing its zone — that's the alarm the
+single blended number would hide.
 
 ## Notes for v1
 

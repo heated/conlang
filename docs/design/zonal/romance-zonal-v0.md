@@ -129,7 +129,9 @@ etymon; (3) adopt the shape closest to the *written-cognate
 intersection* (usually the Latin accusative stem as it survives in
 ES/IT); (4) tie-breaks, in order: weighted sight-recognition → keeps
 the derivation family regular (nacion/nacional/nacionalitate must all
-work) → shorter. Where the zone split lexically (window: ventana /
+work) → English/international-Latinate cognate available (widens the
+free out-of-zone gist channel; English is the world's L2 — reader
+test 01) → shorter. Where the zone split lexically (window: ventana /
 janela / finestra / fenêtre / fereastră), take the weighted-majority
 *root* (fenestr- has IT+FR+RO+etymology: `fenestra`) and note the
 losers as recognized-passively. (5) **False-friend screen**: reject
@@ -159,7 +161,7 @@ Latinate form as-is (`television`, `internet`, `programa`).
 > — Bon dia! Como tu sta?
 > — Multo ben, gracias. E tu?
 > — Anque ben. Tu vole prender un cafe con me?
-> — Si, con placer. Io conoce un bon sitio cerca de aqui.
+> — Si, con placer. Io conoce un bon sitio proxime de aqui.
 > — Perfecte. Alora nos va.
 
 **Expository register (self-description):**
@@ -260,6 +262,9 @@ replication test of exactly these eight lines.
   the first cloze test should decide, not taste.
 - Known blocker-candidates already flagged for the reader test:
   `soplar` (weak for IT/FR readers), `fenestra` vs ES `ventana`.
+- `alora` (Italo-French, .30) vs `entonce` (Ibero majority, .65) —
+  the recipe weights say entonce; alora is prettier. Reader test 01
+  flags it; decide with in-zone cloze data.
 - Name. (Deliberately unpicked.)
 
 ## 10. The middle ground: is there a "Romance-skinned greenfield"?
