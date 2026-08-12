@@ -250,3 +250,27 @@ replication test of exactly these eight lines.
 - Known blocker-candidates already flagged for the reader test:
   `soplar` (weak for IT/FR readers), `fenestra` vs ES `ventana`.
 - Name. (Deliberately unpicked.)
+
+## 10. The middle ground: is there a "Romance-skinned greenfield"?
+
+(For conlang-ow7.) Could the greenfield lang keep its engineered
+machinery and *borrow* the zonal bootstrap by skinning its lexicon in
+Romance? Analysis: **no — first-contact readability requires actual
+Romance word-shapes**, which the 220-syllable channel grid cannot
+host (`fenestra` doesn't fit a CV(C) grid word; anything that does
+fit stops being sight-readable). The hybrid buys a different, weaker
+good: **mnemonic hooks**. And that weaker good is *free*:
+
+> When the greenfield lexicon (kps) assigns meanings to root bodies,
+> the assignment is arbitrary within the confusion constraints — so
+> prefer, at zero structural cost, bodies that phonetically evoke a
+> widespread international/Romance form for that meaning. `so` for
+> sun (sol), `ma` for hand (mano), `no` for negation. The channel
+> machinery is untouched; acquisition for the billion-speaker
+> Romance+international cohort accelerates measurably; everyone else
+> loses nothing.
+
+So the pricing answer sharpens: the zonal and greenfield langs do not
+blend — but the greenfield should *loot* the zonal method's cognate
+tables as a free assignment heuristic. This also serves the beauty
+directive (0eh): Romance-evocative bodies are prepaid-euphonic.
