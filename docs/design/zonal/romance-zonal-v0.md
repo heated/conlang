@@ -177,7 +177,7 @@ Latinate form as-is (`television`, `internet`, `programa`).
 
 > Le governo anunciava hodie un nove programa de energia solar. Le
 > plan preve la construccion de tres centrales en le sud del pais
-> durante les proximes cinco anios, con un investimento total de dos
+> durante les proximes cinco annos, con un investimento total de dos
 > miliardes de euros. Segun le ministra de energia, le programa va
 > crear plus de cuatro mil emplees e va reducir les emisiones de
 > carbon en vinte per cento. Les organizaciones ambientales
