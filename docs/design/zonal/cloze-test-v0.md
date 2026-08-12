@@ -91,6 +91,21 @@ English) high-gist/low-specifics. If in-zone readers ever pattern
 gist-only, the lexicon is failing its zone — that's the alarm the
 single blended number would hide.
 
+## The cross-test matrix (one experiment family, four numbers)
+
+Run the same protocol on **both** languages × **both** populations:
+
+| | Romance-L1 readers | EN-L1 readers |
+|---|---|---|
+| RZ texts | the zone number (target: Interslavic-class) | measured gist-only (reader test 01 predicts) |
+| AZ-a texts | **the open number that decides AZ-b's fate** | ≈100% by construction (control) |
+
+If AZ-a×Romance lands 70%+, the Atlantic strategy collapses happily
+into a controlled English register plus tooling and AZ-b/RZ effort
+gets re-weighed; if it lands low, RZ (in-zone) and AZ-b (bridge)
+each keep their niche. This matrix is the cheapest decision
+mechanism the project has — run it before any further zonal design.
+
 ## Notes for v1
 
 - 35+4 items is pilot-ready. Before the crowdsourced run, oversample
