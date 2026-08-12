@@ -171,7 +171,18 @@ Latinate form as-is (`television`, `internet`, `programa`).
 > ortografia se pronuncia como se escribe. Nos mesura le comprension
 > con testes reales, e nos publica les resultatos.
 
-(Reader test protocol for Edward: read all three cold, mark every
+**News register:**
+
+> Le governo anunciava hodie un nove programa de energia solar. Le
+> plan preve la construccion de tres centrales en le sud del pais
+> durante les proximes cinco anios, con un investimento total de dos
+> miliardes de euros. Segun le ministra de energia, le programa va
+> crear plus de cuatro mil emplees e va reducir les emisiones de
+> carbon en vinte per cento. Les organizaciones ambientales
+> reciveva le anuncio con optimismo prudente, ma demandava plus
+> transparencia sobre le calendario de construccion.
+
+(Reader test protocol for Edward: read all four cold, mark every
 word that blocked you, note total blockers and whether the meaning
 survived. That marked-up list is the first data point and directly
 drives the next lexicon iteration.)
