@@ -192,10 +192,18 @@ romanization doubling remains per-syllable in both layers as before.
 
 ## 7. Word assembly
 
-- **Content words: vertical stacking** (v0.2 default). Syllable blocks
-  stack top-to-bottom; initial (stressed) syllable on top. Word height
-  = 1–3 blocks; words sit side by side with clear gaps; sentence
-  structure is visible as a height rhythm before any letter is read.
+**The ideal end-state is one glyph per word** (Edward, 2026-08-13):
+word-level fused characters, Chinese-like in density — a disyllabic
+word as a single fused block (~48k codepoints, ~7 components, at the
+visual-crowding ceiling), not a train of syllable blocks. That is bead
+conlang-r5y; the layouts below are interim scaffolding that the fusion
+design will subsume.
+
+- **Content words: vertical stacking** (v0.2 interim default).
+  Syllable blocks stack top-to-bottom; initial (stressed) syllable on
+  top. Word height = 1–3 blocks; words sit side by side with clear
+  gaps; sentence structure is visible as a height rhythm before any
+  letter is read.
 - **Particles: single block at ~70% scale**, no headstroke.
 - **Payload spans: a continuous run-rule** along the stack's left edge
   (§6).

@@ -161,6 +161,19 @@ else is defined over these coordinates.
   partitioning, …) against the silent-mishearing metric; validate the
   claimed 80–120 monosyllabic-root range reachable without touching
   the phonology.
+- 2026-08-13 (script ideal, correcting course): **one glyph per
+  word** is the ideal — "more like chinese but ideally one glyph per
+  word instead of two." The v0.2 stacked and headstroke layouts are
+  interim scaffolding, not the destination; word-level fused
+  characters (r5y, now P1) are the target. — Also: **balance beauty
+  against the other goals** for the greenfield lang ("elvish,
+  anyone?"), including the script's beauty (bead 0eh).
+- 2026-08-13 (working mode): **don't pause between tasks by default**;
+  keep pulling work. Refocus: the **zonal lang is the active lane**;
+  greenfield parked in good state. Soon: price the zonal auxlang
+  against the greenfield on how much the Romance constraint wrecks
+  chording / script / the other engineered low-hanging-fruit traits
+  (bead ow7).
 
 ## Decisions log (previously open questions)
 
