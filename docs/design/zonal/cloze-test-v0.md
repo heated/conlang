@@ -21,7 +21,8 @@ and its design feedback loop).
   protocol, romance-zonal-v0.md §5) is item-generation input, not a
   data point — he has seen the design.
 
-## Instrument (26 items, every ~6th content word deleted)
+## Instrument (35 cloze items + 4 gist items, every ~6th content word
+deleted)
 
 **Text A — narrative:**
 
@@ -64,7 +65,22 @@ Key: 17 romance · 18 leger/read · 19 studiar/studying ·
 23 pronuncia/pronounces · 24 comprension/comprehension ·
 25 publica/publish
 
-**Items 26–28 (gist, one per text):** "In one sentence, what was this
+**Text D — news:**
+
+> Le governo anunciava __26__ un nove programa de energia __27__. Le
+> plan preve la construccion de __28__ centrales en le sud del
+> __29__ durante les proximes cinco annos, con un __30__ total de
+> dos miliardes de euros. Segun le ministra de energia, le programa
+> va __31__ plus de cuatro mil emplees e va __32__ les emisiones de
+> carbon en vinte per __33__. Les organizaciones ambientales
+> reciveva le __34__ con optimismo prudente, ma demandava plus
+> __35__ sobre le calendario de construccion.
+
+Key: 26 hodie/today · 27 solar · 28 tres/three · 29 pais/country ·
+30 investimento/investment · 31 crear/create · 32 reducir/reduce ·
+33 cento/percent · 34 anuncio/announcement · 35 transparencia
+
+**Items 36–39 (gist, one per text):** "In one sentence, what was this
 text about?" — scored pass/fail.
 
 **Two published numbers, always** (reader test 01's lesson: "kinda
@@ -77,8 +93,9 @@ single blended number would hide.
 
 ## Notes for v1
 
-- Grow to 40 items with a fourth text (news register) before the
-  crowdsourced run; 26 is enough for the friends-and-family pilot.
+- 35+4 items is pilot-ready. Before the crowdsourced run, oversample
+  the FLAG rows from core-conversational.md (the recipe's genuine
+  uncertainties) with a dedicated item block.
 - Also collect per-blank confidence (1–3) — separates "recognized"
   from "guessed from context", which prices cognate quality vs
   syntax quality separately.
