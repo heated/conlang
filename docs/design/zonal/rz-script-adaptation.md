@@ -58,7 +58,11 @@ in the suffix.**
 6. No check channel (stands as priced: that machinery dies outside
    the greenfield).
 
-## 3. Status: TAPED OUT (v0, 2026-08-14)
+## 3. Status: VECTOR PROTOTYPE (downgraded from 'taped out', 2026-08-15
+review — voicing pairs measure 0 raster distance at worst phase at
+14px; -cion/-itate collapse at 7px; no regression suite; h-deletion
+contradicts the no-silent-letters contract; see project-review-sol.md
+findings 4, 5, 9, 12)
 
 Implemented in `tools/rz_script.py` (stdlib SVG; specimen in
 `.ship-notes/rz-specimen.svg`). What shipped: 18 pairwise-distinct

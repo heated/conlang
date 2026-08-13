@@ -28,9 +28,11 @@ Character anatomy (one 100×100 square per word):
 - **stroke-width floor** (4.4u): sub-pixel ink is fusion's death
   mode; scaling letters must not scale their ink to invisibility.
 
-Codespace: 220² ≈ 48k disyllabic characters — **the "~50k codepoints
-per character" target derived, not assumed** — all computed from 11
-letterforms + 5 vowel positions + strip marks. Nothing enumerated.
+Codespace, CORRECTED (2026-08-15 review): the legal content space is
+**200 non-final × 150 active-final = 30,000 disyllabic wordforms**
+(10,000 root bodies before constraints) — the earlier 220² ≈ 48k
+figure counted particle syllables and ignored the final-POS
+restriction; 48,400 is only a nonlinguistic Cartesian shape count.
 
 ## Measured results (point-sampled occupancy, phase-min over 4
 alignments — a *harsher* model than antialiased rendering; same
@@ -51,8 +53,16 @@ a single channel of one syllable), disyllables:
 
 Trisyllables at 28 px: fused 0.054 / 0.108 vs stacked 0.000 / 0.061.
 
-**Headline: fusion is not a legibility trade at equal line height —
-it wins at every measured size and word length.** The crowding fear
+**RETRACTED (2026-08-15 code review, BLOCKER): the comparison below is
+confounded** — equal line height grants the fused square ~n× the area
+of the stacked column, the stroke floor was applied only to the fused
+side, the experiment was never checked in, and occupancy-IoU is a
+regression ratchet being used as legibility evidence. The claim
+"fusion wins" is withdrawn pending a fair factorial experiment
+(layout × optical floor, equal-height AND equal-area, antialiased
+rasters, checked-in generator). Original text follows for the record:
+fusion is not a legibility trade at equal line height —
+it wins at every measured size and word length. The crowding fear
 was calibrated against the wrong baseline: stacking pays H/n per
 syllable; fusion pays ~0.55H (disyllables) plus the reclaimed carrier
 width, and the stroke floor keeps thin ink alive. Trisyllables are

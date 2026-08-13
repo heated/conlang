@@ -46,8 +46,16 @@ typically syntax-caught too.)
 
 ## Verdict on the 80–120 claim
 
-**Validated as reachable, with a real but ordinary-language-sized
-price.** 22 → 66 via POS-lane reuse costs 2.5–30 silent
+**DOWNGRADED to hypothesis (2026-08-15 code review, BLOCKER):** the
+simulation's confusion maps omitted the weighted onset/vowel edges the
+actual 22-body lexicon contains (16 weighted minimal-pair placements),
+invalidating the baseline and absolute rates; 'harmless' was
+misclassified; the domain rung was never simulated; baseline CI is
+0.44–0.95/10k on ~26 events. The coda-reuse *mechanism* and its
+q-dependence stand as modeled; the numbers do not. Rebuild from
+channels.json normative data before citing. Original verdict for the
+record: validated as reachable, with a real but ordinary-language-sized
+price. 22 → 66 via POS-lane reuse costs 2.5–30 silent
 substitutions per 10k words depending on syntactic checkability
 (likely 5–10 at realistic q≈0.93–0.96, before semantic filtering);
 the remaining gap to 80–120 comes from partial domain partitioning

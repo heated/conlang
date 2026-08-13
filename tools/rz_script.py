@@ -261,9 +261,9 @@ def to_phonemes(word):
         if c == "q" and nxt == "u":
             out.append("k"); i += 2; continue
         if c == "c":
-            out.append("ts" if nxt in "ei" else "k"); i += 1; continue
+            out.append("ts" if nxt and nxt in "ei" else "k"); i += 1; continue
         if c == "g":
-            out.append("dZ" if nxt in "ei" else "g"); i += 1; continue
+            out.append("dZ" if nxt and nxt in "ei" else "g"); i += 1; continue
         if c == "z":
             out.append("ts"); i += 1; continue
         if c == "n" and nxt == "i" and i + 2 < len(w) and w[i + 2] in "aeiou":
@@ -292,7 +292,7 @@ for _c in RZ_ONSETS:
 for _c in ("p", "t", "k", "m", "n", "f"):
     LEGAL_ONSETS.add(("s", _c))
     for _liq in LIQUIDS:
-        if ("s", _c, _liq) and _c in ("p", "t", "k"):
+        if _c in ("p", "t", "k"):
             LEGAL_ONSETS.add(("s", _c, _liq))
 
 
