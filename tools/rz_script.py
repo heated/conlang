@@ -71,6 +71,33 @@ LIQUIDS = ("l", "r")
 
 SUFFIX_LOGOGRAMS = ("mente", "cion", "itate", "abile")
 
+# function-word logograms: quarter-width marks for the highest-
+# frequency grammatical words (~40-50% of running tokens). Shapes are
+# v0: simple, distinct, echoing related letters where natural.
+FUNC_W = 42
+FUNC_MARKS = {
+    # word: list of (kind, args) with kind in {line, circle}
+    "le":  [("line", (10, 34, 32, 34))],                      # single bar
+    "les": [("line", (10, 28, 32, 28)), ("line", (10, 40, 32, 40))],
+    "de":  [("line", (10, 44, 32, 22))],                      # rising diag
+    "del": [("line", (10, 44, 32, 22)), ("line", (10, 52, 32, 52))],
+    "a":   [("line", (21, 20, 21, 46)), ("line", (12, 46, 30, 46))],
+    "al":  [("line", (21, 20, 21, 46)), ("line", (12, 46, 30, 46)),
+            ("line", (12, 54, 30, 54))],
+    "e":   [("line", (21, 22, 21, 46))],                      # single stroke
+    "o":   [("circle", (21, 34, 9))],
+    "que": [("circle", (21, 30, 9)), ("line", (21, 39, 21, 52))],
+    "no":  [("line", (12, 24, 30, 44)), ("line", (12, 44, 30, 24))],
+    "un":  [("line", (12, 34, 30, 34)), ("line", (21, 26, 21, 42))],
+    "con": [("line", (30, 22, 14, 22)), ("line", (14, 22, 14, 46)),
+            ("line", (14, 46, 30, 46))],
+    "en":  [("line", (12, 26, 30, 26)), ("line", (12, 36, 26, 36)),
+            ("line", (12, 46, 30, 46))],
+    "se":  [("line", (10, 46, 26, 26)), ("line", (18, 50, 34, 30))],
+    "su":  [("line", (10, 46, 26, 26)), ("line", (26, 26, 26, 44))],
+    "por": [("line", (14, 22, 14, 48)), ("circle", (22, 29, 8))],
+}
+
 
 def _el(name, **attrs):
     a = " ".join(f'{k.replace("_", "-")}="{v}"' for k, v in attrs.items())
@@ -326,24 +353,59 @@ def syllable_block(syl, dx=0.0, dy=0.0):
     return parts
 
 
-def word_glyph(word, dx=0.0, dy=0.0):
-    """Horizontal block row; recognized derivation suffixes become
-    half-width logogram blocks."""
-    stem, suffix = word, None
-    for suf in SUFFIX_LOGOGRAMS:
-        if word.lower().endswith(suf) and len(word) > len(suf) + 1:
-            stem, suffix = word[: -len(suf)], suf
-            break
-    sylls = syllabify(to_phonemes(stem))
+def block_width(syl):
+    """Proportional widths: open CV blocks with simple onsets narrow."""
+    onset, nucleus, coda = syl
+    if not coda and len(nucleus) == 1 and len(onset) <= 1:
+        return 80
+    return BLOCK
+
+
+def word_glyph(word, dx=0.0, dy=0.0, dense=True):
+    """Horizontal block row. With dense=True (default): function-word
+    logograms, derivation-suffix logograms, proportional widths."""
+    wl = word.lower()
     parts = []
+    if dense and wl in FUNC_MARKS:
+        for kind, args in FUNC_MARKS[wl]:
+            if kind == "line":
+                x1, y1, x2, y2 = args
+                parts.append(_line(dx + x1, dy + y1, dx + x2, dy + y2))
+            else:
+                cx, cy, r = args
+                parts.append(_circle(dx + cx, dy + cy, r))
+        return parts, FUNC_W
+    stem, suffix = word, None
+    if dense:
+        for suf in SUFFIX_LOGOGRAMS:
+            if wl.endswith(suf) and len(word) > len(suf) + 1:
+                stem, suffix = word[: -len(suf)], suf
+                break
+    sylls = syllabify(to_phonemes(stem))
     x = dx
     for syl in sylls:
         parts += syllable_block(syl, dx=x, dy=dy)
-        x += BLOCK
+        x += block_width(syl) if dense else BLOCK
     if suffix:
         parts += logogram(suffix, dx=x + 4, dy=dy + 14)
         x += 54
     return parts, x - dx
+
+
+def sentence_glyphs(words, dy=0.0, dense=True, headstroke=False):
+    """A sentence row. headstroke=True: words cohere under a top rule
+    and abut with a minimal gap — no spaces needed (boundary = rule
+    break); otherwise words are separated by spacing."""
+    parts = []
+    x = 0
+    gap = 6 if headstroke else 24
+    for w in words:
+        pw, wid = word_glyph(w, dx=x, dy=dy, dense=dense)
+        parts += pw
+        if headstroke:
+            parts.append(_line(x + 2, dy + 2, x + wid - 2, dy + 2, w=3.5))
+        x += wid + gap
+    return parts, x - gap
 
 
 def svg(parts, w, h):
