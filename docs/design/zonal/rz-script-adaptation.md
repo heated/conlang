@@ -58,10 +58,25 @@ in the suffix.**
 6. No check channel (stands as priced: that machinery dies outside
    the greenfield).
 
-## 3. Status
+## 3. Status: TAPED OUT (v0, 2026-08-14)
 
-Design note only — no renderer work now. If the display layer is
-ever built, it starts as a script.py feature-data variant (wide
-onset table + suffix marks) and must re-run the raster-floor
-methodology with the relaxed doctrine made explicit. Priority stays
-behind the cloze pilot: measurement before more artifacts.
+Implemented in `tools/rz_script.py` (stdlib SVG; specimen in
+`.ship-notes/rz-specimen.svg`). What shipped: 18 pairwise-distinct
+consonant letterforms (greenfield-shared phonemes keep their
+greenfield glyphs; voicing = full-width ground bar; new cells for
+f r dZ ny ly), twin-carrier diphthongs, coda strip incl. the r
+up-tick (mirror-of-l flagged), marginal-coda fallback (x-words),
+cluster satellites (s- top-left, liquid bottom-right, 0.38 scale),
+and suffix logograms for -mente/-cion/-itate/-abile (-itate
+redesigned mid-tape-out to avoid rendering as the ♀ symbol). A
+spelling→phoneme→syllable pipeline covers the whole reader pack:
+all 234 distinct RZ sample words render. Density observed: nacion
+and veritate are two glyph-units each; the fable clause "le vento
+del norte e le sol disputava" is ~13 units.
+
+Known v1 items: satellite/main-letter Hangul-style mutual sizing,
+ly-vs-greenfield-h lookalike (cross-system only), -va/-ria
+logograms need morphologically tagged input, raster-floor
+methodology not yet applied (relaxed doctrine to be made explicit
+when it is). Still display-layer only; Latin remains primary; cloze
+pilot remains the gate for investing further.
