@@ -151,10 +151,94 @@ class FusedRenderer:
             parts += [L(STRIP_X0, 82, 82, 82), L(82, 82, 82, 92)]
         return parts
 
-    def particle_char(self, syl: Syllable, dx=0.0, dy=0.0):
+    # --- v1: radical composition (response to review: v0 read as
+    # "underlined English" — letter-row + full-width rule. v1 composes
+    # hanzi-style: components FILL regions, POS is a bottom radical
+    # region with short centered marks, ink density evens out.) ---
+
+    def _component(self, syl: Syllable, x0, y0, x1, y1, check=True):
+        """One syllable as a component filling cell (x0,y0)-(x1,y1):
+        onset letterform fitted to the cell, vowel stub inside the
+        cell's right edge, medial coda as a corner tick."""
+        cw, ch = x1 - x0, y1 - y0
+        # letter ink spans ~(8..66, 8..60) = 58x52; leave room for the
+        # vowel stub (12u) at the right of the letter
+        s = min((cw - 14) / 58, ch / 52)
+        lx = x0 + (cw - 14 - 58 * s) / 2 - 8 * s
+        ly = y0 + (ch - 52 * s) / 2 - 8 * s
+        parts = transform_parts(self.r._onset(syl.onset), s, lx, ly)
+        frac, inward, outward = VOWEL_TICKS[syl.vowel]
+        edge_x = lx + 74 * s
+        ty = ly + (8 + 52 * frac) * s
+        stub = max(11.0 * s, 7.0)
+        tick = max(9.0 * s, 6.5)
+        w = max(5 * s, STROKE_FLOOR)
+        parts.append(_line(edge_x, ty - stub, edge_x, ty + stub, w=w))
+        if inward:
+            parts.append(_line(edge_x - tick, ty, edge_x, ty, w=w))
+        if outward:
+            parts.append(_line(edge_x, ty, edge_x + tick, ty, w=w))
+        if syl.coda:                      # medial coda: corner tick(s)
+            cyy = y1 - 3
+            parts.append(_line(x1 - 16, cyy, x1 - 4, cyy, w=4))
+            if syl.coda == "s":
+                parts.append(_line(x1 - 16, cyy - 6, x1 - 4, cyy - 6, w=4))
+        if check and self.inv.register(syl) == 1:
+            parts.append(_el("circle", cx=x1 - 6, cy=y0 + 6, r=4.2,
+                             fill="currentColor"))
+        return parts
+
+    def word_char_v1(self, sylls, dx=0.0, dy=0.0):
+        """v1 character: radical composition. 1-syl fills the square;
+        2-syl = left|right halves; 3-syl = left + stacked right.
+        POS = bottom radical region (short centered marks)."""
+        n = len(sylls)
+        final = sylls[-1].coda
+        body_y1 = dy + (74 if final else 96)
+        parts = []
+        if n == 1:
+            parts += self._component(sylls[0], dx + 6, dy + 4,
+                                     dx + 94, body_y1)
+        elif n == 2:
+            mid = dx + 50
+            parts += self._component(sylls[0], dx + 3, dy + 4, mid - 2,
+                                     body_y1)
+            s2 = Syllable(sylls[1].onset, sylls[1].vowel, "")
+            parts += self._component(s2, mid + 2, dy + 4, dx + 97,
+                                     body_y1)
+        elif n == 3:
+            mid = dx + 48
+            h2 = (body_y1 - dy - 4) / 2
+            parts += self._component(sylls[0], dx + 3, dy + 4, mid - 2,
+                                     body_y1)
+            parts += self._component(sylls[1], mid + 2, dy + 4,
+                                     dx + 97, dy + 4 + h2 - 2)
+            s3 = Syllable(sylls[2].onset, sylls[2].vowel, "")
+            parts += self._component(s3, mid + 2, dy + 4 + h2 + 2,
+                                     dx + 97, body_y1)
+        else:
+            raise ValueError("content words are 1-3 syllables")
+        # POS bottom radical region: SHORT centered marks (not a rule)
+        if final:
+            yy = dy + 86
+            if final == "n":
+                parts.append(_line(dx + 30, yy, dx + 70, yy))
+            elif final == "s":
+                parts += [_line(dx + 30, yy - 4, dx + 70, yy - 4),
+                          _line(dx + 30, yy + 5, dx + 70, yy + 5)]
+            elif final == "l":
+                parts += [_line(dx + 30, yy, dx + 64, yy),
+                          _line(dx + 64, yy, dx + 64, yy - 8)]
+        return parts
+
+    def particle_char(self, syl: Syllable, dx=0.0, dy=0.0, v1=False):
         """Particles stay small: 60% character, vertically centered."""
-        return transform_parts(self.word_char([syl], checks=False),
-                               0.6, dx, dy + 14)
+        maker = self.word_char_v1 if v1 else self.word_char
+        if v1:
+            inner = self.word_char_v1([syl])
+        else:
+            inner = self.word_char([syl], checks=False)
+        return transform_parts(inner, 0.6, dx, dy + 14)
 
     def svg(self, parts, w, h):
         return (f'<svg xmlns="http://www.w3.org/2000/svg" '

@@ -85,6 +85,23 @@ in the next ink pass for both layouts.
   misses them below ~20 px); acceptable for a computed/droppable
   layer.
 
+## v1 addendum (same day): radical composition
+
+Edward's review of the v0 specimen: "kinda cursed — less chinese and
+somewhat more randomly underline english; variable char size."
+Diagnosis confirmed: v0's anatomy (letter row in a box + full-width
+POS rule) reads as decorated Latin. v1 (`word_char_v1`) recomposes
+hanzi-style: components FILL regions (1-syl = the square; 2-syl =
+⿰ halves; 3-syl = left + stacked right, like 湖), the POS becomes a
+bottom radical region with SHORT centered marks, medial codas become
+corner ticks, and cells get fill-fitted scales for even ink density.
+Comparison render: `.ship-notes/fused-v1-comparison.svg`. Verdict:
+POS de-underlined and trisyllables now genuinely compose; the
+remaining gestalt gap is disyllable unity (still reads as a letter
+pair) — next iteration: asymmetric ⿰ split (~40/60), inter-component
+interlock, and possibly shared strokes at the midline. Crowding
+numbers for v1 to be re-measured after that pass.
+
 ## Open items
 
 1. Style/beauty pass on the 0.38-scale trisyllable letterforms (the
