@@ -14,8 +14,14 @@ are the real wire format, not illustrations.
   no 08/14-vs-14/08 trap — *ho coon pu* is August 14th, period, in
   every country.
 - **An optional integrity check**: a closing syllable that provably
-  catches every single-symbol error and every transposition
-  (aviation-readback grade, for confirmation codes and dosages).
+  catches every single-symbol substitution and transposition within a
+  legal frame. NOTE (2026-08-15 review): this is an algebraic property
+  of the code, NOT a validated safety system — insertions, deletions,
+  resegmentation, multi-error, noise, accent, and human-factors
+  performance are all untested, and 87% of single-channel digit
+  corruptions land on another valid digit before the checksum. No
+  safety-critical use (dosages etc.) until a human-factors comparison
+  beats ordinary digit-by-digit readback.
 
 ## The one-hour learning content
 
@@ -54,7 +60,7 @@ spelling-layer check mark).
 | 14:30 | `hii miin` | "Standup at *hii miin*." (one syllable of payload: onset = hour's last digit, coda = hour's tens, vowel = quarter) |
 | 23:45 | `hii kos` | |
 | spell "wifi" | `he wuu ciil wa ciil` | "Network name: *he wuu ciil wa ciil*." |
-| 4,207, checked | `huu mi cin hoos neen` | safety register: the *hoos* syllable is a mod-101 checksum — any single mishearing or swap breaks it |
+| 4,207, checked | `huu mi cin hoos neen` | checked register: the *hoos* syllable is a mod-101 checksum (catches single substitutions and swaps; see caveat above) |
 | "edward", checked | `he cel ta wuu cal laa ta hoos lon` | |
 
 ## Honest costs

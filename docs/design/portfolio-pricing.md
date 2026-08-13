@@ -1,5 +1,12 @@
-# Portfolio pricing: greenfield vs RZ vs AZ vs English+channels
-(conlang-ow7 — the decision-grade comparison)
+# Portfolio hypothesis matrix: greenfield vs RZ vs AZ vs English+channels
+(conlang-ow7; RETITLED per 2026-08-15 milestone reviews — this is a
+HYPOTHESIS MATRIX, not a decision-grade pricing: most cells are
+derived/estimated/aspirational, not measured. Cell-by-cell evidence
+tags pending (epistemic-cleanup bead). Both milestone reviewers
+flagged: 'achieved'/'validated'/'priced away' language throughout the
+repo promotes workshop artifacts to established results — read all
+quantitative claims as conditional on the stated models until the
+external evidence exists.)
 
 The question as posed (Edward): what does a zonal auxlang cost vs the
 greenfield, "mostly caring about just how much it wrecks chording or

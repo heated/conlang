@@ -56,7 +56,8 @@ broadcast news for learners.
 
 ## 3. Our candidates (ranked)
 
-1. **Civilian readback/safety layer** — modes (hu/ho/hi/he) +
+1. **Civilian readback layer** (safety positioning REMOVED pending
+   human-factors validation — 2026-08-15 review) — modes (hu/ho/hi/he) +
    checksum + a ~10-word confirmation micro-vocabulary (yes / no /
    repeat / correct / wrong / stop / over). Aviation has readback
    discipline; civilians have *nothing* for medication dosages,
