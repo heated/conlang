@@ -1,0 +1,103 @@
+# Fused word-characters: the one-glyph-per-word study (r5y, v0)
+
+Bead conlang-r5y. Edward's ideal ("more like chinese but ideally one
+glyph per word"). Implementation: `tools/fused_script.py`; specimen:
+`.ship-notes/fused-specimen.svg`. Workshop-stage (validator-light);
+measurements via the raster machinery in `tools/script.py`.
+
+## Design
+
+**The unlock is the abugida move**: delete the vowel carrier bar
+(~30% of block width); vowels become miniature carrier *stubs*
+attached at the onset letter's right edge — same feature logic
+(height = vowel height, tick direction = backness), preserved at ~1/3
+size after the full-size in/out ticks proved too fragile in first
+render.
+
+Character anatomy (one 100×100 square per word):
+
+- 1–3 syllable-letters left→right (temporal order), scaled by count
+  (90% / 55% / 38%);
+- **POS strip spans the character bottom** — the final coda *is* the
+  word's POS, so the strip was always word-level ink; fusion makes
+  that literal;
+- medial codas: small bar under their own letter; per-syllable check
+  dots above the slots (computed, droppable);
+- particles render at 60% — the silhouette grammar (small scaffold,
+  square content words) survives fusion;
+- **stroke-width floor** (4.4u): sub-pixel ink is fusion's death
+  mode; scaling letters must not scale their ink to invisibility.
+
+Codespace: 220² ≈ 48k disyllabic characters — **the "~50k codepoints
+per character" target derived, not assumed** — all computed from 11
+letterforms + 5 vowel positions + strip marks. Nothing enumerated.
+
+## Measured results (point-sampled occupancy, phase-min over 4
+alignments — a *harsher* model than antialiased rendering; same
+metric family as the v0.2 floors)
+
+The fair frame is **equal line height H** (the practical typesetting
+constraint): a stacked disyllable at H gives each block H/2; the
+fused character gets the full H.
+
+One-channel-neighbor separability (hardest pairs — words differing in
+a single channel of one syllable), disyllables:
+
+| line height | fused min / median | stacked min / median |
+|---|---|---|
+| 20 px | 0.000 / 0.256 | 0.000 / 0.043 |
+| 28 px | **0.041 / 0.292** | 0.000 / 0.159 |
+| 40 px | 0.055 / 0.301 | 0.052 / 0.267 |
+
+Trisyllables at 28 px: fused 0.054 / 0.108 vs stacked 0.000 / 0.061.
+
+**Headline: fusion is not a legibility trade at equal line height —
+it wins at every measured size and word length.** The crowding fear
+was calibrated against the wrong baseline: stacking pays H/n per
+syllable; fusion pays ~0.55H (disyllables) plus the reclaimed carrier
+width, and the stroke floor keeps thin ink alive. Trisyllables are
+the strained case for *both* layouts (fused median 0.108 is tight —
+the style pass should prioritize the 0.38-scale letterforms).
+
+Also observed while measuring (applies to v0.2 too, previously
+untested at full-block scale): the single POS strip bar can vanish
+entirely at worst-case pixel alignment at 14 px full-block rendering
+(caa/can indistinguishable at one phase). Real renderers antialias —
+a hairline survives — but the strip's stroke weight deserves a look
+in the next ink pass for both layouts.
+
+## What fusion buys and costs (updated trait sheet)
+
+- One character per word: word count = character count; uniform line
+  height (stacking's 1–3-block sawtooth gone); the derivation family
+  is *visible* — sala/salaan/salaas share letterforms and differ only
+  in the strip.
+- Chording alignment improves to the word level: mirrored-hands
+  chording types one disyllable per stroke = **one stroke, one
+  character, one word** — the motor, visual, and lexical units
+  coincide exactly for the dominant word class.
+- Cost: per-letter detail at 55%/38% scale demands the stroke floor
+  and favors larger body text than unfused blocks would need for
+  *single* syllables; the metric says the fused word still beats the
+  stacked word at any fixed line height, so this cost only binds
+  against non-word baselines.
+- Check dots at 4.5r are marginal at small sizes (2D point-sampling
+  misses them below ~20 px); acceptable for a computed/droppable
+  layer.
+
+## Open items
+
+1. Style/beauty pass on the 0.38-scale trisyllable letterforms (the
+   measured weak spot) — feeds bead 0eh.
+2. Real-size legibility check with antialiased rendering (the
+   point-sampling metric is conservative; confirm the ordering
+   holds).
+3. Spacing: fused characters are uniform squares — word gaps can
+   shrink to ~10u or adopt the RZ headstroke trick; not yet measured.
+4. Suffix/particle interaction with modes frames (payload runs in
+   fused mode) — with conlang-bcq machinery when mode text rendering
+   exists.
+5. Freeze-gate: fused mode is now the third layout candidate
+   (stacked / headstroke / fused) and, on this evidence, the leading
+   one. The paragraph-specimen comparison for the gate should include
+   it.
