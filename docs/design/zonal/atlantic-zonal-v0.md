@@ -103,6 +103,42 @@ strains: "desire to take a coffee" is stilted English purchased for
 Romance decode; the exact stiltedness budget is a design dial, and
 the cloze numbers on both populations will price it.)
 
+### 1.1 Learning model: how an English speaker learns to *produce* AZ-a
+
+Not language learning — **style-guide learning**: the vocabulary is
+already known; what's acquired is selection discipline (cost sits in
+attention, not memory). Three routes, in deployment order:
+
+1. **Linter-as-teacher** (primary): write English, get flagged
+   (*find out → discover*; every phrasal verb). Spellcheck-style
+   point-of-production feedback; the real-world controlled-language
+   model (ASD-STE100 is used via checkers, not memorization). The
+   long tail stays tool-assisted permanently, by design.
+2. **Rules + top-100 twins**: the structural register teaches in ~1h;
+   the hard skill is *noticing your own phrasal verbs and idioms* —
+   they are cognitively invisible to natives (the known ESL-teacher
+   training problem). Est. 5–20 h of assisted practice to ~90%
+   unassisted compliance.
+3. **Register immersion**: reading AZ-a tunes producing it;
+   register-switching is a native skill everyone already has.
+
+Failure modes, priced: (a) hypercorrection into non-English
+Latinisms (*publicate*) — the subset-of-English constraint is
+load-bearing and the linter flags both directions; (b) **speech
+trails writing** — no linter in your mouth; real-time selection
+discipline is effortful (the lived STE experience). AZ-a is a
+written-first product.
+
+Adoption asymmetry worth exploiting: the register already exists in
+the wild — Romance-L1 writers of English produce near-AZ-a naturally
+(Latinate reach, no phrasal verbs; "EU institutional English"), and
+academic English is Latinate-heavy. AZ-a codifies and tools a
+register millions of people half-speak.
+
+Portfolio productive-cost comparison: AZ-a ≈ 1–3 h rules + 5–20 h
+assisted practice; RZ ≈ 30–100 h; greenfield ≈ full acquisition from
+zero (priced against its engineered ceiling).
+
 ## 2. AZ-b: the EN-weighted interlanguage (the bridge variant)
 
 Rerun the RZ recipe with weights EN .45, FR .15, ES .15, IT .10,
