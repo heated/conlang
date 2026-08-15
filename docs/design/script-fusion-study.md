@@ -95,6 +95,27 @@ in the next ink pass for both layouts.
   misses them below ~20 px); acceptable for a computed/droppable
   layer.
 
+## Fair experiment results (2026-08-15, tools/fusion_study.py —
+replaces the retracted comparison; full table in
+docs/design/fusion-study-data.md, generated)
+
+Antialiased coverage rasters, Soergel distance, phase-min, factorial
+layout x stroke-floor x frame. Honest findings at H=28:
+
+1. **Disyllables are layout-indifferent** under this metric: all six
+   conditions cluster (min 0.038-0.057) in both frames. The disyllable
+   layout choice is therefore free to be decided on density,
+   aesthetics, and chording alignment — not legibility.
+2. **v1 radical composition measurably wins trisyllables** in BOTH
+   frames (equal-height min 0.064-0.085 vs stacked 0.024-0.036;
+   equal-area 0.043-0.056 vs 0.024-0.036). Stacking's worst-case
+   trisyllable pairs are the weakest cells in the whole design.
+3. **The stroke floor is not uniformly good**: it helps v1
+   trisyllables (+0.02 min) and hurts stacked/v0 disyllable minima —
+   optical weight needs per-layout tuning, not a global constant.
+4. Scope: proxy-metric evidence (regression-grade), still not human
+   legibility. No "X beats Y" claim beyond this metric is made.
+
 ## v1 addendum (same day): radical composition
 
 Edward's review of the v0 specimen: "kinda cursed — less chinese and

@@ -174,6 +174,12 @@ else is defined over these coordinates.
   against the greenfield on how much the Romance constraint wrecks
   chording / script / the other engineered low-hanging-fruit traits
   (bead ow7).
+- 2026-08-15 (post-milestone-review priorities): **no cloze/human
+  testing yet.** Lane 1: **script optimality first** (fair measured
+  layout frontier; beauty after optimal). Lane 2: **develop RZ and
+  greenfield deep enough that the efficiency tradeoffs become crisp**
+  (greenfield needs grammar + seed lexicon to measure anything real).
+  Autonomous continuous work; the duke takes the next thing each time.
 - 2026-08-13 (later): Romance was picked for **recognizability to
   Edward** — who is EN-L1 and got gist-only. **Switch focus to the
   English-zone zonal** ("Atlantic" — the Anglo-Latinate stratum;
