@@ -104,6 +104,23 @@ quasi (almost), asi (thus/so), entre (between), durante, contra,
 segun (according to), hasta (until; FLAG Ibero; IT fino a, FR
 jusqu'à), desde (since; FLAG Ibero)`
 
+## Kitchen & instruction (recipe register)
+
+`cortar (cut), cebola (onion; FLAG FR oignon), alio (garlic),
+calentar (heat up; FLAG Ibero — calde-family mismatch noted),
+oleo (oil), pote (pot — international form beats the 3-way zone
+split), ajuntar (add — FR/IT bridge, Ibero loses: counter-Ibero
+pick, watch in cloze), cocer (cook), tomate, pepe (pepper; FLAG ES
+pimienta), mesclar (mix), servir (serve), sopa (soup)`
+
+## Fable-2 additions
+
+`pastor (shepherd), ove (sheep; FLAG Latin-family), vilage
+(village), vilagese (villager; -ese inhabitant suffix -> derivation
+table), divertir (amuse), critar (shout/cry), lupo (wolf), ajutar
+(help), rider (laugh), repeter (repeat), joco (game), vese (time/
+occasion; FLAG Ibero), mentir (lie), sempre (always)`
+
 ## Method observations from this pass
 
 1. The **screen keeps firing**: corte(court), rose(pink), la(article),

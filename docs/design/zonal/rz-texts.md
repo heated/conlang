@@ -58,3 +58,38 @@ For cloze comparability the English source of the North Wind text is
 fixed as the standard Aesop wording used in phonetics literature, and
 the RZ version in `romance-zonal-v0.md` §5 is its translation. Any
 future RZ revision re-translates from that fixed source.
+
+## Instructional register: «Sopa de tomate»
+
+> Corta dos cebolas e tres dentes de alio. Calenta un poc de oleo
+> en un pote grande. Ajunta les cebolas e coce cinco minutos.
+> Ajunta le alio, ses tomates cortates, sal e pepe. Coce vinte
+> minutos a foco basse. Al fin, mescla tote ben e serve calde,
+> con pan.
+
+(Exercises: imperatives, quantifier `poc`, number-agreement on the
+participle-as-adjective `cortates`, numerals in running text. New
+recipe-register lexicon in rz-lexicon.md §Kitchen. Notable picks:
+`pote` (pot — beats the olla/pentola/casserole three-way split via
+the international form), `ajunta` (bridges FR ajouter + IT
+aggiungere; the Ibero añadir loses — a counter-Ibero pick the cloze
+should watch), `mescla` (near-universal).)
+
+## Narrative 2: «Le pastor e le lupo»
+
+> Un jove pastor guardava su oves proxime del vilage. Por se
+> divertir, el critava: «Lupo! Lupo!» Les vilageses veniva a le
+> ajutar, ma no encontrava necun lupo. Le pastor rideva. El repeteva
+> le joco tres veses. Alora un lupo veniva realmente. Le pastor
+> critava con tote su forza, ma nadie veniva plus. Le lupo comeva
+> multe oves.
+> Qui menti sempre, no es credite quando dice le veritate.
+
+(Exercises: negative concord (`no … necun`, `nadie … plus`),
+preverbal pronoun with infinitive (`a le ajutar`, `se divertir`),
+free relative `qui`, aphorism register in the moral. Self-audit
+catches applied while writing: `proxime` not the abandoned `cerca`;
+`encontrava` not `trovava` (core-conversational pick); `comeva` not
+`manjava` (RZ chose comer; manjar is the greenfield's word — the two
+languages now deliberately differ here). FLAGs: `oves` (Latin-family;
+IT pecore/FR moutons lose), `veses` (Ibero).)

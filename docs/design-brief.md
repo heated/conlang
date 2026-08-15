@@ -174,6 +174,12 @@ else is defined over these coordinates.
   against the greenfield on how much the Romance constraint wrecks
   chording / script / the other engineered low-hanging-fruit traits
   (bead ow7).
+- 2026-08-16: stroke/fusion exploration PARKED with feedback (vowel
+  ticks invisible, arcs polygonal, not yet denser or better-looking) —
+  blocked by channel-width and RZ-vs-greenfield decisions. Active
+  lane: **develop RZ and greenfield to tradeoff clarity, plus a WIDE
+  greenfield variant (GF-W)** as a third design point. RZ development
+  first. Duke owns it autonomously.
 - 2026-08-15 (script direction chat): objective order for the script:
   **learnability > reading ergonomics > density > beauty**;
   display-only confirmed (no handwriting constraint); grayscale/color

@@ -266,12 +266,18 @@ def to_phonemes(word):
             out.append("dZ" if nxt and nxt in "ei" else "g"); i += 1; continue
         if c == "z":
             out.append("ts"); i += 1; continue
-        if c == "n" and nxt == "i" and i + 2 < len(w) and w[i + 2] in "aeiou":
+        prev_v = i > 0 and w[i - 1] in "aeiou"
+        if c == "n" and nxt == "i" and prev_v and i + 2 < len(w) \
+                and w[i + 2] in "aeiou":
             out.append("ny"); i += 2; continue
-        if c == "l" and nxt == "i" and i + 2 < len(w) and w[i + 2] in "aeiou":
+        if c == "l" and nxt == "i" and prev_v and i + 2 < len(w) \
+                and w[i + 2] in "aeiou":
             out.append("ly"); i += 2; continue
         if c == "h":
-            i += 1; continue                    # silent (hodie, historia)
+            i += 1; continue                    # silent: THE one spelling
+            # exception (rz-grammar §1) — Romance keeps written h
+        if c == "-":
+            i += 1; continue                    # compound-number hyphen
         if c in "aeiou" or c in RZ_ONSETS or c in "bdgv":
             out.append(c); i += 1; continue
         if c == "j":

@@ -10,8 +10,11 @@ lesson). Flags mark decisions the cloze data should revisit.
 
 Five vowels a e i o u (Latin values). `c`/`g` soften before e,i
 (/ts/, /dʒ/ reference; L1 variants tolerated); `z` = /ts/ elsewhere;
-`ni`/`li` = /ɲ/, /ʎ/ between vowels; `qu` = /k/ before e,i. No
-silent letters, no accents. Contractions: only `del`, `al`. Stress:
+`ni`/`li` = /ɲ/, /ʎ/ between vowels; `qu` = /k/ before e,i. One
+spelling exception, declared: **written `h` is silent** (hodie,
+historia, hotel — the zone's own universal convention; dropping the
+letter would cost sight-cognacy on international words). No other
+silent letters; no accents. Contractions: only `del`, `al`. Stress:
 penult if the word ends in a vowel or -s/-n, else final.
 
 ## 2. Nouns and determiners
