@@ -67,8 +67,26 @@ root; `if` = `hel` + irrealis in the protasis (flagged tentative).
 - **NP**: N + modifiers (postposed -s words) + relative clause
   (`hel` + clause, postposed). Quantifiers/numerals precede the noun.
 - **Questions**: yes/no = clause + `hus`. Content questions: QW
-  in-situ (no movement). QW root: `cu` (what/which; correlative grid
-  expands from it — jbw next phase).
+  in-situ (no movement). QW root: `cu` (what/which).
+- **Correlative grid** (Esperanto's mechanism, zero new roots — the
+  QW/quantifier SERIES crosses DOMAINS supplied by existing roots and
+  particles):
+
+  | | cu (which?) | to (every) | la (that) | haan+V (no…) |
+  |---|---|---|---|---|
+  | thing | cu | to | la | haan cu |
+  | person | cu la | to la | — | haan la |
+  | place | cu ci | to ci | la ci | haan ci |
+  | time | cu je | to je | la je | haan je |
+  | amount | cu mu | to | — | haan mu |
+  | means/manner | cu his (which-with) | — | la his | — |
+  | cause | cu hees (which-from) | — | la hees (therefore) | — |
+
+  The adposition particles supply the semantic roles (his=means,
+  hees=cause), so *how* and *why* are compositional: `cu his` = by
+  what means, `cu hees` = from what cause. Gaps are expressible by
+  paraphrase; the grid rows are conventions, not new morphology.
+  FLAG: negative series via `haan` + phrase is tentative.
 - **Imperative**: bare verb clause, subject omitted.
 - **Predication**: property/relation verbs (class P/R) carry the
   copula; no separate "be" for adjectives.

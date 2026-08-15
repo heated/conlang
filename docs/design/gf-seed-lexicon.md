@@ -71,6 +71,46 @@ are real. Phonotactic legality (echo-vowel, tosmabru, fake-geminate)
 is asserted at assignment time in the NEXT pass — this seed is
 pre-validation and marked as such.
 
+## Growth pass 2 (disyllables; hooks post-funnel)
+
+| word | meaning | class | hook |
+|---|---|---|---|
+| weno | person, human | O | *uomo/humano* skeleton (w-n) |
+| mata | mother | O | *mater/mama* |
+| kasa | — REJECTED (ca=house exists; derivation covers) | | |
+| tela | cloth, fabric | O | *tela* (near-loan) |
+| pelu | hair, fur | O | *pelo* |
+| kapo | head | O | *capo/cabeza* |
+| oko | — ILLEGAL (vowel-initial); eye = `loko`? FLAG no hook fits; deferred | | |
+| nasu | nose | O | *naso* |
+| moka | mouth | O | *boca* (b→m nasal-nearest) FLAG weak |
+| tera | earth, ground | O | *terra* |
+| mare | sea | O | *mare/mar* |
+| selo | sky | O | *cielo* (c→s) |
+| pluja | rain | O | *pluvia/lluvia* (v→j glide) |
+| noce | night | O | *nocte/noche* |
+| mane | morning | O | *mañana/matin* skeleton |
+| tene | hold, have | A | *tener* |
+| pota | carry | A | *portar* (r dropped) |
+| mila | — deferred (thousand: mode syllables cover numbers) | | |
+| kore | heart | O | *core/corazón* |
+| sanu | healthy, whole | P | *sano* |
+| morte | dead, death | P/O FLAG class | *morte* (near-loan) |
+| wiwa | alive, life | P/O FLAG | *viva* (v→w) |
+| kanta | sing | A | *cantar* (near-loan) |
+| toma | take | A | *tomar* |
+| mira | look, watch | A | *mirar* |
+| toka | touch | A | *tocar* |
+| lawa | wash | A | *lavar* (v→w) |
+| kosa | thing | O | *cosa* (near-loan) |
+| nowa | — REJECTED (jo=new exists) | | |
+| weka | — deferred | | |
+
+(Method note: the near-loans — tela, kosa, kanta, morte — cluster
+where Romance shapes happen to fit the narrow funnel; GF-W would
+make this the norm rather than the exception, which is the hook
+dividend made concrete at assignment level.)
+
 ## Coverage
 
 Enough for the fable translation and basic conversation frames

@@ -79,6 +79,19 @@ language. 17 words, 30 syllables → 17 words, 34 syllables: GF-W
 spends a little length to buy recognizability; word count and
 character count unchanged.)
 
+## Spec-integration notes (toward a real GF-W spec bump)
+
+- Digits: the tens map stays on the narrow 10 onsets — modes are
+  IDENTICAL in GF-N and GF-W (superset property preserved; a frame
+  spoken in either is valid in both).
+- Check bits for b d g f z r were assigned provisionally in
+  explore_wide.py; a real spec bump must re-run the check-coverage
+  analysis (covered pairs differing in check bit) over the widened
+  confusion graph — machinery exists (spec_check patterns).
+- Particles unchanged (h-class untouched). SSM unchanged. POS codas
+  unchanged. Script letter cells: needs 6 new onset cells — the
+  parked r5y stroke work's first real task if width goes wide.
+
 ## Status
 
 Sketch + computed capacities only. Not adopted. Feeds the width

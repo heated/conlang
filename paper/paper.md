@@ -306,8 +306,13 @@ grammar-on-a-channel is kept, but relocated from the worst-perceived
 auditory channel to the best-perceived visual ones — height, position,
 and silhouette.
 
-The feature grammar has headroom by construction: 18 usable onset
-cells against 11 assigned, nine vowel grid positions against five, so
+Layout is an open, measured question: stacked blocks are the spec
+default; a fused one-character-per-word mode and a shared-headstroke
+mode exist as measured prototypes (a fair factorial comparison found
+disyllable layouts statistically indistinguishable under the proxy
+metric, with the fused radical composition ahead for trisyllables;
+no human legibility data yet). The feature grammar has headroom by
+construction: 18 usable onset cells against 11 assigned, nine vowel grid positions against five, so
 the wider codepoint model (§12) fits, with any new modifier required to
 pass the same robustness bar. The block diagram is simultaneously the
 chord diagram — one input axis per zone — which is what makes glyph,
@@ -368,6 +373,25 @@ keyboard wedge.]
 [TODO: closed core of roots + fully productive derivation; correlative
 grids for all closed paradigms; Zipf assignment of monosyllables as designed
 policy rather than diachronic erosion; governance.]
+
+## 9b. The zonal program (companion track)
+
+Alongside the engineered language, the project runs a receptive-first
+track: a Romance zonal auxlang (RZ) with a six-register parallel
+corpus, a complete regularized grammar (person-invariant verbs,
+number-only agreement, three irregular verbs), a recipe-driven
+lexicon with a mandatory false-friend screen, and a Latin-primary
+orthography with an optional featural display layer. A controlled
+Latinate-English register and host-language mode conventions extend
+the same machinery toward the English zone. The zonal track's claims
+are deliberately modest pending human testing: its comprehension
+instrument (cloze + gist, incumbent-controlled) is specified but
+unrun; the milestone reviews correctly note that the entire program
+has zero external subjects to date, and that its niche overlaps
+Interlingua's. Full designs and measurements: the repository's
+docs/design/zonal/ tree; a wide-inventory greenfield variant (GF-W:
+16 onsets, 320 syllables, 38 humility-safe monosyllabic roots,
+computed) bridges the two tracks and frames the width decision.
 
 ## 10. Related systems
 
