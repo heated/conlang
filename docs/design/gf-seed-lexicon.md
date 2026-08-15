@@ -84,27 +84,32 @@ pre-validation and marked as such.
 | oko | — ILLEGAL (vowel-initial); eye = `loko`? FLAG no hook fits; deferred | | |
 | nasu | nose | O | *naso* |
 | moka | mouth | O | *boca* (b→m nasal-nearest) FLAG weak |
-| tera | earth, ground | O | *terra* |
-| mare | sea | O | *mare/mar* |
+| tejo | earth, ground | O | *terra* skeleton (r illegal — caught by validation) |
+| mawe | sea | O | *mar(e)* ma- (r illegal — validation catch) |
 | selo | sky | O | *cielo* (c→s) |
-| pluja | rain | O | *pluvia/lluvia* (v→j glide) |
+| luwa | rain | O | *lluvia/pluie* l-u skeleton (pl- cluster illegal — validation catch) |
 | noce | night | O | *nocte/noche* |
 | mane | morning | O | *mañana/matin* skeleton |
 | tene | hold, have | A | *tener* |
 | pota | carry | A | *portar* (r dropped) |
 | mila | — deferred (thousand: mode syllables cover numbers) | | |
-| kore | heart | O | *core/corazón* |
+| kolu | heart | O | *cor-* with r→l remap (kolo rejected: forbidden minimal pair with kalo 'warm') |
 | sanu | healthy, whole | P | *sano* |
-| morte | dead, death | P/O FLAG class | *morte* (near-loan) |
+| mote | dead, death | P/O FLAG class | *morte* minus illegal r |
 | wiwa | alive, life | P/O FLAG | *viva* (v→w) |
 | kanta | sing | A | *cantar* (near-loan) |
 | toma | take | A | *tomar* |
-| mira | look, watch | A | *mirar* |
+| mila | look, watch | A | *mirar* with r→l remap |
 | toka | touch | A | *tocar* |
 | lawa | wash | A | *lavar* (v→w) |
 | kosa | thing | O | *cosa* (near-loan) |
 | nowa | — REJECTED (jo=new exists) | | |
 | weka | — deferred | | |
+
+(Validation note: six pass-2 entries initially contained illegal r/
+clusters — the ConflictRules run caught all six; fixed via the r→l
+remap and skeleton reductions. The funnel must be applied
+mechanically, not by feel.)
 
 (Method note: the near-loans — tela, kosa, kanta, morte — cluster
 where Romance shapes happen to fit the narrow funnel; GF-W would
