@@ -57,6 +57,58 @@ script under the R/M schemes. Constraint, not channel: (6) the
 (false-friend machinery generalized). Dropped from speech: the
 check bit and MIS spacing (script redundancy can carry the former).
 
+## Channel widths and space accounting [M]/[D]
+
+Measured on the RZ blockquote corpus (335 tokens). "Width" = values
+the channel distinguishes; "space" = what it consumes of the ~2-3k
+legal syllable space.
+
+| channel | width | space consumed |
+|---|---|---|
+| POS/TAM ending (E-scheme) | ~6 values (-o/-a/-e/-ar/-as/-is), ~2.6 bits/word | compresses content-word final rimes 29 attested → 6 (~80% of final-rime diversity spent on the channel). Measured dividend: **63% of content tokens are already E-scheme-shaped** — Romance final vowels do most of the work for free |
+| particle/clitic class | binary flag/word + 26-member closed list (38% of tokens) | ~26 short forms ≈ 1% of syllable space; **no structural reservation** — GF pays 1/11 of onset space (h-) for a perfect marker, GZ pays ~0 and gets a stress/position-carried (probabilistic) marker |
+| penult stress | 1 boundary per word (demarcation, not values) | zero segmental space |
+| modes/digits | 100 values/syllable inside frames (tens×units) + frame ops | **the vacant h-region** — see below; zero lexicon cost |
+| featural script (display) | place(~5)×manner(~4)×voicing(2) per letter | zero new bits — structured redundancy of the phoneme identity |
+| logograms (display) | 16 function-word + 4 suffix marks | display only |
+| humility screen | 0 (constraint) | blocks pairs, not space |
+
+Aggregate utilization: the corpus attests 171 of ~2,500 legal
+syllables; a mature GZ lexicon plausibly uses 500-800. The channels
+consume: final-rime space (E-scheme only), ~26 particle forms, and
+one vacant onset region. Everything else stays lexical.
+
+## Modes in the silent-h hole [D — proposal, tentative]
+
+RZ declares h silent — which means the **h-onset region of syllable
+space (14 nuclei × 8 codas = 112 cells) is orthographically vacant**:
+no Romance-derived word occupies it. Proposal: mode frames colonize
+it. [h] is dead in the lexicon but LIVE in mode frames — spoken,
+aspirated, the escape phoneme. 112 cells ≥ 100 digit values + frame
+operators; the greenfield mode DSL transfers with tens/units remapped
+onto nucleus × coda. Honest cost: h-dropping L1s (French) must
+*produce* [h] in frames — mitigated by [h]~[x] licensing (Spanish
+speakers' natural repair) and by frames being prosodically marked +
+checksummed anyway. This resolves the escape-phoneme decision at
+zero cost to the inherited lexicon; flagged tentative until a frame
+sample survives reading aloud.
+
+## GZ vs RZ, current delta [D]
+
+RZ optimizes one thing: receptive recognizability to the zone —
+channels live only in its display script. GZ spends recognizability
+to buy spoken structure. The deltas as of this sketch: fixed penult
+stress (RZ inherits source stress); particle class as a hard
+boundary (RZ has clitics by habit); POS endings per E/M scheme (RZ
+keeps natural endings — 63% incidentally E-shaped); modes/digits in
+the silent-h hole (RZ has none); root fidelity as a spendable
+budget (RZ treats fidelity as the point). Shared: phonology,
+screen machinery, script (GZ adds POS marks), RZ lexicon as donor.
+Status asymmetry: RZ is a built language (grammar, ~380 entries,
+six-register corpus, tested script); GZ is this sketch. Under the
+R-scheme GZ collapses to nearly "RZ + discipline"; under E it is a
+visibly different language with an RZ-shaped vocabulary.
+
 ## The fruit, priced [D]
 
 | channel | on a Romance base | price |
