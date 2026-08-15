@@ -46,13 +46,14 @@ from script import ScriptRenderer, _circle, _el, _line  # noqa: E402
 STROKE_FLOOR = 4.4     # fused-mode ink never thins below this (units)
 
 
-def transform_parts(parts, s, dx, dy):
+def transform_parts(parts, s, dx, dy, floor=None):
     """Numerically scale+translate SVG line/circle fragments (keeps
     everything top-level so the raster machinery sees the ink). Stroke
     widths are floored: sub-pixel ink is the death mode of fusion."""
     out = []
     for el in ET.fromstring("<svg>" + "".join(parts) + "</svg>"):
-        w = max(float(el.get("stroke-width", 0)) * s, STROKE_FLOOR)
+        f = STROKE_FLOOR if floor is None else floor
+        w = max(float(el.get("stroke-width", 0)) * s, f)
         if el.tag == "line":
             out.append(_line(dx + float(el.get("x1")) * s,
                              dy + float(el.get("y1")) * s,
@@ -88,9 +89,10 @@ VOWEL_TICKS = {
 
 
 class FusedRenderer:
-    def __init__(self, inv: Inventory | None = None):
+    def __init__(self, inv: Inventory | None = None, floor=None):
         self.r = ScriptRenderer(inv)
         self.inv = self.r.inv
+        self.floor = STROKE_FLOOR if floor is None else floor
 
     def syllable_letter(self, syl: Syllable, scale, cx, top):
         """Onset letterform + attached vowel tick, centered at cx."""
@@ -99,7 +101,8 @@ class FusedRenderer:
         s = scale
         dx = cx - 37 * s
         dy = top
-        parts = transform_parts(self.r._onset(syl.onset), s, dx, dy)
+        parts = transform_parts(self.r._onset(syl.onset), s, dx, dy,
+                                floor=self.floor)
         # vowel = miniature carrier stub at the letter's right edge:
         # a short vertical stub at tick height + the v0.2 tick logic
         # (front = left, back = right, central = both). The stub keeps
@@ -109,7 +112,7 @@ class FusedRenderer:
         ty = dy + (8 + 52 * frac) * s
         stub = max(11.0 * s, 8.0)
         tick = max(10.0 * s, 7.5)
-        w = max(5 * s, STROKE_FLOOR)
+        w = max(5 * s, self.floor)
         parts.append(_line(edge_x, ty - stub, edge_x, ty + stub, w=w))
         if inward:
             parts.append(_line(edge_x - tick, ty, edge_x, ty, w=w))
@@ -156,34 +159,43 @@ class FusedRenderer:
     # hanzi-style: components FILL regions, POS is a bottom radical
     # region with short centered marks, ink density evens out.) ---
 
-    def _component(self, syl: Syllable, x0, y0, x1, y1, check=True):
+    def _component(self, syl: Syllable, x0, y0, x1, y1, check=True,
+                   check_syl=None):
         """One syllable as a component filling cell (x0,y0)-(x1,y1):
         onset letterform fitted to the cell, vowel stub inside the
-        cell's right edge, medial coda as a corner tick."""
+        cell's right edge, medial coda as a corner tick. check_syl
+        carries the REAL syllable (incl. any stripped coda) so the
+        computed check dot is correct."""
         cw, ch = x1 - x0, y1 - y0
-        # letter ink spans ~(8..66, 8..60) = 58x52; leave room for the
-        # vowel stub (12u) at the right of the letter
-        s = min((cw - 14) / 58, ch / 52)
-        lx = x0 + (cw - 14 - 58 * s) / 2 - 8 * s
+        # letter ink spans ~(8..66, 8..60); the vowel stub apparatus
+        # extends to ~x 74s + tick. Fit the WHOLE assembly in the cell.
+        s = min((cw - 10) / 86, (ch - 6) / 56)
+        lx = x0 + 3 - 8 * s
         ly = y0 + (ch - 52 * s) / 2 - 8 * s
-        parts = transform_parts(self.r._onset(syl.onset), s, lx, ly)
+        parts = transform_parts(self.r._onset(syl.onset), s, lx, ly,
+                                floor=self.floor)
         frac, inward, outward = VOWEL_TICKS[syl.vowel]
         edge_x = lx + 74 * s
         ty = ly + (8 + 52 * frac) * s
         stub = max(11.0 * s, 7.0)
         tick = max(9.0 * s, 6.5)
-        w = max(5 * s, STROKE_FLOOR)
+        w = max(5 * s, self.floor)
         parts.append(_line(edge_x, ty - stub, edge_x, ty + stub, w=w))
         if inward:
             parts.append(_line(edge_x - tick, ty, edge_x, ty, w=w))
         if outward:
             parts.append(_line(edge_x, ty, edge_x + tick, ty, w=w))
-        if syl.coda:                      # medial coda: corner tick(s)
+        if syl.coda:                      # medial coda: distinct corner marks
             cyy = y1 - 3
-            parts.append(_line(x1 - 16, cyy, x1 - 4, cyy, w=4))
-            if syl.coda == "s":
+            if syl.coda == "n":           # single bar
+                parts.append(_line(x1 - 16, cyy, x1 - 4, cyy, w=4))
+            elif syl.coda == "s":         # double bar
+                parts.append(_line(x1 - 16, cyy, x1 - 4, cyy, w=4))
                 parts.append(_line(x1 - 16, cyy - 6, x1 - 4, cyy - 6, w=4))
-        if check and self.inv.register(syl) == 1:
+            elif syl.coda == "l":         # hooked bar (injective w/o dots)
+                parts.append(_line(x1 - 16, cyy, x1 - 4, cyy, w=4))
+                parts.append(_line(x1 - 4, cyy, x1 - 4, cyy - 8, w=4))
+        if check and self.inv.register(check_syl or syl) == 1:
             parts.append(_el("circle", cx=x1 - 6, cy=y0 + 6, r=4.2,
                              fill="currentColor"))
         return parts
@@ -197,15 +209,18 @@ class FusedRenderer:
         body_y1 = dy + (74 if final else 96)
         parts = []
         if n == 1:
-            parts += self._component(sylls[0], dx + 6, dy + 4,
-                                     dx + 94, body_y1)
+            # strip the final coda: it renders as the POS radical below
+            s1 = Syllable(sylls[0].onset, sylls[0].vowel, "")
+            parts += self._component(s1, dx + 6, dy + 4,
+                                     dx + 88, body_y1,
+                                     check_syl=sylls[0])
         elif n == 2:
             mid = dx + 50
             parts += self._component(sylls[0], dx + 3, dy + 4, mid - 2,
                                      body_y1)
             s2 = Syllable(sylls[1].onset, sylls[1].vowel, "")
             parts += self._component(s2, mid + 2, dy + 4, dx + 97,
-                                     body_y1)
+                                     body_y1, check_syl=sylls[1])
         elif n == 3:
             mid = dx + 48
             h2 = (body_y1 - dy - 4) / 2
@@ -215,7 +230,8 @@ class FusedRenderer:
                                      dx + 97, dy + 4 + h2 - 2)
             s3 = Syllable(sylls[2].onset, sylls[2].vowel, "")
             parts += self._component(s3, mid + 2, dy + 4 + h2 + 2,
-                                     dx + 97, body_y1)
+                                     dx + 97, body_y1,
+                                     check_syl=sylls[2])
         else:
             raise ValueError("content words are 1-3 syllables")
         # POS bottom radical region: SHORT centered marks (not a rule)
