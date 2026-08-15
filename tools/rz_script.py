@@ -179,7 +179,8 @@ def onset_glyph(phonemes, dx=0.0, dy=0.0):
     b, mod, voiced = RZ_ONSETS[core[0]]
     parts += letter(b, mod, dx=dx, dy=dy)
     if voiced:
-        parts.append(_line(dx + 12, dy + GROUND_Y, dx + 54, dy + GROUND_Y))
+        parts.append(_line(dx + 8, dy + GROUND_Y, dx + 58, dy + GROUND_Y,
+                           w=6.5))
     if sats_pre:
         sb, sm, _ = RZ_ONSETS["s"]
         parts += letter(sb, sm, scale=0.38, dx=dx + 2, dy=dy - 3)
@@ -241,8 +242,8 @@ def logogram(suffix, dx=0.0, dy=0.0):
     if suffix == "cion":                        # ring + descender
         return [_circle(dx + 25, dy + 24, 12), L(25, 36, 25, 60)]
     if suffix == "itate":                       # ring + descender + FOOT
-        return [_circle(dx + 25, dy + 24, 12), L(25, 36, 25, 58),
-                L(25, 58, 41, 58)]              # (not a crossbar: avoids ♀)
+        return [_circle(dx + 25, dy + 24, 12), L(25, 36, 25, 56),
+                L(25, 56, 45, 56, 6.5)]         # long bold foot (vs cion)
     if suffix == "abile":                       # peak + underbar
         return [L(10, 44, 25, 20), L(25, 20, 40, 44), L(10, 56, 40, 56)]
     raise ValueError(suffix)

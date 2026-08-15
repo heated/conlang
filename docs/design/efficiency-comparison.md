@@ -28,13 +28,26 @@ counted on the plain segmental forms).
 
 ## Counts
 
-| metric | English | RZ | greenfield |
-|---|---|---|---|
-| words | 26 | 22 | 17 |
-| spoken syllables | 33 | 40 | 30 |
-| written units (native script) | 26 words / ~115 chars | 22 glyph-units (dense mode) | **17 fused characters** |
-| chord strokes (projected) | — (steno: ~26 w/ briefs) | ~40 (1/syllable) | **~17 (1/word, mirrored hands)** |
-| learning cost to read this | 0 (EN readers) | ~0 in-zone (gist) | full acquisition |
+| metric | English | RZ | greenfield (narrow) | GF-W (wide, sketch) |
+|---|---|---|---|---|
+| words | 26 | 22 | 17 | 17 |
+| spoken syllables | 33 | 40 | 30 | 34 |
+| written units (native script) | 26 words / ~115 chars | 22 glyph-units (dense mode) | **17 fused characters** | 17 characters |
+| chord strokes (projected) | — (steno: ~26 w/ briefs) | ~40 (1/syllable) | **~17 (1/word, mirrored hands)** | ~17 |
+| monosyllabic root capacity | — | — | 22 (38 w/ POS-reuse menu… see ledger caveats) | **38 computed** |
+| hook quality for Romance/EN cohort | native | native-grade | weak (10-onset funnel) | **near-RZ** (vento/forte/manto fit) |
+| learning cost to read this | 0 (EN readers) | ~0 in-zone (gist) | full acquisition | full acquisition, better mnemonics |
+
+## GF-W note (2026-08-16)
+
+The wide variant (gfw-sketch.md, computed: 16 onsets, 320 syllables,
+38 safe monosyllabic roots vs narrow's 22) spends a few syllables of
+fable-length to buy near-RZ hook quality while keeping the channel
+machinery — it occupies the middle of the reach-vs-engineering
+spectrum and may dominate it. Its costs: weakened universal-floor
+story (voicing/f/z/r cohorts remap), denser confusion graph, and it
+forces the script letter-inventory question (which is exactly what
+blocks the parked stroke work).
 
 ## Honest observations
 
