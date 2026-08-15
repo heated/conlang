@@ -27,6 +27,36 @@ shapes). GZ differs from both by: zonal fidelity as an explicit
 measured dial (cloze against the incumbent), the humility *screen*,
 script-layer channels, and the mode/digit subsystem.
 
+## Syllable space [M]/[D]
+
+GZ inherits its syllable inventory from the base instead of
+designing it. Measured over the RZ six-register corpus (blockquote
+text only, glosses stripped; rough onset-maximal syllabifier):
+335 word tokens → **171 distinct syllables attested**, drawn from
+29 onsets (incl. clusters pr/tr/bl/st...), 14 nuclei (5 vowels +
+rising diphthongs), 8 codas (∅ n s l r m + marginal). Cartesian of
+attested channels ≈ 3,200; the realistic legal space after
+phonotactic pruning is **~2,000-3,000 syllables** — the Spanish
+band of the width-ladder comparison table, ~10x GF-N, ~2.5-3x GF-C.
+None of it is reserved: no MIS, no capacity tax; the screen prunes
+pairs, not space.
+
+## The channels GZ keeps (the fruit) [D]
+
+Spoken: (1) **POS ending channel** — the E/R/M scheme decision;
+(2) **particle/clitic closed class** — all grammar words are the
+unstressed clitic set (le les a de no va se...), already RZ
+practice, GZ makes it a hard class boundary; (3) **fixed penult
+stress** — the SSM-lite word-boundary parse; (4) **modes/digits**
+— pending the escape-phoneme decision (RZ h is silent).
+Display-only: (5) **featural script channels** — place/manner
+letterform families, the voicing ground bar, suffix + function-word
+logograms (all built and tested in rz_script), plus POS marking in
+script under the R/M schemes. Constraint, not channel: (6) the
+**humility screen** — dangerous minimal pairs blocked at assignment
+(false-friend machinery generalized). Dropped from speech: the
+check bit and MIS spacing (script redundancy can carry the former).
+
 ## The fruit, priced [D]
 
 | channel | on a Romance base | price |
