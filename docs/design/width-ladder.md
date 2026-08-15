@@ -18,6 +18,13 @@ exact answer is 38, so true values run ~10% above the bounds.
 | GF-XD | 19 x 8 | 608 | >=55 (~60 est) |
 | GF-C | 31 onset units (+12 stop-liquid clusters) x 8 | 992 | >=85 (~93 est) |
 
+"Content syl" = onsets × nuclei × 4 codas: the count of distinct
+pronounceable content syllables (the 4-coda factor included). "Mono
+roots" is much smaller than "content syl" because (a) roots are
+bodies (onset×nucleus) — the coda dimension is spent on the POS
+channel, ×4 word-forms per root, and (b) the humility MIS discards
+~55-60% of bodies for confusion robustness.
+
 Two independent dials (onsets, nuclei) plus the cluster dial — the
 rungs form a lattice, not a line. Every rung is a **superset** of the
 rungs below it on both dials, and modes/digits stay on the narrow 10
@@ -77,6 +84,50 @@ echo_vowel_conflict to onset position (bounded, known work).
   the root space — a 5th coda is a 5th POS projection per root, a
   different dial entirely (interesting for a derivational channel;
   out of scope for the width question).
+
+## What humility costs, and what natural languages do instead [M]/[H]
+
+The adopted MIS is a *guarantee* (no two unrelated monosyllables one
+confusable substitution apart), not a capacity ceiling. Relaxing to
+the pre-adoption forbidden-only policy (computed, same machinery):
+
+| rung | humility MIS | forbidden-only MIS | ×4 codas = word-forms |
+|---|---|---|---|
+| GF-N | 22 | 34 | 136 |
+| GF-W | 38 | 58 | 232 |
+| GF-WD | >=48 | >=103 | 412 |
+| GF-C | >=85 | >=208 | 832 |
+
+Natural-language syllable inventories for scale (ballparks,
+TODO-verify against primary phonotactic surveys):
+
+| language | ~distinct syllables | how |
+|---|---|---|
+| Hawaiian | ~160 | tiny inventory, CV only |
+| Japanese | ~110 morae / ~400 syl | tiny inventory, CV(n) |
+| Mandarin | ~410 segmental, ~1,300 with tone | tone triples capacity; heavy homophony (~12 morphemes/toned syl in running lexicon) |
+| Spanish | ~1,500-3,000 | clusters, codas |
+| English | ~10,000-16,000 attested | ~24 C onsets + rich clusters, ~15 nuclei, coda clusters (CCCVCCC: *strengths*) |
+| GF-N / GF-C | 200 / 992 | this ladder |
+
+English's 10k+ is bought with exactly what we priced out: giant
+onset/coda cluster inventories (brutal for most L2 cohorts) and ~15
+vowel qualities. Mandarin's effective capacity is bought with tone
+(rejected) **plus massive homophony** — natural languages let
+context do error correction after the fact; the humility policy
+buys it up front and pays in capacity. Three stacked disciplines
+account for the whole gap: small universal inventory, the coda
+dimension spent on grammar instead of lexicon, zero
+homophony/near-pair guarantees.
+
+The design consequence is Mandarin's, deliberately: the language is
+**disyllable-shaped** (~70% of Mandarin words are disyllabic
+compounds). Monosyllables are the elite frequency band everywhere —
+English puts its top few thousand words there; GF puts its top
+~90-370 forms there and composes the rest in a disyllable space that
+is effectively unbounded (hundreds of thousands of legal
+combinations before rules). The scarce resource was never "words";
+it is "words of length one."
 
 ## Where the ladder ends [H]
 

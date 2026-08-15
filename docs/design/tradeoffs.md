@@ -62,6 +62,11 @@ Tags: [M] measured/computed here · [D] derived arithmetic ·
   axis. Diphthongs are the cheapest capacity (GF-ND matches GF-W's
   syllable count on the 10-consonant floor); GF-WD is the flagged
   upper point short of the cluster rung's phonotactic bill.
+  DIRECTIVE (Edward, 2026-08-15): the upper point is now **GZ, the
+  greenfield zonal** — channel fruit on a Romance-ish base, loose
+  root reuse (gz-sketch.md, conlang-z0s). This moves on the
+  *discipline* axis the ladder held fixed, and tentatively resolves
+  RZ's role as donor base + receptive sibling.
 - **RZ's role**: main track, side track, or method-demo. Its
   development is cheap (the recipe machinery works) but its demand
   case took real damage in the milestone reviews (Interlingua
