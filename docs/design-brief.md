@@ -174,6 +174,15 @@ else is defined over these coordinates.
   against the greenfield on how much the Romance constraint wrecks
   chording / script / the other engineered low-hanging-fruit traits
   (bead ow7).
+- 2026-08-15 (script direction chat): objective order for the script:
+  **learnability > reading ergonomics > density > beauty**;
+  display-only confirmed (no handwriting constraint); grayscale/color
+  channels tentative-reserve only (colorblind-safe weight/size
+  contrasts; never load-bearing — low-visibility failure risk); noted:
+  **a wider base channel set aids density twice** (spoken: fewer
+  syllables/word; visual: richer stroke alphabet = fewer strokes/
+  glyph) — density pressure argues for revisiting the wide model;
+  new trailhead filed: emotion/therapy/Buddhism DSLs.
 - 2026-08-15 (post-milestone-review priorities): **no cloze/human
   testing yet.** Lane 1: **script optimality first** (fair measured
   layout frontier; beauty after optimal). Lane 2: **develop RZ and
