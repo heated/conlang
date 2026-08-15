@@ -393,6 +393,22 @@ docs/design/zonal/ tree; a wide-inventory greenfield variant (GF-W:
 16 onsets, 320 syllables, 38 humility-safe monosyllabic roots,
 computed) bridges the two tracks and frames the width decision.
 
+The width decision itself generalizes from a binary to a ladder.
+Running the same capacity machinery over progressively widened
+inventories (diphthong nuclei ai/au/oi; onsets to 19 with v/ʃ/dʒ;
+twelve stop–liquid clusters with licensed epenthesis) yields a
+lattice of superset variants — GF-N 22 → GF-ND ≥28 → GF-W 38 →
+GF-WD ≥48 → GF-C ≥85 humility-safe monosyllabic roots — in which
+the digit/mode subsystem, pinned to the narrow ten onsets, is valid
+at every rung. Diphthongs prove to be the cheapest capacity on the
+board (matching GF-W's syllable count without touching the
+10-consonant universal floor), added onsets saturate quickly after
+GF-W, and the cluster rung converges on Romance word shapes — the
+limit of the ladder is the zonal strategy itself. Width is thus a
+position on a single greenfield↔zonal axis, and the open design
+decision is which point, or nested pair of points, to commit to
+(docs/design/width-ladder.md).
+
 ## 10. Related systems
 
 Every load-bearing mechanism here has a precedent that validates the

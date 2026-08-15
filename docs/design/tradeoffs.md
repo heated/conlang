@@ -55,6 +55,13 @@ Tags: [M] measured/computed here · [D] derived arithmetic ·
   hook dividend argues wide; the universality thesis argues narrow;
   a dual-spec (narrow core ⊂ wide extension, which the spec's §9
   family design anticipated) may capture both at bookkeeping cost.
+  UPDATE (conlang-4h1): the door is wider than binary — the computed
+  width ladder (width-ladder.md) runs GF-N 22 → GF-ND 28+ → GF-W 38
+  → GF-WD ~53 → GF-C ~93 mono roots, all rungs supersets with modes
+  identical; the decision is a point (or nested pair) on the GF↔RZ
+  axis. Diphthongs are the cheapest capacity (GF-ND matches GF-W's
+  syllable count on the 10-consonant floor); GF-WD is the flagged
+  upper point short of the cluster rung's phonotactic bill.
 - **RZ's role**: main track, side track, or method-demo. Its
   development is cheap (the recipe machinery works) but its demand
   case took real damage in the milestone reviews (Interlingua

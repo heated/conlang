@@ -95,7 +95,10 @@ character count unchanged.)
 ## Status
 
 Sketch + computed capacities only. Not adopted. Feeds the width
-decision that blocks r5y, and the tradeoffs synthesis. Next if
+decision that blocks r5y, and the tradeoffs synthesis. GF-W is no
+longer the top rung: see width-ladder.md (conlang-4h1) for the
+computed ladder above it (diphthong nuclei, +v/sh/dj, clusters) —
+GF-N 22 → GF-ND 28+ → GF-W 38 → GF-WD ~53 → GF-C ~93 mono roots. Next if
 pursued: full spec variant (check bits, digit compatibility
 verified, script letter cells), GF-W seed lexicon pass, and the
 L1-coverage audit against real population data.
