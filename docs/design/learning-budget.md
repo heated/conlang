@@ -145,6 +145,7 @@ existing bands (consistency check passed).
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
 | mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-validated either way (rz-chording §4b-e) |
 | directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | hours-based (v2): competence ~5-10h; QWERTY-parity wpm ~40-60h; realtime ~200-400h; pro ~500h+ [H] | | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |
+| GZ exact-fit phonotactics (syllable = chord isomorphism) | −(encoding-layer hours): nothing to learn between speech and typing — one inventory, two surfaces; motor-humility audit invisible to learners | chord entry with no mapping layer; joint acoustic+motor confusion screen; aligned escape regions | explored, feasibility computed (gz-chord-fit.md); adoption rides the GZ decision (conlang-z0s) |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)

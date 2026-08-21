@@ -451,6 +451,23 @@ precisely to the cohorts the zone's cognate transfer does not serve
 — the same asymmetry the ledger identifies as the greenfield-zonal
 thesis (docs/design/zonal/rz-lexicon-coverage.md).
 
+Where the zonal language merely *happened* to fit the per-hand
+chord space, the greenfield-zonal target can be co-designed with
+it: defining its phonotactics as the chord banks themselves (36
+onsets, 8 nuclei, 3 glides, 6 codas) yields 5,184 raw syllable
+cells, and the humility screen's independently measured ~40%
+survival rate lands the usable inventory at ~2,100 — inside the
+2,000–3,000 target derived from the donor languages. Three
+independently derived quantities close on each other, and typing
+becomes an isomorphism rather than an encoding. The co-design also
+opens a channel no prior system has: because the designer chooses
+which cells survive, the confusion screen can audit the *motor*
+graph (chords one directional slip apart) jointly with the
+acoustic one — demonstrated on the digit bank, where a hill-climbed
+assignment places all numerically close digit pairs at motor
+distance ≥2 while a naive layout incurs ten violations
+(docs/design/gz-chord-fit.md).
+
 The width decision itself generalizes from a binary to a ladder.
 Running the same capacity machinery over progressively widened
 inventories (diphthong nuclei ai/au/oi; onsets to 19 with v/ʃ/dʒ;

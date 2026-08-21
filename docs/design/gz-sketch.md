@@ -41,6 +41,14 @@ band of the width-ladder comparison table, ~10x GF-N, ~2.5-3x GF-C.
 None of it is reserved: no MIS, no capacity tax; the screen prunes
 pairs, not space.
 
+Chord-space co-design (2026-08-22, gz-chord-fit.md): defining the
+inventory as the per-hand cluster banks (onset ≤36, nucleus 8,
+glide 3, coda 6) gives 5,184 raw cells; the measured ~40% humility
+survival lands at ~2,073 — inside the target band. Syllable =
+chord isomorphism, joint acoustic+motor confusion audit (digit
+bank demonstrated violation-free), aligned escape regions, and a
+new E/R/M pricing column (+3-8% strokes/word for E vs R).
+
 ## The channels GZ keeps (the fruit) [D]
 
 Spoken: (1) **POS ending channel** — the E/R/M scheme decision;
