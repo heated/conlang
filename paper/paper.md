@@ -344,11 +344,23 @@ hour). Sample renderings (machine-generated from the spec): 4,207 =
 *huu mi cin* (3 syllables against roughly ten in English); 2026-08-08 =
 *ho ta teen coon coon*; 14:30 = *hii miin*.
 
-The density is honestly priced. Because digit payloads use the full
-grid, 87.5% of single-channel mishearings of a digit syllable yield
-another valid digit (60% of those flip the computed check — detectable
-in writing and careful registers; in casual speech all are silent until
-the checksum). The mode system
+The density is honestly priced. In the v1 code, digit payloads used
+the full grid: 87.5% of single-channel mishearings of a digit syllable
+yielded another valid digit (60% of those flipped the computed check —
+detectable in writing and careful registers; in casual speech all were
+silent until the checksum). The v2 revision abandons that
+register-parity defense for sparsity: the codebook is 100 syllables
+chosen from 220 — units use ten rimes selected by exhaustive search
+for perceptual spacing (only the corner vowels a/i/u appear; the
+e/i, o/u, a/e, a/o confusion classes are simply absent from digits),
+and a confusion-matrix audit maps the surviving confusable pairs of
+both channels to numerically distant values (every audited pair ≥3
+apart; the worst at distance 8–9). Error resistance now rides on
+audible channels alone. The residue-100 corner case of the mod-101
+checksum is handled structurally: no checksummed chunk may carry
+residue 100 — a legal split under the list-separator particle always
+exists, since a lone digit pair's residue is its own value. The mode
+system
 therefore carries its own outer code: an optional closing checksum
 syllable — a position-weighted sum mod 101 over per-symbol values, which
 provably changes under every single-symbol substitution and every
@@ -392,6 +404,17 @@ Interlingua's. Full designs and measurements: the repository's
 docs/design/zonal/ tree; a wide-inventory greenfield variant (GF-W:
 16 onsets, 320 syllables, 38 humility-safe monosyllabic roots,
 computed) bridges the two tracks and frames the width decision.
+
+The zonal track has since tentatively adopted the engineered number
+mode: because the zonal orthography declares h silent, the h-onset
+region of syllable space is vacant, and mode frames colonize it at
+zero cost to the inherited lexicon ([h] is dead in words, live in
+frames). Its digit onsets align with Romance number-word initials
+where possible (six of ten guessable at first contact), a trade
+that knowingly places two confusable pairs at adjacent values
+because the source languages do (dos/tres, cinco/seis) and leans on
+the checksum register to compensate. The mode is the one zonal
+component whose learning cost is flat across L1 cohorts.
 
 The width decision itself generalizes from a binary to a ladder.
 Running the same capacity machinery over progressively widened

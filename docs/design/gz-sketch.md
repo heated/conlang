@@ -105,7 +105,11 @@ the silent-h hole (RZ has none); root fidelity as a spendable
 budget (RZ treats fidelity as the point). Shared: phonology,
 screen machinery, script (GZ adds POS marks), RZ lexicon as donor.
 Status asymmetry: RZ is a built language (grammar, ~380 entries,
-six-register corpus, tested script); GZ is this sketch. Under the
+six-register corpus, tested script); GZ is this sketch. UPDATE
+(2026-08-21): RZ has tentatively adopted the number mode in the
+silent-h hole (rz-number-mode.md, Edward directive) — RZ now
+carries one engineered spoken subsystem, i.e. it has taken the
+first step onto the GZ-R path. Under the
 R-scheme GZ collapses to nearly "RZ + discipline"; under E it is a
 visibly different language with an RZ-shaped vocabulary.
 
