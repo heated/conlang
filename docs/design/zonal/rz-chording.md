@@ -267,29 +267,72 @@ cross-word boundary marker carried in-stroke (the nucleus bank's
 
 ### 4f. Yawei-style RZ on clusters: projected speed and time-to-speed [H]
 
-Rate model: RZ at 0.92 strokes/word (2 syl/stroke, cross-word
-packing). Anchors: Yawei working rate 240 chars/min = 2 strokes/sec
-sustained, terminal 520 ≈ 4.3/sec; English steno pros sustain
-~3-4/sec; steno students reach ~2-2.5/sec by month 6. Cluster-
-hardware parity with key-stroke rates is ASSUMED [H — CharaChorder
-suggests plausible, prototype must confirm].
+**Anchor correction (Edward, 2026-08-22): steno/Yawei training
+times are the WRONG anchor for the speed curve** — English steno's
+1-2yr is dominated by theory + thousands of memorized briefs +
+dictionary debugging, and Yawei's ~2yr is a vocational curriculum
+(hearing-typing, terminology, certification), not system-learning.
+RZ's theory is zero-exception with no briefs — the correct anchor
+is **Velotype** (orthographic, systematic, brief-free): basics in
+weeks, "high accuracy and speed within 2-4 months," professional
+subtitling speeds in 7mo-2yr, and explicitly documented as easier
+to learn than stenotype BECAUSE orthographic. One surcharge Velotype
+doesn't have: the mirrored mode's early bimanual-independence cost —
+so our curve sits between Velotype's and Yawei's, near Velotype.
 
-| milestone | strokes/sec | RZ wpm | time to reach [H] |
+Rate model: 0.92 strokes/word (2 syl/stroke, cross-word packing).
+Rates: Yawei working 2 strokes/sec, terminal 4.3; steno pros 3-4;
+cluster-hardware rate parity ASSUMED [H — prototype confirms].
+
+| milestone | strokes/sec | RZ wpm | time to reach [H, Velotype-anchored] |
 |---|---|---|---|
-| theory competence (zero-exception, all rules) | accuracy-first | ~20-40 | ~5-10h |
-| casual utility | ~1 | ~65 | ~2-6 weeks regular practice |
-| touch-typist parity | ~1.5-2 | ~100-130 | ~2-4 months |
-| speech-rate realtime (RZ speech ~150-180 wpm) | ~2.5-3 | ~160-195 | ~6-12 months |
-| professional ceiling | ~3.5-4.3 | ~230-280 | ~1-2 years (the Yawei/steno vocational band) |
+| theory competence (all rules) | accuracy-first | ~20-40 | ~5-10h |
+| casual utility | ~1 | ~65 | ~2-4 weeks |
+| touch-typist parity | ~1.5-2 | ~100-130 | **~1-3 months** |
+| speech-rate realtime | ~2.5-3 | ~160-195 | **~4-9 months** |
+| professional ceiling | ~3.5-4.3 | ~230-280 | ~7mo-2yr (motor-bound; does not compress) |
 
-Readings: (1) the interesting threshold is row 4 — **RZ becomes
-realtime-transcribable by its own speakers within a year of
-practice**, the steno superpower without steno's brief
-dictionaries; (2) row 2-3 is the realistic mass audience: QWERTY
-parity in ~a season, on a zero-exception theory learned in a week;
-(3) all numbers inherit the cluster-rate assumption and the 0.92
-packing figure — the prototype A/B (template vs mirrored, keys vs
-clusters) is the instrument that turns this table [M].
+The late rows are raw motor automatization and match Velotype's
+band; the early rows are where brief-free theory pays (steno
+students spend this period fighting their dictionaries instead).
+
+### 4g. What a stroke actually is (the concrete walkthrough)
+
+Terms, precisely: a **stroke** = one simultaneous press-and-release
+of both hands. Each **hand** contributes one complete syllable per
+stroke. **Words** are recovered from an in-stroke boundary flag —
+they have no stroke-level existence at all. Hence strokes/word =
+(syllables/word)/2 = 1.83/2 ≈ 0.92.
+
+Per-hand bank layout (5 digits, directional clusters):
+
+| digit | bank | states used |
+|---|---|---|
+| index × middle | onset | 36 incl. null-null = vowel-initial (all simple onsets + clusters, one table) |
+| thumb | vowel core | 8: a e i o u ai au oi |
+| ring | glide × boundary | 6 = exactly {∅, i-glide, u-glide} × {word-continues, word-ends} — rising diphthongs (ia ue...) are ring-glide + thumb-vowel; the boundary flag rides the same finger |
+| pinky | coda | 6: ∅ n s r l m |
+
+Typing «le vento del norte» (6 syllables, 4 words, **3 strokes**):
+
+| stroke | left hand | right hand |
+|---|---|---|
+| 1 | l · e · ∅ [end] | v · e · n |
+| 2 | t · o · ∅ [end] | d · e · l [end] |
+| 3 | n · o · r | t · e · ∅ [end] |
+
+Firmware buffers hand-syllables in order (LH then RH per stroke),
+splits at boundary flags, and emits orthographic text: syllable
+stream `le|ven|to|del|nor|te` + flags → "le vento del norte". RZ
+spelling is regular, so emission is a pure function — no
+dictionary. Single-hand mode is the same layout at one syllable
+per stroke (1.83 strokes/word) with the other hand on the mouse.
+
+Clarification recorded: **CharaChorder is borrowed hardware, not a
+borrowed method** — CC's native scheme is character entry plus
+memorized word-chords (briefs). Ours is systematic syllabic
+encoding on their switch type; the learning-curve claims above
+lean on Velotype's systematic precedent, not CC's brief grind.
 
 ### 4d. Modifiers, shortcuts, and the command layer (Edward Q, 2026-08-21)
 
