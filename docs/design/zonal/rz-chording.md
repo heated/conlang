@@ -255,10 +255,41 @@ directional cluster gives one state at a time — no crack-style
 combinations within a finger, already reflected in the 6); unknown
 sustained error rates under speed for direction-precision vs
 key-press (CharaChorder proves existence, not steno-grade
-ceilings). **Directive recorded: both hardware directions — key
-chords and directional clusters — are maintained in parallel**;
-key-chords hold the proven-precedent lane (steno/Yawei/Velotype),
-clusters hold the capacity lane.
+ceilings).
+
+**STANDARDIZED (Edward, 2026-08-22): directional clusters are THE
+hardware direction.** Key-chord boards demote to a compatibility
+lane (Plover-world hardware, borrowed precedent) — design work
+targets clusters first. Consequence: the mirrored Yawei-style RZ
+board is back as the primary design, uncut phonology, with the
+cross-word boundary marker carried in-stroke (the nucleus bank's
+~40 spare states — no extra stroke for word boundaries).
+
+### 4f. Yawei-style RZ on clusters: projected speed and time-to-speed [H]
+
+Rate model: RZ at 0.92 strokes/word (2 syl/stroke, cross-word
+packing). Anchors: Yawei working rate 240 chars/min = 2 strokes/sec
+sustained, terminal 520 ≈ 4.3/sec; English steno pros sustain
+~3-4/sec; steno students reach ~2-2.5/sec by month 6. Cluster-
+hardware parity with key-stroke rates is ASSUMED [H — CharaChorder
+suggests plausible, prototype must confirm].
+
+| milestone | strokes/sec | RZ wpm | time to reach [H] |
+|---|---|---|---|
+| theory competence (zero-exception, all rules) | accuracy-first | ~20-40 | ~5-10h |
+| casual utility | ~1 | ~65 | ~2-6 weeks regular practice |
+| touch-typist parity | ~1.5-2 | ~100-130 | ~2-4 months |
+| speech-rate realtime (RZ speech ~150-180 wpm) | ~2.5-3 | ~160-195 | ~6-12 months |
+| professional ceiling | ~3.5-4.3 | ~230-280 | ~1-2 years (the Yawei/steno vocational band) |
+
+Readings: (1) the interesting threshold is row 4 — **RZ becomes
+realtime-transcribable by its own speakers within a year of
+practice**, the steno superpower without steno's brief
+dictionaries; (2) row 2-3 is the realistic mass audience: QWERTY
+parity in ~a season, on a zero-exception theory learned in a week;
+(3) all numbers inherit the cluster-rate assumption and the 0.92
+packing figure — the prototype A/B (template vs mirrored, keys vs
+clusters) is the instrument that turns this table [M].
 
 ### 4d. Modifiers, shortcuts, and the command layer (Edward Q, 2026-08-21)
 
