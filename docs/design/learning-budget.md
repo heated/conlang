@@ -50,30 +50,69 @@ to B1-B2). Recalibration = conlang-pym.
 This file owns ALL learning-time content (dedupe 2026-08-21;
 rz-learning-time.md and the gz-sketch table now point here).
 
-**Cross-system totals per cohort** (uncalibrated A2-B1-bar model):
+**STANDARD BAR: C1 (Edward directive 2026-08-21).** All headline
+numbers below are C1-equivalent estimates [H]. "C1-equivalent" for
+a young auxlang = full command of the complete grammar + current
+lexicon incl. derivation, fluent spontaneous production, implicit
+meaning; register breadth is bounded by corpus maturity (honest
+caveat — a 380-word language cannot exhibit full C1 breadth yet;
+the estimate prices the skill, assuming the lexicon grows).
+Scaling logic: FSI Cat-I ~600-750h ≈ C1 for EN→Romance; C1 is
+dominated by production automatization + breadth, which transfer
+and regularity discount but never erase. Reference row: Esperanto
+to C1 ≈ 300-500h for Europeans [H — the famous 150-200h figure is
+a ~B1 bar].
+
+**Cross-system totals per cohort, C1 bar** [H]:
 
 | learner | RZ | GZ | GF-N |
 |---|---|---|---|
-| Romance L1 | read ~immediate; speak ~20-50h | read near-immediate; speak ~30-60h | ~100-200h, no discount |
-| English L1 | ~100-150h | ~80-120h | ~100-200h |
-| non-Euro L1 | ~300-500h (no design help) | ~150-250h (regularity discount) | ~100-200h, flat |
+| Romance L1 | read fully in ~5-10h; C1 speak ~100-200h | ~120-220h | ~250-450h, no discount |
+| English L1 | ~250-400h | ~200-350h | ~250-450h |
+| non-Euro L1 | ~600-900h (no design help) | ~350-600h (regularity discount) | ~250-450h, flat |
 
-**RZ itemized breakdown** (per component; separable — reading-only
-RZ is a real endpoint):
+(The old A2-B1-bar numbers — RZ Romance 20-50h etc. — remain valid
+for the lower bar and survive in git history; the ~4x C1 multiplier
+is the model's, unvalidated. Orderings, not absolutes, are the
+trustworthy content. Calibration against sources: conlang-pym.)
+
+**RZ itemized breakdown, C1 bar** (separable — reading-only RZ is a
+real endpoint and stays cheap):
 
 | component | Romance L1 | English L1 | non-Euro L1 |
 |---|---|---|---|
-| receptive reading | ~0-2h (sight) | ~5-15h | ~150-250h (vocab wall) |
-| grammar (invariant verbs, -va, va+inf, es/sta, clitics, neg. concord) | ~5-10h | ~10-20h | ~20-30h |
-| lexicon, productive (~380 + false-friend flags) | ~10-25h | ~40-80h | ~150-250h |
-| pronunciation & production | ~5-15h | ~20-40h | ~30-60h |
+| receptive reading, full | ~5-10h | ~30-60h | ~250-400h (vocab wall) |
+| grammar to automatic control | ~15-30h | ~30-60h | ~50-80h |
+| lexicon, productive at C1 breadth | ~40-80h | ~120-200h | ~250-350h |
+| pronunciation & fluent production | ~40-80h | ~70-120h | ~80-120h |
 | number mode (tentative) | ~2h casual +2h readback | ~2-4h | ~3-5h |
 | display script, reading | ~3-5h | ~3-5h | ~3-5h |
 | chording (optional, template v2) | ~5-10h competence; speed = practice | same | same |
 
-The dominant line item is the **lexicon**, and for the Romance
-cohort it is nearly free (recognition); for everyone else it is the
-wall.
+Small closed skills (mode, script, chording) are bar-independent —
+they were already at ceiling. The dominant C1 line items are
+lexicon breadth and production automatization; for the Romance
+cohort the lexicon stays heavily discounted (recognition→recall is
+cheaper than acquisition), for everyone else it is the wall.
+
+## Interlingua vs Esperanto (recorded answer, feeds calibration)
+
+Direction-dependent; no direct head-to-head study exists [checked
+2026-08-21 — the literature is Esperanto-propaedeutic studies plus
+Interlingua's at-sight design docs]:
+- **Receptively, Interlingua wins** for anyone with Romance-derived
+  vocabulary (its explicit design goal: comprehension "a prime
+  vista") — reading starts at ~0h where Esperanto starts near a
+  vocabulary course.
+- **Productively, Esperanto wins**: full regularity and schematic
+  derivation vs Interlingua's naturalistic irregularity (collateral
+  forms, unpredictable derivation). Correct *production* of
+  Interlingua requires knowing which naturalistic form is right —
+  the same tax RZ pays and GZ's E-scheme tries to refund.
+- **Outside the European-vocabulary world both lose transfer**, and
+  Esperanto's regularity makes it the cheaper of the two.
+This is the RZ-vs-GF axis in the historical record, and GZ is the
+explicit attempt to take both wins.
 The dominant line item is the **lexicon**, and for the Romance
 cohort it is nearly free (recognition); for everyone else it is the
 wall. Design purchases that don't touch the lexicon are cheap

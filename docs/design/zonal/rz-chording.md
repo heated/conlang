@@ -159,6 +159,41 @@ is RZ's trisyllable tail. Cross-word packing of function-word
 monosyllables (38% of tokens) into their neighbor's stroke is the
 remaining lever — power tier, flagged, not base theory.
 
+### 4c. Finger-state model ADOPTED (Edward, 2026-08-21) — and what it changes
+
+Model: per finger, acceptable difficulty caps at **4 states** (2
+rows + crack: ∅/top/bottom/both — or 3 rows single-press); thumbs
+carry extra depth: 4 keys with adjacent pairs = **8 states**
+(∅ + 4 singles + 3 pairs). Per-hand budget: 4⁴ × 8 = **2,048
+states** — a hard number that replaces the keys-per-finger
+hand-waving above.
+
+Computed consequences:
+
+1. **GF fits one-handed with a finger to spare.** Onset 10 ≤ 15 (2
+   fingers), nucleus 5 ≤ 7 (thumb), coda ∅/n/s/l = 3 non-null (1
+   finger, ∅ = no press). That's 3 fingers + thumb per syllable —
+   the 4th finger is FREE for mode/boundary keys. New capability
+   unlocked: **one-handed GF chording** (phone-grip input), and the
+   mirrored two-syllable board is comfortably inside budget.
+2. **RZ per-hand fits iff one channel rearrangement + one squeeze.**
+   Rearrangement: rising diphthongs (ia ie io ua ue) reclassify as
+   glide-medial onsets (j/w + V), moving them out of the nucleus
+   bank — nuclei drop to 5 V + ai au (+oi respelled o-i), fitting
+   the thumb's 7 non-null states. Onset bank incl. glide-medials
+   (~60 values) fits 3 fingers (63 non-null). The squeeze: codas
+   n/s/r/l need 4 non-null but one strict-model finger gives 3 —
+   **mirrored per-hand RZ misses by exactly one coda state.** Fix:
+   the coda finger alone runs 3-rows+crack (5 non-null), one notch
+   past the difficulty bound on one finger. That single finger is
+   the entire gap between RZ and the Yawei-style board.
+3. **The ambitious tier is now a board spec, not a sketch**: per
+   hand = 3 onset fingers + 1 coda finger + nucleus thumb; capacity
+   63×7×5 = 2,205 ≥ RZ's ~2,000-2,500 legal syllables (tight —
+   legal-space pruning decides).
+4. Digit mode: the 100-point codebook needs 10×10 = trivially one
+   hand — **one-handed numeric entry** falls out for both GF and RZ.
+
 **Recommendation [D], revised after research: two tiers.**
 Conservative = the disyllable-template board (1.13 strokes/word,
 proven form factor) as RZ chording v2. Ambitious = the Yawei-style
