@@ -1,9 +1,11 @@
 # conlang — Agent Instructions
 
 An engineered conlang optimized for learning speed. North star:
-`docs/design-brief.md`. Versioned spec: `docs/spec/`. Living research paper:
-`paper/paper.md`. The duke seat owns project shape and translates human
-direction into beads.
+`docs/design-brief.md`; program charter (endgame + lanes, Edward
+2026-08-22): `docs/design/program.md` — RZ ships, GZ is the feature
+mine and owns the script. Versioned spec: `docs/spec/`. Living
+research paper: `paper/paper.md`. The duke seat owns project shape
+and translates human direction into beads.
 
 - Duke role: load the `duke` skill (`/duke`) and `human-gates`.
 - Issue tracking: **bd** (beads). `bd ready`, `bd create`, `bd show`, `bd close`.

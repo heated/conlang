@@ -5,6 +5,11 @@ Distilled from the 2026-08-08 design conversation (full transcript:
 The name is deliberately undecided; the spec uses a placeholder until the
 phonaesthetics pass (Tier 4).
 
+**Program charter (2026-08-22): `docs/design/program.md`** — the
+endgame and lane structure now sit above this brief: RZ is the
+shipping language, GZ the laboratory/feature mine, plus bootstrap,
+publication, and portable-toolkit lanes.
+
 ## Goal
 
 A language that is **maximally fast to learn**, where fast **typing**
@@ -195,6 +200,17 @@ else is defined over these coordinates.
   greenfield deep enough that the efficiency tradeoffs become crisp**
   (greenfield needs grammar + seed lexicon to measure anything real).
   Autonomous continuous work; the duke takes the next thing each time.
+- 2026-08-22 (program directive — the current top-level frame):
+  **RZ is the endgame** ("we'll probably go with RZ just cause it
+  takes less time to learn"); **mine GZ for features worth their
+  learning cost**; explore **bootstrap scenarios** ("realistic
+  directions"); **publish the overall thesis** on engineering for
+  learnability; make RZ **as good as possible on the Pareto
+  frontier of easy-to-learn × featureful-in-good-ways**;
+  **generalize RZ into a portable toolkit** of add-ons for any
+  zonal/continental/global auxlang; keep **stealing from other
+  conlangs** where it pays; agent owns all of it including
+  self-directed exploration. Charter: docs/design/program.md.
 - 2026-08-13 (later): Romance was picked for **recognizability to
   Edward** — who is EN-L1 and got gist-only. **Switch focus to the
   English-zone zonal** ("Atlantic" — the Anglo-Latinate stratum;

@@ -393,6 +393,21 @@ policy rather than diachronic erosion; governance.]
 
 ## 9b. The zonal program (companion track)
 
+*Program note (2026-08-22): the tracks' roles have inverted. The
+zonal language (RZ) is now the intended shipping product — the
+receptive bootstrap wins on total time-to-value — and the
+engineered greenfield line serves as the laboratory and feature
+mine: mechanisms migrate into RZ exactly when their measured value
+justifies their learner-hour price (the mining gate; e.g. the
+number mode and the error-absorption declarations already ported,
+each priced in the learning-budget ledger). The greenfield also
+retains ownership of the featural script, which RZ consumes only as
+an optional display layer. A further generalization lane restates
+each ported mechanism zone-agnostically, as a priced toolkit of
+add-ons applicable to any zonal, continental, or global auxlang;
+that toolkit is the intended spine of this paper's contribution.
+Charter: docs/design/program.md.*
+
 Alongside the engineered language, the project runs a receptive-first
 track: a Romance zonal auxlang (RZ) with a six-register parallel
 corpus, a complete regularized grammar (person-invariant verbs,
