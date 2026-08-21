@@ -121,6 +121,70 @@ class TestChecksum(unittest.TestCase):
             self.assertTrue(got["checksum_ok"], frame)
             self.assertEqual(got["chunks"], len(chunks))
 
+    def _forced_residue_100(self, n_pairs):
+        """A payload of exactly n_pairs whose checksum residue is 100.
+        Solve for the last value: residue is linear in it."""
+        head = [7] * (n_pairs - 1)
+        for last in range(100):
+            if M.checksum(head + [last]) == 100:
+                return head + [last]
+        raise AssertionError(f"no residue-100 payload at {n_pairs} pairs")
+
+    def test_chunking_at_length_boundaries(self):
+        # Codex review 2026-08-22 finding 5: the earlier test only saw
+        # 1-2 pair payloads. Exercise 3, 50, and the 100-symbol cap.
+        for n_pairs in (3, 50, MAX_FRAME_SYMBOLS):
+            vals = self._forced_residue_100(n_pairs)
+            chunks = M.chunk_payload(vals)
+            self.assertGreater(len(chunks), 1, n_pairs)
+            for c in chunks:
+                self.assertNotEqual(M.checksum(c), 100)
+            self.assertEqual([v for c in chunks for v in c], vals)
+            # latest-cut property: no later cut point works
+            cut = len(chunks[0])
+            for later in range(cut + 1, len(vals)):
+                self.assertTrue(
+                    M.checksum(vals[:later]) == 100
+                    or M.checksum(vals[later:]) == 100,
+                    f"cut at {later} was legal but {cut} was chosen")
+
+    def test_frame_cap_applies_to_reassembled_payload(self):
+        # BLOCKER (Codex 2026-08-22): chunked frames must not smuggle
+        # >100 symbols past the cap one valid chunk at a time.
+        vals = [7] * (MAX_FRAME_SYMBOLS + 1)
+        toks = [M.rom_particle("number")]
+        for i, v in enumerate(vals):
+            toks += M.rom([M.digit_pair_syllable(v)])
+            if i == MAX_FRAME_SYMBOLS - 1 or i == len(vals) - 1:
+                toks.append(M.rom_particle("close_checksum"))
+                start = 0 if i == MAX_FRAME_SYMBOLS - 1 else MAX_FRAME_SYMBOLS
+                toks += M.rom([M.checksum_syllable(
+                    M.checksum(vals[start:i + 1]))])
+                if i != len(vals) - 1:
+                    toks.append(M.rom_particle("chunk_sep"))
+        with self.assertRaises(FrameError):
+            M.decode_frame(" ".join(toks))
+
+    def test_non_number_modes_reject_chunking(self):
+        toks = M.encode_date(None, 8, 8)
+        frame = " ".join(toks + [M.rom_particle("close_checksum")]
+                         + M.rom([M.checksum_syllable(0)])
+                         + [M.rom_particle("chunk_sep")]
+                         + M.rom([M.digit_pair_syllable(1)]))
+        with self.assertRaises(FrameError):
+            M.decode_frame(frame)
+
+    def test_chunk_separator_cannot_start_or_float(self):
+        for frame in (f"{M.rom_particle('number')} "
+                      f"{M.rom_particle('chunk_sep')} "
+                      f"{M.rom([M.digit_pair_syllable(1)])[0]}",
+                      f"{M.rom_particle('number')} "
+                      f"{M.rom([M.digit_pair_syllable(1)])[0]} "
+                      f"{M.rom_particle('chunk_sep')} "
+                      f"{M.rom([M.digit_pair_syllable(2)])[0]}"):
+            with self.assertRaises(FrameError):
+                M.decode_frame(frame)
+
     def test_chunked_frame_detects_corruption(self):
         n = next(x for x in range(2000)
                  if M.checksum(M.number_pairs(x)) == 100)

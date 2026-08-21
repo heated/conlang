@@ -132,9 +132,9 @@ definition. Hemisphere markers will come from the spell letters
 
 Every doc example is round-tripped through the frame decoder at
 generation time. For comparison: "four thousand two hundred and seven"
-(~10 English syllables) vs `huu mi cin` (3); "August eighth, twenty
-twenty-six" (~9) vs `ho ta teen coon coon` (5); "half past two pm" vs
-`hii miin` (2).
+(~10 English syllables) vs `huu cii mu` (3); "August eighth, twenty
+twenty-six" (~9) vs `ho ta taas miis miis` (5); "half past two pm" vs
+`hii cin` (2).
 
 ## 8. Checksum
 

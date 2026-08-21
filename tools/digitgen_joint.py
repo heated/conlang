@@ -187,8 +187,8 @@ def main():
     from digitgen import assign_digits
     cur_tens = {o["roman"]: o["digit_tens"]
                 for o in spec["onsets"]["content"]}
-    cur_units = {(v["roman"], ""): v["digit_units_short"]
-                 for v in spec["vowels"]}
+    cur_units = {(u["vowel"], u["coda"]): u["digit"]
+                 for u in spec["digit_units_rimes"]["map"]}
     units_v2 = assign_digits(rimes, rconf, cur_units)
     oconf_pairs = {(a, b): ow.get(frozenset((a, b)), 0.05)
                    for a, b in itertools.combinations(onsets, 2)}

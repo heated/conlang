@@ -341,8 +341,8 @@ reuse the same pairs verbatim — no month names, no separate tables — and
 clock time is a single syllable via two orthogonal rules on the same
 grid (onset = hour's last digit, coda = hour's tens, vowel = quarter
 hour). Sample renderings (machine-generated from the spec): 4,207 =
-*huu mi cin* (3 syllables against roughly ten in English); 2026-08-08 =
-*ho ta teen coon coon*; 14:30 = *hii miin*.
+*huu cii mu* (3 syllables against roughly ten in English); 2026-08-08 =
+*ho ta taas miis miis*; 14:30 = *hii cin*.
 
 The density is honestly priced. In the v1 code, digit payloads used
 the full grid: 87.5% of single-channel mishearings of a digit syllable
@@ -350,13 +350,18 @@ yielded another valid digit (60% of those flipped the computed check —
 detectable in writing and careful registers; in casual speech all were
 silent until the checksum). The v2 revision abandons that
 register-parity defense for sparsity: the codebook is 100 syllables
-chosen from 220 — units use ten rimes selected by exhaustive search
+chosen from the 200 content-shaped payload points (the h-onset row is
+reserved for frames) — units use ten rimes selected by exhaustive
+search
 for perceptual spacing (only the corner vowels a/i/u appear; the
 e/i, o/u, a/e, a/o confusion classes are simply absent from digits),
 and a confusion-matrix audit maps the surviving confusable pairs of
 both channels to numerically distant values (every audited pair ≥3
 apart; the worst at distance 8–9). Error resistance now rides on
-audible channels alone. The residue-100 corner case of the mod-101
+audible channels alone — and sparsity pays a second time: because
+half the payload grid is not a codeword, 280 of 1600 single-channel
+corruptions now fall outside the code and are caught by the frame
+grammar, against 200 under the dense v1 code. The residue-100 corner case of the mod-101
 checksum is handled structurally: no checksummed chunk may carry
 residue 100 — a legal split under the list-separator particle always
 exists, since a lone digit pair's residue is its own value. The mode

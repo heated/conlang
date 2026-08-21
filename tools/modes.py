@@ -6,7 +6,11 @@ and the digit confusion analysis.
 Frame grammar (romanized, space-separated tokens):
   frame    := particle payload* [close]
   close    := 'haas' | 'hoos' checksum-symbol
-  number   := hu pair+                     (base-100, big-endian)
+  number   := hu (chunk 'haan')* chunk     (base-100, big-endian)
+  chunk    := pair+ ['hoos' checksum-symbol]
+            (multi-chunk frames are the residue-100 escape; every
+             chunk then carries its own checksum, and the 100-symbol
+             cap applies to the REASSEMBLED payload)
   date     := ho pair{2}                   (yearless: month day)
             | ho pair{4} | ho pair{5}      (year 4 or 6 digits, month, day)
   time     := hi cell [offset-pair [seconds-pair]]
@@ -18,7 +22,10 @@ pair value). checksum = sum((i+1) * value_i) mod 101 over the payload,
 frame capped at 100 symbols. 101 is prime and exceeds every value delta,
 so every single-symbol substitution (within the same symbol class) and
 every transposition changes the checksum. The checksum symbol encodes
-0-99 as a digit pair and 100 as `cas` (payload register).
+0-99 as a digit pair; **residue 100 has no symbol** — the v2 sparse
+codebook leaves no clean 101st syllable (`cas` is now digit 36), so a
+payload whose residue is 100 is split by the chunking rule instead
+(see chunk_payload).
 
 All doc tables in docs/spec/modes.md are generated here (`examples`,
 `particles`, `letters`, `confusion` subcommands) and exactly asserted by
@@ -358,6 +365,14 @@ class Modes:
         if any(not c for c, _ in chunks):
             raise FrameError("empty payload")
         payload = [s for c, _ in chunks for s in c]
+        # the frame cap is global, not per chunk (Codex review
+        # 2026-08-22 BLOCKER: chunked frames could otherwise smuggle
+        # unbounded payloads past MAX_FRAME_SYMBOLS one valid chunk
+        # at a time, while the encoder rejects the same payload)
+        if len(payload) > MAX_FRAME_SYMBOLS:
+            raise FrameError(
+                f"frame exceeds {MAX_FRAME_SYMBOLS} symbols "
+                f"({len(payload)} across {len(chunks)} chunk(s))")
 
         try:
             if len(chunks) > 1:

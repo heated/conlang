@@ -118,8 +118,11 @@ def main():
     codas = [c["roman"] for c in spec["codas"]]
     onsets = [o["roman"] for o in spec["onsets"]["content"]]
     cur_tens = {o["roman"]: o["digit_tens"] for o in spec["onsets"]["content"]}
-    cur_units = {(v["roman"], ""): v["digit_units_short"]
-                 for v in spec["vowels"]}
+    # prior units map, for hill-climb tie-breaking: read from the
+    # rime table (digit_units_short was removed from vowels at the v2
+    # spec bump — Codex review 2026-08-22 finding 2)
+    cur_units = {(u["vowel"], u["coda"]): u["digit"]
+                 for u in spec["digit_units_rimes"]["map"]}
 
     vw = pair_weights(spec, "vowel")
     cw = pair_weights(spec, "coda")
@@ -154,21 +157,12 @@ def main():
     print(f"\ntens changed vs current spec: {len(changed_t)}/10 "
           f"({' '.join(changed_t)})")
 
-    # reserved residue-100 syllable: unused rime minimizing worst-case
-    # confusion with the codebook rimes, on the least-confusable onset
-    unused = [r for r in [(v, c) for v in vowels for c in codas]
-              if r not in units]
-    def worst(r):
-        return max(rconf.get((r, q), rconf.get((q, r), 0)) for q in units)
-    r100_rime = min(unused, key=lambda r: (worst(r),
-                    sum(rconf.get((r, q), rconf.get((q, r), 0))
-                        for q in units)))
-    onset_load = {o: sum(c for (a, b), c in oconf.items()
-                         if c >= HIGH and o in (a, b)) for o in onsets}
-    r100_onset = min(onsets, key=lambda o: onset_load[o])
-    v, c = r100_rime
-    print(f"reserved residue-100 syllable: {r100_onset}{v}{c} "
-          f"(worst rime-conf to codebook {worst(r100_rime):.2f})")
+    # NOTE: no reserved residue-100 syllable is emitted. The v2 sparse
+    # codebook leaves no clean spare cell, so residue 100 is made
+    # unreachable by the chunking rule instead (digit-codebook-v2.md,
+    # implemented in tools/modes.py chunk_payload). The earlier
+    # "reserved syllable" recommendation here was invalidated by that
+    # decision and removed (Codex review 2026-08-22).
     return 0
 
 
