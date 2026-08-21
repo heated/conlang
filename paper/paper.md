@@ -451,6 +451,25 @@ precisely to the cohorts the zone's cognate transfer does not serve
 — the same asymmetry the ledger identifies as the greenfield-zonal
 thesis (docs/design/zonal/rz-lexicon-coverage.md).
 
+Two further explorations extend the same machinery. A
+conversation-repair mode adapts aviation's readback protocol —
+say-again, correction, confirm, an acrophonic spelling convention
+that names letters with words the learner already knows — as seven
+frame particles in the same reserved h-region as the number mode,
+completing a three-layer error budget: the humility screen
+prevents confusions at assignment time, the codebook spaces them
+at signal time, and the repair protocol recovers the residue in
+conversation. And ordering lessons by parse coverage shows the
+zonal design makes a coverage-greedy curriculum actually
+teachable: the invariant closed class alone puts roughly half of
+running tokens within reach in the first hour, the exceptionless
+verb table brings hour two past sixty percent — a curve natural
+languages cannot offer because agreement and conjugation force
+grammar to interleave with vocabulary, and one that becomes a
+design criterion in its own right (a scheme that flattens the
+first evening trades against the zonal strategy's strongest
+adoption asset).
+
 A companion exploration treats the learner's *errors* as a design
 surface in their own right. Scoring the zonal grammar against the
 documented top error classes of Romance second-language acquisition
