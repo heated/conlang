@@ -128,6 +128,32 @@ All four review findings closed, plus the v1 backlog:
    at POS_Y, adjective 40% bar, noun bare — both dense modes), not
    just that tagged input renders.
 
+### 3c. Beauty pass — variant sheet (2026-08-22; decision = taste,
+### parked at the human gate)
+
+With optimal settled and floored, the beauty lever is a
+display-parameter choice, not a geometry change (all regression
+floors are measured at baseline weight and stay authoritative).
+Comparison sheet: `.ship-notes/rz-beauty-variants.svg` — the fable
+clause in five settings: V1 baseline (STROKE 5, gap 24), V2 light
++ airy (0.68x, gap 30), V3 heavy + tight (1.32x, gap 17,
+display/poster), V4 headstroke, V5 light headstroke.
+
+Observations (mine; the pick is Edward's):
+- **V2 reads most like a text face** — counters open up, voicing
+  ground bars stay unambiguous; recommended default for running
+  text.
+- **V3 works as display/poster only** — satellites and doubled
+  bars begin to fill; never use heavy at small sizes (the floors
+  are calibrated at baseline).
+- **V5 (light headstroke) is the aesthetic surprise** — a
+  Devanagari-adjacent rhythm with word cohesion for free.
+- **Found issue: function-word dashes nearly vanish under the
+  headstroke rule** (a dash under a rule reads as rule texture).
+  Before any headstroke adoption, func marks need to hang lower or
+  the rule should skip function words. Filed as the one geometry
+  item the beauty pass surfaced.
+
 Implemented in `tools/rz_script.py` (stdlib SVG; specimen in
 `.ship-notes/rz-specimen.svg`). What shipped: 18 pairwise-distinct
 consonant letterforms (greenfield-shared phonemes keep their
