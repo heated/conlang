@@ -113,12 +113,11 @@ Interlingua's at-sight design docs]:
   Esperanto's regularity makes it the cheaper of the two.
 This is the RZ-vs-GF axis in the historical record, and GZ is the
 explicit attempt to take both wins.
-The dominant line item is the **lexicon**, and for the Romance
-cohort it is nearly free (recognition); for everyone else it is the
-wall. Design purchases that don't touch the lexicon are cheap
-against the total; purchases that make the lexicon *more learnable
-for distant cohorts* (regularity, channels) are where GZ's case
-lives.
+
+Pricing logic for the ledger below: design purchases that don't
+touch the lexicon are cheap against the total; purchases that make
+the lexicon *more learnable for distant cohorts* (regularity,
+channels) are where GZ's case lives.
 
 ## The ledger
 
