@@ -128,7 +128,8 @@ channels) are where GZ's case lives.
 | hard particle/clitic class | ~0 (codifies existing RZ habit) | function/content flag per word | pending (GZ sketch) |
 | POS endings, E-scheme | +5-15h productive remap for Romance L1; NEGATIVE for distant cohorts (regularity discount, Esperanto-proven) | deterministic POS channel; faster parsing | pending — the E/R/M dial |
 | POS endings, M-scheme | +2-5h | verb/adverb marking only | pending |
-| featural display script (reading) | +3-5h; cohort-flat | script-layer channels, density levers | bought de facto (RZ script built) |
+| featural display script (reading) | +3-5h; cohort-flat | script-layer channels, density levers | bought de facto (RZ script built; hardened + tense logograms 2026-08-22) |
+| R-scheme POS underlines (script-only POS channel) | +~0.5h (two marks: verb underbar, adj half-bar); cohort-flat | skim-readable POS without touching word shapes — the zero-violence point on the E/R/M dial | prototyped (rz-script-adaptation §3b); decision still with the GZ bake-off |
 | chording, template board v2 | +5-10h to competence (optional; speed = practice) | 1.13 strokes/word input | **BOUGHT as design** (rz-chording §4b) |
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |

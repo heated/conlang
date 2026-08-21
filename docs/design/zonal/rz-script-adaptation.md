@@ -64,6 +64,44 @@ review — voicing pairs measure 0 raster distance at worst phase at
 contradicts the no-silent-letters contract; see project-review-sol.md
 findings 4, 5, 9, 12)
 
+### 3b. Hardening pass, 2026-08-22 (conlang-dka)
+
+All four review findings closed, plus the v1 backlog:
+
+- **Raster regression suite** (test_rz_script.py): phase-minimized
+  occupancy distances, greenfield methodology. Floors: all onset
+  pairs ≥0.15 @14px; voicing pairs ≥0.30 (measured min f/v 0.371 —
+  the review's "0.000" came from a crop window that excluded the
+  ground bar; with an honest window the pairs were never at zero,
+  but three geometry fixes still lifted the worst cases: thicker/
+  wider ground bar, m-slash protruding past the ring (ts/m
+  0.138→0.219), full-width vertical cross (b/dZ 0.146→0.182));
+  logograms ≥0.40 @7px; function marks ≥0.15 @10px.
+- **-cion/-itate collapse fixed**: -itate redesigned as a
+  double-crossed descender (‡ family, no ring) — 7px phase-min went
+  0.000 → 0.538+.
+- **Tense logograms live**: -va = left arrow (past), -ria = fork
+  (conditional), gated by a verb-stem set harvested from the lexicon
+  docs (infinitives in -ar/-er/-ir, glosses stripped) — `parlava`
+  segments, `materia` doesn't. Suppletives (era, seria…) tag POS
+  and render plain. No hand-tagging needed for regular forms.
+- **h letterform enters RZ** (tick doubled, greenfield transfer):
+  the number mode makes [h] a real phoneme in mode frames
+  (rz-number-mode.md) — `hu` renders with ink, `hotel` stays
+  silent-h. This RESOLVES the h-deletion contradiction: the script
+  writes phonemes, and [h] now exists exactly where it is pronounced.
+  The ly-vs-h lookalike was pre-empted: ly's cap is now wider and
+  higher than its main bar (h/ly phase-min ≥0.40 enforced).
+- **R-scheme POS prototype** (the GZ script-only dial, gz-sketch.md):
+  optional underlines — verb = full underbar, adjective = leading
+  half-bar, noun bare. Auto-fired by verbal morphology; `word:adj`
+  tags cover the rest. This is the concrete artifact the E/R/M
+  decision can look at.
+- **Hangul mutual sizing**: main letter shrinks (0.82) under
+  satellites; s- top-left, liquid moved to top-right (clears the
+  voicing bar zone). Enforced invariant: satellite ink lands on main
+  ink ≤3% of satellite cells, tested over every legal cluster.
+
 Implemented in `tools/rz_script.py` (stdlib SVG; specimen in
 `.ship-notes/rz-specimen.svg`). What shipped: 18 pairwise-distinct
 consonant letterforms (greenfield-shared phonemes keep their

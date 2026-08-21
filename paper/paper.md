@@ -416,6 +416,26 @@ because the source languages do (dos/tres, cinco/seis) and leans on
 the checksum register to compensate. The mode is the one zonal
 component whose learning cost is flat across L1 cohorts.
 
+The zonal display script subsequently absorbed three consequences of
+these decisions in one hardening pass. The number mode's pronounced
+[h] forced a letterform into a script that had treated h as purely
+silent — resolving a reviewer-flagged contradiction, since the
+script writes phonemes and [h] now exists exactly where it is
+spoken. The regularized verb morphology turned out to be strong
+enough to drive tense logograms (past and conditional marks) from a
+lexicon-harvested verb-stem set alone, with no hand tagging: the
+suffix fires only when stripping it leaves a known verb stem, so
+*parlava* segments and *materia* does not. And the open
+part-of-speech question (deterministic endings versus script-only
+marking) acquired its first concrete artifact: an optional underline
+channel — verbs fully underscored, adjectives half — that marks
+word class in writing without touching a single inherited word
+shape. Legibility claims for all of this are now regression-tested
+with phase-minimized raster distances at small type sizes, the same
+instrument the engineered script uses, after measurement showed one
+suffix-logogram pair fully collapsed (distance 0.000) at seven
+pixels in the shipped v0.
+
 The width decision itself generalizes from a binary to a ladder.
 Running the same capacity machinery over progressively widened
 inventories (diphthong nuclei ai/au/oi; onsets to 19 with v/ʃ/dʒ;

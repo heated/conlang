@@ -135,7 +135,10 @@ Candidate schemes to price with cloze when testing unparks:
   verb. Fully deterministic; most violence.
 - **R-scheme** (RZ-conservative): keep RZ shapes; POS marked only by
   the closed particle class + position + script layer. Zero violence;
-  channel lives in writing and syntax only.
+  channel lives in writing and syntax only. **Prototyped 2026-08-22**
+  in the RZ script (rz-script-adaptation.md §3b): verb = full
+  underbar, adjective = leading half-bar, auto-fired from verbal
+  morphology — a concrete specimen exists for the E/R/M decision.
 - **M-scheme** (middle): verbs and adverbs marked (-r/-mente
   normalized), nouns/adjectives unmarked. Marks the two classes
   whose confusion costs parsing the most.

@@ -38,6 +38,14 @@ Estimate: **~2h to casual competence, +2h for readback discipline**
 [H — model estimate, zero subjects]. Recorded as a line item in
 learning-budget.md (the single learning-time owner).
 
+## Script layer
+
+The featural display script renders mode frames (2026-08-22): [h]
+got a letterform (tick doubled, greenfield transfer) that fires
+exactly on the pronounced-h particle class — `hu` has ink, `hotel`
+stays silent-h. Digit syllables render through the normal pipeline.
+See rz-script-adaptation.md §3b.
+
 ## Status
 
 Tentative. Kill-test: a frame sample must survive being read aloud

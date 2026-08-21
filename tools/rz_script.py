@@ -11,15 +11,26 @@ Wide-model instantiation of the greenfield feature grammar:
 - new letters fill free grid cells: f capped-ring, r capped-|,
   dZ crossed-| , J~ (ny) crossed-tick, L~ (ly) capped-tick;
 - voicing = full-width GROUND BAR under the onset (b d g v z);
-- onset clusters: main letter + scaled satellites (s- top-left,
-  liquid bottom-right);
+- onset clusters: main letter (mutually shrunk, Hangul-style) +
+  scaled satellites above: s- top-left, liquid top-right — temporal
+  reading order preserved, and the satellite band never collides
+  with the voicing ground bar;
 - nucleus: one carrier per vowel; diphthongs = two thin carriers,
   temporal order left-to-right;
 - coda strip: n bar / s double bar / l down-hook / r up-tick;
 - suffix logograms (the RZ grammar channel gets dedicated ink):
-  -mente -cion -itate -abile rendered as half-width logogram blocks
-  (closed unambiguous set; -va/-ria need tagged input, rendered
-  plain here). Plural -s is just the coda strip of the last block.
+  -mente -cion -itate -abile rendered as half-width logogram blocks,
+  plus TENSE logograms -va (left arrow: past) and -ria (fork:
+  conditional), fired by a lexicon-derived verb-stem set (parlava
+  segments, materia does not). Plural -s is just the coda strip.
+- h letterform (tick doubled, greenfield transfer): [h] is silent in
+  RZ words but PRONOUNCED in mode-frame particles (rz-number-mode.md)
+  — `hu` renders with ink, `hotel` does not;
+- R-scheme POS underlines (optional, pos=True): verb = full underbar,
+  adjective = leading half-bar, noun/other = bare. Auto-fired from
+  morphology (tense, known infinitives) or explicit `word:v` /
+  `word:adj` tags. This is the GZ R-scheme prototype (script-only
+  POS channel, gz-sketch.md).
 
 No check channel. Layout: horizontal, headstroke-free (accompanies
 Latin text). Usage:
@@ -62,6 +73,7 @@ RZ_ONSETS = {
     "l": ("angle", "plain", False),
     "ly": ("tick", "capped", False),
     "r": ("vertical", "capped", False),
+    "h": ("tick", "doubled", False),   # mode frames only (greenfield form)
 }
 VOWELS = {"a": ("low", "central"), "e": ("mid", "front"),
           "i": ("high", "front"), "o": ("mid", "back"),
@@ -70,6 +82,13 @@ CODAS = ("l", "n", "r", "s")
 LIQUIDS = ("l", "r")
 
 SUFFIX_LOGOGRAMS = ("mente", "cion", "itate", "abile")
+TENSE_LOGOGRAMS = ("va", "ria")        # past, conditional — verb-gated
+MODE_PARTICLES = {"hu"}                # pronounced-h frame words
+POS_Y = 101                            # R-scheme underline baseline
+
+# suppletive verb forms (rz-grammar §4: the 3 irregulars) that carry
+# POS but no strippable tense suffix
+SUPPLETIVE_VERBS = {"es", "era", "seria", "va", "sta", "stava"}
 
 # function-word logograms: quarter-width marks for the highest-
 # frequency grammatical words (~40-50% of running tokens). Shapes are
@@ -125,8 +144,8 @@ def letter(base, mod, scale=1.0, dx=0.0, dy=0.0):
     p = []
     if base == "circle":
         p.append(_circle(dx + CX * s, dy + CY * s, CR * s, w=w))
-        if mod == "crossed":
-            p.append(L(21, 42, 45, 18))
+        if mod == "crossed":               # m: slash protrudes past the
+            p.append(L(15, 48, 51, 12))    # ring (ts/m raster fix)
         elif mod == "capped":
             p.append(L(12, 9, 54, 9))
     elif base == "vertical":
@@ -134,8 +153,8 @@ def letter(base, mod, scale=1.0, dx=0.0, dy=0.0):
             p += [L(24, ZY0, 24, ZY1), L(44, ZY0, 44, ZY1)]
         else:
             p.append(L(VX, ZY0, VX, ZY1))
-            if mod == "crossed":
-                p.append(L(18, 30, 48, 30))
+            if mod == "crossed":           # full-width cross (b/dZ fix)
+                p.append(L(14, 30, 52, 30))
             elif mod == "capped":
                 p.append(L(16, ZY0, 50, ZY0))
     elif base == "diagonal":
@@ -150,16 +169,21 @@ def letter(base, mod, scale=1.0, dx=0.0, dy=0.0):
         if mod == "doubled":
             p += [L(30, 26, 52, 26), L(30, 26, 30, ZY1)]
     elif base == "tick":
-        p.append(L(20, 30, 46, 30))
-        if mod == "crossed":
-            p.append(L(33, 18, 33, 42))
-        elif mod == "capped":
-            p.append(L(20, 16, 46, 16))
+        if mod == "doubled":               # h: two equal close bars
+            p += [L(20, 28, 46, 28), L(20, 40, 46, 40)]
+        else:
+            p.append(L(20, 30, 46, 30))
+            if mod == "crossed":
+                p.append(L(33, 18, 33, 42))
+            elif mod == "capped":          # ly: cap wider + higher than
+                p.append(L(14, 12, 52, 12))  # the main bar (vs h's twins)
     return p
 
 
-def onset_glyph(phonemes, dx=0.0, dy=0.0):
-    """Onset cluster: (s-)? main (liquid)? with scaled satellites."""
+def onset_parts(phonemes, dx=0.0, dy=0.0):
+    """Onset cluster split into (main_letter_parts, satellite_parts):
+    (s-)? main (liquid)? with mutual sizing. Split exposed so the
+    no-collision test measures exactly what the renderer draws."""
     sats_pre = [ph for ph in phonemes[:-1] if ph == "s"] \
         if len(phonemes) > 1 else []
     liquid = [phonemes[-1]] if len(phonemes) > 1 and \
@@ -173,21 +197,31 @@ def onset_glyph(phonemes, dx=0.0, dy=0.0):
         core.remove("s")
     if liquid and core[-1] in LIQUIDS and len(core) > 1:
         core = core[:-1]
-    parts = []
     if len(core) != 1:
         raise ValueError(f"unrenderable onset cluster {phonemes}")
     b, mod, voiced = RZ_ONSETS[core[0]]
-    parts += letter(b, mod, dx=dx, dy=dy)
+    # Hangul-style mutual sizing: main letter yields room to satellites
+    if sats_pre or liquid:
+        main = letter(b, mod, scale=0.82, dx=dx + 5, dy=dy + 5)
+    else:
+        main = letter(b, mod, dx=dx, dy=dy)
     if voiced:
-        parts.append(_line(dx + 8, dy + GROUND_Y, dx + 58, dy + GROUND_Y,
-                           w=6.5))
+        main.append(_line(dx + 6, dy + GROUND_Y, dx + 60, dy + GROUND_Y,
+                          w=8))
+    sats = []
     if sats_pre:
         sb, sm, _ = RZ_ONSETS["s"]
-        parts += letter(sb, sm, scale=0.38, dx=dx + 2, dy=dy - 3)
+        sats += letter(sb, sm, scale=0.40, dx=dx + 0, dy=dy - 8)
     if liquid:
         lb, lm, _ = RZ_ONSETS[liquid[0]]
-        parts += letter(lb, lm, scale=0.38, dx=dx + 42, dy=dy + 40)
-    return parts
+        sats += letter(lb, lm, scale=0.40, dx=dx + 46, dy=dy - 10)
+    return main, sats
+
+
+def onset_glyph(phonemes, dx=0.0, dy=0.0):
+    """Onset cluster: (s-)? main (liquid)? with scaled satellites."""
+    main, sats = onset_parts(phonemes, dx=dx, dy=dy)
+    return main + sats
 
 
 def nucleus_glyph(vowels, dx=0.0, dy=0.0):
@@ -241,19 +275,30 @@ def logogram(suffix, dx=0.0, dy=0.0):
         return [L(8, 40, 20, 24), L(20, 24, 32, 40), L(32, 40, 44, 24)]
     if suffix == "cion":                        # ring + descender
         return [_circle(dx + 25, dy + 24, 12), L(25, 36, 25, 60)]
-    if suffix == "itate":                       # ring + descender + FOOT
-        return [_circle(dx + 25, dy + 24, 12), L(25, 36, 25, 56),
-                L(25, 56, 45, 56, 6.5)]         # long bold foot (vs cion)
+    if suffix == "itate":                       # double-crossed descender
+        return [L(25, 14, 25, 58), L(14, 26, 36, 26), L(14, 42, 36, 42)]
+        # (v0 ring+descender+foot collapsed with -cion at 7px raster —
+        #  0.000 phase-min; review finding, fixed 2026-08-22)
     if suffix == "abile":                       # peak + underbar
         return [L(10, 44, 25, 20), L(25, 20, 40, 44), L(10, 56, 40, 56)]
+    if suffix == "va":                          # tense: past = left arrow
+        return [L(42, 34, 10, 34), L(10, 34, 22, 22), L(10, 34, 22, 46)]
+    if suffix == "ria":                         # tense: conditional = fork
+        return [L(25, 58, 25, 32), L(25, 32, 11, 16), L(25, 32, 39, 16)]
     raise ValueError(suffix)
 
 
 # --- orthography -> phonemes -> syllables --------------------------------
 
-def to_phonemes(word):
-    """RZ spelling to phoneme list (rz-grammar.md §1 rules)."""
+def to_phonemes(word, keep_h=None):
+    """RZ spelling to phoneme list (rz-grammar.md §1 rules).
+
+    keep_h: pronounce h (mode-frame particles). Default: True exactly
+    for words in MODE_PARTICLES — RZ's own words have silent h; frame
+    particles are the one pronounced-[h] class (rz-number-mode.md)."""
     w = word.lower()
+    if keep_h is None:
+        keep_h = w in MODE_PARTICLES
     out = []
     i = 0
     while i < len(w):
@@ -275,6 +320,8 @@ def to_phonemes(word):
                 and w[i + 2] in "aeiou":
             out.append("ly"); i += 2; continue
         if c == "h":
+            if keep_h:
+                out.append("h"); i += 1; continue
             i += 1; continue                    # silent: THE one spelling
             # exception (rz-grammar §1) — Romance keeps written h
         if c == "-":
@@ -294,7 +341,8 @@ for _c in RZ_ONSETS:
     LEGAL_ONSETS.add((_c,))
     if _c not in ("s",):
         for _liq in LIQUIDS:
-            if _c not in LIQUIDS + ("n", "m", "ny", "ly", "ts", "dZ", "z"):
+            if _c not in LIQUIDS + ("n", "m", "ny", "ly", "ts", "dZ",
+                                    "z", "h"):
                 LEGAL_ONSETS.add((_c, _liq))
 for _c in ("p", "t", "k", "m", "n", "f"):
     LEGAL_ONSETS.add(("s", _c))
@@ -348,6 +396,60 @@ def syllabify(phonemes):
     return sylls
 
 
+# --- morphology (verb-stem set drives -va/-ria segmentation) -------------
+
+_VERB_STEMS = None
+
+
+def verb_stems():
+    """Present-form verb stems, extracted from the lexicon docs
+    (infinitives in -ar/-er/-ir inside backtick spans, minus final r).
+    Lazy; falls back to a core set if the docs aren't reachable."""
+    global _VERB_STEMS
+    if _VERB_STEMS is not None:
+        return _VERB_STEMS
+    stems = {"parla", "vive", "veni", "parti", "dispute", "disputa",
+             "compra", "vide", "comprende", "sabe", "lege", "crea"}
+    base = Path(__file__).resolve().parent.parent / "docs" / "design"
+    for rel in ("zonal/rz-lexicon.md", "zonal/core-conversational.md",
+                "zonal/rz-grammar.md"):
+        try:
+            text = (base / rel).read_text()
+        except OSError:
+            continue
+        for span in re.findall(r"`([^`]+)`", text):
+            # spans mix RZ words with English glosses in parens and
+            # FLAG notes — strip those before harvesting infinitives
+            span = re.sub(r"\([^)]*\)", " ", span)
+            span = re.split(r"FLAG|—|;", span)[0]
+            for tok in re.findall(r"[a-z]+", span.lower()):
+                if len(tok) > 3 and tok.endswith(("ar", "er", "ir")):
+                    stems.add(tok[:-1])
+    _VERB_STEMS = stems
+    return stems
+
+
+def analyze(word):
+    """(stem, tense_suffix_or_None, pos_or_None) for a plain word.
+
+    Tense fires only when stripping the suffix leaves a known verb
+    stem — `parlava` segments (parla is a verb), `materia` does not
+    (mate isn't). Suppletives (era, seria, …) tag verb, render plain.
+    POS: 'v' when verbal morphology is certain, else None (explicit
+    `word:pos` input tags cover the rest — R-scheme prototype)."""
+    wl = word.lower()
+    if wl in SUPPLETIVE_VERBS:
+        return wl, None, "v"
+    stems = verb_stems()
+    for suf in TENSE_LOGOGRAMS:
+        stem = wl[: -len(suf)]
+        if wl.endswith(suf) and stem in stems:
+            return stem, suf, "v"
+    if wl.endswith(("ar", "er", "ir")) and wl[:-1] in stems:
+        return wl, None, "v"                   # infinitive
+    return wl, None, None
+
+
 # --- assembly ------------------------------------------------------------
 
 def syllable_block(syl, dx=0.0, dy=0.0):
@@ -368,9 +470,15 @@ def block_width(syl):
     return BLOCK
 
 
-def word_glyph(word, dx=0.0, dy=0.0, dense=True):
+def word_glyph(word, dx=0.0, dy=0.0, dense=True, pos=False):
     """Horizontal block row. With dense=True (default): function-word
-    logograms, derivation-suffix logograms, proportional widths."""
+    logograms, derivation- and tense-suffix logograms, proportional
+    widths. With pos=True (R-scheme prototype): POS underlines — verb
+    full underbar, adjective leading half-bar. POS comes from verbal
+    morphology (analyze) or an explicit `word:v` / `word:adj` tag."""
+    tag = None
+    if ":" in word:
+        word, tag = word.split(":", 1)
     wl = word.lower()
     parts = []
     if dense and wl in FUNC_MARKS:
@@ -382,24 +490,41 @@ def word_glyph(word, dx=0.0, dy=0.0, dense=True):
                 cx, cy, r = args
                 parts.append(_circle(dx + cx, dy + cy, r))
         return parts, FUNC_W
-    stem, suffix = word, None
-    if dense:
+    stem, tense, auto_pos = analyze(word)
+    suffix = None
+    if not dense:
+        stem, tense = wl, None
+    elif tense is None:
+        stem = wl
         for suf in SUFFIX_LOGOGRAMS:
             if wl.endswith(suf) and len(word) > len(suf) + 1:
-                stem, suffix = word[: -len(suf)], suf
+                stem, suffix = wl[: -len(suf)], suf
                 break
     sylls = syllabify(to_phonemes(stem))
     x = dx
     for syl in sylls:
         parts += syllable_block(syl, dx=x, dy=dy)
         x += block_width(syl) if dense else BLOCK
-    if suffix:
+    if dense and tense:
+        parts += logogram(tense, dx=x + 4, dy=dy + 14)
+        x += 54
+    elif suffix:
         parts += logogram(suffix, dx=x + 4, dy=dy + 14)
         x += 54
-    return parts, x - dx
+    width = x - dx
+    if pos:
+        p = (tag or auto_pos or "").lower()
+        if p == "v":
+            parts.append(_line(dx + 4, dy + POS_Y, dx + width - 4,
+                               dy + POS_Y, w=3.5))
+        elif p in ("adj", "a"):
+            parts.append(_line(dx + 4, dy + POS_Y,
+                               dx + 4 + 0.4 * width, dy + POS_Y, w=3.5))
+    return parts, width
 
 
-def sentence_glyphs(words, dy=0.0, dense=True, headstroke=False):
+def sentence_glyphs(words, dy=0.0, dense=True, headstroke=False,
+                    pos=False):
     """A sentence row. headstroke=True: words cohere under a top rule
     and abut with a minimal gap — no spaces needed (boundary = rule
     break); otherwise words are separated by spacing."""
@@ -407,7 +532,7 @@ def sentence_glyphs(words, dy=0.0, dense=True, headstroke=False):
     x = 0
     gap = 6 if headstroke else 24
     for w in words:
-        pw, wid = word_glyph(w, dx=x, dy=dy, dense=dense)
+        pw, wid = word_glyph(w, dx=x, dy=dy, dense=dense, pos=pos)
         parts += pw
         if headstroke:
             parts.append(_line(x + 2, dy + 2, x + wid - 2, dy + 2, w=3.5))
@@ -454,9 +579,9 @@ def specimen():
         parts += coda_glyph(c, dx=x, dy=y - 60)
         label(x + 40, y + 40, f"-{c}")
         x += 110
-    # logograms
+    # logograms (derivational + tense)
     x += 30
-    for suf in SUFFIX_LOGOGRAMS:
+    for suf in SUFFIX_LOGOGRAMS + TENSE_LOGOGRAMS:
         parts += logogram(suf, dx=x, dy=y - 55)
         label(x + 6, y + 40, f"-{suf}")
         x += 80
@@ -468,13 +593,31 @@ def specimen():
         parts += parts_w
         label(pad + wid + 14, y + 60, w)
         y += 118
-    # first fable clause
+    # first fable clause (with the tense logogram now firing on
+    # disputava)
     x = pad
     for w in "le vento del norte e le sol disputava".split():
         pw, wid = word_glyph(w, dx=x, dy=y)
         parts += pw
         x += wid + 22
     label(pad, y + 122, "le vento del norte e le sol disputava")
+    y += 145
+    # R-scheme POS underlines (verb auto, adjective tagged)
+    x = pad
+    for w in "le viajator parlava de un manto:adj calde:adj".split():
+        pw, wid = word_glyph(w, dx=x, dy=y, pos=True)
+        parts += pw
+        x += wid + 22
+    label(pad, y + 126, "R-scheme: le viajator parlava de un "
+          "manto[adj] calde[adj]")
+    y += 150
+    # number mode: hu opens, digit syllables follow (42 = hu ki)
+    x = pad
+    for w in "hu ki".split():
+        pw, wid = word_glyph(w, dx=x, dy=y)
+        parts += pw
+        x += wid + 22
+    label(pad, y + 122, "number mode: hu ki = 42 (pronounced h)")
     return svg(parts, 1450, y + 140)
 
 
