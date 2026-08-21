@@ -411,23 +411,27 @@ Charter: docs/design/program.md.*
 *The program's first two steps ran 2026-08-22. The bootstrap
 scenario packet (rz-bootstrap-scenarios.md) recommends a
 receptive-first funnel — a graded web reader with an embedded
-self-scoring cloze, launched through the thesis publication, with
-production tooling staged to catch inbound writers — replicating
-the only measured zonal growth loop (Interslavic: receptive proof +
-one standard + tooling + a media moment). The GZ→RZ mining audit
-(gz-rz-mining-audit.md) then walked every greenfield mechanism
-through the port gate under those weights. Outcome: two pure-upside
-purchases (a closed-class guarantee — the ~60 grammar words of the
-reference grammar are now closed by rule, 45.2% of running tokens;
-and an acoustic-confusion audit on minted vocabulary), one
-permanent decline with a structural reason (POS-ending remapping of
-inherited word shapes fails the first-contact invariant regardless
-of its measured value — the E/R/M dial is settled for RZ by
-invariant, with the display-layer R-scheme as its POS answer, while
-remaining genuinely open for the greenfield), and a residue that is
-quality work rather than feature work. The audit's shape is itself
-a finding: every mechanism that ports cheaply is cohort-flat and
-lexicon-free; every decline touches inherited word shapes.*
+self-scoring cloze, launched through the thesis publication
+(hypothesis: a paper can serve as the media moment), with
+production tooling staged to catch inbound writers, and governance
+plus legitimacy tokens as explicit prerequisites — the five growth
+factors of the only measured zonal growth loop (Interslavic). The
+GZ→RZ mining audit (gz-rz-mining-audit.md) then walked every
+greenfield mechanism through the port gate under those weights.
+Outcome: one pure-upside purchase (a closed-class guarantee: the
+96-form function-word inventory is closed by rule — a lexical
+policy, distinct from the greenfield's unported prosodic clitic
+channel; 60 of the 96 forms are corpus-attested and carry 45.2% of
+running tokens), one policy-now/instrument-pending purchase (an
+acoustic-confusion screen on minted vocabulary), and structural
+declines with a shared reason: POS-ending remapping and
+penult-always stress fail the first-contact invariant regardless of
+their measured value, narrowing RZ's POS dial to the display-only
+R-scheme (itself pending evidence behind the script workshop gate)
+while the dial remains genuinely open for the greenfield. The
+audit's shape is itself a finding: every mechanism that ports
+cheaply is cohort-flat and lexicon-free; every decline touches
+inherited surfaces — word shapes or word stress.*
 
 Alongside the engineered language, the project runs a receptive-first
 track: a Romance zonal auxlang (RZ) with a six-register parallel

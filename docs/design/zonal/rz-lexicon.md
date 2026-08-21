@@ -9,8 +9,10 @@ those files ≈ 350 entries; growth path is frequency-ordered fields.
 **Coinage rule (ADOPTED 2026-08-22, gz-rz-mining-audit.md):**
 inherited words pass the false-friend screen; **minted** forms
 (mode vocabulary, repair particles, neologisms) additionally pass
-the GZ acoustic-confusion audit (gz-chord-fit machinery) before
-assignment.
+an acoustic-confusion screen before assignment. The automated RZ
+instrument is pending (tooling bead; gz-chord-fit's audit covers
+chord banks, not general wordforms) — until it exists, minted forms
+get a documented manual confusion check against lexicon neighbors.
 
 ## People & family
 

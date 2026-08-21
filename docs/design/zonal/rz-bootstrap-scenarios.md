@@ -90,11 +90,20 @@ it demands from the spec).
 ## The packet (recommendation — Edward's call to confirm)
 
 **Primary: S1, launched through S2, with S5 staged as the catcher.**
-The sequence that Interslavic proved: receptive-first proof (S1's
-cloze number) + a story-shaped moment (S2, our thesis is the film)
-+ tooling ready for the inbound (S5). S3 folds into S1 as its
-on-ramp page. S4 parks until human-factors validation and an
-institutional partner exist.
+This replicates three of Interslavic's five growth factors:
+receptive-first proof (S1's cloze number), a story-shaped moment
+(S2 — and note the [H]: *that a thesis publication functions as a
+media moment is a hypothesis*; Interslavic's moment was a feature
+film), and production tooling (S5). The remaining two factors are
+carried by existing beads and become explicit milestones of this
+packet: **one standard with a named authority** (governance +
+versioned spec, bead 70m — must be in place before S2 fires, since
+the moment converts inbound interest into a standards-war if
+governance is absent) and **legitimacy tokens** (compounding
+milestones: the published paper itself, an ISO 639-3 application
+when community size warrants, a published reader). S3 folds into
+S1 as its on-ramp page. S4 parks until human-factors validation
+and an institutional partner exist.
 
 **Success metric for the program**: (1) a measured zero-study cloze
 number from organic readers, (2) ≥ a handful of non-founder writers

@@ -15,48 +15,60 @@ first-contact tax.
 
 | # | GZ mechanism | price [H] | gate check | verdict |
 |---|---|---|---|---|
-| 1 | hard particle/clitic closed class | ~0 (codifies existing habit) | invisible to readers; reversible by spec version | **BUY NOW** (pure-upside) |
-| 2 | fixed penult stress | 0 — RZ already owns a deterministic stress rule (§1) | no change to buy | already-owned |
-| 2b | …SSM-lite segmentation *claim* (unique word-boundary parse from stress + particle class) | 0 learner-hours; needs a measurement, not a purchase | claim currently unverified | **ADOPT-PENDING-MEASUREMENT** (tool bead filed) |
+| 1 | function-word inventory closure (lexical policy; NOT GZ's prosodic clitic channel — see 1b) | ~0 (codifies existing habit; 96-form canonical list) | invisible to readers; reversible by spec version | **BUY NOW** (pure-upside; rz-grammar §12) |
+| 1b | prosodic clitic class (function words unstressed = word-boundary signal) | would prescribe speech behavior; price unpriced | needs a prosodic spec + the 2b measurement first | **UNPORTED, pending** |
+| 2 | fixed penult stress (GZ: penult-ALWAYS) | would shift stress on consonant-final inherited words (natural final stress) | fails gates 2–3: audible surface change on inherited vocabulary | **DECLINED for RZ**; RZ keeps its own deterministic two-pattern rule (§1), which is what any parse channel must build on |
+| 2b | SSM-lite segmentation *claim* (unique word-boundary parse from RZ's actual stress rule + closed inventory) | 0 learner-hours; needs a measurement, not a purchase | claim currently unverified | **ADOPT-PENDING-MEASUREMENT** (tool bead filed; result decides whether 1b is worth speccing) |
 | 3 | E-scheme POS endings (remap content-word shapes) | +5–15h zone cohort; changes inherited surfaces | **fails gate 3** — taxes first-contact reading, the invariant | **DECLINED for RZ, permanently** (stays live for GZ) |
-| 4 | M-scheme residual (mark bare present verbs) | surface change on the highest-frequency forms | fails gate 3; and RZ already owns M's free part (-va/-ria/-nte/-mente/-cion are deterministic) | **DECLINED** (free part documented as owned) |
-| 5 | R-scheme POS marks (display-only underlines) | +~0.5h, opt-in | display layer; zero surface violence; built & tested | **BUY** — R is RZ's answer on the POS dial |
-| 6 | acoustic-confusion audit on coinages (humility screen generalized) | ~0 (design-side rule; affects only minted words) | invisible; strengthens the screen RZ already runs | **BUY NOW** (pure-upside) |
+| 4 | M-scheme residual (mark bare present verbs) | +2–5h (ledger); surface change on the highest-frequency forms | gate 3 alone disposes of it (price listed for completeness); RZ already owns M's free part (-va/-ria/-nte/-mente/-cion are deterministic) | **DECLINED** (free part documented as owned) |
+| 5 | R-scheme POS marks (display-only underlines) | +~0.5h opt-in — NOT zero, so not agent-callable | display layer; zero surface violence; built & tested; display changes go through the script workshop gate | **ADOPT-PENDING-EVIDENCE** — the only live option on RZ's POS dial (see below) |
+| 6 | coinage screen extension (minted forms audited for acoustic confusion) | ~0 (design-side rule; affects only minted words) | policy invisible; the *instrument* does not exist yet for arbitrary RZ coinages (gz-chord-fit's audit covers chord banks, not general wordforms) | **POLICY BOUGHT / INSTRUMENT PENDING** (tool bead filed; until it exists the false-friend screen + manual confusion check apply) |
 | 7 | modes beyond numbers (dates/times/coords/spell — bcq) | small increments on the learned h-frame grammar | opt-in frames, invisible at first contact | keep current pace; adopt per-mode at spec bumps as each passes its tests (scenario weight MEDIUM-LOW) |
 | 8 | conversation-repair mode | +~1h | opt-in; S4 (its funnel) is parked | HOLD at proposed / recommend-buy; purchase waits on its test |
-| 9 | check bit in speech / MIS spacing | — | inherited roots can't carry parity | DECLINED (standing) |
+| 9a | check bit in speech | — | inherited roots can't carry parity | DECLINED (standing) |
+| 9b | MIS/error-correcting spacing | capacity tax | inherited words can't be respaced without changing them (gate 3); RZ's protection is the screen (prunes pairs), not spacing (prunes space) | DECLINED |
 | 10 | script-borne redundancy / featural display | +3–5h reading, opt-in | bought de facto as display layer | bought; unpark per program.md (workshop round, not cloze) |
 | 11 | syllable=chord exact-fit phonotactics | — | requires designed phonology | rides GZ only; RZ chording already STANDARD (directional clusters) |
 | 12 | correlative-grid regularization (GF Tier 2 steal) | replaces natural question words | fails gate 3 | DECLINED for RZ; toolkit entry as conditional pattern for greenfields |
 
 ## The two decisions this audit makes (agent-called, pure-upside)
 
-**A. The closed-class guarantee (verdict 1).** RZ's grammar words
-are exactly the ~60 enumerated by rz-grammar §2–§7, and the class
-is now *closed by rule*: new function words require a major spec
-version. Zero learner cost (nothing changes), and it converts an
-observed fact (45.2% of running tokens from 60 words) into a
-marketable guarantee — "these sixty words are ALL the grammar" —
-which is the S1 curriculum hook and an S2 measurable claim, and the
-prerequisite the SSM-lite claim (2b) builds on. Normative line
-added to rz-grammar.md §12.
+**A. The closed-class guarantee (verdict 1) — lexical closure
+only.** The canonical function-word inventory is the rule-based
+CLOSED set in tools/coverage.py (**96 surface forms**; grammar
+§2–§7 plus the rz-lexicon function-word completions), now closed by
+rule: additions are major-spec-version events. Zero learner cost
+(nothing changes), and it converts an observed fact (60 of the 96
+attested, carrying 45.2% of running tokens) into a marketable
+guarantee — "under a hundred short words are ALL the grammar" — the
+S1 curriculum hook and an S2 measurable claim. Explicitly NOT
+ported here: GZ's *prosodic* clitic mechanism (1b), which is what
+SSM-lite would actually need; the 2b measurement decides whether
+that spec is worth writing. Normative text: rz-grammar.md §12.
 
-**B. The coinage audit (verdict 6).** Every *minted* RZ form (mode
-vocabulary, repair particles, neologisms — not inherited words) must
-pass the GZ acoustic-confusion audit in addition to the false-friend
-screen. Zero learner cost, design-side only; it puts the part of
-the vocabulary we actually control under the same instrument GZ
-proved out (gz-chord-fit: digit bank violation-free). Rule added to
-rz-lexicon.md preamble.
+**B. The coinage screen extension (verdict 6) — policy now,
+instrument pending.** Every *minted* RZ form (mode vocabulary,
+repair particles, neologisms — not inherited words) must pass an
+acoustic-confusion screen in addition to the false-friend screen.
+The policy costs nothing and is design-side only. Honesty note:
+gz-chord-fit's audited instrument covers the chord banks, not
+arbitrary multisyllabic wordforms — the RZ instrument (confusion-
+weighted distance against lexicon neighbors, threshold TBC) is a
+filed tooling bead; until it exists, minted forms get the
+false-friend screen plus a documented manual confusion check. Rule
+recorded in rz-lexicon.md preamble.
 
-## The consequence for the E/R/M dial
+## The consequence for the POS dial (E/R/M)
 
-For RZ the dial is now **settled by invariant, not by bake-off**:
-E and residual-M fail the first-contact gate regardless of their
-measured value, and R is bought as display. The z0s E/R/M bake-off
-remains open **as a GZ-internal decision** — its outcome no longer
-propagates to RZ. (GZ keeps E on the table precisely because GZ has
-no bootstrap to protect.)
+For RZ the dial is now **narrowed by invariant, not settled by
+bake-off**: E and residual-M fail the first-contact gate regardless
+of their measured value, leaving R (display-only) as the only live
+option — itself adopt-pending-evidence behind the script workshop
+gate, since its +0.5h is not zero and display changes are
+workshop-governed. The z0s E/R/M bake-off remains open **as a
+GZ-internal decision** — its outcome no longer propagates to RZ.
+(GZ keeps E on the table precisely because GZ has no bootstrap to
+protect.)
 
 ## What did NOT port, and why that's the finding
 

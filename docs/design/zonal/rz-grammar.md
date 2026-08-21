@@ -177,11 +177,21 @@ Months: `januario, februario, marzo, april, maio, junio, julio,
 agosto, septembre, octobre, novembre, decembre`.
 
 ## 12. The closed-class guarantee (ADOPTED 2026-08-22,
-## gz-rz-mining-audit.md)
+## gz-rz-mining-audit.md; counts corrected same day, post-review)
 
-The grammar-word inventory is **closed**: §2–§7 enumerate it
-exhaustively (~60 words, measured at 45.2% of running corpus
-tokens). Adding a function word is a major-spec-version event;
-content vocabulary remains open under the lexicon recipe. The
-guarantee a learner gets: these sixty words are *all* the grammar
-there will ever be.
+The function-word inventory is **closed as a lexical policy**: the
+canonical list is the rule-based set in `tools/coverage.py`
+(CLOSED — grammar §2–§7 words plus the function-word completions of
+rz-lexicon.md), currently **96 surface forms** (fewer lemmas;
+plural/contraction variants counted separately). Adding a function
+word is a major-spec-version event; content vocabulary remains open
+under the lexicon recipe. The guarantee a learner gets: **under a
+hundred short words are all the grammar there will ever be.**
+Corpus measurement: 60 of the 96 forms are attested in the current
+690-token corpus and carry 45.2% of running tokens.
+
+Scope note: this is inventory closure only. GZ's related mechanism
+— a *prosodic* clitic class (function words unstressed, carrying a
+word-boundary signal) — is **not** ported by this section; it would
+prescribe speech behavior and awaits its own spec + the SSM-lite
+segmentation measurement.
