@@ -143,7 +143,32 @@ Dates read naturally: `le catorze de agosto`, year as number:
 Rule: derivation never changes the base spelling; every derived form
 must itself pass the false-friend screen.
 
-## 10. Calendar
+## 10. Variation policy — the absorption declarations (ADOPTED,
+## Edward 2026-08-22; design rationale: rz-error-absorption.md)
+
+The learner's most probable deviations are grammatical variation,
+not errors. Preferred forms are unchanged everywhere; these
+declarations define what else is legal:
+
+1. **Single negation ≡ concord**: `io vide nada` = `io no vide
+   nada`. (Concord remains the preferred register.)
+2. **Article omission is telegraphic register**: `io vide tren` is
+   grammatical and marked, like headline English.
+3. **Adjective number agreement is optional**: `les organizaciones
+   ambientales` (preferred) and `…ambientale` both grammatical.
+4. **Adjective position is free**; post-nominal is the default
+   register (`manto calde` ~ `calde manto`).
+5. **Clitic rule (fills the former gap): max ONE preverbal object
+   clitic.** A second object surfaces as a full pronoun after the
+   verb or a preposition: `io te dona le` / `io le dona a te`.
+   There is no cluster-ordering rule because there are no clusters.
+6. **Contractions optional**: `de le` ≡ `del`, `a le` ≡ `al`.
+7. **`por` covers the por/para range** — `para` is not in the
+   inventory. (`para que` may be recognized receptively as
+   `porque`-adjacent; production uses `por` + infinitive or
+   `porque`.)
+
+## 11. Calendar
 
 Days (planetary, pan-Romance): `lunedi, martedi, mercoledi, jovedi,
 venerdi, sabato, dominica` — FLAG: Ibero drops -di (lunes, martes);

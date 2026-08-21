@@ -84,7 +84,7 @@ CLOSED = {
     "io", "me", "te", "el", "ela", "eles", "elas", "nos", "vos",
     "se", "on", "lo",
     # prepositions (§2, §7 usage)
-    "de", "a", "en", "con", "sin", "sobre", "por", "para", "entre",
+    "de", "a", "en", "con", "sin", "sobre", "por", "entre",
     "desde", "durante", "ante", "tras", "segun", "contra",
     # conjunctions / subordinators (§7)
     "e", "o", "ma", "que", "qui", "si", "porque", "quando", "mentre",

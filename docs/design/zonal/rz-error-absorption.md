@@ -6,9 +6,11 @@ each documented top L2 error class (Romance-family SLA literature
 time]), score what RZ already does, then price a menu of
 **declarations** — spec sentences that reclassify a common error as
 grammatical variation ("accent"), a move only an engineered
-language can make. **This is a menu, not an adoption: every item
-changes user-visible language behavior and waits at the human gate
-(cloze data or Edward).**
+language can make. **ADOPTED D1-D7 (Edward, 2026-08-22)** — now normative in
+rz-grammar.md §10. Calibration note from the ruling: decisions of
+this class ("basically just a win, doesn't negatively affect
+anything") may be called by the agent directly in future; the gate
+is for real trades.
 
 ## 1. Scorecard: the classic error classes vs RZ v0.2
 
@@ -84,9 +86,7 @@ declaration forgives a specific L1 family's signature error).
 
 ## Status
 
-Exploration artifact. D1-D6 are recommend-adopt (zero cost, no
-ambiguity introduced, preferred register untouched); D7 is
-flagged as a real inventory change. All wait at the human gate;
-the cloze pilot can test D3/D4/D7 comprehension directly. Ledger
-row in learning-budget.md; feeds the GZ E/R/M bake-off (an
+ADOPTED in full (Edward 2026-08-22), normative in rz-grammar.md
+§10. The cloze pilot can still test D3/D4/D7 comprehension as
+confirmation. Ledger row updated; feeds the GZ E/R/M bake-off (an
 engineered scheme should be at least this forgiving).

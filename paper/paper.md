@@ -515,8 +515,10 @@ is the precedent that such variation reads as accent, not
 brokenness), free adjective position, a one-clitic rule that
 deletes ordering errors instead of regulating them. Each
 declaration forgives one first-language family's signature error;
-all are held as proposals pending comprehension data
-(docs/design/zonal/rz-error-absorption.md).
+all seven declarations were subsequently adopted as normative
+grammar — including the inventory-level merge of *para* into *por*,
+deleting the zone's most famous preposition trap outright
+(docs/design/zonal/rz-error-absorption.md; rz-grammar.md §10).
 
 Where the zonal language merely *happened* to fit the per-hand
 chord space, the greenfield-zonal target can be co-designed with

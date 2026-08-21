@@ -33,6 +33,12 @@ direction into beads.
   major linguistic milestones — core spec, grammar, lexicon, modes).
 - **Invariant-bearing paths** (full playbook, no narrow lane): `docs/spec/`
   and anything that changes frozen-core language definitions.
+- **Gate calibration (Edward, 2026-08-22, from the D1-D7 ruling):**
+  decisions that are "basically just a win and don't negatively affect
+  anything" (pure-upside, preferred forms unchanged, reversible) may be
+  called by the agent directly — adopt, document, and report. The human
+  gate is for real trades (inventory removals were flagged correctly;
+  even that one Edward approved and reclassified as callable).
 - **Design-workshop pipeline (Edward, 2026-08-22):** taste-laden design
   work (script aesthetics, layout, letterforms) goes through rounds of
   3-5 labeled approaches surfaced to Edward with comparison images +
