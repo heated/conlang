@@ -40,7 +40,10 @@ direction into beads.
   Script work is deprioritized as a solo lane; when approximating the
   judge solo, use fast LOOK loops (render words AND a full paragraph,
   read the image, ≤2-3 solo iterations before checkpointing or surfacing
-  a round).
+  a round). Agent taste SHADOWS Edward's, never replaces it: every round
+  carries a sealed shadow pick logged in
+  `docs/process/workshop-shadow-log.md` before Edward answers, scored
+  against his verdict over time (Edward 2026-08-22).
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker

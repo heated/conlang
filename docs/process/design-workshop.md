@@ -28,6 +28,20 @@ process survives compaction.
    result for confirmation, and only then updates tests/floors/docs.
 5. Next round or close.
 
+## Shadow judgment (Edward, 2026-08-22)
+
+The agent's own taste is NOT relied on — it **shadows** Edward's:
+
+- Every round the agent surfaces includes a **sealed shadow pick**,
+  recorded in `docs/process/workshop-shadow-log.md` BEFORE Edward
+  answers: which variant I'd choose and the one-line reason.
+- Edward's actual verdict is logged next to it when it arrives.
+- Periodically the log is scored: agreement rate, and — where a
+  later measurement or reader test settles who was right — whose
+  call held up. The possibility is explicitly open that the shadow
+  track ends up better than the human track; until the log says so,
+  Edward's pick governs.
+
 ## Agent self-approximation (between rounds / when Edward is away)
 
 Approximate the judge with fast LOOK loops, not metric loops:
