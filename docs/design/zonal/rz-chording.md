@@ -202,6 +202,53 @@ open prototype question — it exceeds Yawei's demonstrated syllable
 load 5.5x, so it must be built and tried, not argued. GF keeps
 mirrored as its default (precedent-validated at its scale).
 
+### 4d. Modifiers, shortcuts, and the command layer (Edward Q, 2026-08-21)
+
+How shipped chording systems make room for Ctrl/Alt/Cmd/Fn-style
+commands — five patterns, roughly in order of elegance:
+
+1. **Simultaneous, in-stroke (the steno answer — Emily's modifiers
+   pattern):** modifiers are just 4 more binary channels riding in
+   the same stroke. One bank selects the key, another bank's bits
+   select the modifier combo (ctrl/shift/alt/super = 4 bits = 16
+   combos), and a reserved marker region flags "this stroke is a
+   command, not a word." Any shortcut in one stroke.
+2. **Vacant-space commands:** strokes that cannot be a legal word
+   (classically: vowel-less/no-nucleus strokes) are free real
+   estate; steno assigns commands there.
+3. **One-shot prefix (Microwriter/Twiddler style):** a modifier
+   chord arms the NEXT stroke. Costs a stroke, costs zero layout.
+4. **Layer latch (QMK-style Fn):** a reserved chord toggles the
+   whole board into a command layer and back.
+5. **Dedicated physical keys** (Velotype's special keys, steno's
+   asterisk/number bar) — spend hardware, not chord space.
+
+All of it is software-defined in the Plover model: chords are
+arbitrary; dictionaries bind them to emitted shortcuts.
+
+**On our boards, this costs nothing, and the reason is the same
+trick the language already uses twice.** Commands live in the
+regions phonotactics leaves vacant — the keyboard-layer analog of
+the silent-h hole:
+
+- **RZ/GZ board:** a syllable stroke always has a nucleus; the
+  **no-thumb (nucleus-less) region** is never a word. That region
+  is onset-states × coda-states = 63 × 5 = **315 free states per
+  hand** — command marker + key + 4-bit modifier fits in one
+  stroke, Emily-style, with room left over.
+- **GF board:** even better — the spare 4th finger is a literal
+  **Fn bank** (4 states: text / command / mode-entry / reserved),
+  on top of its own nucleus-less region.
+- **Held modifiers** (cmd while mouse-clicking): chorded boards
+  emit discrete strokes, so holds are done as a **latch** (one
+  command stroke = press, repeat = release) — pattern 4 — or by
+  actually holding the spare-finger key on the GF board.
+
+Design rule recorded: **speech reserves the h-row, the codebook
+reserves sparse points, the keyboard reserves the nucleus-less
+region — every layer keeps a structurally-unreachable region as
+its escape hatch.**
+
 ## 4. What to build when tooling starts (not now)
 
 Keyboard layout diagram + a joiner prototype + a 200-word brief
