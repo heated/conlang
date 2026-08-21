@@ -44,6 +44,7 @@ MODE_PARTICLES = {
     "coord": ("i", "n"),      # reserved, sketch only
     "close": ("a", "s"),
     "close_checksum": ("o", "s"),
+    "chunk_sep": ("a", "n"),  # list separator; also the residue-100 escape
 }
 
 QUARTER_VOWELS = {0: "a", 15: "e", 30: "i", 45: "o"}
@@ -51,7 +52,13 @@ HOUR_TENS_CODA = {0: "", 1: "n", 2: "s"}
 
 CHECKSUM_MOD = 101
 MAX_FRAME_SYMBOLS = 100
-CHECKSUM_100 = ("c", "a", "s")  # symbol for checksum value 100
+# Residue 100 has no symbol (v2 codebook, conlang-bd3/3mq): the sparse
+# 100-point codebook spends its margin, so no clean 101st syllable
+# exists — the old `cas` escape is now digit 36. Instead residue 100 is
+# made UNREACHABLE by the chunking rule: a checksummed payload whose
+# residue is 100 is split at the latest point where neither part has
+# residue 100, and the parts are joined by the chunk separator. A split
+# always exists because a single pair's residue is its own value <= 99.
 
 # Spell mode letter table — PROVISIONAL normative data. Design rules:
 # consonants whose sound is an onset: onset + e; vowel letters: c + that
@@ -128,13 +135,26 @@ class Modes:
 
     def checksum_syllable(self, value: int) -> Syllable:
         if value == 100:
-            return Syllable(*CHECKSUM_100)
+            raise FrameError(
+                "checksum residue 100 has no symbol — split the payload "
+                "with the chunk separator (see chunk_payload)")
         return self.digit_pair_syllable(value)
 
     def read_checksum_syllable(self, syl: Syllable) -> int:
-        if (syl.onset, syl.vowel, syl.coda) == CHECKSUM_100:
-            return 100
         return self.syllable_digit_pair(syl)
+
+    def chunk_payload(self, values: list[int]) -> list[list[int]]:
+        """Split a payload so no chunk has checksum residue 100
+        (the residue-100 escape). Splits as late as possible; a split
+        always exists since a single value <= 99 is its own residue."""
+        if self.checksum(values) != 100:
+            return [values]
+        for cut in range(len(values) - 1, 0, -1):
+            head, tail = values[:cut], values[cut:]
+            if self.checksum(head) != 100 and self.checksum(tail) != 100:
+                return [head] + self.chunk_payload(tail)
+        raise FrameError(  # unreachable: single-value chunks are <= 99
+            f"no residue-100-free split for {values}")
 
     # --- numbers ---
 
@@ -149,10 +169,16 @@ class Modes:
     def encode_number(self, n: int, checksum: bool = False) -> list[str]:
         pairs = self.number_pairs(n)
         out = [self.rom_particle("number")]
-        out += self.rom([self.digit_pair_syllable(p) for p in pairs])
-        if checksum:
+        if not checksum:
+            return out + self.rom([self.digit_pair_syllable(p)
+                                   for p in pairs])
+        chunks = self.chunk_payload(pairs)
+        for i, chunk in enumerate(chunks):
+            if i:
+                out.append(self.rom_particle("chunk_sep"))
+            out += self.rom([self.digit_pair_syllable(p) for p in chunk])
             out.append(self.rom_particle("close_checksum"))
-            out += self.rom([self.checksum_syllable(self.checksum(pairs))])
+            out += self.rom([self.checksum_syllable(self.checksum(chunk))])
         return out
 
     # --- dates (wire rule: year is 0, 4, or 6 digits — 0, 2, or 3 pairs;
@@ -286,6 +312,11 @@ class Modes:
             raise FrameError(f"{mode} cannot open a frame")
 
         payload: list[Syllable] = []
+        # chunked frames (residue-100 escape): each chunk carries its own
+        # checksum; chunks concatenate into one payload and all their
+        # checksums must verify.
+        chunks: list[tuple[list[Syllable], int | None]] = []
+        chunk: list[Syllable] = []
         check_val = None
         i = 1
         while i < len(tokens):
@@ -301,16 +332,43 @@ class Modes:
                     _, csyl = self._classify(tokens[i + 1])
                     check_val = self.read_checksum_syllable(csyl)
                     i += 2
+                    # a chunk separator may continue the frame
+                    if i < len(tokens):
+                        kind2, syl2 = self._classify(tokens[i])
+                        if kind2 == "particle" and \
+                                self.particle_by_shape[
+                                    (syl2.vowel, syl2.coda)] == "chunk_sep":
+                            if mode != "number":
+                                raise FrameError(
+                                    f"{mode} frames are not chunkable")
+                            chunks.append((chunk, check_val))
+                            chunk, check_val = [], None
+                            i += 1
+                            continue
                     break
+                if p == "chunk_sep":
+                    raise FrameError(
+                        "chunk separator must follow a chunk checksum")
                 raise FrameError(f"unexpected particle {tokens[i]!r} in frame")
-            payload.append(syl)
+            chunk.append(syl)
             i += 1
         if i < len(tokens):
             raise FrameError(f"trailing tokens after close: {tokens[i:]}")
-        if not payload:
+        chunks.append((chunk, check_val))
+        if any(not c for c, _ in chunks):
             raise FrameError("empty payload")
+        payload = [s for c, _ in chunks for s in c]
 
         try:
+            if len(chunks) > 1:
+                for c, cv in chunks:
+                    if cv is None:
+                        raise FrameError("every chunk needs a checksum")
+                    vals = [self.syllable_digit_pair(s) for s in c]
+                    if self.checksum(vals) != cv:
+                        return self._decode_payload(mode, payload, -1)
+                return self._decode_payload(mode, payload, None) | \
+                    {"checksum_ok": True, "chunks": len(chunks)}
             return self._decode_payload(mode, payload, check_val)
         except FrameError:
             raise
@@ -447,6 +505,8 @@ def particles_block(m: Modes) -> str:
         "coord": "coordinates — reserved, design sketched below",
         "close": "mode close (optional in casual speech)",
         "close_checksum": "mode close + checksum symbol follows",
+        "chunk_sep": "chunk separator: next chunk of the same payload "
+                     "(also the residue-100 escape)",
     }
     lines = ["| particle | canonical | mode |", "|----------|-----------|------|"]
     for mode, (v, c) in MODE_PARTICLES.items():

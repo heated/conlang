@@ -25,14 +25,29 @@ SPEC = Path(__file__).resolve().parent.parent / "docs" / "spec" / "channels.json
 
 # Frozen normative assignments (SPEC.md §2, §6, §10). A change here is a
 # spec version bump, not a data edit.
-FROZEN_TENS = {"c": 0, "p": 1, "t": 2, "k": 3, "m": 4,
-               "n": 5, "s": 6, "l": 7, "w": 8, "j": 9}
+# v2 digit codebook (spec bump 2026-08-22, conlang-3mq): tens onsets
+# audited so confusable onsets take numerically distant values
+# (tools/digitgen.py), validated jointly at the syllable level
+# (tools/digitgen_joint.py). The v0.2 map was mnemonic-ORDERED (c=0,
+# p=1, ...) and near-pessimal under the audit; this map is audited AND
+# keeps the script mnemonic (base = tens mod 4), which costs 15% of
+# average-case weighted spacing at IDENTICAL worst case (min value
+# distance 3 over high-confusion pairs) — the trade was computed, not
+# assumed. Flip to the unconstrained optimum {l:0,t:1,m:2,c:3,p:4,
+# j:5,s:6,w:7,n:8,k:9} if the mnemonic is ever dropped.
+FROZEN_TENS = {"m": 0, "j": 1, "t": 2, "l": 3, "c": 4,
+               "p": 5, "s": 6, "k": 7, "w": 8, "n": 9}
 FROZEN_ONSET_INDEX = {"c": 0, "p": 1, "t": 2, "k": 3, "m": 4,
                       "n": 5, "s": 6, "l": 7, "w": 8, "j": 9, "h": 10}
 FROZEN_VOWEL_INDEX = {"a": 0, "e": 1, "i": 2, "o": 3, "u": 4}
-FROZEN_UNITS = {0: ("a", ""), 1: ("e", ""), 2: ("i", ""), 3: ("o", ""),
-                4: ("u", ""), 5: ("a", "n"), 6: ("e", "n"), 7: ("i", "n"),
-                8: ("o", "n"), 9: ("u", "n")}
+# v2: 10 perceptually spaced rimes chosen exhaustively from the 20
+# vowel x coda combos (corner vowels only — e/o carry no digits), so
+# the codebook is 100 points SPARSE in the 200-cell content space. The
+# v0.2 map was the mechanical vowel x {∅,n} product, which put every
+# digit one coda away from another digit.
+FROZEN_UNITS = {0: ("a", ""), 1: ("u", "n"), 2: ("i", ""), 3: ("a", "n"),
+                4: ("u", "s"), 5: ("i", "n"), 6: ("a", "s"), 7: ("u", ""),
+                8: ("i", "s"), 9: ("a", "l")}
 FROZEN_POS = {"": "noun", "n": "verb", "s": "modifier", "l": "reserved"}
 FROZEN_REGISTERS = {0: "short", 1: "long"}
 PARTICLE_ONSET = "h"

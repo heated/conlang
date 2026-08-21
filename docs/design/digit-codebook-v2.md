@@ -52,13 +52,21 @@ got the big gaps (a/al conf 1.0 → distance 9; t/k 0.7 → 8; n/l 0.7 →
 8; p/k forbidden → 4, up from 2 in the old map). Example: 42 = `ji`
 (no longer `mi`).
 
-**Cost flagged:** 9/10 tens assignments changed vs the old spec map,
-because the old map was mnemonic-ordered and therefore nearly
-pessimal under the audit (confusable pairs adjacent). The script
-v0.2 letterform bases encode tens-digit mod 4 — the reassignment
-breaks that mnemonic. Coupled decision at spec-bump time
-(conlang-3mq): re-anchor the mnemonic to the new map, or trade some
-distance back for mnemonic preservation.
+**Cost flagged, then RESOLVED at the spec bump (2026-08-22,
+conlang-3mq).** The old map was mnemonic-ordered and nearly pessimal
+under the audit, and the script's letterform bases encode tens-digit
+mod 4 — so audit and mnemonic looked opposed. Computed instead of
+assumed: enumerating all 576 tens assignments that preserve the
+mod-4 base classes and scoring them jointly shows the best
+mnemonic-preserving map has **identical worst-case spacing** (min
+value distance 3 over high-confusion pairs) at **15% lower
+average-case** weighted spacing. Since the worst case is the safety
+property the audit exists to protect, and learnability is the north
+star, the **mnemonic-preserving map is adopted**:
+`0=m 1=j 2=t 3=l 4=c 5=p 6=s 7=k 8=w 9=n`. The script mnemonic text
+survives verbatim (base classes unchanged). The unconstrained
+optimum `0=l 1=t 2=m 3=c 4=p 5=j 6=s 7=w 8=n 9=k` is recorded in
+spec_check.py as the one-line flip if the mnemonic is ever dropped.
 
 **Careful-register variant candidates** (worst residual pairs):
 units 0/9 (a/al, conf 1.0 at max distance but still the hottest

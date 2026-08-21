@@ -32,6 +32,7 @@ cannot drift from the code.
 ```
 frame  := particle payload* [close]
 close  := haas | hoos checksum-symbol
+chunked:= (pair+ hoos checksum-symbol haan)* pair+ hoos checksum-symbol
 number := hu pair+                      (base-100, big-endian)
 date   := ho pair pair                  (yearless: month, day)
         | ho pair{4} | ho pair{5}       (year 4 or 6 digits + month + day)
@@ -58,8 +59,9 @@ time) terminate by length.
 | h-i-n | `hin` | coordinates — reserved, design sketched below |
 | h-a-s | `haas` | mode close (optional in casual speech) |
 | h-o-s | `hoos` | mode close + checksum symbol follows |
+| h-a-n | `haan` | chunk separator: next chunk of the same payload (also the residue-100 escape) |
 
-Eight of the twenty particle slots. conlang-jbw budgets the remaining
+Nine of the twenty particle slots. conlang-jbw budgets the remaining
 twelve for grammar; if grammar overflows, mode particles migrate to
 coda-bearing slots first.
 
@@ -114,17 +116,17 @@ definition. Hemisphere markers will come from the spell letters
 
 | value | rendering |
 |-------|-----------|
-| 42 | `huu mi` |
-| 4207 | `huu mi cin` |
-| 4207 with checksum | `huu mi cin hoos neen` |
-| 0 | `huu ca` |
-| 1000000 | `huu ce ca ca ca` |
-| date 2026-08-08 | `ho ta teen coon coon` |
-| date 08-08 (yearless) | `ho coon coon` |
-| time 14:30 | `hii miin` |
-| time 14:37 | `hii miin cin` |
+| 42 | `huu cii` |
+| 4207 | `huu cii mu` |
+| 4207 with checksum | `huu cii mu hoos pas` |
+| 0 | `huu maa` |
+| 1000000 | `huu muun maa maa maa` |
+| date 2026-08-08 | `ho ta taas miis miis` |
+| date 08-08 (yearless) | `ho miis miis` |
+| time 14:30 | `hii cin` |
+| time 14:37 | `hii cin mu` |
 | time 08:00 | `hii wa` |
-| time 23:45 | `hii kos` |
+| time 23:45 | `hii los` |
 | spell NTNU | `he ne te ne cuul` |
 | spell ZOE | `he su col cel` |
 
@@ -140,8 +142,7 @@ Every payload symbol has a **checksum value ≤ 100**: digit and offset
 pairs use the pair value, a time cell uses 4·hour + quarter-index
 (0–95), letters use A=0…Z=25. The checksum is the position-weighted sum
 Σ (i+1)·vᵢ mod **101** over the payload, frames capped at 100 symbols,
-emitted as one symbol after `hoos` (values 0–99 as a digit pair, 100 as
-`cas`). Because 101 is prime and strictly exceeds every legal value and
+emitted as one symbol after `hoos` (values 0–99 as a digit pair). **Residue 100 has no symbol**: the v2 sparse codebook spends its margin, so no clean 101st syllable exists (`cas` is now digit 36). Instead residue 100 is made unreachable — a payload whose residue is 100 is split at the latest point where no chunk has residue 100, chunks joined by `haan`, each carrying its own checksum. A split always exists because a single pair's residue is its own value ≤ 99. Cost: ~1% of checksummed payloads pay one separator plus one extra checksum syllable. Because 101 is prime and strictly exceeds every legal value and
 every position weight, **every single-symbol substitution within a
 symbol class and every transposition — adjacent or not — changes the
 checksum** (both deltas are products of nonzero residues mod a prime).
@@ -151,10 +152,9 @@ substitutions and all transpositions at the tested lengths.
 
 ## 9. Error budget and register profiles
 
-The digit code uses the full payload grid, so in-mode substitutions are
-dense. Generated analysis *(generated: `tools/modes.py confusion`)*:
+The v2 digit codebook is **sparse**: 100 of the 200 content-shaped payload points, so a single-channel corruption often lands outside the codebook and the frame grammar catches it (280 of 1600 vs the dense code's 200 — a free detection gain from the spacing choice). Generated analysis *(generated: `tools/modes.py confusion`)*:
 
-> total single-channel corruptions: 1600; silent digit substitutions: 1400 (87%); caught by the frame grammar: 200; silent but register-flagged: 840 (60% of silent)
+> total single-channel corruptions: 1600; silent digit substitutions: 1320 (82%); caught by the frame grammar: 280; silent but register-flagged: 780 (59% of silent)
 
 (The register-flagged fraction is a written-layer and careful-register
 property in v0.2; casual spoken digits rely on the frame grammar,

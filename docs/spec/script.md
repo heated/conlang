@@ -116,20 +116,25 @@ The 11 onsets:
 
 | onset | cell | glyph sketch | digit tens |
 |---|---|---|---|
-| c | circle plain | ○ | 0 |
-| p | vertical plain | ǀ | 1 |
+| c | circle plain | ○ | 4 |
+| p | vertical plain | ǀ | 5 |
 | t | diagonal crossed | ╳ | 2 |
-| k | angle doubled | nested ⌐⌐ | 3 |
-| m | circle crossed | Ø | 4 |
-| n | vertical doubled | ‖ (wide) | 5 |
+| k | angle doubled | nested ⌐⌐ | 7 |
+| m | circle crossed | Ø | 0 |
+| n | vertical doubled | ‖ (wide) | 9 |
 | s | diagonal doubled | ⫽ (wide) | 6 |
-| l | angle plain | ⌐ | 7 |
+| l | angle plain | ⌐ | 3 |
 | w | circle capped | ○ with top bar | 8 |
-| j | vertical crossed | + | 9 |
+| j | vertical crossed | + | 1 |
 | h | tick doubled | = | — |
 
 **Digit mnemonic (emergent, worth teaching):** base = tens-digit
-mod 4 — circle 0/4/8, vertical 1/5/9, diagonal 2/6, angle 3/7. Mode
+mod 4 — circle 0/4/8, vertical 1/5/9, diagonal 2/6, angle 3/7.
+(Preserved verbatim across the v2 digit spec bump, 2026-08-22: the
+audited tens row reassigns which onset takes which digit, but the
+base classes are unchanged, so this rule still holds. Keeping it cost
+15% of average-case digit spacing at identical worst case — priced,
+conlang-3mq.) Mode
 payloads have no lexical safety net, so this rule-governed structure is
 where the assignment's discrimination guarantees matter most.
 

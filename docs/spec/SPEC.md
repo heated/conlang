@@ -461,13 +461,27 @@ as a *versioned point in an expansion-compatible family*, not a dead end:
 Numbers are a Tier-2 mode (conlang-bcq), but the digit code is frozen with
 the core because the onset indices are load-bearing:
 
-- **Tens digit → onset:** 0=c 1=p 2=t 3=k 4=m 5=n 6=s 7=l 8=w 9=j
-- **Units digit → rime:** 0=a 1=e 2=i 3=o 4=u 5=an 6=en 7=in 8=on 9=un
+- **Tens digit → onset:** 0=m 1=j 2=t 3=l 4=c 5=p 6=s 7=k 8=w 9=n
+- **Units digit → rime:** 0=a 1=un 2=i 3=an 4=us 5=in 6=as 7=u 8=is 9=al
+
+  (v2 codebook, spec bump 2026-08-22 — conlang-bd3/1f2/3mq. The tens
+  row is **audited**: confusable onsets take numerically distant
+  values, replacing the v0.2 mnemonic-ordered row that placed them
+  adjacent. The units row is a **sparse** pick of 10 perceptually
+  spaced rimes from the 20 vowel×coda combos — corner vowels only, so
+  no digit is one coda away from another digit, and the codebook is
+  100 points sparse in the 200-cell payload space (which itself buys
+  error detection: 280 of 1600 single-channel corruptions now fall
+  outside the codebook and are caught by the frame grammar, vs 200
+  under the dense v0.2 code). The tens row simultaneously **preserves
+  the script letterform mnemonic** (base = tens mod 4, script.md §3),
+  which was priced: identical worst-case spacing, 15% lower
+  average-case weighted spacing than the unconstrained optimum.)
 - A digit pair (00–99) is one syllable; multi-pair numbers are positional
   base-100. In the written layer, payload syllables carry the
   anti-check value (§4.2); casual speech carries no check either way.
 
-Example: 42 = `mi`, 4207 = `mi cin` (pairs 42, 07) — both written-layer
+Example: 42 = `cii`, 4207 = `cii mu` (pairs 42, 07) — both written-layer
 payload check values compute short here (check sums are odd, so the
 anti-check value is 0); doubling, where it appears in payload
 romanizations, is written-layer marking, silent in casual speech.
@@ -475,15 +489,19 @@ romanizations, is written-layer marking, silent in casual speech.
 **Known weak digit cells** (the grid freezes with the core, so these are
 priced, not hidden — conlang-bcq must test the full set under the
 confusion model and design the checksum profile around them):
-c/s tens confusion (digits 0X vs 6X; check bits differ, but the flip
-lives in the written layer — casual spoken digits rely on checksum and
-context); the coronal-i column (02 `ci`,
-22 `ti`, 62 `si` merge under palatalizing L1s — prescribed realizations:
-c strictly affricate); the glide-fusion cells (84 `wu`, 92 `ji` — 
-prescribed fortified realizations [β̞u], [ʝi], since the lexical
-glide-cell ban cannot apply inside the frozen grid); and the units 5–9
-final /n/, which is fragile in noise (the aviation "niner" lesson —
-careful-register digit readout is a conlang-bcq deliverable).
+c/s tens confusion, now at digits 4X vs 6X (the audit moved them
+apart where it could; c/s is one of the pairs the ten-onset row cannot
+fully separate); the coronal-i column (2X vs 4X vs 6X with units 2
+`ti`/`ci`/`si` merging under palatalizing L1s — prescribed
+realizations: c strictly affricate); the glide-fusion cells (`wu`,
+`ji` — prescribed fortified realizations [β̞u], [ʝi], since the
+lexical glide-cell ban cannot apply inside the frozen grid); and the
+four bare-vs-coda rime pairs (units 0/3, 2/5, 7/4, 6/9), which the
+joint acceptance audit identifies as the codebook's only structural
+failures against the spoken-English-digit bar. These four are exactly
+what the careful register's disyllabic forms cover — the "niner"
+lesson made determinate: **units 3, 5, 4, 9 take the yāo forms**
+(conlang-1f2; concrete forms are a modes deliverable).
 
 ## 11. Out of scope for the frozen core
 

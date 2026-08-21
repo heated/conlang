@@ -94,9 +94,43 @@ class TestChecksum(unittest.TestCase):
         self.assertEqual(CHECKSUM_MOD, 101)
 
     def test_checksum_symbol_round_trip(self):
-        for v in range(101):
+        for v in range(100):
             syl = M.checksum_syllable(v)
             self.assertEqual(M.read_checksum_syllable(syl), v)
+
+    def test_residue_100_has_no_symbol(self):
+        # v2 sparse codebook: no clean 101st syllable exists, so
+        # residue 100 is unreachable by the chunking rule instead
+        with self.assertRaises(FrameError):
+            M.checksum_syllable(100)
+
+    def test_chunking_rule_covers_residue_100(self):
+        residue_100 = [n for n in range(2000)
+                       if M.checksum(M.number_pairs(n)) == 100]
+        self.assertGreater(len(residue_100), 5)
+        for n in residue_100:
+            chunks = M.chunk_payload(M.number_pairs(n))
+            self.assertGreater(len(chunks), 1, n)
+            for c in chunks:
+                self.assertNotEqual(M.checksum(c), 100, (n, c))
+            self.assertEqual([p for c in chunks for p in c],
+                             M.number_pairs(n))
+            frame = " ".join(M.encode_number(n, checksum=True))
+            got = M.decode_frame(frame)
+            self.assertEqual(got["value"], n, frame)
+            self.assertTrue(got["checksum_ok"], frame)
+            self.assertEqual(got["chunks"], len(chunks))
+
+    def test_chunked_frame_detects_corruption(self):
+        n = next(x for x in range(2000)
+                 if M.checksum(M.number_pairs(x)) == 100)
+        toks = M.encode_number(n, checksum=True)
+        # corrupt the first chunk's payload syllable
+        bad = list(toks)
+        bad[1] = M.rom([M.digit_pair_syllable(
+            (M.syllable_digit_pair(
+                M.inv.parse_word(toks[1], mode="structural")[0]) + 1) % 100)])[0]
+        self.assertFalse(M.decode_frame(" ".join(bad))["checksum_ok"])
 
 
 class TestFrameDecoding(unittest.TestCase):
@@ -206,9 +240,14 @@ class TestGeneratedDocBlocks(unittest.TestCase):
         stats = M.digit_confusion_analysis()
         self.assertEqual(stats["total"], 100 * (9 + 4 + 3))
         self.assertEqual(stats["silent"] + stats["mode_gram"], stats["total"])
-        self.assertEqual(stats["mode_gram"], 200)
-        self.assertEqual(stats["silent"], 1400)
-        self.assertEqual(stats["silent_register_flagged"], 840)
+        # v2 sparse codebook (2026-08-22 spec bump): the codebook uses
+        # 100 of the 200 content cells, so single-channel corruptions
+        # land outside it more often — frame-grammar catches rose
+        # 200 -> 280, silent substitutions fell 1400 -> 1320 (87% ->
+        # 82%). The sparse codebook is a free error-detection gain.
+        self.assertEqual(stats["mode_gram"], 280)
+        self.assertEqual(stats["silent"], 1320)
+        self.assertEqual(stats["silent_register_flagged"], 780)
 
 
 if __name__ == "__main__":
