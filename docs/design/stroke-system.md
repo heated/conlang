@@ -81,3 +81,63 @@ cell coverage). Two defects, with fix directions:
 
 Also cosmetic: arcs are 10-chord polygons (octagon look) — raise
 chord count for display renders.
+
+## 5. Vowels as join topology — BUILT AND MEASURED (2026-08-22)
+
+§4.2's parked fix direction is now implemented and tested
+(`tools/strokes_topology.py`, sheet in
+`.ship-notes/workshop/vowel-topology-r1/`). The vowel's two features
+map onto the JOIN into the next letter instead of onto a tick:
+**height → the y-offset at which the next letter attaches**
+(high −14u / mid 0 / low +14u), **backness → horizontal tuck**
+(front pulls the next letter in 8u, back pushes it out 8u). Three
+schemes measured against the tick control, phase-minimized occupancy
+distance over 20 one-vowel-different and 90 one-onset-different
+disyllable pairs:
+
+| scheme | vowel min | vowel median | onset min | onset median | vowel/onset ratio |
+|---|---|---|---|---|---|
+| T0 ticks (control) | **0.0000** | 0.0357 | 0.0000 | 0.4857 | 0.074 |
+| T1 join topology only | 0.0690 | 0.1579 | 0.1379 | 0.5161 | 0.306 |
+| T2 topology + small tick | 0.0645 | **0.2000** | 0.1250 | 0.4848 | **0.412** |
+
+Findings:
+
+1. **The defect is worse than §4.2 reported and is now confirmed at
+   zero.** Under ticks, some vowel-different word pairs render
+   *identically* at this raster (min 0.0000, not 0.057) — the
+   branch tick can phase-vanish entirely. Any claim that the stroke
+   substrate distinguishes vowels at reading size was false.
+2. **Topology fixes it.** T1 lifts the worst vowel pair off zero
+   (0.069) and quadruples the median; T2 (topology plus a reduced
+   7u tick) is best, **5.6x the control's vowel median** and a
+   vowel/onset ratio of 0.41 against 0.07 — vowels stop being
+   second-class ink.
+3. **Onset distances are unharmed** (median 0.485 vs 0.486 control):
+   the fix is free in the channel it doesn't touch. T1 even helps
+   the onset minimum, because vowel-driven offsets de-align
+   otherwise-similar figures.
+4. **Confirmed by eye, not just by metric**: in the sheet's T0 row
+   *sala/sela/sila/sola/sula* are one shape five times; in T1/T2 each
+   vowel gives the word a distinct silhouette (the second letter
+   rides high, level, or low, and tucks in or out).
+
+Consequences to decide before adopting (all real, none blocking):
+
+- **Word-final vowels have no following letter**, so they keep a
+  terminal tick under every scheme — the system is inherently
+  hybrid: medial vowels are topology, final vowels are ink. Not a
+  defect (final position is the most robust anyway) but it must be
+  taught as one rule, not two.
+- **Vertical bounding box grows** (±14u of join offset), so line
+  pitch pays a little; measure against the density claims before
+  the layout gate.
+- Interaction with the fusion bands is untested: band 2's
+  shared-stroke merge assumes aligned junctions, which topology
+  deliberately breaks. Band 2 may need per-vowel merge rules or may
+  simply stop merging where the offset is large.
+
+Recommendation (agent, shadow-logged): **T2**. It wins the metric,
+keeps a visible vowel mark for large-size reading and for the
+word-final case (so one rule covers both positions), and the tick's
+cost is small ink at a position that already exists.
