@@ -47,7 +47,8 @@ glide 3, coda 6) gives 5,184 raw cells; the measured ~40% humility
 survival lands at ~2,073 — inside the target band. Syllable =
 chord isomorphism, joint acoustic+motor confusion audit (digit
 bank demonstrated violation-free), aligned escape regions, and a
-new E/R/M pricing column (+3-8% strokes/word for E vs R).
+new E/R/M pricing column (measured: +4.4% strokes/spoken length
+for E vs R, corpus lower bound).
 
 ## The channels GZ keeps (the fruit) [D]
 

@@ -76,9 +76,14 @@ At 2 syllables/stroke, strokes/word = syllables/word ÷ 2 — so any
 scheme that adds syllables taxes typing directly. E-scheme endings
 add a syllable only to consonant-final remaps (most Romance stock
 is already vowel-final; 63% of tokens are already E-shaped), so
-the tax is small but real: ~+0.05–0.15 syl/word ≈ **+3–8%
-strokes/word vs R-scheme** [D]. R-scheme (script-only POS) is
-typing-free. A new column for the E/R/M bake-off (conlang-z0s).
+the tax is small but real — and now measured on the corpus [M]:
+POS-free lower bound (consonant-final content tokens gain a vowel
+under any deterministic final-vowel scheme; verb infinitives
+excluded — Ido-style -ar/-er/-ir already IS the verb mark):
+**+4.4% spoken length / strokes** (1.85 → 1.93 syl/word), driven
+by the -cion/-sion action-noun family and -al/-or/-on nouns.
+R-scheme (script-only POS) is typing-free. A new column for the
+E/R/M bake-off (conlang-z0s).
 
 ## Status
 
