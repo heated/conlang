@@ -621,6 +621,34 @@ def specimen():
     return svg(parts, 1450, y + 140)
 
 
+def page(text, width=2200, dense=True, headstroke=False, pos=False,
+         title=None):
+    """Wrapped multi-line page of running text. Words that exceed the
+    line width wrap; line pitch leaves room for POS underlines."""
+    words = re.findall(r"[a-zA-Z-]+(?::[a-z]+)?", text)
+    pitch = 128
+    parts, x, y = [], 10, 10
+    gap = 6 if headstroke else 24
+    for w in words:
+        pw, wid = word_glyph(w.strip("-"), dx=x, dy=y, dense=dense,
+                             pos=pos)
+        if x + wid > width - 10 and x > 10:
+            x, y = 10, y + pitch
+            pw, wid = word_glyph(w.strip("-"), dx=x, dy=y, dense=dense,
+                                 pos=pos)
+        parts += pw
+        if headstroke:
+            parts.append(_line(x + 2, y + 2, x + wid - 2, y + 2, w=3.5))
+        x += wid + gap
+    h = y + pitch + 10
+    if title:
+        parts.append(f'<text x="10" y="{h - 8}" font-size="13" '
+                     f'fill="currentColor" font-family="monospace">'
+                     f'{title}</text>')
+        h += 16
+    return svg(parts, width, h)
+
+
 def main(argv=None):
     args = sys.argv[1:] if argv is None else argv
     if not args:
@@ -640,6 +668,20 @@ def main(argv=None):
             all_parts += pw
             x += wid + 22
         print(svg(all_parts, x, 130))
+    elif args[0] == "page":
+        opts = {a.split("=")[0][2:]: a.split("=", 1)[1] if "=" in a
+                else True for a in args[2:] if a.startswith("--")}
+        text = Path(args[1]).read_text() if Path(args[1]).exists() \
+            else args[1]
+        s = page(text, headstroke=bool(opts.get("headstroke")),
+                 pos=bool(opts.get("pos")),
+                 title=opts.get("title"))
+        out = opts.get("out")
+        if out:
+            Path(out).write_text(s)
+            print(f"written: {out}")
+        else:
+            print(s)
     elif args[0] == "specimen":
         out = args[args.index("--out") + 1] if "--out" in args else None
         s = specimen()
