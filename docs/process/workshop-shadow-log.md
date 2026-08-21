@@ -8,5 +8,18 @@ filled only when something objective later adjudicates.
 | date | round / question | agent shadow pick (sealed, reason) | Edward's verdict | agree? | settled by |
 |---|---|---|---|---|---|
 | 2026-08-22 | beauty variants V1-V5 (pre-protocol, recorded retroactively) | V2 light for text; V5 light-headstroke "the aesthetic surprise" | headstroke "invariably ugly, doesn't add much" (18s, given before the sheet); V2-style weight discipline adopted | split — agreed on weight/lightness, WRONG on headstroke | — |
-| 2026-08-22 | fused-unity-r1: disyllable unity mechanism U0-U4 (.ship-notes/workshop/fused-unity-r1/sheet.svg) | **U2 interlock** — wins at reading size (dense units, better word segmentation) at zero new machinery; U3 shared-spine is the ambitious runner-up worth one refinement (thinner spine; doubles as word boundary) but its invariant vertical dominates ink and makes words look alike; U1 reads as accidental size variation; U4 worst unity | pending | | |
-| 2026-08-22 | vowel-topology-r1: how should the stroke system carry vowels (T0 ticks / T1 join topology / T2 topology+tick)? | **T2** — best measured vowel median (0.200 vs control 0.036), keeps one rule across medial and word-final position; measurement-backed, so lower taste-uncertainty than the fused round | pending | | metric already favors T2; a reader test would settle T1-vs-T2 |
+| 2026-08-22 | fused-unity-r1: disyllable unity mechanism U0-U4 | **U2 interlock** (reading-size density, zero new machinery); called U4 "worst unity" | **U3 spine** ("makes each character more recognizable") and **U4 stack** ("less like sprawling English"); disliked alternating dots, underlines colliding upward; whole sheet still "wide algebra-looking clusters", "Hanzi unoptimized for squishing together" | **WRONG** — and inverted on U4 | — |
+| 2026-08-22 | vowel-topology-r1: T0 ticks / T1 join topology / T2 topology+tick | **T2** — best measured vowel median (0.200 vs 0.036) | **T0** — "one continuous character"; T1 "all over the place", T2 "a worse version of T0, maybe just from alignment" | **WRONG** | open conflict: metric says T0's vowels are literally indistinguishable (0.000). Edward's "maybe just from alignment" is the reconciling hypothesis — re-implement topology with continuous joins before re-judging |
+
+## Scoring so far (2026-08-22): 0 for 2
+
+Both misses share one cause: **I optimized a mechanism/metric;
+Edward judges GESTALT — does it read as a designed character rather
+than sprawling algebra?** He rejected width and sprawl in every
+comment and rewarded vertical compression (U3/U4) and continuity
+(T0). Concretely, my scoring function should weight, in this order:
+(1) is the word ONE figure, (2) is it compact/narrow, not wide,
+(3) is the ink even — no huge-vs-tiny subletter contrast, no
+floating dots, (4) does it survive small sizes without blobbing.
+Metric distance is a floor-check, NOT the objective — that inversion
+is exactly what both misses look like.
