@@ -451,6 +451,26 @@ precisely to the cohorts the zone's cognate transfer does not serve
 — the same asymmetry the ledger identifies as the greenfield-zonal
 thesis (docs/design/zonal/rz-lexicon-coverage.md).
 
+A companion exploration treats the learner's *errors* as a design
+surface in their own right. Scoring the zonal grammar against the
+documented top error classes of Romance second-language acquisition
+shows seven of fifteen classic traps — grammatical gender,
+person agreement, the subjunctive, the preterite–imperfect
+distinction, irregular conjugation at scale, question inversion,
+false friends — already structurally unmakeable, which is the
+regularity dividend restated in error space. For most of the rest
+there is a move available only to engineered languages: declare
+the learner's most probable deviation grammatical variation rather
+than error, at zero cost to the preferred register — single
+negation alongside negative concord, article omission as
+telegraphic register, optional adjective agreement (spoken French
+is the precedent that such variation reads as accent, not
+brokenness), free adjective position, a one-clitic rule that
+deletes ordering errors instead of regulating them. Each
+declaration forgives one first-language family's signature error;
+all are held as proposals pending comprehension data
+(docs/design/zonal/rz-error-absorption.md).
+
 Where the zonal language merely *happened* to fit the per-hand
 chord space, the greenfield-zonal target can be co-designed with
 it: defining its phonotactics as the chord banks themselves (36
