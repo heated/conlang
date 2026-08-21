@@ -449,19 +449,30 @@ careful register's "disyllables for the worst few digits" from a
 gesture into a determinate assignment.
 
 The learning-budget ledger's value side acquired its first
-measurement: coverage curves over the ~940-token zonal corpus show
-the closed class — 62 particles, determiners, prepositions and
-copulas — covering 49.4% of running tokens, with ~120 content
-lemmas reaching 70% of content-token coverage and a Zipf band
-placing the 95%-coverage lexicon near five hundred open lemmas.
-The corpus is too small to exhibit the inflectional dividend
-directly (nearly every content word appears once), so that number
-comes from the grammar instead: an RZ lemma carries ~3.7
-exceptionless recognizable forms against ~20 synthetic forms for a
-Spanish lemma, a five-fold recognition-load reduction that accrues
-precisely to the cohorts the zone's cognate transfer does not serve
-— the same asymmetry the ledger identifies as the greenfield-zonal
-thesis (docs/design/zonal/rz-lexicon-coverage.md).
+measurement, and an instructive correction. Coverage curves over the
+de-duplicated ~690-token zonal corpus show the closed class — sixty
+articles, pronouns, prepositions, conjunctions and auxiliaries,
+selected by the explicit criterion of appearing in the grammar's
+function-word sections — covering 45.2% of running tokens, with
+roughly a hundred and fifty content lemmas reaching 70% of
+content-token coverage. An adversarial review of the first version
+found three defects worth recording as method: the corpus
+double-counted a cloze test that reproduces its source passages with
+content words blanked, inflating the function-word share; the
+closed-class set had been curated by intuition rather than by rule,
+admitting greetings and ordinary verbs; and the lemmatizer stripped
+the class vowels that *are* the citation form, reducing *parla* to
+*parl*. The corrected curves are lower and the extrapolation is
+gone entirely: at this sample size the fitted Zipf exponent is too
+shallow for the tail to be data-determined, so the size of the
+95%-coverage lexicon is reported as unknown rather than estimated.
+What survives is the shape — half the tokens reachable from one page
+of grammar words — and a dividend that was never a corpus quantity
+to begin with: an RZ lemma carries about 3.7 exceptionless
+recognizable forms against about 20 synthetic forms for a Spanish
+lemma, a five-fold recognition-load reduction accruing precisely to
+the cohorts the zone's cognate transfer does not serve
+(docs/design/zonal/rz-lexicon-coverage.md).
 
 Two further explorations extend the same machinery. A
 conversation-repair mode adapts aviation's readback protocol —

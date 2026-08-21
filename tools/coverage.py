@@ -34,41 +34,82 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CORPUS_FILES = ("rz-texts.md", "romance-zonal-v0.md", "cloze-test-v0.md",
-                "rz-lite.md")
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+# CORPUS: cloze-test-v0.md is EXCLUDED — it reproduces the
+# romance-zonal-v0 passages with content words blanked out, so
+# including it double-counted function words and under-counted content
+# (Codex review 2026-08-22, finding 3). Everything below is the
+# de-duplicated running-text corpus.
+CORPUS_FILES = ("rz-texts.md", "romance-zonal-v0.md", "rz-lite.md")
+DERIVED_FILES = ("cloze-test-v0.md",)   # excluded; kept for the audit
 
-# rz-grammar.md §4/§9: the complete inflectional suffix set. Order
-# matters — longest first, so -ria strips before -a.
-INFLECTIONS = ("ria", "va", "nte", "ate", "ite", "te", "es", "s",
-               "ar", "er", "ir", "a", "e", "i")
+# Inflectional suffixes, longest first. RZ's citation form for a verb
+# IS the present (stem + class vowel a/e/i, rz-grammar §4), so bare
+# -a/-e/-i are NEVER stripped: `parla` is a lemma, not `parl`.
+# Participles are stem+te (parlate = parla+te), so -ate/-ite must not
+# strip either (Codex review finding 1). Verbal morphology is delegated
+# to rz_script.analyze(), which gates -va/-ria on an attested verb-stem
+# set — a heuristic strip turns `historia` into `histo`.
+NOMINAL_INFLECTIONS = ("es", "s")
+VERBAL_TAIL = ("nte", "te", "r")
 # derivational suffixes (§9) — these make NEW lemmas, so they are not
-# stripped for lemma counting; tracked separately as the multiplier
-DERIVATIONS = ("cion", "itate", "mente", "abile", "ibile", "ista",
-               "oso", "or", "al", "ia")
+# stripped for lemma counting; tracked separately as the multiplier.
+# Longest-first, and -itate strips as a unit (nacionalitate -> nacional
+# -> nacion) rather than leaving `nacionalit`.
+# -ia (domain/state) is deliberately EXCLUDED: it is the least
+# productive family here and over-strips inherited words that merely
+# end in -ia (materia -> mater, historia -> hist), which is exactly
+# the failure mode the review caught on the inflection side.
+DERIVATIONS = ("itate", "cion", "mente", "abile", "ibile", "ista",
+               "oso", "or", "al")
 
-# closed class: particles/determiners/preps/pronouns/conjunctions that
-# a learner acquires as a block in the first lesson (rz-grammar §2-7)
+# Closed class, SELECTION RULE (Codex review finding 2): exactly the
+# grammar words enumerated in rz-grammar.md §2-§7 — articles,
+# demonstratives, possessives, quantifiers, pronouns (all three
+# columns), prepositions, conjunctions/subordinators, negators,
+# question words, comparison particles, and the three irregular
+# verbs that double as auxiliaries (es/era/seria, va, sta/stava).
+# Lexical items that merely feel functional are OUT: greetings
+# (bon, gracias, pardon, adeu) and regular verbs (pote, vole, debe,
+# face, prende) are open-class content words with ordinary paradigms.
 CLOSED = {
-    "le", "les", "un", "une", "de", "del", "a", "al", "e", "o", "que",
-    "qui", "no", "si", "en", "con", "por", "para", "sin", "sobre",
-    "su", "se", "io", "tu", "el", "ela", "nos", "vos", "eles", "me",
-    "te", "nos", "les", "iste", "aquel", "istes", "aqueles", "ma",
-    "plus", "minus", "multo", "ja", "anque", "cata", "tote", "totes",
-    "quando", "donde", "como", "cuante", "alora", "aqui", "ala",
-    "hodie", "ora", "ancora", "sempre", "nunca", "nada", "nadie",
-    "es", "era", "va", "sta", "ha", "durante", "entre", "desde",
-    "mentre", "porque", "aunque", "antes", "despues", "pardon",
-    "bon", "gracias", "adeu", "seria", "stava", "pote", "vole",
-    "debe", "face", "prende", "cual", "cuales",
+    # articles, demonstratives, possessives (§2)
+    "le", "les", "la", "las", "un", "une", "del", "al",
+    "iste", "istes", "aquel", "aqueles", "mi", "tu", "su",
+    "nostre", "vostre", "lor",
+    # quantifiers (§2)
+    "tote", "totes", "multe", "multo", "poc", "alcun", "necun",
+    "cata", "altre", "altres", "mesme",
+    # pronouns (§3)
+    "io", "me", "te", "el", "ela", "eles", "elas", "nos", "vos",
+    "se", "on", "lo",
+    # prepositions (§2, §7 usage)
+    "de", "a", "en", "con", "sin", "sobre", "por", "para", "entre",
+    "desde", "durante", "ante", "tras", "segun", "contra",
+    # conjunctions / subordinators (§7)
+    "e", "o", "ma", "que", "qui", "si", "porque", "quando", "mentre",
+    "aunque", "como", "anque", "ni",
+    # negation (§5)
+    "no", "nunca", "nada", "nadie",
+    # question words (§6)
+    "donde", "cuante", "cual", "cuales",
+    # comparison (§7)
+    "plus", "minus", "tanto",
+    # deixis/time adverbs that are grammar words
+    "ja", "alora", "aqui", "ala", "hodie", "ora", "ancora", "sempre",
+    "antes", "despues",
+    # the three irregular verbs (§4), which are also the auxiliaries
+    "es", "era", "seria", "va", "sta", "stava", "ha",
 }
 
 
-def corpus_tokens():
-    """Quoted sample lines from the zonal corpus docs (blockquotes are
-    the RZ text; surrounding prose is English commentary)."""
+def corpus_tokens(include_derived=False):
+    """Blockquote lines of the de-duplicated corpus docs (blockquotes
+    are RZ text; surrounding prose is English commentary)."""
     toks = []
     base = ROOT / "docs" / "design" / "zonal"
-    for name in CORPUS_FILES:
+    names = CORPUS_FILES + (DERIVED_FILES if include_derived else ())
+    for name in names:
         path = base / name
         if not path.exists():
             continue
@@ -81,25 +122,42 @@ def corpus_tokens():
 
 
 def lemma(word):
-    """Strip inflection to a stem. Conservative: never strips below 3
-    characters, never touches closed-class words (they ARE lemmas)."""
+    """Surface form -> citation form (present for verbs, singular for
+    nouns/adjectives). Verbal morphology comes from rz_script.analyze,
+    which gates tense suffixes on an attested verb-stem set."""
     if word in CLOSED:
         return word
-    for suf in INFLECTIONS:
+    try:
+        from rz_script import analyze, verb_stems
+    except Exception:                                # pragma: no cover
+        analyze, verb_stems = None, None
+    if analyze is not None:
+        stem, tense, _ = analyze(word)
+        if tense:                       # parlava -> parla, gated
+            return stem
+        stems = verb_stems()
+        for suf in VERBAL_TAIL:         # participle/gerund/infinitive
+            if word.endswith(suf):
+                base = word[: -len(suf)]
+                if base in stems:       # parlate/parlante/parlar -> parla
+                    return base
+    for suf in NOMINAL_INFLECTIONS:     # plural
         if word.endswith(suf) and len(word) - len(suf) >= 3:
-            return word[: -len(suf)]
+            base = word[: -len(suf)]
+            if base[-1] in "aeiou" or suf == "es":
+                return base
     return word
 
 
 def root(word):
     """Strip derivation as well as inflection: nacionalitate ->
-    nacion-ish. Approximate — derivation is iterative in RZ (§9)."""
+    nacional -> nacion. Approximate — derivation is iterative (§9)."""
     w = lemma(word)
     changed = True
     while changed:
         changed = False
         for suf in DERIVATIONS:
-            if w.endswith(suf) and len(w) - len(suf) >= 3:
+            if w.endswith(suf) and len(w) - len(suf) >= 4:
                 w = w[: -len(suf)]
                 changed = True
                 break
@@ -145,31 +203,90 @@ def items_for(curve, target):
     return None
 
 
-def zipf_extrapolate(counter, target):
-    """Estimate item count for a coverage target beyond corpus reach,
-    fitting a Zipf-Mandelbrot-ish harmonic model to the observed
-    distribution. Fit deliberately AVOIDS the head (function words
-    decay steeper than the content tail and made the first version
-    underestimate below corpus-measured values); exponent comes from
-    the mid ranks. Clamped to the corpus-measured count when the
-    corpus already reaches the target. Rough by construction, [D]."""
+def zipf_scenario(counter, target, vocab_size):
+    """Coverage rank under a TRUNCATED, NORMALIZED Zipf model.
+
+    Codex review 2026-08-22 (finding 4) confirmed the previous version
+    was not a valid extrapolation: it summed an unnormalized tail whose
+    mass diverges, while its probabilities were normalized to the small
+    observed sample, and its "clamp" silently replaced measured ranks
+    with larger model ranks. Fixed as an explicit SCENARIO:
+
+      p(r) = r^-a / sum_{k=1..V} k^-a       for a vocabulary of V types
+
+    with `a` fitted on the observed mid ranks (the head decays steeper
+    than the content tail, so it is excluded from the fit). V is an
+    ASSUMPTION, not a measurement — the caller sweeps it and the
+    result is reported as a band. Returns None if the fit is not
+    supportable from the sample.
+    """
     total = sum(counter.values())
     freqs = [c / total for _, c in counter.most_common()]
     if len(freqs) < 60:
         return None
     r1, r2 = 20, min(150, len(freqs) - 1)
     a = math.log(freqs[r1 - 1] / freqs[r2 - 1]) / math.log(r2 / r1)
-    # anchor the model at rank r1, not rank 1 (head is off-model)
-    c = freqs[r1 - 1] * r1 ** a
-    cum, r = sum(freqs[: r1]), r1
-    while cum < target and r < 10 ** 6:
-        r += 1
-        cum += min(c * r ** (-a), freqs[-1])
-    est = r if cum >= target else None
-    measured = items_for(coverage_curve(counter), target)
-    if est is not None and measured is not None:
-        est = max(est, measured)
-    return est
+    norm = sum(k ** (-a) for k in range(1, vocab_size + 1))
+    cum = 0.0
+    for r in range(1, vocab_size + 1):
+        cum += r ** (-a) / norm
+        if cum >= target:
+            return r
+    return None                       # target unreachable within V
+
+
+def fit_exponent(counter):
+    total = sum(counter.values())
+    freqs = [c / total for _, c in counter.most_common()]
+    if len(freqs) < 60:
+        return None
+    r1, r2 = 20, min(150, len(freqs) - 1)
+    return math.log(freqs[r1 - 1] / freqs[r2 - 1]) / math.log(r2 / r1)
+
+
+# Curriculum lesson blocks as EXPLICIT SETS (Codex review finding 5:
+# the previous table's named blocks were unvalidated labels on a
+# frequency-only curve). Each block lists what it teaches; coverage is
+# computed from the union of the sets actually named, and skills that
+# add no token coverage (paradigms, modes) are marked as such.
+LESSON_PLAN = [
+    {"hours": 1.0, "name": "closed-class block + spelling/stress",
+     "closed": True, "lemma_ranks": 0,
+     "skills": ["orthography", "penult stress"]},
+    {"hours": 1.0, "name": "verb system (one table) + top-20 lemmas",
+     "closed": False, "lemma_ranks": 20,
+     "skills": ["complete verb paradigm — adds forms of lemmas "
+                "already counted, not new lemmas"]},
+    {"hours": 2.0, "name": "next 54 lemmas + derivation families",
+     "closed": False, "lemma_ranks": 74,
+     "skills": ["derivation (§9) — generative, not corpus-visible"]},
+    {"hours": 2.0, "name": "number mode + calendar + next 48 lemmas",
+     "closed": False, "lemma_ranks": 122,
+     "skills": ["number mode (own ledger row)", "calendar"]},
+    {"hours": 4.0, "name": "topic packs (+95 lemmas)",
+     "closed": False, "lemma_ranks": 217, "skills": []},
+    {"hours": 4.0, "name": "tail to corpus edge",
+     "closed": False, "lemma_ranks": 241, "skills": []},
+]
+
+
+def lesson_curve(toks, open_lemmas, closed_share):
+    """Coverage after each lesson block, computed from explicit sets."""
+    ranked = [w for w, _ in open_lemmas.most_common()]
+    lem_count = Counter(lemma(t) for t in toks)
+    n = len(toks)
+    rows, hours = [], 0.0
+    for block in LESSON_PLAN:
+        hours += block["hours"]
+        known = set(ranked[: block["lemma_ranks"]])
+        covered = sum(lem_count[w] for w in known)
+        rows.append({
+            "cumulative_hours": hours, "block": block["name"],
+            "open_lemmas_known": block["lemma_ranks"],
+            "token_coverage": round(closed_share + covered / n, 4),
+            "skills_without_token_coverage": block["skills"],
+        })
+    return rows
 
 
 def report():
@@ -224,9 +341,20 @@ def report():
             f"{t:.0%}": items_for(oc, t) for t in targets},
         "open_class_roots_for_targets": {
             f"{t:.0%}": items_for(rc, t) for t in targets},
-        "zipf_extrapolation_open_lemmas": {
-            f"{t:.0%}": zipf_extrapolate(open_lemmas, t)
-            for t in (0.95, 0.98)},
+        "zipf_scenarios_open_lemmas": {
+            "fitted_exponent": (round(fit_exponent(open_lemmas), 3)
+                                if fit_exponent(open_lemmas) else None),
+            "note": "V (vocabulary size) is an ASSUMPTION swept as a "
+                    "band, not a measurement; model is a truncated "
+                    "normalized Zipf. Corpus-measured ranks are "
+                    "reported separately above and are NOT replaced.",
+            "ranks": {f"V={V}": {f"{t:.0%}": zipf_scenario(
+                open_lemmas, t, V) for t in (0.90, 0.95)}
+                for V in (1000, 3000, 8000)},
+        },
+        "lesson_curve": lesson_curve(toks, open_lemmas, closed_share),
+        "corpus_files": list(CORPUS_FILES),
+        "excluded_as_derived": list(DERIVED_FILES),
         "paradigm": {
             "rz": RZ_PARADIGM, "donors": DONOR_PARADIGM,
             "rz_mean_forms_per_lemma": round(rz_avg, 2),
@@ -265,10 +393,17 @@ def main():
           f"lemma (exceptionless) vs Spanish "
           f"{p['spanish_mean_forms_per_lemma']} — ratio "
           f"{p['recognition_load_ratio']}x")
-    print("\nZipf extrapolation (open-class lemmas, [D] rough, "
-          "clamped >= measured):")
-    for k, v in out["zipf_extrapolation_open_lemmas"].items():
-        print(f"  {k}: {v}")
+    z = out["zipf_scenarios_open_lemmas"]
+    print(f"\nZipf SCENARIOS (open lemmas; fitted exponent "
+          f"{z['fitted_exponent']}; V is an assumption, not a "
+          f"measurement):")
+    for vk, targets in z["ranks"].items():
+        print(f"  {vk}: " + ", ".join(f"{t} at rank {r}"
+                                      for t, r in targets.items()))
+    print("\nlesson curve (coverage computed from explicit sets):")
+    for r in out["lesson_curve"]:
+        print(f"  ~{r['cumulative_hours']:>4.0f}h  "
+              f"{r['token_coverage']:6.1%}  {r['block']}")
     print("\ntop lemmas:", ", ".join(
         f"{w}({c})" for w, c in out["top_lemmas"]))
     return 0

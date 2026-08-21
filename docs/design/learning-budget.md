@@ -119,15 +119,19 @@ touch the lexicon are cheap against the total; purchases that make
 the lexicon *more learnable for distant cohorts* (regularity,
 channels) are where GZ's case lives.
 
-**Measured value side (2026-08-22, rz-lexicon-coverage.md):** the
-closed class = 62 words = **49.4% of running tokens** (the
-first-lesson block); ~122 content lemmas = 70% of content tokens;
-the 95%-coverage lexicon ≈ **~500 open lemmas** (Zipf band [D]).
-Recognition load per lemma: RZ ~3.67 exceptionless forms vs Spanish
-~19.67 synthetic (**5.4x ratio** — the regularity dividend as a
-number; a grammar fact, not measurable in a 937-token corpus).
-These size the lexicon line items above; they land inside the
-existing bands (consistency check passed).
+**Measured value side (2026-08-22, rz-lexicon-coverage.md; numbers
+corrected same day after a Codex review found corpus duplication, a
+mis-specified closed-class set, and an over-stripping lemmatizer):**
+the closed class = 60 grammar words = **45.2% of running tokens**
+(the first-lesson block, selection rule = rz-grammar §2-§7); ~150
+content lemmas = 70% of content tokens. The **95%-lexicon size is
+NOT known** — the corpus Zipf fit is too shallow (α ≈ 0.55) for the
+tail to be data-determined, so the earlier "~500 lemmas" figure is
+withdrawn; the C1 lexicon rows above remain model estimates with no
+corpus backing either way. Recognition load per lemma: RZ ~3.67
+exceptionless forms vs Spanish ~19.67 synthetic (**5.4x ratio** —
+the regularity dividend as a number; a grammar fact, not measurable
+in a 690-token corpus).
 
 ## The ledger
 
@@ -148,7 +152,7 @@ existing bands (consistency check passed).
 | GZ exact-fit phonotactics (syllable = chord isomorphism) | −(encoding-layer hours): nothing to learn between speech and typing — one inventory, two surfaces; motor-humility audit invisible to learners | chord entry with no mapping layer; joint acoustic+motor confusion screen; aligned escape regions | explored, feasibility computed (gz-chord-fit.md); adoption rides the GZ decision (conlang-z0s) |
 | error-absorption declarations D1-D7 (rz-error-absorption.md) | ~0h (declarations legalize the learner's most probable deviations; preferred register unchanged) | production-anxiety cut; each declaration forgives one L1 family's signature error; 7/15 classic Romance-L2 traps already unmakeable in RZ | **MENU at human gate** — D1-D6 recommend-adopt, D7 (por/para merge) flagged as inventory change |
 | conversation-repair mode (7 h-particles + acrophonic spell table) | +~1h, cohort-flat; spell table ~0 (reuses known words) | aviation-protocol repair loop; completes the error stack (screen→codebook→repair); ports to GF/GZ/English card | proposed, recommend-buy (rz-repair-mode.md); forms at spec bump conlang-3mq |
-| curriculum-greedy lesson order (parse-coverage sort) | ~0 (ordering, not content) | 49% of tokens at hour 1, 61% at hour 2, 85% at hour 6 [M in-corpus]; bake-off criterion: coverage-at-hour-N | measured (rz-curriculum.md) |
+| curriculum-greedy lesson order (parse-coverage sort) | ~0 (ordering, not content) | 45% of tokens at hour 1, 57% at hour 2, 80% at hour 6 [M in-corpus, explicit lesson sets]; bake-off criterion: coverage-at-hour-N | measured (rz-curriculum.md) |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)

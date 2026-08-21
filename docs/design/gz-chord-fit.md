@@ -14,10 +14,10 @@ Define GZ syllables = the per-hand banks:
 |---|---|---|
 | onset | ≤35 + null (simple + clusters, one table) | index×middle = 36 |
 | nucleus | 5 vowels + ai au oi = 8 | thumb (9th state = command region) |
-| glide | ∅ / i- / u- = 3 | ring (×2 boundary flag = 6) |
+| glide | ∅ / i- / u- = 3 | ring: 3 glide states (the ring's other ×2 is the cross-word **boundary flag** — a non-lexical chord state, so it multiplies the CHORD space to 6 but not the syllable space) |
 | coda | ∅ n s r l m = 6 | pinky |
 
-Raw space: 36 × 8 × 3 × 6 = **5,184 syllable cells**.
+Raw **phonological** space: 36 × 8 × 3 × 6 = **5,184 syllable cells** (the boundary flag is excluded — it distinguishes strokes, not words). The chord space proper is twice that at 11,664 states/hand, per rz-chording §4e.
 
 ## 2. The slack funds the humility screen [M]
 
