@@ -199,12 +199,16 @@ class TestGeometry(unittest.TestCase):
     def test_voicing_pairs_survive_small_raster(self):
         # deliberate doctrine relaxation vs greenfield (secondary
         # layer): voicing pairs differ by ONE mark — the ground bar —
-        # so the floor is 0.30, not the greenfield's 0.55 phonetic
-        # floor. Measured min: f/v 0.371.
+        # so the floor is far below the greenfield's 0.55 phonetic
+        # floor. 2026-08-22 (conlang-18s): the two-weight aesthetic
+        # discipline thinned the bar 8->5, trading ~0.10 of raster
+        # margin (f/v 0.371 -> 0.271 measured); floor 0.30 -> 0.25.
+        # If legibility testing ever flags voicing, fix with GEOMETRY
+        # (letterform redesign), not bar thickness.
         for vl, vd in (("p", "b"), ("t", "d"), ("k", "g"),
                        ("f", "v"), ("s", "z")):
             d = pmin(onset_glyph([vl]), onset_glyph([vd]), ONSET_WIN, 14)
-            self.assertGreaterEqual(d, 0.30, f"{vl}/{vd} at {d:.3f}")
+            self.assertGreaterEqual(d, 0.25, f"{vl}/{vd} at {d:.3f}")
 
     def test_h_distinct_from_tick_family(self):
         # h (tick doubled) vs ly (tick capped) was the known lookalike;
@@ -235,27 +239,48 @@ class TestGeometry(unittest.TestCase):
 
 
 class TestClusterLayout(unittest.TestCase):
-    """Hangul-style mutual sizing invariant: satellite ink never lands
-    on main-letter ink (fine-grid overlap <= 3% of satellite cells)."""
+    """Slot-layout invariants (conlang-18s rework: clusters are
+    full-height narrowed letters in phonetic order, not diacritic
+    satellites). The perception criterion is a VISUAL MARGIN — a
+    minimum ink-to-ink distance between the main letter and its
+    cluster partners — not mere non-overlap (Edward: passing overlap
+    metric, failing perception)."""
 
-    def test_no_satellite_main_collision(self):
+    WIN = (0, -2, 70, 66)
+    N = 100                          # fine grid: cell ~0.7px
+
+    def _margin_ok(self, main, sats, radius_cells):
+        m = rasterize(main, *self.WIN, self.N)
+        s = rasterize(sats, *self.WIN, self.N)
+        offs = [(di, dj)
+                for di in range(-radius_cells, radius_cells + 1)
+                for dj in range(-radius_cells, radius_cells + 1)
+                if di * di + dj * dj <= radius_cells * radius_cells]
+        return not any((i + di, j + dj) in m
+                       for (i, j) in s for di, dj in offs)
+
+    def test_visual_margin_between_cluster_letters(self):
+        cell = (self.WIN[2] - self.WIN[0]) / self.N
         for cl in sorted(LEGAL_ONSETS):
             if len(cl) < 2:
                 continue
             main, sats = onset_parts(list(cl))
-            win = (-10, -14, 70, 66)
-            m = rasterize(main, *win, 60)
-            s = rasterize(sats, *win, 60)
-            frac = len(m & s) / len(s)
-            self.assertLessEqual(
-                frac, 0.03, f"{'+'.join(cl)}: {frac:.2%} overlap")
+            # exclude the block-level voicing ground bar from the
+            # margin measurement — it deliberately spans all slots
+            main_bar_free = [p for p in main
+                             if f'y1="{58.0}"' not in p]
+            margin_px = 3.0 if len(cl) == 2 else 2.0
+            r = max(1, int(margin_px / cell))
+            self.assertTrue(
+                self._margin_ok(main_bar_free, sats, r),
+                f"{'+'.join(cl)}: ink margin < {margin_px}px")
 
-    def test_liquid_satellites_distinct(self):
-        # pl vs pr differ only by the satellite letterform
-        win = (40, -14, 70, 12)
+    def test_liquid_letters_distinct_in_slot(self):
+        # pl vs pr differ only by the final slot letter (full height)
+        win = (30, 0, 66, 64)
         d = pmin(onset_glyph(["p", "l"]), onset_glyph(["p", "r"]),
                  win, 10)
-        self.assertGreaterEqual(d, 0.30, f"pl/pr sat at {d:.3f}")
+        self.assertGreaterEqual(d, 0.30, f"pl/pr slot at {d:.3f}")
 
 
 class TestWindowHonesty(unittest.TestCase):

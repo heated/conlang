@@ -47,6 +47,12 @@ from pathlib import Path
 
 BLOCK = 100
 STROKE = 5
+W_MARK = 3.5
+# Two-weight discipline (conlang-18s, Edward's aesthetic feedback):
+# every stroke is either structural (STROKE) or a mark (W_MARK) —
+# full-size letterforms, carriers and the voicing ground bar are
+# structural; scaled components (satellites, coda minis), diphthong
+# twin carriers and POS bars are marks. No other widths.
 
 CX, CY, CR = 33, 30, 17            # ring base (raised: ground bar below)
 VX = 33
@@ -139,17 +145,20 @@ def _circle(cx, cy, r, w=STROKE):
                stroke_width=w, fill="none")
 
 
-def letter(base, mod, scale=1.0, dx=0.0, dy=0.0):
-    """One onset letterform (RZ grid cells only)."""
+def letter(base, mod, scale=1.0, dx=0.0, dy=0.0, sx=1.0):
+    """One onset letterform (RZ grid cells only). sx: extra x-axis
+    compression (cluster slots) — full height, narrowed width."""
     s = scale
-    w = STROKE * s
+    w = STROKE if s >= 0.6 else W_MARK    # two-weight discipline
 
     def L(x1, y1, x2, y2):
-        return _line(dx + x1 * s, dy + y1 * s, dx + x2 * s, dy + y2 * s, w=w)
+        return _line(dx + x1 * s * sx, dy + y1 * s,
+                     dx + x2 * s * sx, dy + y2 * s, w=w)
 
     p = []
     if base == "circle":
-        p.append(_circle(dx + CX * s, dy + CY * s, CR * s, w=w))
+        p.append(_circle(dx + CX * s * sx, dy + CY * s,
+                         CR * s * min(sx * 1.2, 1.0), w=w))
         if mod == "crossed":               # m: slash protrudes past the
             p.append(L(15, 48, 51, 12))    # ring (ts/m raster fix)
         elif mod == "capped":
@@ -206,21 +215,37 @@ def onset_parts(phonemes, dx=0.0, dy=0.0):
     if len(core) != 1:
         raise ValueError(f"unrenderable onset cluster {phonemes}")
     b, mod, voiced = RZ_ONSETS[core[0]]
-    # Hangul-style mutual sizing: main letter yields room to satellites
-    if sats_pre or liquid:
-        main = letter(b, mod, scale=0.82, dx=dx + 5, dy=dy + 5)
-    else:
+    # Cluster rendering (conlang-18s rework, Edward's feedback: no
+    # floating diacritic-scale marks): cluster consonants are FULL
+    # HEIGHT, x-narrowed letters side by side in phonetic order —
+    # Hangul-ㅄ-style slots, uniform stroke weight, same block height
+    # as plain onsets. Nothing floats; the visual margin between
+    # slot letters is enforced by test.
+    seq = (["s"] if sats_pre else []) + core + \
+        ([liquid[0]] if liquid else [])
+    if len(seq) == 1:
         main = letter(b, mod, dx=dx, dy=dy)
+        sats = []
+    else:
+        slot = 64.0 / len(seq)
+        # letters take 78% of their slot's x-scale so neighboring
+        # slot letters keep a real ink gap (the visual-margin floor),
+        # not just non-overlap
+        sx = (slot / 64.0) * 0.78
+        main, sats = [], []
+        for i, ph in enumerate(seq):
+            pb, pm, _ = RZ_ONSETS[ph]
+            parts_i = letter(pb, pm, dx=dx + i * slot + 2, dy=dy, sx=sx)
+            if ph == core[0]:
+                main += parts_i
+            else:
+                sats += parts_i
     if voiced:
-        main.append(_line(dx + 6, dy + GROUND_Y, dx + 60, dy + GROUND_Y,
-                          w=8))
-    sats = []
-    if sats_pre:
-        sb, sm, _ = RZ_ONSETS["s"]
-        sats += letter(sb, sm, scale=0.40, dx=dx + 0, dy=dy - 8)
-    if liquid:
-        lb, lm, _ = RZ_ONSETS[liquid[0]]
-        sats += letter(lb, lm, scale=0.40, dx=dx + 46, dy=dy - 10)
+        # full block width: at uniform stroke weight (two-weight
+        # discipline) the bar buys its raster distinctness with
+        # LENGTH, not thickness
+        main.append(_line(dx + 2, dy + GROUND_Y, dx + 62, dy + GROUND_Y,
+                          w=STROKE))
     return main, sats
 
 
@@ -235,7 +260,7 @@ def nucleus_glyph(vowels, dx=0.0, dy=0.0):
     parts = []
     n = len(vowels)
     xs = [CARRIER_X] if n == 1 else [CARRIER_X - 7, CARRIER_X + 7]
-    w = STROKE if n == 1 else 3.4
+    w = STROKE if n == 1 else W_MARK
     tick = TICK_LEN if n == 1 else 8
     for v, x in zip(vowels, xs):
         h, b = VOWELS[v]
@@ -268,7 +293,7 @@ def coda_glyph(coda, dx=0.0, dy=0.0):
     if voiced:
         parts.append(_line(dx + 26 + 12 * 0.32, dy + STRIP_Y0 + GROUND_Y * 0.32,
                            dx + 26 + 54 * 0.32, dy + STRIP_Y0 + GROUND_Y * 0.32,
-                           w=STROKE * 0.32))
+                           w=W_MARK))
     return parts
 
 
@@ -563,21 +588,17 @@ def word_glyph(word, dx=0.0, dy=0.0, dense=True, pos=False):
     return parts, width
 
 
-def sentence_glyphs(words, dy=0.0, dense=True, headstroke=False,
-                    pos=False):
-    """A sentence row. headstroke=True: words cohere under a top rule
-    and abut with a minimal gap — no spaces needed (boundary = rule
-    break); otherwise words are separated by spacing."""
+def sentence_glyphs(words, dy=0.0, dense=True, pos=False):
+    """A sentence row; words separated by spacing. (Headstroke mode
+    removed 2026-08-22 — Edward: 'invariably ugly and doesn't add
+    much'; conlang-18s.)"""
     parts = []
     x = 0
-    gap = 6 if headstroke else 24
     for w in words:
         pw, wid = word_glyph(w, dx=x, dy=dy, dense=dense, pos=pos)
         parts += pw
-        if headstroke:
-            parts.append(_line(x + 2, dy + 2, x + wid - 2, dy + 2, w=3.5))
-        x += wid + gap
-    return parts, x - gap
+        x += wid + 24
+    return parts, x - 24
 
 
 def svg(parts, w, h):
@@ -661,14 +682,13 @@ def specimen():
     return svg(parts, 1450, y + 140)
 
 
-def page(text, width=2200, dense=True, headstroke=False, pos=False,
-         title=None):
+def page(text, width=2200, dense=True, pos=False, title=None):
     """Wrapped multi-line page of running text. Words that exceed the
     line width wrap; line pitch leaves room for POS underlines."""
     words = re.findall(r"[a-zA-Z-]+(?::[a-z]+)?", text)
     pitch = 128
     parts, x, y = [], 10, TOP_INSET
-    gap = 6 if headstroke else 24
+    gap = 24
     for w in words:
         pw, wid = word_glyph(w.strip("-"), dx=x, dy=y, dense=dense,
                              pos=pos)
@@ -677,8 +697,6 @@ def page(text, width=2200, dense=True, headstroke=False, pos=False,
             pw, wid = word_glyph(w.strip("-"), dx=x, dy=y, dense=dense,
                                  pos=pos)
         parts += pw
-        if headstroke:
-            parts.append(_line(x + 2, y + 2, x + wid - 2, y + 2, w=3.5))
         x += wid + gap
     h = y + pitch + 10
     if title:
@@ -713,8 +731,7 @@ def main(argv=None):
                 else True for a in args[2:] if a.startswith("--")}
         text = Path(args[1]).read_text() if Path(args[1]).exists() \
             else args[1]
-        s = page(text, headstroke=bool(opts.get("headstroke")),
-                 pos=bool(opts.get("pos")),
+        s = page(text, pos=bool(opts.get("pos")),
                  title=opts.get("title"))
         out = opts.get("out")
         if out:

@@ -128,8 +128,33 @@ All four review findings closed, plus the v1 backlog:
    at POS_Y, adjective 40% bar, noun bare — both dense modes), not
    just that tagged input renders.
 
+### 3d. Aesthetic pass v1 (2026-08-22, conlang-18s — Edward's visual
+### feedback, partially applied; further script work DEPRIORITIZED)
+
+Edward's feedback on the specimen pages, acted on:
+1. **Two-weight discipline**: every stroke is STROKE (5, structural)
+   or W_MARK (3.5, marks) — the per-scale width variation
+   ("a little cursed") is gone. Cost paid consciously: the voicing
+   ground bar thinned 8→5, f/v raster min 0.371→0.271, floor moved
+   0.30→0.25 with the trade documented in the test.
+2. **Headstroke killed** ("invariably ugly and doesn't add much") —
+   mode removed from renderer, CLI, and pages.
+3. **No more floating marks**: cluster satellites replaced by
+   full-height, x-narrowed letters in phonetic order (Hangul-ㅄ
+   slots) — same block height as plain onsets, uniform weight.
+4. **Visual-margin criterion** replaces bare non-overlap: minimum
+   ink-to-ink distance between cluster letters enforced by test
+   (3px pairs, 2px triples).
+Remaining from the feedback: coda minis and some logogram elements
+still read small ("marks in weird places" residue); the
+experimental-direction pull (fusion/beauty studies) untouched.
+**Both parked — Edward directive 2026-08-22: deprioritize script
+work pending the multi-approach workshop pipeline
+(docs/process/design-workshop.md).**
+
 ### 3c. Beauty pass — variant sheet (2026-08-22; decision = taste,
-### parked at the human gate)
+### parked at the human gate — SUPERSEDED in part by §3d: Edward's
+### 18s feedback already killed headstroke, mooting V4/V5)
 
 With optimal settled and floored, the beauty lever is a
 display-parameter choice, not a geometry change (all regression

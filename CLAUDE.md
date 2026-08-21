@@ -33,6 +33,14 @@ direction into beads.
   major linguistic milestones — core spec, grammar, lexicon, modes).
 - **Invariant-bearing paths** (full playbook, no narrow lane): `docs/spec/`
   and anything that changes frozen-core language definitions.
+- **Design-workshop pipeline (Edward, 2026-08-22):** taste-laden design
+  work (script aesthetics, layout, letterforms) goes through rounds of
+  3-5 labeled approaches surfaced to Edward with comparison images +
+  decision packets — full process in `docs/process/design-workshop.md`.
+  Script work is deprioritized as a solo lane; when approximating the
+  judge solo, use fast LOOK loops (render words AND a full paragraph,
+  read the image, ≤2-3 solo iterations before checkpointing or surfacing
+  a round).
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker
