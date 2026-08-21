@@ -175,3 +175,13 @@ venerdi, sabato, dominica` — FLAG: Ibero drops -di (lunes, martes);
 IT forms chosen for family regularity; test.
 Months: `januario, februario, marzo, april, maio, junio, julio,
 agosto, septembre, octobre, novembre, decembre`.
+
+## 12. The closed-class guarantee (ADOPTED 2026-08-22,
+## gz-rz-mining-audit.md)
+
+The grammar-word inventory is **closed**: §2–§7 enumerate it
+exhaustively (~60 words, measured at 45.2% of running corpus
+tokens). Adding a function word is a major-spec-version event;
+content vocabulary remains open under the lexicon recipe. The
+guarantee a learner gets: these sixty words are *all* the grammar
+there will ever be.

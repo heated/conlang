@@ -408,6 +408,27 @@ add-ons applicable to any zonal, continental, or global auxlang;
 that toolkit is the intended spine of this paper's contribution.
 Charter: docs/design/program.md.*
 
+*The program's first two steps ran 2026-08-22. The bootstrap
+scenario packet (rz-bootstrap-scenarios.md) recommends a
+receptive-first funnel — a graded web reader with an embedded
+self-scoring cloze, launched through the thesis publication, with
+production tooling staged to catch inbound writers — replicating
+the only measured zonal growth loop (Interslavic: receptive proof +
+one standard + tooling + a media moment). The GZ→RZ mining audit
+(gz-rz-mining-audit.md) then walked every greenfield mechanism
+through the port gate under those weights. Outcome: two pure-upside
+purchases (a closed-class guarantee — the ~60 grammar words of the
+reference grammar are now closed by rule, 45.2% of running tokens;
+and an acoustic-confusion audit on minted vocabulary), one
+permanent decline with a structural reason (POS-ending remapping of
+inherited word shapes fails the first-contact invariant regardless
+of its measured value — the E/R/M dial is settled for RZ by
+invariant, with the display-layer R-scheme as its POS answer, while
+remaining genuinely open for the greenfield), and a residue that is
+quality work rather than feature work. The audit's shape is itself
+a finding: every mechanism that ports cheaply is cohort-flat and
+lexicon-free; every decline touches inherited word shapes.*
+
 Alongside the engineered language, the project runs a receptive-first
 track: a Romance zonal auxlang (RZ) with a six-register parallel
 corpus, a complete regularized grammar (person-invariant verbs,

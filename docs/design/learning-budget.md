@@ -138,14 +138,15 @@ in a 690-token corpus).
 | purchase | cost (Δ learner-hours) | what it buys | status |
 |---|---|---|---|
 | number mode (silent-h hole, zonal codebook) | +2h casual, +2h readback; cohort-flat | dense reliable numbers/dates/readback; flat across L1s | **BOUGHT** (tentative, Edward 2026-08-21) |
-| fixed penult stress | +~1h | word-boundary parse channel (SSM-lite) | pending (GZ sketch) |
-| hard particle/clitic class | ~0 (codifies existing RZ habit) | function/content flag per word | pending (GZ sketch) |
-| POS endings, E-scheme | +5-15h productive remap for Romance L1; NEGATIVE for distant cohorts (regularity discount, Esperanto-proven) | deterministic POS channel; faster parsing | pending — the E/R/M dial |
-| POS endings, M-scheme | +2-5h | verb/adverb marking only | pending |
+| fixed penult stress | 0 — RZ §1 already owns a deterministic stress rule | word-boundary parse channel (SSM-lite) | already-owned; the SSM-lite segmentation CLAIM is adopt-pending-measurement (mining audit #2b) |
+| hard particle/clitic class → **closed-class guarantee** | ~0 (codifies existing RZ habit) | "these 60 words are ALL the grammar" — marketable guarantee, curriculum hook, SSM-lite prerequisite | **BOUGHT** (agent-called pure-upside, 2026-08-22; rz-grammar §12) |
+| POS endings, E-scheme | +5-15h productive remap for Romance L1; NEGATIVE for distant cohorts (regularity discount, Esperanto-proven) | deterministic POS channel; faster parsing | **DECLINED for RZ** (fails the first-contact gate — mining audit #3); live for GZ only |
+| POS endings, M-scheme residual (mark bare present verbs) | surface change on highest-frequency forms | verb marking completeness | **DECLINED** (fails first-contact gate); the free part (-va/-ria/-nte/-mente/-cion deterministic) RZ already owns |
 | featural display script (reading) | +3-5h; cohort-flat | script-layer channels, density levers | bought de facto (RZ script built; hardened + tense logograms 2026-08-22) |
-| R-scheme POS underlines (script-only POS channel) | +~0.5h (two marks: verb underbar, adj half-bar); cohort-flat | skim-readable POS without touching word shapes — the zero-violence point on the E/R/M dial | prototyped (rz-script-adaptation §3b); decision still with the GZ bake-off |
+| R-scheme POS underlines (script-only POS channel) | +~0.5h (two marks: verb underbar, adj half-bar); cohort-flat | skim-readable POS without touching word shapes — the zero-violence point on the E/R/M dial | **BOUGHT for RZ** (mining audit #5 — the dial is settled by invariant for RZ: R wins, E/M dead); z0s bake-off continues GZ-internal only |
 | chording, template board v2 | +5-10h to competence (optional; speed = practice) | 1.13 strokes/word input | **BOUGHT as design** (rz-chording §4b) |
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
+| coinage acoustic-confusion audit (humility screen generalized to minted forms) | ~0 (design-side rule; inherited words untouched) | mode/repair/neologism vocabulary under the GZ-proven instrument (digit bank precedent: violation-free) | **BOUGHT** (agent-called pure-upside, 2026-08-22; rz-lexicon preamble) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
 | mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-validated either way (rz-chording §4b-e) |
 | directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | hours-based (v2): competence ~5-10h; QWERTY-parity wpm ~40-60h; realtime ~200-400h; pro ~500h+ [H] | | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |
