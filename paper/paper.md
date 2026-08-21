@@ -436,6 +436,21 @@ instrument the engineered script uses, after measurement showed one
 suffix-logogram pair fully collapsed (distance 0.000) at seven
 pixels in the shipped v0.
 
+The learning-budget ledger's value side acquired its first
+measurement: coverage curves over the ~940-token zonal corpus show
+the closed class — 62 particles, determiners, prepositions and
+copulas — covering 49.4% of running tokens, with ~120 content
+lemmas reaching 70% of content-token coverage and a Zipf band
+placing the 95%-coverage lexicon near five hundred open lemmas.
+The corpus is too small to exhibit the inflectional dividend
+directly (nearly every content word appears once), so that number
+comes from the grammar instead: an RZ lemma carries ~3.7
+exceptionless recognizable forms against ~20 synthetic forms for a
+Spanish lemma, a five-fold recognition-load reduction that accrues
+precisely to the cohorts the zone's cognate transfer does not serve
+— the same asymmetry the ledger identifies as the greenfield-zonal
+thesis (docs/design/zonal/rz-lexicon-coverage.md).
+
 The width decision itself generalizes from a binary to a ladder.
 Running the same capacity machinery over progressively widened
 inventories (diphthong nuclei ai/au/oi; onsets to 19 with v/ʃ/dʒ;

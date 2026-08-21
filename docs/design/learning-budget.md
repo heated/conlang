@@ -119,6 +119,16 @@ touch the lexicon are cheap against the total; purchases that make
 the lexicon *more learnable for distant cohorts* (regularity,
 channels) are where GZ's case lives.
 
+**Measured value side (2026-08-22, rz-lexicon-coverage.md):** the
+closed class = 62 words = **49.4% of running tokens** (the
+first-lesson block); ~122 content lemmas = 70% of content tokens;
+the 95%-coverage lexicon ≈ **~500 open lemmas** (Zipf band [D]).
+Recognition load per lemma: RZ ~3.67 exceptionless forms vs Spanish
+~19.67 synthetic (**5.4x ratio** — the regularity dividend as a
+number; a grammar fact, not measurable in a 937-token corpus).
+These size the lexicon line items above; they land inside the
+existing bands (consistency check passed).
+
 ## The ledger
 
 | purchase | cost (Δ learner-hours) | what it buys | status |
