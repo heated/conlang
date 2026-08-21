@@ -6,9 +6,14 @@ what the project is trying to become.)
 ## Endgame
 
 **RZ is the language we ship.** The zonal bet wins on total time to
-value — a Romance reader gets ~80% comprehension at first contact and
-RZ's whole grammar in tens of hours, and no engineered feature set
-beats "free" on the learning-speed axis this project exists for.
+value, with the targets stated at their separate bars and labeled
+honestly [H = hypothesis until measured]: zero-study cloze
+comprehension for zone readers (Interslavic's published 84% is the
+*precedent*; RZ's own number is unmeasured until the cloze pilot
+runs); comfortable receptive reading in ~5–10 h [H, ledger]; C1
+production ~100–200 h for Romance L1 [H, ledger, C1 bar]. No
+engineered feature set beats near-free on the learning-speed axis
+this project exists for.
 
 **GZ is the laboratory and the feature mine.** The greenfield line
 (v0.2 core → GZ) is where channel discipline is developed cleanly
@@ -40,11 +45,26 @@ A GZ mechanism ports into RZ iff:
 
 Already through the gate (the pattern to follow): number/digit mode
 (bought — rz-number-mode), error-absorption declarations D1–D7
-(bought — grammar §10), repair mode (proposed), chording (free —
-input layer), featural display script (free-ish — display-only).
-Still in the mine: E/R/M POS-ending scheme (z0s bake-off), hard
-particle-class boundary, penult-stress SSM-lite, script-borne
-redundancy, escape-phoneme/mode frames beyond numbers (bcq).
+(bought — grammar §10), chording (free — input layer), featural
+display script (free-ish — display-only). Still in the mine: repair
+mode (recommend-buy on the ledger; purchase waits on its own test),
+E/R/M POS-ending scheme (z0s bake-off), hard particle-class
+boundary, penult-stress SSM-lite, script-borne redundancy,
+escape-phoneme/mode frames beyond numbers (bcq).
+
+**Evidence discipline** (what "worth it" means until calibration):
+the ledger's absolute hours are uncalibrated [H] pending the C1
+calibration bead (pym), so gate verdicts are *provisional prices*,
+not settled facts. Per the gate-calibration convention, pure-upside
+moves (no preferred-form change, reversible, no first-hour tax) are
+agent-callable immediately; anything else is adopt-pending-evidence
+or an Edward call. The bootstrap invariant is operationalized as
+non-inferiority: a paid feature that touches RZ's surface must not
+reduce zero-study cloze on the instrument when it runs. Human
+testing is deferred by standing directive (2026-08-15); the
+evidence gates (cloze pilot, x6t) are therefore ARMED, not
+scheduled — until they run, every outcome claim stays
+hypothesis-labeled, in the paper and in anything published.
 
 ## Lanes
 
@@ -83,8 +103,12 @@ continental / global auxlang, each with its price tag and evidence
 — error-absorption declarations, number/date/time modes, repair
 register, closed-class discipline, chord input over any phonology,
 display-script layer, cloze-measured zonal fidelity, the ledger
-method itself. AZ (Atlantic zonal, bead 3ug) is the second
-instantiation that proves the recipe generalizes;
+method itself. Toolkit entries are **conditional patterns, not
+universal prescriptions**: each carries its evidence and requires
+repricing against the target language's phonology, orthography,
+and learner cohorts. AZ (Atlantic zonal, bead 3ug) is the
+**replication test** — a second, related zone that tests whether
+the recipe transfers; it cannot prove universality.
 partial-systems.md and english-plus-channels.md are proto-entries.
 This lane is the paper's spine: "a few dimensions along which you
 can make a language better."
@@ -104,7 +128,10 @@ proposals, not adoptions.
 - **RZ inherits the display subset.** rz_script's letterforms are
   already declared GZ's base; RZ's dense-display mode and suffix
   logograms are a re-skin of whatever GZ ships. RZ script work is
-  maintenance-only until the cloze pilot justifies more.
+  maintenance-only; its unpark condition is a workshop round with
+  renderer-specific reading/segmentation criteria on GZ-shaped
+  text — NOT the cloze pilot, which tests Latin-surface lexical
+  comprehension and says nothing about the display script.
 - **The open fork is the engine**: boxed featural blocks (Hangul
   archetype, rz_script lineage) vs the stroke/join engine
   (shorthand archetype, strokes.py). Edward's two live complaints
@@ -124,19 +151,26 @@ proposals, not adoptions.
 
 ## Sequencing (near-term order)
 
-1. **GZ→RZ mining audit** — walk every GZ mechanism through the
-   gate, produce the priced menu; this turns "grab what's worth it"
-   from vibe into a checklist.
-2. **Bootstrap scenarios** — cheap, high-information, and it
-   back-pressures the spec (what scenario 1 needs gets priority).
-3. **Publication packaging** — after the mining audit settles what
-   RZ *is*; the paper keeps accreting in the meantime.
-4. Toolkit entries fall out of 1+3; steal-pass round 2 and
+1. **Bootstrap scenario decision packet** first — it's cheap, and
+   the chosen audience/artifact assigns radically different value
+   to modes, repair, and display features; the audit's weights
+   come from it.
+2. **GZ→RZ mining audit** — walk every GZ mechanism through the
+   gate, weighted by the scenario packet; verdicts are provisional
+   prices (see Evidence discipline): pure-upside buys land now,
+   everything else lands as adopt-pending-evidence.
+3. **Publication packaging** — after the audit settles what RZ
+   *is*; outcome claims stay hypothesis-labeled until the cloze /
+   x6t baseline runs. The paper keeps accreting in the meantime.
+4. Toolkit entries fall out of 2+3; steal-pass round 2 and
    exploration run in the gaps; script waits for a workshop round.
 
 ## What done looks like
 
 A public thesis + a public RZ that a Romance-zone reader can start
-reading today and learn properly in ~50 hours; a toolkit paper any
-auxlang designer can shop from; GZ as the documented laboratory
-that proved which features pay; the ledger as the receipts.
+reading today, with measured (no-longer-[H]) numbers at each bar —
+zero-study cloze, ~5–10 h receptive reading, C1 in the low
+hundreds of hours; a toolkit paper any auxlang designer can shop
+from, each entry priced and conditional; GZ as the documented
+laboratory that proved which features pay; the ledger as the
+receipts, calibrated.
