@@ -41,16 +41,19 @@ confusion classes from the digit system):
 |---|---|---|---|---|---|---|---|---|---|
 | a | un | i | an | us | in | as | u | is | al |
 
-**Tens onsets:**
+**Tens onsets** (ADOPTED map — mnemonic-preserving; see the resolved
+cost note below. The generator's unconstrained optimum is
+`l t m c j p s w n k`):
 
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 |---|---|---|---|---|---|---|---|---|---|
-| l | t | m | c | j | p | s | w | n | k |
+| m | j | t | l | c | p | s | k | w | n |
 
 Audit: every confusable pair now sits ≥3 apart; the worst offenders
 got the big gaps (a/al conf 1.0 → distance 9; t/k 0.7 → 8; n/l 0.7 →
-8; p/k forbidden → 4, up from 2 in the old map). Example: 42 = `ji`
-(no longer `mi`).
+8; p/k forbidden → 4, up from 2 in the old map). Under the adopted
+mnemonic-preserving map the worst case is the same (every high-conf
+pair ≥3 apart). Example: 42 = `cii` (no longer `mi`).
 
 **Cost flagged, then RESOLVED at the spec bump (2026-08-22,
 conlang-3mq).** The old map was mnemonic-ordered and nearly pessimal
@@ -68,13 +71,11 @@ survives verbatim (base classes unchanged). The unconstrained
 optimum `0=l 1=t 2=m 3=c 4=p 5=j 6=s 7=w 8=n 9=k` is recorded in
 spec_check.py as the one-line flip if the mnemonic is ever dropped.
 
-**Careful-register variant candidates** (worst residual pairs):
-units 0/9 (a/al, conf 1.0 at max distance but still the hottest
-rime pair) and tens 3/6 (c/s at distance 3). These are the yāo-move
-targets; concrete disyllabic forms chosen at spec bump.
-**SUPERSEDED by the joint optimization below: the determinate
-yāo set is units 3, 5, 4, 9 (the coda side of the four bare-vs-coda
-pairs).**
+**Careful-register variants — determinate** (superseding the earlier
+"worst 2-3 digits" guess): the yāo set is **units 3, 5, 4, 9** — the
+coda side of the four bare-vs-coda rime pairs the joint acceptance
+audit isolates below. Concrete disyllabic forms remain a modes
+deliverable.
 
 ## Joint optimization results (conlang-1f2, 2026-08-22) [M]
 
