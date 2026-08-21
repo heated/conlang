@@ -436,6 +436,18 @@ instrument the engineered script uses, after measurement showed one
 suffix-logogram pair fully collapsed (distance 0.000) at seven
 pixels in the shipped v0.
 
+Joint optimization subsequently validated the codebook's
+architecture: optimizing all hundred syllable-values together at
+the syllable level (cross-channel confusion products included)
+reproduces the per-channel solution to within one swap, freeing
+the code from its product structure buys an eight-percent
+average-case improvement with no worst-case gain — declined
+against the learnability cliff of a hundred rote pairs — and the
+English-digit acceptance bar fails in exactly one structured
+place, the four bare-versus-coda rime pairs, which converts the
+careful register's "disyllables for the worst few digits" from a
+gesture into a determinate assignment.
+
 The learning-budget ledger's value side acquired its first
 measurement: coverage curves over the ~940-token zonal corpus show
 the closed class — 62 particles, determiners, prepositions and

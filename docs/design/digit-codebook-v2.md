@@ -64,6 +64,42 @@ distance back for mnemonic preservation.
 units 0/9 (a/al, conf 1.0 at max distance but still the hottest
 rime pair) and tens 3/6 (c/s at distance 3). These are the yāo-move
 targets; concrete disyllabic forms chosen at spec bump.
+**SUPERSEDED by the joint optimization below: the determinate
+yāo set is units 3, 5, 4, 9 (the coda side of the four bare-vs-coda
+pairs).**
+
+## Joint optimization results (conlang-1f2, 2026-08-22) [M]
+
+`tools/digitgen_joint.py` optimizes the full 100-point codebook at
+the SYLLABLE level (758 relevant pairs of 4950; cross-channel
+products included) instead of per channel. Three findings:
+
+1. **The v2 per-channel codebook was already near-jointly-optimal.**
+   Joint hill-climb over (units × tens) together: min value-distance
+   over high-conf pairs stays 3; weighted sum improves 0.9% via one
+   tens swap (4=p, 5=j instead of 4=j, 5=p). The spec bump adopts
+   the joint map; nothing else moves. The per-channel + multiplicative
+   architecture priced the cross terms correctly on its own.
+2. **Non-product mapping: DECLINED with numbers.** Freeing the
+   bijection (any syllable → any value, breaking v = 10t+u) buys
+   +8% weighted sum and ZERO worst-case gain (min distance still 3)
+   — against the learnability cliff of 100 rote pairs replacing
+   10+10 digit maps. The product structure stands.
+3. **The acceptance proxy fails in a sharply structured way — and
+   that structure IS the careful-register design.** Bar [D,
+   TODO-verify]: English's worst pair (five/nine) sits at value
+   distance 4; requiring no conf ≥ 0.7 pair below distance 4 finds
+   exactly 40 violations = the four bare-vs-coda rime pairs
+   (a/an, i/in, u/us, as/al = unit pairs 0/3, 2/5, 7/4, 6/9) × 10
+   onsets, all at distance 3, none adjacent. Reading: the CASUAL
+   register genuinely cannot beat English-word digits at 1/3 the
+   length on ∅-vs-coda rimes — that is the price of the length
+   target, and it is what the yāo-move exists for. Assigning
+   disyllabic careful forms to the coda side — **units 3 (-an),
+   5 (-in), 4 (-us), 9 (-al)** — kills all four pairs and passes
+   the bar by construction. (Sharpened from the directive's "worst
+   2-3 digits" to a determinate 4.) Casual register unchanged;
+   human read-aloud test stays the real gate.
 
 ## The residue-100 splinter — decided [D]
 
