@@ -202,6 +202,64 @@ open prototype question — it exceeds Yawei's demonstrated syllable
 load 5.5x, so it must be built and tried, not argued. GF keeps
 mirrored as its default (precedent-validated at its scale).
 
+RULING (Edward, 2026-08-21): the §4c-2 rearrangement (rising
+diphthongs to glide-onsets, oi respelled, 5-state coda finger) is
+judged **too expensive — RZ phonology is not gutted for the sake of
+per-hand key-chording**. Per-hand RZ on KEY-chord hardware is
+shelved; it reopens uncut on directional clusters (§4e).
+
+**Interference/Yawei learning-curve cost, researched:** Chinese
+vocational Yawei programs run ~2 years to professional
+certification (working speed 240 chars/min; terminal 520) —
+the SAME band as English steno (community reports 6mo-2yr to
+200wpm). So the two-syllable mirrored mode shows **no visible
+training-time penalty vs one-gestalt steno at professional level**;
+the interference surcharge is real early (untrained bimanual
+independence) but is swamped by the speed-building grind that
+dominates either way. Casual competence is weeks on either board;
+the template board likely has the gentler first week (banks in
+reading order, one gestalt). Not isolable further from public data
+— a prototype A/B is the only real instrument.
+
+**"What do I do with the other hand?"** That IS the choice, and the
+board supports both answers as modes: (a) second syllable — the
+Yawei mode, ~2x throughput; (b) mouse/trackpad + command hand —
+the one-handed dividend (chord text while pointing, which neither
+steno nor QWERTY can do). Same hardware, two postures; casual
+users live in (b), speed users graduate to (a).
+
+### 4e. Directional clusters (Edward, 2026-08-21): the second
+hardware direction — MAINTAIN BOTH
+
+Model: each finger sits on a directional cluster — **6 states/
+finger** (incl. null), **9 states/thumb** (incl. null); proven
+chordable by CharaChorder. Per-hand budget: 6⁴ × 9 = **11,664
+states — 5.7x the key-chord budget** (2,048).
+
+What that affords, computed:
+
+1. **Full RZ per-hand with ZERO phonology changes** — the thing
+   key-chords couldn't do. Onsets 35+null = 36 = 6² exactly (2
+   fingers); codas ∅/n/s/r/l/m = 6 exactly (1 finger); nuclei
+   13+null = 14 ≤ 6×9 = 54 (finger 4 × thumb, e.g. finger picks
+   class, thumb picks vowel). The §4c-2 gutting becomes
+   unnecessary; mirrored two-syllable RZ (0.92 strokes/word)
+   reopens uncut.
+2. **GF swims in headroom** — one-handed with two fingers to
+   spare; command/mode layers essentially free.
+3. **Vast vacant regions** for the command layer everywhere.
+4. One-handed digit entry, trivially, both systems.
+
+Costs [H]: niche custom hardware; per-finger exclusivity (a
+directional cluster gives one state at a time — no crack-style
+combinations within a finger, already reflected in the 6); unknown
+sustained error rates under speed for direction-precision vs
+key-press (CharaChorder proves existence, not steno-grade
+ceilings). **Directive recorded: both hardware directions — key
+chords and directional clusters — are maintained in parallel**;
+key-chords hold the proven-precedent lane (steno/Yawei/Velotype),
+clusters hold the capacity lane.
+
 ### 4d. Modifiers, shortcuts, and the command layer (Edward Q, 2026-08-21)
 
 How shipped chording systems make room for Ctrl/Alt/Cmd/Fn-style
@@ -274,15 +332,11 @@ hot**. That shape (fat head, long tail) decides the pattern choice.
 | 5 dedicated keys | ~0 (labels) | = key count | 1 (reach) |
 | 6 **cmd+⟨word⟩ (semantic commands)** | **~0 marginal — commands are named by words you already chord** ("cmd copy", "cmd bright-up"); proven in voice coding (Talon) | 16 × the whole lexicon; self-documenting | GF: **1** (spare-finger flag rides the word stroke); RZ: 2 (prefix — syllable strokes have no spare bits) |
 
-**Recommendation [D]: hybrid, matched to the fat-head/long-tail
-load.** The ~20-25 hot commands get vacant-space rote chords
-(pattern 2 — one stroke, drilled once); everything else is
-cmd+⟨word⟩ (pattern 6 — zero marginal learning, discoverable,
-unbounded); Emily-style in-stroke (1) covers letter-level chording
-when a literal key+modifier is needed. Front-loaded learning ≈
-1-2h total, then zero marginal cost forever. Note the asymmetry:
-the GF board does semantic commands in ONE stroke via its spare
-finger — another dividend of the narrow inventory.
+**Recommendation (Edward-revised 2026-08-21): cmd+⟨word⟩ and
+Emily-style in-stroke are BOTH contenders; pick cmd+⟨word⟩ wherever
+it fits in one stroke** (GF board: always; RZ board: needs the
+prefix, so Emily-style competes there). Hot-command rote chords
+remain the speed tier for the ~25 head commands.
 
 ## 4. What to build when tooling starts (not now)
 

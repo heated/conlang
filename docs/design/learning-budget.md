@@ -133,7 +133,8 @@ lives.
 | chording, template board v2 | +5-10h to competence (optional; speed = practice) | 1.13 strokes/word input | **BOUGHT as design** (rz-chording §4b) |
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
-| mirrored per-hand chording (Yawei-style, 2 syl/stroke) | learning-curve cost above template board (bimanual interference is trainable, not a ceiling) | 0.92 strokes/word (beats template's 1.13) | **OPEN — ambitious tier**, prototype required (5.5x Yawei's syllable load); GF's version precedent-validated (rz-chording §4b) |
+| mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-validated either way (rz-chording §4b-e) |
+| directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | learning curve [H]; unknown error ceiling under speed | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut | **OPEN — maintained in parallel with key-chords** (Edward directive) |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)
