@@ -84,13 +84,14 @@ in the next ink pass for both layouts.
   in the strip.
 - Chording alignment improves to the word level: mirrored-hands
   chording types one disyllable per stroke = **one stroke, one
-  character, one word** — the motor, visual, and lexical units
-  coincide exactly for the dominant word class.
+  character, one word** [H — no chord layout exists] — the motor,
+  visual, and lexical units coincide exactly for the dominant word
+  class.
 - Cost: per-letter detail at 55%/38% scale demands the stroke floor
   and favors larger body text than unfused blocks would need for
-  *single* syllables; the metric says the fused word still beats the
-  stacked word at any fixed line height, so this cost only binds
-  against non-word baselines.
+  *single* syllables; the fair experiment finds disyllable layouts
+  indifferent under this metric (finding 1 below), so this cost is
+  not a fused-vs-stacked argument.
 - Check dots at 4.5r are marginal at small sizes (2D point-sampling
   misses them below ~20 px); acceptable for a computed/droppable
   layer.
@@ -106,7 +107,7 @@ layout x stroke-floor x frame. Honest findings at H=28:
    conditions cluster (min 0.038-0.057) in both frames. The disyllable
    layout choice is therefore free to be decided on density,
    aesthetics, and chording alignment — not legibility.
-2. **v1 radical composition measurably wins trisyllables** in BOTH
+2. **v1 radical composition wins trisyllables on the proxy metric** in BOTH
    frames (equal-height min 0.064-0.085 vs stacked 0.024-0.036;
    equal-area 0.043-0.056 vs 0.024-0.036). Stacking's worst-case
    trisyllable pairs are the weakest cells in the whole design.
@@ -145,7 +146,7 @@ numbers for v1 to be re-measured after that pass.
 4. Suffix/particle interaction with modes frames (payload runs in
    fused mode) — with conlang-bcq machinery when mode text rendering
    exists.
-5. Freeze-gate: fused mode is now the third layout candidate
-   (stacked / headstroke / fused) and, on this evidence, the leading
-   one. The paragraph-specimen comparison for the gate should include
-   it.
+5. Freeze-gate: fused mode is the third layout candidate
+   (stacked / headstroke / fused); on proxy-metric evidence it leads
+   only for trisyllables — disyllables are indifferent. The
+   paragraph-specimen comparison for the gate should include it.

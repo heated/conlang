@@ -114,11 +114,11 @@ attention, not memory). Three routes, in deployment order:
    point-of-production feedback; the real-world controlled-language
    model (ASD-STE100 is used via checkers, not memorization). The
    long tail stays tool-assisted permanently, by design.
-2. **Rules + top-100 twins**: the structural register teaches in ~1h;
+2. **Rules + top-100 twins**: the structural register teaches in ~1h [H];
    the hard skill is *noticing your own phrasal verbs and idioms* —
    they are cognitively invisible to natives (the known ESL-teacher
-   training problem). Est. 5–20 h of assisted practice to ~90%
-   unassisted compliance.
+   training problem). Est. 5–20 h [H] of assisted practice to ~90%
+   unassisted compliance [H — no compliance ever measured].
 3. **Register immersion**: reading AZ-a tunes producing it;
    register-switching is a native skill everyone already has.
 

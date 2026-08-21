@@ -22,10 +22,23 @@ decoupled featural block script in which glyph, chord, and pronunciation are
 three renderings of the same channel vector; (4) self-segregating morphology
 implemented prosodically; and (5) closed-domain "mode" subsystems that encode
 numbers, dates, times, and foreign material at near-information-theoretic
-density inside an otherwise redundant language. We argue from the
-cross-linguistic literature that such a design can compress learning time
-substantially while leaving speaking and reading throughput unchanged, and we
-outline an evaluation program.
+density inside an otherwise redundant language. The project runs two
+tracks: this engineered ("greenfield") design, and a receptive-first
+Romance zonal auxlang (RZ) that inherits its surface from the zone and
+imports the engineered mechanisms only where they are worth their
+measured learning cost — the intended shipping product, with the
+greenfield as its laboratory. The generalizable contribution is the
+portable toolkit that migration produces: a priced menu of mechanisms
+(mode subsystems, error-absorption declarations, closed-class
+discipline, chorded input, display-script layers, learning-budget
+accounting) applicable to auxiliary-language designs beyond either
+track. We argue from the cross-linguistic literature that such designs
+can compress learning time substantially while leaving speaking and
+reading throughput unchanged, and we outline an evaluation program.
+Evidence status, stated plainly: all results to date are computed,
+simulated, or corpus-measured; the project has zero external human
+subjects, and every learner-facing number is a labeled hypothesis
+until the pre-registered comprehension studies run.
 
 ## 1. Introduction and design goal
 
@@ -75,6 +88,13 @@ Contributions:
    provably transposition-catching checksum, with written-layer
    anti-check marking.
 5. A governance model: small frozen core, versioned spec, open periphery.
+6. A two-track method and its product: a zonal auxlang (RZ) built by
+   recipe from the zone with a measured false-friend screen, a
+   learning-budget ledger that prices every design decision in
+   learner-hours, a mining gate for porting engineered mechanisms into
+   a naturalistic surface, and the resulting portable toolkit of
+   priced, conditional add-ons for auxiliary languages generally
+   (§9b).
 
 ## 2. Why not faster speech or reading: the throughput ceiling
 
@@ -269,7 +289,8 @@ from the spec's confusion data, is frozen as normative data, and
 yields a free regularity for the mode subsystem — glyph base = tens
 digit mod 4 — exactly where per-pair discrimination has no lexical
 safety net. Two guards make the property durable. An occupancy-grid
-raster floor in the test suite enforces the achieved distances
+raster floor in the test suite enforces the measured raster distances
+(a proxy for legibility, not legibility itself)
 (minimum 0.62 across phonetic pairs at a phase-minimized 14×14
 raster, against near-collapse for the v0.1 equivalents). And because
 phonetic distance protects listeners but not silent readers, the
@@ -395,7 +416,8 @@ policy rather than diachronic erosion; governance.]
 
 *Program note (2026-08-22): the tracks' roles have inverted. The
 zonal language (RZ) is now the intended shipping product — the
-receptive bootstrap wins on total time-to-value — and the
+receptive bootstrap is hypothesized to win on total time-to-value
+[H] — and the
 engineered greenfield line serves as the laboratory and feature
 mine: mechanisms migrate into RZ exactly when their measured value
 justifies their learner-hour price (the mining gate; e.g. the
@@ -475,14 +497,17 @@ part-of-speech question (deterministic endings versus script-only
 marking) acquired its first concrete artifact: an optional underline
 channel — verbs fully underscored, adjectives half — that marks
 word class in writing without touching a single inherited word
-shape. Legibility claims for all of this are now regression-tested
-with phase-minimized raster distances at small type sizes, the same
-instrument the engineered script uses, after measurement showed one
+shape. All of this is now regression-tested with phase-minimized
+raster distances at small type sizes — the same instrument the
+engineered script uses, and the same caveat: occupancy distance is a
+proxy used to compare conditions, not to certify human reading —
+after measurement showed one
 suffix-logogram pair fully collapsed (distance 0.000) at seven
 pixels in the shipped v0.
 
-Joint optimization subsequently validated the codebook's
-architecture: optimizing all hundred syllable-values together at
+Joint optimization subsequently reproduced the codebook's
+architecture (agreement between two computations, not external
+validation): optimizing all hundred syllable-values together at
 the syllable level (cross-channel confusion products included)
 reproduces the per-channel solution to within one swap, freeing
 the code from its product structure buys an eight-percent
@@ -515,7 +540,8 @@ What survives is the shape — half the tokens reachable from one page
 of grammar words — and a dividend that was never a corpus quantity
 to begin with: an RZ lemma carries about 3.7 exceptionless
 recognizable forms against about 20 synthetic forms for a Spanish
-lemma, a five-fold recognition-load reduction accruing precisely to
+lemma — a five-fold reduction in *forms to recognize*, a grammar
+fact [D] rather than a measured learning effect — accruing precisely to
 the cohorts the zone's cognate transfer does not serve
 (docs/design/zonal/rz-lexicon-coverage.md).
 
@@ -530,8 +556,10 @@ at signal time, and the repair protocol recovers the residue in
 conversation. And ordering lessons by parse coverage shows the
 zonal design makes a coverage-greedy curriculum actually
 teachable: the invariant closed class alone puts roughly half of
-running tokens within reach in the first hour, the exceptionless
-verb table brings hour two past sixty percent — a curve natural
+running tokens within reach in a first lesson block priced at ~1h
+[H — coverage is corpus-measured, the hour axis is a model
+estimate], the exceptionless verb table brings the second block
+past sixty percent — a curve natural
 languages cannot offer because agreement and conjugation force
 grammar to interleave with vocabulary, and one that becomes a
 design criterion in its own right (a scheme that flattens the
@@ -572,7 +600,7 @@ becomes an isomorphism rather than an encoding. The co-design also
 opens a channel no prior system has: because the designer chooses
 which cells survive, the confusion screen can audit the *motor*
 graph (chords one directional slip apart) jointly with the
-acoustic one — demonstrated on the digit bank, where a hill-climbed
+acoustic one — computed on the digit bank [D], where a hill-climbed
 assignment places all numerically close digit pairs at motor
 distance ≥2 while a naive layout incurs ten violations
 (docs/design/gz-chord-fit.md).
@@ -584,7 +612,7 @@ twelve stop–liquid clusters with licensed epenthesis) yields a
 lattice of superset variants — GF-N 22 → GF-ND ≥28 → GF-W 38 →
 GF-WD ≥48 → GF-C ≥85 humility-safe monosyllabic roots — in which
 the digit/mode subsystem, pinned to the narrow ten onsets, is valid
-at every rung. Diphthongs prove to be the cheapest capacity on the
+at every rung. Diphthongs compute out as the cheapest capacity on the
 board (matching GF-W's syllable count without touching the
 10-consonant universal floor), added onsets saturate quickly after
 GF-W, and the cluster rung converges on Romance word shapes — the
@@ -595,10 +623,11 @@ decision is which point, or nested pair of points, to commit to
 
 ## 10. Related systems
 
-Every load-bearing mechanism here has a precedent that validates the
-mechanism and a failure that locates its limit. Esperanto demonstrates
-designed-language learnability (~150–200 hours to conversational use
-versus ~600+ for natural Romance languages [TODO-verify @fsi;
+Every load-bearing mechanism here has a precedent that demonstrates
+the mechanism *elsewhere* and a failure that locates its limit.
+Esperanto demonstrates designed-language learnability (~150–200 hours
+to conversational use — a ~B1 bar; the C1 bar runs 300–500h — versus
+~600+ for natural Romance languages [TODO-verify @fsi;
 @cherpillod]) and already channel-codes one subsystem — the correlative
 table's 5×9 semantic grid, which speakers report as the easiest part of
 the language; its governance failure (unregulated borrowing duplicating
@@ -611,8 +640,9 @@ validation of grammar-on-a-channel — tone marking syntactic role deletes
 Lojban's terminator clutter — and simultaneously the argument against
 spending the worst-perceived channel on syntax; this design relocates the
 insight to the glyph layer, the particle class, and (optionally) the
-register bit. Hangul proves featural scripts are learnable in days;
-Chinese radicals prove semantic-plus-phonetic glyph composition at scale
+register bit. Hangul is the standard citation for fast featural-script
+decoding acquisition ("learnable in days" [H, TODO-verify]);
+Chinese radicals demonstrate semantic-plus-phonetic glyph composition at scale
 and, at 30% phonetic reliability, price the cost of letting the mapping
 decay. Stenotype proves one-chord-per-unit motor performance (200+ WPM)
 and locates its own bottleneck in arbitrary briefs and irregular
@@ -628,7 +658,10 @@ register profile.
 ## 11. Evaluation plan
 
 The design makes falsifiable claims; each maps to a measurable study, and
-several run without human subjects.
+several run without human subjects. To restate the evidence status: **no
+human study below has run — the project has zero external subjects** —
+and the two studies that gate the program (the RZ cloze pilot and the
+comparative kill-gate) are armed, not scheduled.
 
 **Simulation studies (no subjects, run against the implemented spec):**
 
@@ -640,8 +673,8 @@ several run without human subjects.
   registers), (c) silent word substitutions. Baselines: Esperanto and
   English wordlists under matched noise. Claim under test: humility
   assignment yields fewer silent substitutions per unit of codespace
-  than uniform spacing or natural lexicons — established in
-  simulation (§12), to be replicated with calibrated confusion data.
+  than uniform spacing or natural lexicons — supported in simulation
+  (§12) under assumed confusion weights, pending calibrated data.
 - *Segmentation stress test.* Generate syllable streams with and without
   the prosodic boundary signal degraded; verify the unique-parse property
   holds and measure how gracefully parsing degrades when stress detection
@@ -653,6 +686,17 @@ several run without human subjects.
 
 **Human studies (small-N first, pre-registered where feasible):**
 
+- *RZ zero-study cloze pilot (the program's first gate).* Interslavic-
+  style 7-word cloze + gist on Romance-L1 readers with zero study,
+  against the specified instrument (cloze-test-v0.md). Claim: RZ lands
+  in the Interslavic-class comprehension band; RZ currently has NO
+  measured number of its own.
+- *Comparative kill-gate (precommitted).* Same texts in RZ vs
+  Interlingua vs a control (plain Spanish or MT), measuring cloze +
+  gist + confidence + reading time + preference, plus a small
+  production arm. Precommitment: if RZ does not materially beat the
+  best incumbent, stop designing a new Romance standard and redirect
+  the measurement/tooling program to the incumbent.
 - *Decoding acquisition.* Hours of instruction to accurate pseudo-word
   reading in the featural script, versus matched training on Finnish-style
   Latin orthography (the transparent-orthography gold standard
@@ -702,7 +746,9 @@ all speakers (length production, a stress-duration conflict, erosion
 exposure of a zero-load contrast). Whether that insurance justifies its
 costs, or belongs only in the written layer and a careful-speech
 register, is a values decision the simulation cannot make; what it
-establishes firmly is the humility policy, and that the original
+supports is the humility policy — under the simulation's assumed
+confusion weights, single seed, and assumed POS token-frequency
+split — and that the original
 configuration was the one choice strictly wrong for the population the
 design claims to serve. [Resolution, adopted tentatively: humility
 assignment in the core, the check bit demoted to a written-layer

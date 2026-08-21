@@ -11,14 +11,14 @@ an optional input/display layer?
 featural script is cheap — Hangul's featural design is learnable to
 accurate decoding in hours-to-days, and ours is more regular (zero
 exceptions, compositional). Estimate: **5–20 hours to accurate
-decoding**. But decoding is not reading: fluent reading runs on a
+decoding** [H]. But decoding is not reading: fluent reading runs on a
 whole-word visual lexicon, which a novel script resets to zero. The
 closest measured anchor is Kolers' geometrically-transformed-text
 experiments — even with the *same alphabet* merely rotated, adults
 needed on the order of 50–100 pages of practice to approach normal
 speed. A wholly novel script is slower. Estimate: **~50–100 hours of
 reading practice to reach roughly half of natural-orthography speed;
-hundreds of hours to near-parity.** [TODO-verify: Kolers 1975/1985
+hundreds of hours to near-parity.** [H] [TODO-verify: Kolers 1975/1985
 figures; adult L2 script-acquisition literature.]
 
 **2. The bootstrap interaction — the real price.** The zonal value
@@ -31,7 +31,7 @@ it **severs** it:
 
 | | Latin-primary | featural-primary |
 |---|---|---|
-| first-contact comprehension (Romance reader) | ~80%+ immediately | **0% until script learned** |
+| first-contact comprehension (Romance reader) | ~80%+ [H — extrapolated from Interslavic's measured 84%; RZ unmeasured, cloze pilot pending] | **0% until script learned** |
 | time to first value | ~0 h | 5–20 h (decode) |
 | time to comfortable reading | ~0 h | ~50–100 h |
 | casual-visitor funnel | reads the homepage | hits a script wall |
@@ -64,7 +64,8 @@ writer barrier too.
 ## Verdict
 
 Featural-primary costs approximately **the entire zonal bootstrap
-advantage** (84%-at-first-contact → 0-until-studied, plus a raised
+advantage** (Interslavic-class first-contact comprehension,
+hypothesized for RZ [H] → 0-until-studied, plus a raised
 writer barrier) and buys almost nothing that the layered configuration
 doesn't also deliver. Priced answer:
 

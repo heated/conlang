@@ -33,8 +33,8 @@ counted on the plain segmental forms).
 | words | 26 | 22 | 17 | 17 |
 | spoken syllables | 33 | 40 | 30 | 34 |
 | written units (native script) | 26 words / ~115 chars | 22 glyph-units (dense mode) | **17 fused characters** | 17 characters |
-| chord strokes (projected) | — (steno: ~26 w/ briefs) | ~40 (1/syl; **~27 template board**; ~20 Yawei-style ambitious tier — rz-chording §4b) | **~17 (1/word, mirrored hands — Yawei-precedent-validated, rz-chording §4b)** | ~17 |
-| monosyllabic root capacity | — | — | 22 (38 w/ POS-reuse menu… see ledger caveats) | **38 computed** |
+| chord strokes (projected) | — (steno: ~26 w/ briefs) | ~40 (1/syl; **~27 template board**; ~20 Yawei-style ambitious tier — rz-chording §4b) | **~17 (1/word, mirrored hands — Yawei-precedented; no layout exists, rz-chording §4b)** [H] | ~17 |
+| monosyllabic root capacity | — | — | 22 (66 w/ POS-reuse menu… [H — downgraded, capacity-ledger §Verdict]) | **38 computed** |
 | hook quality for Romance/EN cohort | native | native-grade | weak (10-onset funnel) | **near-RZ** (vento/forte/manto fit) |
 | learning cost to read this | 0 (EN readers) | ~0 in-zone (gist) | full acquisition | full acquisition, better mnemonics |
 

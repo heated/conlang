@@ -12,8 +12,9 @@ A zonal auxlang wins by being **readable at first contact** by the
 ~900M Romance-language speakers, the way Interslavic measured 84% mean
 cloze comprehension with zero study. The product is *receptive
 intelligibility* plus a *regularized productive layer* you can learn in
-tens of hours, not hundreds. Everything below is ranked by that: when
-cognate recognition and engineering elegance conflict, recognition
+tens of hours, not hundreds [H — and an A2–B1 bar; the C1 bar runs
+~100–200h per learning-budget.md]. Everything below is ranked by that:
+when cognate recognition and engineering elegance conflict, recognition
 wins. (This is the mirror image of the greenfield lang, and exactly
 why the two are worth pricing against each other — bead conlang-ow7.)
 
@@ -204,7 +205,7 @@ drives the next lexicon iteration.)
 | one glyph per word | dies for RZ | Latin text; the fused-character ideal is greenfield-only |
 | silhouette/POS-at-a-glance | weakened | Romance suffixes correlate with POS but nothing is guaranteed |
 | humility rule / engineered confusion spacing | dies | lexicon is inherited, minimal pairs included |
-| learning speed | inverted profile | receptive ≈ 0 h for the zone (~900M); productive est. 30–100 h; outside the zone: no discount |
+| learning speed | inverted profile | receptive ≈ 0 h [H] for the zone (~900M); productive ~100–200 h to C1 [H, ledger]; the old 30–100 h figure was the A2–B1 bar; outside the zone: no discount |
 | beauty | prepaid | Romance euphony comes free; the greenfield must engineer it |
 
 The honest headline: RZ keeps roughly **one** of the greenfield's

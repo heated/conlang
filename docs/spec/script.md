@@ -11,9 +11,10 @@ v0.2 replaces v0.1's articulatory-iconic mapping with a
 **confusion-aware anti-iconic code** (decision record:
 `docs/design/script-v02-assignment.md`; directive: Edward 2026-08-09,
 resolution delegated). Still tentative for later iterations: growing
-the character space toward fused disyllabic blocks (~50k codepoints per
-character, ~7 components, at the visual-crowding ceiling), possibly
-with dedicated number characters (bead conlang-r5y).
+the character space toward fused disyllabic blocks (~30k codepoints
+per character (corrected; see script-fusion-study.md), ~7 components,
+at the visual-crowding ceiling), possibly with dedicated number
+characters (bead conlang-r5y).
 
 ## 0. Layers: what is spoken vs. what is written
 
@@ -199,10 +200,10 @@ romanization doubling remains per-syllable in both layers as before.
 
 **The ideal end-state is one glyph per word** (Edward, 2026-08-13):
 word-level fused characters, Chinese-like in density — a disyllabic
-word as a single fused block (~48k codepoints, ~7 components, at the
-visual-crowding ceiling), not a train of syllable blocks. That is bead
-conlang-r5y; the layouts below are interim scaffolding that the fusion
-design will subsume.
+word as a single fused block (~30k codepoints (corrected), ~7
+components, at the visual-crowding ceiling), not a train of syllable
+blocks. That is bead conlang-r5y; the layouts below are interim
+scaffolding that the fusion design will subsume.
 
 - **Content words: vertical stacking** (v0.2 interim default).
   Syllable blocks stack top-to-bottom; initial (stressed) syllable on

@@ -93,11 +93,12 @@ else is defined over these coordinates.
   borrowing (so: closed core, owned spec, versioned releases).
 - Lojban: spoken punctuation/terminators as particles; machine-parseability
   worked, semantic-logic half didn't; phonotactics botched confusability.
-- Toaq: syntax-on-a-channel is validated — but put it in the glyph layer /
+- Toaq: syntax-on-a-channel is precedented — but put it in the glyph layer /
   particle class / one register bit, NOT tone (tone = worst-perceived
   channel; syntax = worst cargo for it). Versioned releases + single design
   authority + community dictionary process.
-- Hangul: featural glyphs learnable in days. Chinese radicals: semantic
+- Hangul: featural glyphs reportedly learnable in days [H, TODO-verify].
+  Chinese radicals: semantic
   classifier zone, but at 100% reliability (written-only channel). Zipf:
   design the erosion in from day one. Talking drums / Silbo: degraded modes
   via conventional redundancy. ASL: spatial reference tracking (bridge to
@@ -144,7 +145,8 @@ else is defined over these coordinates.
   **tentative** — (1) **anti-iconic assignment**: ear-confusable
   phonemes get maximally distinct marks (eye = independent redundancy);
   letterforms optimized for degradation, not articulatory storytelling.
-  (2) **~50k codepoints per character** via fused disyllabic blocks
+  (2) **~50k codepoints per character** [figure later corrected to
+  30k — script-fusion-study.md] via fused disyllabic blocks
   (~7 components, at the crowding ceiling); maybe special characters
   for numbers. (3) **Four-projections architecture**: every morpheme is
   a channel vector; block glyph = 2D projection; romanization = linear

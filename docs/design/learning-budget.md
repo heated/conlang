@@ -76,7 +76,7 @@ for the lower bar and survive in git history; the ~4x C1 multiplier
 is the model's, unvalidated. Orderings, not absolutes, are the
 trustworthy content. Calibration against sources: conlang-pym.)
 
-**RZ itemized breakdown, C1 bar** (separable — reading-only RZ is a
+**RZ itemized breakdown, C1 bar** [H] (separable — reading-only RZ is a
 real endpoint and stays cheap):
 
 | component | Romance L1 | English L1 | non-Euro L1 |
@@ -140,7 +140,7 @@ in a 690-token corpus).
 | number mode (silent-h hole, zonal codebook) | +2h casual, +2h readback; cohort-flat | dense reliable numbers/dates/readback; flat across L1s | **BOUGHT** (tentative, Edward 2026-08-21) |
 | fixed penult stress (GZ: penult-ALWAYS) | audible stress shift on consonant-final inherited words | word-boundary parse channel | **DECLINED for RZ** (mining audit #2 — fails the surface gates); RZ keeps its deterministic two-pattern rule; SSM-lite segmentation CLAIM against the real rule is adopt-pending-measurement (#2b) |
 | function-word inventory closure → **closed-class guarantee** (lexical policy; GZ's prosodic clitic channel NOT ported — audit #1b) | ~0 (codifies existing RZ habit; canonical list = coverage.py CLOSED, 96 forms) | "under a hundred short words are ALL the grammar" — marketable guarantee, curriculum hook | **BOUGHT** (agent-called pure-upside, 2026-08-22; rz-grammar §12) |
-| POS endings, E-scheme | +5-15h productive remap for Romance L1; NEGATIVE for distant cohorts (regularity discount, Esperanto-proven) | deterministic POS channel; faster parsing | **DECLINED for RZ** (fails the first-contact gate — mining audit #3); live for GZ only |
+| POS endings, E-scheme | +5-15h productive remap for Romance L1; NEGATIVE for distant cohorts (regularity discount, Esperanto-precedented) | deterministic POS channel; faster parsing | **DECLINED for RZ** (fails the first-contact gate — mining audit #3); live for GZ only |
 | POS endings, M-scheme residual (mark bare present verbs) | surface change on highest-frequency forms | verb marking completeness | **DECLINED** (fails first-contact gate); the free part (-va/-ria/-nte/-mente/-cion deterministic) RZ already owns |
 | featural display script (reading) | +3-5h; cohort-flat | script-layer channels, density levers | bought de facto (RZ script built; hardened + tense logograms 2026-08-22) |
 | R-scheme POS underlines (script-only POS channel) | +~0.5h (two marks: verb underbar, adj half-bar); cohort-flat — nonzero, so NOT agent-callable | skim-readable POS without touching word shapes — the only live option on RZ's POS dial (E/M declined by invariant, mining audit #3/#4) | **ADOPT-PENDING-EVIDENCE** behind the script workshop gate; z0s bake-off continues GZ-internal only |
@@ -148,12 +148,12 @@ in a 690-token corpus).
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | coinage acoustic-confusion screen (policy on minted forms) | ~0 (design-side rule; inherited words untouched) | mode/repair/neologism vocabulary screened for confusability | **POLICY BOUGHT / INSTRUMENT PENDING** (2026-08-22; rz-lexicon preamble; RZ instrument is a filed tooling bead — gz-chord-fit's audit covers chord banks only) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
-| mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-validated either way (rz-chording §4b-e) |
+| mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-supported [H] either way (rz-chording §4b-e) |
 | directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | hours-based (v2): competence ~5-10h; QWERTY-parity wpm ~40-60h; realtime ~200-400h; pro ~500h+ [H] | | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |
 | GZ exact-fit phonotactics (syllable = chord isomorphism) | −(encoding-layer hours): nothing to learn between speech and typing — one inventory, two surfaces; motor-humility audit invisible to learners | chord entry with no mapping layer; joint acoustic+motor confusion screen; aligned escape regions | explored, feasibility computed (gz-chord-fit.md); adoption rides the GZ decision (conlang-z0s) |
 | error-absorption declarations D1-D7 (rz-error-absorption.md) | ~0h (declarations legalize the learner's most probable deviations; preferred register unchanged) | production-anxiety cut; each declaration forgives one L1 family's signature error; 7/15 classic Romance-L2 traps already unmakeable in RZ | **BOUGHT** (Edward 2026-08-22, all seven incl. D7 por/para merge; agent may call this decision class alone in future) |
 | conversation-repair mode (7 h-particles + acrophonic spell table) | +~1h, cohort-flat; spell table ~0 (reuses known words) | aviation-protocol repair loop; completes the error stack (screen→codebook→repair); ports to GF/GZ/English card | proposed, recommend-buy (rz-repair-mode.md); forms at spec bump conlang-3mq |
-| curriculum-greedy lesson order (parse-coverage sort) | ~0 (ordering, not content) | 45% of tokens at hour 1, 57% at hour 2, 80% at hour 6 [M in-corpus, explicit lesson sets]; bake-off criterion: coverage-at-hour-N | measured (rz-curriculum.md) |
+| curriculum-greedy lesson order (parse-coverage sort) | ~0 (ordering, not content) | 45%/57%/80% coverage for lesson blocks 1/2/6 [M in-corpus for the lesson sets; the hour mapping is [H]]; bake-off criterion: coverage-at-hour-N | measured (rz-curriculum.md) |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)

@@ -41,17 +41,17 @@ greenfield's advantage; RZ keeps it.
 ## 3. Rates, honestly estimated
 
 At steno-typical 3–4 strokes/sec: 180–240 syllables/min ÷ 1.83
-syl/word ≈ **100–130 wpm with no memorized briefs at all** (function
-words are monosyllables — already one stroke). Steno parity (180–225
-wpm) requires a brief layer (one-stroke word abbreviations), which
-reintroduces steno's memorization cost — but as an *optional power
-tier*, not a floor.
+syl/word ≈ **100–130 wpm with no memorized briefs at all** [H]
+(function words are monosyllables — already one stroke). Steno
+parity (180–225 wpm) requires a brief layer (one-stroke word
+abbreviations), which reintroduces steno's memorization cost — but
+as an *optional power tier*, not a floor.
 
 Greenfield comparison (the wreckage quantified): mirrored-hands,
 one-syllable-per-hand chording gives the greenfield **one stroke per
 word** for its 1–2-syllable-dominant lexicon ≈ 1.0 strokes/word vs
-RZ's ≈ 1.8. [Briefly downgraded 2026-08-21, then RE-VALIDATED same
-day by precedent: the Yawei Chinese steno machine is exactly this
+RZ's ≈ 1.8. [Briefly downgraded 2026-08-21, then re-supported same
+day by precedent [H]: the Yawei Chinese steno machine is exactly this
 mechanism — mirrored, one syllable per hand, two per stroke, 24
 keys, professional 200-400 chars/min — at ~2x the greenfield's
 syllable inventory. See §4b.] At equal stroke rate the greenfield words-per-minute
@@ -86,15 +86,15 @@ keys-per-hand: GF mirrored (~2.25/finger) is inside the proven
 band; RZ mirrored (~3.25-3.75 depending on bank overloading) is
 just past its edge.
 
-**Mirroring + two-syllables-per-stroke: RESOLVED — there is a
-shipped, professional-speed precedent.** The **Yawei Chinese steno
+**Mirroring + two-syllables-per-stroke: STRONGLY PRECEDENTED — a
+shipped, professional-speed machine exists.** The **Yawei Chinese steno
 machine (1994)**: 24 keys, layout mirrored down the middle, *each
 hand governs one complete Mandarin syllable* (initial + final),
 one stroke = two syllables, professionals 200-400 chars/min. It
 even reports a bonus we'd inherit: disyllabic strokes resolve
-homophones at input time. This settles the design question
-empirically for inventories up to Mandarin scale (~410 toneless
-syllables ≥ the greenfield's 220).
+homophones at input time. This removes the feasibility objection
+at Mandarin scale (~410 toneless syllables ≥ the greenfield's 220);
+the RZ/GZ layouts themselves remain unbuilt.
 
 The bimanual literature, placed honestly against that: Kelso-line
 coordination dynamics show in-phase/homologous simultaneous
@@ -110,9 +110,10 @@ both hands use it). Net: interference is a *learning-curve* cost,
 not a ceiling.
 
 **Consequences.** (1) The greenfield's mirrored-hands 1.0
-strokes/word figure is RE-UPGRADED from hypothesis to
-precedent-validated [D]: its mechanism is exactly Yawei's, at half
-Mandarin's inventory and lower key density. (2) RZ mirrored moves
+strokes/word figure is precedent-supported [H — no layout exists;
+Yawei validates the mechanism class, not our figure]: its mechanism
+is exactly Yawei's, at half Mandarin's inventory and lower key
+density. (2) RZ mirrored moves
 from "declined" to **ambitious open option**: combinatorially fine
 (12-13 keys/hand = 4,095+ combos ≥ RZ's ~2,275 syllables) but at
 5.5x Yawei's demonstrated syllable load and just past the proven
@@ -200,7 +201,7 @@ proven form factor) as RZ chording v2. Ambitious = the Yawei-style
 mirrored board (0.92 strokes/word with cross-word packing) as an
 open prototype question — it exceeds Yawei's demonstrated syllable
 load 5.5x, so it must be built and tried, not argued. GF keeps
-mirrored as its default (precedent-validated at its scale).
+mirrored as its default (precedent-supported at its scale [H]).
 
 RULING (Edward, 2026-08-21): the §4c-2 rearrangement (rising
 diphthongs to glide-onsets, oi respelled, 5-state coda finger) is

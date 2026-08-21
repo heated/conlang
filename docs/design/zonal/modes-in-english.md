@@ -23,7 +23,7 @@ are the real wire format (examples re-synced to the v2 digit codebook 2026-08-22
   safety-critical use (dosages etc.) until a human-factors comparison
   beats ordinary digit-by-digit readback.
 
-## The one-hour learning content
+## The ~one-hour learning content [H]
 
 Digits ride syllables: **tens → consonant, units → vowel (+n for
 5–9)**.
@@ -66,7 +66,7 @@ spelling-layer check mark).
 ## Honest costs
 
 1. **Two-party convention.** Speech requires both sides to know the
-   code (~1 hour). Written use degrades gracefully: a reader decodes
+   code (~1 hour [H]). Written use degrades gracefully: a reader decodes
    with the table above on a card. Adoption path is therefore
    writing-first (confirmation codes, timestamps, invoices), speech
    second among practiced pairs.

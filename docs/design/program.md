@@ -5,15 +5,16 @@ what the project is trying to become.)
 
 ## Endgame
 
-**RZ is the language we ship.** The zonal bet wins on total time to
-value, with the targets stated at their separate bars and labeled
+**RZ is the language we ship.** The zonal bet is the favorite on
+total time to value, with the targets stated at their separate bars
+and labeled
 honestly [H = hypothesis until measured]: zero-study cloze
 comprehension for zone readers (Interslavic's published 84% is the
 *precedent*; RZ's own number is unmeasured until the cloze pilot
 runs); comfortable receptive reading in ~5–10 h [H, ledger]; C1
 production ~100–200 h for Romance L1 [H, ledger, C1 bar]. No
 engineered feature set beats near-free on the learning-speed axis
-this project exists for.
+this project exists for [H — the premise of the bet, untested].
 
 **GZ is the laboratory and the feature mine.** The greenfield line
 (v0.2 core → GZ) is where channel discipline is developed cleanly
@@ -172,5 +173,5 @@ reading today, with measured (no-longer-[H]) numbers at each bar —
 zero-study cloze, ~5–10 h receptive reading, C1 in the low
 hundreds of hours; a toolkit paper any auxlang designer can shop
 from, each entry priced and conditional; GZ as the documented
-laboratory that proved which features pay; the ledger as the
+laboratory that showed which features priced out; the ledger as the
 receipts, calibrated.

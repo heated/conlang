@@ -12,9 +12,10 @@ speaker half-knows already** — and add the one genuinely separable
 insight from the channel project: a **systematic chorded input layer**
 over a perfectly phonemic orthography. Esperanto's ~150–200h
 track record (against ~600h for French; evidence old and weak, but
-directionally robust) is the proven baseline; the bet is that tooling
-plus a few surgical simplifications cuts it further, for the population
-most likely to show up.
+directionally robust) is the working baseline [H — and a ~B1 bar;
+C1 runs 300–500h per the ledger]; the bet is that tooling plus a few
+surgical simplifications cuts it further, for the population most
+likely to show up.
 
 ## Why chording fits Esperanto unusually well
 

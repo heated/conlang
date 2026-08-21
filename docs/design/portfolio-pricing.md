@@ -1,12 +1,13 @@
 # Portfolio hypothesis matrix: greenfield vs RZ vs AZ vs English+channels
 (conlang-ow7; RETITLED per 2026-08-15 milestone reviews — this is a
 HYPOTHESIS MATRIX, not a decision-grade pricing: most cells are
-derived/estimated/aspirational, not measured. Cell-by-cell evidence
-tags pending (epistemic-cleanup bead). Both milestone reviewers
-flagged: 'achieved'/'validated'/'priced away' language throughout the
-repo promotes workshop artifacts to established results — read all
-quantitative claims as conditional on the stated models until the
-external evidence exists.)
+derived/estimated/aspirational, not measured. Cells now carry
+evidence tags: [M] measured/computed by tool · [D] derived
+arithmetic · [H] hypothesis · [A] aspirational (planned/unbuilt
+artifact). Both milestone reviewers flagged: 'achieved'/'validated'/
+'priced away' language throughout the repo promotes workshop
+artifacts to established results — read all quantitative claims as
+conditional on the stated models until the external evidence exists.)
 
 The question as posed (Edward): what does a zonal auxlang cost vs the
 greenfield, "mostly caring about just how much it wrecks chording or
@@ -21,48 +22,56 @@ modes-in-english (Track E); partial-systems.md.
 
 | trait | greenfield | RZ | AZ toggle | Eng+channels | partials |
 |---|---|---|---|---|---|
-| channel grid / codespace discipline | full (220, engineered) | dies (inherited ~2k syllables) | — | — | modes only |
-| computed check / error correction | full | tooling only | — | modes checksum | modes checksum |
-| self-segregating morphology | full | dies | — | — | frames self-delimit |
-| mode subsystems | native | portable convention | — | **full (the wedge)** | **full (the product)** |
-| chording: strokes/word | **1 (fused char = stroke = word)** [mirrored per-hand mechanism = Yawei-precedent-validated, rz-chording §4b] | ~1.8 (**1.13 template v2**; 0.92 Yawei-style ambitious tier) | steno exists | steno exists | n/a |
-| featural script | primary; fused chars **beat** stacked at equal line height | secondary layer; suffix logograms recover silhouette grammar | — | — | — |
-| one glyph per word | **achieved (48k codepoints/char)** | dies (Latin primary) | — | — | — |
-| silhouette/POS grammar | full (word-level strip) | display layer only | — | — | — |
-| confusion-spaced lexicon | full (priced ledger: 22→66→~100 menu) | dies (inherited, screened for false friends only) | — | — | RZ-lite inherits screen |
-| beauty | must be engineered (0eh) | prepaid (Romance) | prepaid | prepaid | prepaid |
-| receptive reach at t=0 | **0** | ~900M (unmeasured; cloze pending) | ~1.5B EN + Romance gist | 1.5B+ | zone-wide per product |
-| productive cost | full acquisition (target: lowest ever for a full language) | 30–100h | ~0 (toggle) | ~0 (+1h modes) | minutes–1h per product |
-| adoption physics | community-from-zero (hardest known) | receptive bootstrap (Interslavic-proven) | tooling feature | conventions + tooling | **the historically proven class** |
+| channel grid / codespace discipline | full (220, engineered) [M — spec'd, counts computed] | dies (inherited ~2k syllables) [D] | — | — | modes only [D] |
+| computed check / error correction | full [D — spec'd, unused in practice] | tooling only [D] | — | modes checksum [D] | modes checksum [D] |
+| self-segregating morphology | full [D — spec'd] | dies [D] | — | — | frames self-delimit [D] |
+| mode subsystems | native [D — spec'd] | portable convention [D] | — | **full (the wedge)** [D — drafted] | **full (the product)** [A] |
+| chording: strokes/word | 1 (fused char = stroke = word) [H — no layout exists; Yawei is precedent for the mechanism, not a measurement] | ~1.8 (**1.13 template v2**; 0.92 Yawei-style ambitious tier) [D — projections, no layout] | steno exists [M] | steno exists [M] | n/a |
+| featural script | primary; disyllables layout-indifferent under the proxy metric; v1 radical composition ahead on trisyllables only (script-fusion-study.md §Fair experiment) [M — proxy metric, not legibility] | secondary layer; suffix logograms recover silhouette grammar [D — rendered, unmeasured] | — | — | — |
+| one glyph per word | hypothesis [H] — fused-char prototype only, no chord layout; codespace 30,000 disyllabic wordforms (script-fusion-study.md, CORRECTED) | dies (Latin primary) [D] | — | — | — |
+| silhouette/POS grammar | full (word-level strip) [D — prototype renders only] | display layer only [M — implemented in rz_script] | — | — | — |
+| confusion-spaced lexicon | full (ledger: 22 [M]; 66→~100 menu [H — downgraded, capacity-ledger §Verdict]) | dies (inherited, screened for false friends only) [D] | — | — | RZ-lite inherits screen [D] |
+| beauty | must be engineered (0eh) [A] | prepaid (Romance) [D] | prepaid [D] | prepaid [D] | prepaid [D] |
+| receptive reach at t=0 | **0** [D] | ~900M (unmeasured; cloze pending) [H] | ~1.5B EN + Romance gist [H] | 1.5B+ [D] | zone-wide per product [H] |
+| productive cost | full acquisition (target: lowest ever for a full language) [A] | ~100–200h to C1 [H, ledger]; 30–100h was the A2–B1 bar | ~0 (toggle) [D] | ~0 (+1h modes) [H] | minutes–1h per product [H] |
+| adoption physics | community-from-zero (hardest known) [D — historical record] | receptive bootstrap (Interslavic-precedented) [D] | tooling feature [D] | conventions + tooling [D] | **the historically precedented class** [D] |
 
 ## 2. The direct answer to "how much does zonal wreck it"
 
 Nearly everything, and honestly: RZ keeps **one** engineered trait
 fully (chorded syllabic input, at ~55% of greenfield's stroke
-efficiency), keeps two in weakened/secondary form (script as display
-layer with suffix logograms; density tricks recovering ~29% line
-length), and loses the rest — grid, check, SSM, mode density,
+efficiency [D from projected stroke counts; no chord layout exists]),
+keeps two in weakened/secondary form (script as display layer with
+suffix logograms; density tricks recovering ~29% line length [D]),
+and loses the rest — grid, check, SSM, mode density,
 one-glyph-per-word, spaced lexicon. What it buys with all that: the
 zero-hour receptive bootstrap for ~900M people and prepaid beauty.
 The two are different products, not competitors: **ceiling vs reach.**
 
 ## 3. Where the trade actually bites (the non-obvious findings)
 
-1. **Fusion flipped a cost into a win** (fusion study): the
-   greenfield's one-glyph-per-word now *beats* its own stacked layout
-   at equal line height and aligns stroke = character = word. The
-   greenfield's script story is stronger than when the zonal pivot
-   was priced; the gap zonal "wrecks" got wider.
-2. **The capacity objection to the greenfield is now priced away**
-   (capacity ledger): 80–120 monosyllabic roots are reachable at
-   natural-language-typical error rates. The greenfield's smallness
-   was its scariest weakness; it is now a menu with numbers.
+1. **The fusion fair experiment reframed, not flipped, the script
+   story** (fusion study §Fair experiment): disyllables are
+   layout-indifferent under the proxy metric — the layout choice
+   falls to density, aesthetics, and chording alignment — and v1
+   radical composition is ahead on trisyllables only. Caveat:
+   occupancy distance is a proxy for legibility, not legibility;
+   the earlier "fused beats stacked" claim does not survive the
+   fair experiment.
+2. **The capacity objection has a priced mechanism, not a priced
+   answer** (capacity ledger §Verdict): POS-lane reuse and its
+   q-dependence stand as modeled, but the numbers are DOWNGRADED to
+   hypothesis — the simulation's confusion maps omitted the
+   lexicon's weighted edges, the 80–120 domain rung was never
+   simulated, and the ledger's own instruction is "Rebuild from
+   channels.json normative data before citing." The greenfield's
+   smallness has a candidate menu, not established numbers.
 3. **The modes machinery is host-independent** — the one engineered
    subsystem that ports *everywhere* (greenfield native, RZ
    convention, English wedge, partials product). Highest
    value-per-design-hour in the entire project.
 4. **Adoption physics ranks the portfolio backwards from design
-   effort**: the historically-proven adoption class (partials,
+   effort**: the historically-precedented adoption class (partials,
    conventions, toggles) needed the least design; the full languages
    need communities that have essentially never formed voluntarily
    (Esperanto is the one partial exception in 140 years).
@@ -84,5 +93,5 @@ Build order by (value × adoption probability) / effort:
 
 The zonal pivot's original motive ("cut learning time further") is
 served best by the spectrum as a whole, not by any single point on
-it: minutes (partials) → 0h receptive (RZ/AZ) → 30–100h productive
-(RZ) → full-but-minimal (greenfield).
+it: minutes (partials) → 0h receptive (RZ/AZ) → ~100–200h productive
+at C1 (RZ) [H, ledger] → full-but-minimal (greenfield).

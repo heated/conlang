@@ -15,7 +15,7 @@ Tags: [M] measured/computed here · [D] derived arithmetic ·
 | phonemes | 16 [M] | 22 [M] | ~26 (inherited) |
 | content syllables | 200 [M] | 320 [M] | ~1.5–3k [D] |
 | safe monosyllabic roots | 22 [M] (menu to ~66 [H]) | 38 [M] | n/a (inherited lexicon) |
-| syllables/word (fable/corpus) | 1.76 [M] | ~2.0 [D] | 1.83 [M] (617-token corpus) |
+| syllables/word (fable/corpus) | 1.76 [M] | ~2.0 [D] | 1.83 [M] (617-token corpus; different measurement corpora: 617 = the six-register blockquotes at the time of this measurement; 335 = the earlier snapshot of the same blockquote corpus used by gz-sketch.md and rz-chording.md; 690 = the de-duplicated coverage corpus of tools/coverage.py) |
 | words/proposition (fable) | 17 [M] | 17 [M] | 22 [M] |
 | universal L1 floor | strongest [H] | weakened (voicing/f/z/r remap) [H] | none claimed |
 | Romance/EN mnemonic hooks | weak (funnel) [M-ish] | **near-RZ** [H] | native-grade |
@@ -37,7 +37,7 @@ Tags: [M] measured/computed here · [D] derived arithmetic ·
 2. **RZ's costs are now concrete**: 22 words and 40 syllables where
    the greenfields spend 17/30–34; no channel machinery; in exchange,
    its zone reads it at sight (unmeasured but the mechanism is
-   Interslavic-proven) and its lexicon designs itself.
+   Interslavic-precedented) and its lexicon designs itself.
 3. **The width decision is the hinge for everything parked**: the
    stroke/fusion script work, the fused-character density story, and
    the GF seed lexicon all change shape at 16 vs 10 onsets. Decide

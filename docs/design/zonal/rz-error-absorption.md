@@ -78,8 +78,8 @@ engineered ones can. Where a channel can't cheaply *prevent* an
 error, reclassify it: **an error that changes no truth conditions
 and blocks no parse should be defined as variation.** The grammar
 stays exactly as easy to read (every preferred form is unchanged),
-and production anxiety — a real fluency tax [D] — drops, because
-the learner's most probable deviations are all legal. This is the
+and production anxiety — a real fluency tax [H, SLA literature] —
+drops, because the learner's most probable deviations are all legal. This is the
 learning-budget logic applied to the error side of the ledger:
 absorption purchases are ~0 hours and cohort-targeted (each
 declaration forgives a specific L1 family's signature error).

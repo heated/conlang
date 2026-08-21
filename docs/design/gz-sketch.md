@@ -126,9 +126,9 @@ visibly different language with an RZ-shaped vocabulary.
 
 | channel | on a Romance base | price |
 |---|---|---|
-| POS endings (the Esperanto move) | CHEAP and proven: deterministic final-vowel/ending marks POS | the central dial — see below |
+| POS endings (the Esperanto move) | CHEAP and precedented: deterministic final-vowel/ending marks POS | the central dial — see below |
 | particle/clitic closed class | CHEAP: Romance already has it (RZ clitics); discipline = particles are exactly the unstressed class | near zero |
-| fixed stress (SSM-lite) | CHEAP: penult-always (Polish-proven); word boundaries recoverable | some shapes shift vs source (*teléfono*→*telefóno*) |
+| fixed stress (SSM-lite) | CHEAP: penult-always (Polish-precedented); word boundaries recoverable | some shapes shift vs source (*teléfono*→*telefóno*) |
 | humility as SCREEN (not MIS) | CHEAP: RZ's false-friend screen generalized — block only *dangerous* minimal pairs at assignment; no capacity sacrifice | keeps homophony/near-pairs a curated risk, not a guarantee |
 | script-layer channels | FREE-ish: rz_script already does featural letterforms + voicing bar + suffix logograms; POS color/mark in display costs speech nothing | display-only |
 | modes / digit syllables | NOT cheap: RZ's h is silent; mode frames need an escape phoneme that Romance ears keep distinct | decision needed: stressed frame word vs restoring [h] vs a click-free alternative |
