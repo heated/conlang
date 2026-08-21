@@ -280,21 +280,44 @@ to learn than stenotype BECAUSE orthographic. One surcharge Velotype
 doesn't have: the mirrored mode's early bimanual-independence cost —
 so our curve sits between Velotype's and Yawei's, near Velotype.
 
-Rate model: 0.92 strokes/word (2 syl/stroke, cross-word packing).
-Rates: Yawei working 2 strokes/sec, terminal 4.3; steno pros 3-4;
-cluster-hardware rate parity ASSUMED [H — prototype confirms].
+**Model v2 (2026-08-22, after Edward's wpm≠strokes/min point).**
+The invariant axis is MOTOR RATE (strokes/sec); wpm = rate × 60 /
+strokes-per-word, which differs per system. Cross-system check of
+professional motor rates: steno pros 3-4/sec, Yawei working 2 /
+terminal 4.3, Velotype pro 140-180 wpm at ~1.4 strokes/word ≈
+3.3-4.2/sec, ceiling 200 ≈ 4.7. **Three independent systems
+converge on ~3-4.5 strokes/sec professional — treat that as the
+motor constant.** Systems differ in strokes/word; that is where
+design buys wpm: at ANY given skill level, RZ (0.92) runs ~1.5x
+Velotype-Dutch (~1.4) in wpm.
 
-| milestone | strokes/sec | RZ wpm | time to reach [H, Velotype-anchored] |
+Correction owned: the previous table's middle rows were optimistic
+by conflation — they credited RZ's strokes/word dividend AND a
+faster motor curve. The motor curve is Velotype's (sourced ladder:
+basics 2-4 weeks at ~30min/day; 40-50 wpm ~2-4 months; 80-100
+~5-8 months; pro 7mo-2yr; ceiling 2yr+), plus the mirrored mode's
+early bimanual surcharge [H]. Practice-HOURS, not calendar, is the
+honest axis (calendar depends on hours/day; ~30min/day assumed in
+the sourced ladder):
+
+| practice invested | motor rate | Velotype-Dutch wpm | **RZ wpm (0.92 s/w)** |
 |---|---|---|---|
-| theory competence (all rules) | accuracy-first | ~20-40 | ~5-10h |
-| casual utility | ~1 | ~65 | ~2-4 weeks |
-| touch-typist parity | ~1.5-2 | ~100-130 | **~1-3 months** |
-| speech-rate realtime | ~2.5-3 | ~160-195 | **~4-9 months** |
-| professional ceiling | ~3.5-4.3 | ~230-280 | ~7mo-2yr (motor-bound; does not compress) |
+| ~5-10h | theory + slow chords | ~10-20 | ~15-30 |
+| ~10-20h | ~0.5/sec | ~20 | ~33 |
+| ~30-60h | ~1/sec | ~43 | ~65 |
+| ~100-150h | ~2/sec | ~85 | **~130 (fast-typist wpm)** |
+| ~200-400h | ~2.5-3/sec | ~110-130 | **~160-195 (speech-rate realtime)** |
+| ~500-1500h (pro training) | 3.3-4.2/sec | 140-180 | ~215-275 |
+| years of pro use | ~4.5+/sec | ~200 | ~300 |
 
-The late rows are raw motor automatization and match Velotype's
-band; the early rows are where brief-free theory pays (steno
-students spend this period fighting their dictionaries instead).
+Calendar at 30min/day: 45h ≈ 3 months, 125h ≈ 8 months. At 2h/day
+divide by four. Readings, revised: QWERTY-parity wpm arrives around
+**~40-60h of practice** (RZ's strokes/word advantage means parity
+comes at HALF the motor skill Velotype needs); speech-rate realtime
+is a **~200-400h investment** — a serious hobbyist year, not a
+casual season; the pro ceiling ~300 wpm is the strokes/word
+dividend at the cross-system motor constant. All [H] pending the
+cluster-rate prototype.
 
 ### 4g. What a stroke actually is (the concrete walkthrough)
 

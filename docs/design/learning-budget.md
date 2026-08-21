@@ -133,7 +133,7 @@ channels) are where GZ's case lives.
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
 | mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-validated either way (rz-chording §4b-e) |
-| directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | competence ~5-10h; QWERTY parity ~1-3mo; realtime ~4-9mo; pro ~7mo-2yr (Velotype-anchored, brief-free) [H] | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |
+| directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | hours-based (v2): competence ~5-10h; QWERTY-parity wpm ~40-60h; realtime ~200-400h; pro ~500h+ [H] | | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)
