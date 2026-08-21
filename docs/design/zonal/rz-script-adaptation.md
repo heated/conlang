@@ -102,6 +102,32 @@ All four review findings closed, plus the v1 backlog:
   voicing bar zone). Enforced invariant: satellite ink lands on main
   ink ≤3% of satellite cells, tested over every legal cluster.
 
+**Post-review fixes (Codex xhigh on the hardening commit, 2026-08-22
+— 2 IMPORTANT + 2 MINOR, all confirmed and closed):**
+
+1. The doc-only verb harvest missed most corpus past forms (only
+   9/21 -va tokens got the logogram) and `stava` was mislabeled
+   suppletive (rz-grammar §4 calls it the regular past of `sta`).
+   Now: two evidence streams — lexicon-doc infinitives (filename
+   spans excluded; `gramma` no longer scraped from `rz-grammar.md`)
+   plus corpus attestation (every -ava/-eva/-iva token testifies to
+   its own stem; a small NON_VERB_FORMS lexicon set blocks
+   `tentativa`-class false positives). A corpus-wide test asserts
+   EVERY attested past form segments stem+va with the logogram.
+2. Cluster satellites (top ink at dy−10) were clipped by the CLI
+   word/sentence viewBox at dy=0. All CLI canvases now inset by
+   TOP_INSET; an end-to-end test parses emitted SVG and asserts all
+   ink lies inside the viewBox.
+3. The phase-shifted crop windows themselves are now guarded: a
+   window must contain all measured ink at EVERY sampled phase
+   (the v1 onset window cropped voiced ground bars at x-phase 3.14
+   — the windows are now phase-padded and the guard is a test).
+   Recalibrated minima: onset worst b/dZ 0.171; voicing worst f/v
+   0.369; logogram worst 0.500; func worst con/en 0.313.
+4. The POS-tag test now asserts mark geometry (verb full-width bar
+   at POS_Y, adjective 40% bar, noun bare — both dense modes), not
+   just that tagged input renders.
+
 Implemented in `tools/rz_script.py` (stdlib SVG; specimen in
 `.ship-notes/rz-specimen.svg`). What shipped: 18 pairwise-distinct
 consonant letterforms (greenfield-shared phonemes keep their

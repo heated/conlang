@@ -5,30 +5,41 @@ Raster floors follow the greenfield methodology (test_script.py):
 occupancy-grid distances minimized over sub-cell sampling phases, so
 a floor can't be passed by a lucky grid alignment. Thresholds sit
 below currently measured phase-minima; a geometry change that erodes
-a distinction trips them. Measured 2026-08-22 (14px onsets / 7px
-logograms): onset worst pair b/dZ 0.182; voicing worst f/v 0.371;
-logogram worst mente/abile & mente/va 0.500; func-mark worst a/al
-0.222. (The v0 -cion/-itate collapse scored 0.000 at 7px.)
+a distinction trips them. Measured 2026-08-22 under the phase-padded
+windows (14px onsets / 7px logograms): onset worst pair b/dZ 0.171;
+voicing worst f/v 0.369; h vs ny 0.60; logogram worst mente/abile
+0.500; func-mark worst con/en 0.313. (The v0 -cion/-itate collapse
+scored 0.000 at 7px; the v1 windows cropped voiced ground bars at
+x-phase 3.14 — both fixed.)
 """
 
+import contextlib
+import io
 import itertools
 import re
 import sys
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from rz_script import (CODAS, FUNC_MARKS, LEGAL_ONSETS,  # noqa: E402
-                       RZ_ONSETS, SUFFIX_LOGOGRAMS, TENSE_LOGOGRAMS,
-                       analyze, coda_glyph, logogram, onset_glyph,
+                       NON_VERB_FORMS, POS_Y, RZ_ONSETS,
+                       SUFFIX_LOGOGRAMS, TENSE_LOGOGRAMS, analyze,
+                       coda_glyph, logogram, main, onset_glyph,
                        onset_parts, to_phonemes, word_glyph)
 from script import rasterize, raster_distance  # noqa: E402
 
 # sub-cell sampling phases (greenfield methodology, Codex finding)
 PHASES = [(px, py) for px in (0, 1.57, 3.14) for py in (0, 1.38, 2.76)]
-ONSET_WIN = (2, 2, 66, 64)          # includes the voicing ground bar
+MAXP = (3.14, 2.76)
+# windows are padded left/top by the max phase so every sampled crop
+# still contains all measured ink (Codex 2026-08-22 finding 3: the
+# old (2,…) onset window cropped voiced ground bars at x-phase 3.14).
+# TestWindowHonesty enforces this against future geometry changes.
+ONSET_WIN = (-4, 2, 66, 64)         # includes the voicing ground bar
 LOGO_WIN = (2, 2, 50, 64)
-FUNC_WIN = (4, 14, 40, 60)
+FUNC_WIN = (0, 10, 40, 60)
 
 
 def pmin(a, b, win, n):
@@ -39,6 +50,27 @@ def pmin(a, b, win, n):
             rasterize(b, win[0] + px, win[1] + py, win[2] + px,
                       win[3] + py, n))
         for px, py in PHASES)
+
+
+def ink_bounds(parts):
+    """(minx, miny, maxx, maxy) of an SVG fragment list, including
+    stroke extent (linecap round adds w/2 beyond endpoints)."""
+    bs = []
+    for el in ET.fromstring("<svg>" + "".join(parts) + "</svg>"):
+        w = float(el.get("stroke-width", 0)) / 2
+        if el.tag == "line":
+            xs = (float(el.get("x1")), float(el.get("x2")))
+            ys = (float(el.get("y1")), float(el.get("y2")))
+            bs.append((min(xs) - w, min(ys) - w,
+                       max(xs) + w, max(ys) + w))
+        elif el.tag == "circle":
+            cx, cy = float(el.get("cx")), float(el.get("cy"))
+            r = float(el.get("r")) + w
+            bs.append((cx - r, cy - r, cx + r, cy + r))
+        elif el.tag == "text":
+            continue
+    return (min(b[0] for b in bs), min(b[1] for b in bs),
+            max(b[2] for b in bs), max(b[3] for b in bs))
 
 
 class TestParser(unittest.TestCase):
@@ -85,16 +117,67 @@ class TestMorphology(unittest.TestCase):
         ("era", ("era", None, "v")),
         ("vento", ("vento", None, None)),
         ("parlar", ("parlar", None, "v")),      # known infinitive
+        # Codex 2026-08-22 finding 1: corpus verbs the doc-only
+        # harvest missed, plus the regular past of sta
+        ("stava", ("sta", "va", "v")),          # rz-grammar §4: regular
+        ("arivava", ("ariva", "va", "v")),
+        ("demandava", ("demanda", "va", "v")),
+        ("respondeva", ("responde", "va", "v")),
+        ("telefonava", ("telefona", "va", "v")),
+        ("sedeva", ("sede", "va", "v")),
+        ("tentativa", ("tentativa", None, None)),  # noun, not tentati+va
+        ("grammar", ("grammar", None, None)),   # filename scrape guard
     ]
 
     def test_analyze(self):
         for word, want in self.TABLE:
             self.assertEqual(analyze(word), want, word)
 
-    def test_tagged_pos_input_renders(self):
-        for w in ("manto:adj", "calde:a", "vento:n", "parlava:v"):
-            parts, _ = word_glyph(w, pos=True)
-            self.assertTrue(parts)
+    def test_every_corpus_past_form_segments(self):
+        # the advertised rule: regular past = stem+va, no hand-tagging.
+        # Every attested -ava/-eva/-iva token must carry the logogram.
+        base = Path(__file__).resolve().parent.parent / "docs" / \
+            "design" / "zonal"
+        toks = set()
+        for name in ("rz-texts.md", "romance-zonal-v0.md",
+                     "cloze-test-v0.md", "rz-lite.md"):
+            p = base / name
+            if not p.exists():
+                continue
+            for m in re.finditer(r"^> (.*)$", p.read_text(), re.M):
+                line = re.sub(r"\([^)]*\)", " ", m.group(1))
+                toks.update(re.findall(r"[a-z]+", line.lower()))
+        pasts = sorted(t for t in toks if len(t) > 4
+                       and t.endswith(("ava", "eva", "iva"))
+                       and t not in NON_VERB_FORMS)
+        self.assertGreater(len(pasts), 15)      # the corpus has ~30
+        for t in pasts:
+            self.assertEqual(analyze(t), (t[:-2], "va", "v"), t)
+
+    def _pos_lines(self, parts):
+        return [tuple(float(el.get(k)) for k in ("x1", "y1", "x2", "y2"))
+                for el in ET.fromstring("<svg>" + "".join(parts)
+                                        + "</svg>")
+                if el.tag == "line" and float(el.get("y1")) == POS_Y
+                and float(el.get("y2")) == POS_Y]
+
+    def test_tagged_pos_marks_have_expected_geometry(self):
+        # Codex 2026-08-22 finding 4: assert the actual mark, not just
+        # that something rendered — verb = full-width bar at POS_Y,
+        # adjective = leading ~40% bar, in both dense modes
+        for dense in (True, False):
+            vparts, vw = word_glyph("parlava:v", pos=True, dense=dense)
+            vlines = self._pos_lines(vparts)
+            self.assertEqual(len(vlines), 1, f"dense={dense}")
+            self.assertEqual(vlines[0][0], 4)
+            self.assertEqual(vlines[0][2], vw - 4)
+            aparts, aw = word_glyph("manto:adj", pos=True, dense=dense)
+            alines = self._pos_lines(aparts)
+            self.assertEqual(len(alines), 1, f"dense={dense}")
+            self.assertEqual(alines[0][0], 4)
+            self.assertAlmostEqual(alines[0][2], 4 + 0.4 * aw)
+            nparts, _ = word_glyph("vento:n", pos=True, dense=dense)
+            self.assertEqual(self._pos_lines(nparts), [])
 
     def test_pos_underline_only_when_enabled(self):
         plain, _ = word_glyph("parlava", pos=False)
@@ -173,6 +256,67 @@ class TestClusterLayout(unittest.TestCase):
         d = pmin(onset_glyph(["p", "l"]), onset_glyph(["p", "r"]),
                  win, 10)
         self.assertGreaterEqual(d, 0.30, f"pl/pr sat at {d:.3f}")
+
+
+class TestWindowHonesty(unittest.TestCase):
+    """A raster floor only guards what its window contains, at EVERY
+    sampled phase (Codex 2026-08-22 finding 3). The crop at phase
+    (px,py) is (x0+px, y0+py, x1+px, y1+py), so the binding edges are
+    left/top at max phase and right/bottom at zero phase."""
+
+    def assert_covered(self, parts, win, label):
+        minx, miny, maxx, maxy = ink_bounds(parts)
+        self.assertGreaterEqual(minx, win[0] + MAXP[0], label)
+        self.assertGreaterEqual(miny, win[1] + MAXP[1], label)
+        self.assertLessEqual(maxx, win[2], label)
+        self.assertLessEqual(maxy, win[3], label)
+
+    def test_onset_window_covers_all_ink(self):
+        for ph in RZ_ONSETS:
+            self.assert_covered(onset_glyph([ph]), ONSET_WIN, ph)
+
+    def test_logo_window_covers_all_ink(self):
+        for s in SUFFIX_LOGOGRAMS + TENSE_LOGOGRAMS:
+            self.assert_covered(logogram(s), LOGO_WIN, s)
+
+    def test_func_window_covers_all_ink(self):
+        for w in FUNC_MARKS:
+            self.assert_covered(word_glyph(w)[0], FUNC_WIN, w)
+
+
+class TestViewport(unittest.TestCase):
+    """End-to-end: CLI word/sentence output must contain all ink in
+    its viewBox (Codex 2026-08-22 finding 2: cluster satellites rise
+    above the block top and were clipped at dy=0)."""
+
+    def _cli_svg(self, argv):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(main(argv), 0)
+        return buf.getvalue()
+
+    def _assert_ink_in_viewbox(self, svg_text):
+        m = re.search(r'viewBox="([-\d.]+) ([-\d.]+) ([\d.]+) ([\d.]+)"',
+                      svg_text)
+        self.assertIsNotNone(m)
+        vx, vy, vw, vh = (float(g) for g in m.groups())
+        frags = re.findall(r"<(?:line|circle)[^/]*/>", svg_text)
+        self.assertTrue(frags)
+        minx, miny, maxx, maxy = ink_bounds(frags)
+        self.assertGreaterEqual(minx, vx)
+        self.assertGreaterEqual(miny, vy)
+        self.assertLessEqual(maxx, vx + vw)
+        self.assertLessEqual(maxy, vy + vh)
+
+    def test_word_cli_contains_cluster_satellites(self):
+        # pr and st satellites reach y = dy-10 minus stroke extent
+        self._assert_ink_in_viewbox(
+            self._cli_svg(["word", "prendeva", "stacion"]))
+
+    def test_sentence_cli_contains_all_ink(self):
+        self._assert_ink_in_viewbox(
+            self._cli_svg(["sentence",
+                           "le vento del norte stava presto"]))
 
 
 class TestCorpus(unittest.TestCase):

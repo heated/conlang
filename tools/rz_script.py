@@ -88,7 +88,13 @@ POS_Y = 101                            # R-scheme underline baseline
 
 # suppletive verb forms (rz-grammar §4: the 3 irregulars) that carry
 # POS but no strippable tense suffix
-SUPPLETIVE_VERBS = {"es", "era", "seria", "va", "sta", "stava"}
+SUPPLETIVE_VERBS = {"es", "era", "seria", "va", "sta"}
+# stava is NOT suppletive — rz-grammar §4 calls it the regular past
+# of sta, so it segments sta+va and carries the tense logogram
+# (Codex review 2026-08-22 finding 1).
+TOP_INSET = 12          # cluster satellites rise above the block top
+#                         (dy-10); word/sentence canvases inset by this
+#                         so no ink leaves the viewBox (finding 2)
 
 # function-word logograms: quarter-width marks for the highest-
 # frequency grammatical words (~40-50% of running tokens). Shapes are
@@ -401,15 +407,29 @@ def syllabify(phonemes):
 _VERB_STEMS = None
 
 
+# attested words with verb-shaped endings that are NOT verb forms —
+# lexicon knowledge, not running-text tagging (tentativa is a noun,
+# solar an adjective; billion-speaker is English leakage)
+NON_VERB_FORMS = {"tentativa", "solar", "billion", "speaker"}
+
+
 def verb_stems():
-    """Present-form verb stems, extracted from the lexicon docs
-    (infinitives in -ar/-er/-ir inside backtick spans, minus final r).
-    Lazy; falls back to a core set if the docs aren't reachable."""
+    """Present-form verb stems, from two evidence streams:
+    (1) infinitives in -ar/-er/-ir inside backtick spans of the
+        lexicon docs, minus final r;
+    (2) the running-text corpus (blockquote lines): infinitives, plus
+        past forms in -ava/-eva/-iva minus -va (the regular past is
+        stem+va, rz-grammar §4, so every attested past testifies to
+        its own stem).
+    Lazy; falls back to a core set if the docs aren't reachable.
+    Codex review 2026-08-22 finding 1: the doc-only harvest missed
+    most corpus verbs and scraped `gramma` from a filename."""
     global _VERB_STEMS
     if _VERB_STEMS is not None:
         return _VERB_STEMS
     stems = {"parla", "vive", "veni", "parti", "dispute", "disputa",
-             "compra", "vide", "comprende", "sabe", "lege", "crea"}
+             "compra", "vide", "comprende", "sabe", "lege", "crea",
+             "sta"}
     base = Path(__file__).resolve().parent.parent / "docs" / "design"
     for rel in ("zonal/rz-lexicon.md", "zonal/core-conversational.md",
                 "zonal/rz-grammar.md"):
@@ -418,13 +438,33 @@ def verb_stems():
         except OSError:
             continue
         for span in re.findall(r"`([^`]+)`", text):
+            if "." in span or "/" in span:
+                continue                    # filename/path, not lexicon
             # spans mix RZ words with English glosses in parens and
             # FLAG notes — strip those before harvesting infinitives
             span = re.sub(r"\([^)]*\)", " ", span)
             span = re.split(r"FLAG|—|;", span)[0]
             for tok in re.findall(r"[a-z]+", span.lower()):
+                if tok in NON_VERB_FORMS:
+                    continue
                 if len(tok) > 3 and tok.endswith(("ar", "er", "ir")):
                     stems.add(tok[:-1])
+    for rel in ("zonal/rz-texts.md", "zonal/romance-zonal-v0.md",
+                "zonal/cloze-test-v0.md", "zonal/rz-lite.md"):
+        try:
+            text = (base / rel).read_text()
+        except OSError:
+            continue
+        for m in re.finditer(r"^> (.*)$", text, re.M):
+            line = re.sub(r"\([^)]*\)", " ", m.group(1))
+            for tok in re.findall(r"[a-z]+", line.lower()):
+                if tok in NON_VERB_FORMS or len(tok) <= 3:
+                    continue
+                if tok.endswith(("ar", "er", "ir")):
+                    stems.add(tok[:-1])
+                elif tok.endswith(("ava", "eva", "iva")) and \
+                        len(tok) > 4:
+                    stems.add(tok[:-2])
     _VERB_STEMS = stems
     return stems
 
@@ -627,7 +667,7 @@ def page(text, width=2200, dense=True, headstroke=False, pos=False,
     line width wrap; line pitch leaves room for POS underlines."""
     words = re.findall(r"[a-zA-Z-]+(?::[a-z]+)?", text)
     pitch = 128
-    parts, x, y = [], 10, 10
+    parts, x, y = [], 10, TOP_INSET
     gap = 6 if headstroke else 24
     for w in words:
         pw, wid = word_glyph(w.strip("-"), dx=x, dy=y, dense=dense,
@@ -657,17 +697,17 @@ def main(argv=None):
     if args[0] == "word":
         all_parts, x = [], 0
         for w in args[1:]:
-            pw, wid = word_glyph(w, dx=x)
+            pw, wid = word_glyph(w, dx=x, dy=TOP_INSET)
             all_parts += pw
             x += wid + 22
-        print(svg(all_parts, x, 130))
+        print(svg(all_parts, x, 130 + TOP_INSET))
     elif args[0] == "sentence":
         all_parts, x = [], 0
         for w in re.findall(r"[a-zA-Z]+", args[1]):
-            pw, wid = word_glyph(w, dx=x)
+            pw, wid = word_glyph(w, dx=x, dy=TOP_INSET)
             all_parts += pw
             x += wid + 22
-        print(svg(all_parts, x, 130))
+        print(svg(all_parts, x, 130 + TOP_INSET))
     elif args[0] == "page":
         opts = {a.split("=")[0][2:]: a.split("=", 1)[1] if "=" in a
                 else True for a in args[2:] if a.startswith("--")}
