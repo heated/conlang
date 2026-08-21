@@ -249,8 +249,52 @@ reserves sparse points, the keyboard reserves the nucleus-less
 region — every layer keeps a structurally-unreachable region as
 its escape hatch.**
 
+**The actual command load to cover** (US laptop keyboard, power
+user; approximate):
+
+| class | count | frequency notes |
+|---|---|---|
+| punctuation/symbols | ~32 | 2-5% of prose keystrokes (comma+period dominate); far higher in code |
+| editing/nav (enter, tab, backspace, delete, esc, arrows, home/end/pg) | ~14 | enter + backspace are top-5 physical keys in real logs; backspace alone ~5-10% of presses |
+| F-keys | 12 | mostly idle |
+| media/system fn layer (brightness, volume, media) | ~8-10 | low rate, high annoyance if missing |
+| modifier shortcuts in active use | ~10-20 casual, 50-150 power/IDE | ~25 of them carry most of the traffic |
+
+Total inventory ≈ **150-250 distinct outputs, ~25 of which are
+hot**. That shape (fat head, long tail) decides the pattern choice.
+
+**Learning time × space × speed per pattern:**
+
+| pattern | learn cost | address space | strokes |
+|---|---|---|---|
+| 1 in-stroke (Emily-style) | ~1-3h (marker + 4 modifier bits; key map = fingerspelling you know) | keys × 16 ≈ ~1,000 | 1 |
+| 2 vacant-space rote chords | per-command, briefs-like; ~5-15h for 50 | 315/hand | 1 |
+| 3 one-shot prefix | ~minutes (4-5 prefixes) | 16 × everything | 2 |
+| 4 layer latch | ~3-10h (a whole second keymap) | full board per layer | 2 or held |
+| 5 dedicated keys | ~0 (labels) | = key count | 1 (reach) |
+| 6 **cmd+⟨word⟩ (semantic commands)** | **~0 marginal — commands are named by words you already chord** ("cmd copy", "cmd bright-up"); proven in voice coding (Talon) | 16 × the whole lexicon; self-documenting | GF: **1** (spare-finger flag rides the word stroke); RZ: 2 (prefix — syllable strokes have no spare bits) |
+
+**Recommendation [D]: hybrid, matched to the fat-head/long-tail
+load.** The ~20-25 hot commands get vacant-space rote chords
+(pattern 2 — one stroke, drilled once); everything else is
+cmd+⟨word⟩ (pattern 6 — zero marginal learning, discoverable,
+unbounded); Emily-style in-stroke (1) covers letter-level chording
+when a literal key+modifier is needed. Front-loaded learning ≈
+1-2h total, then zero marginal cost forever. Note the asymmetry:
+the GF board does semantic commands in ONE stroke via its spare
+finger — another dividend of the narrow inventory.
+
 ## 4. What to build when tooling starts (not now)
 
 Keyboard layout diagram + a joiner prototype + a 200-word brief
 starter set for the power tier; measure real wpm on the sample texts.
 Belongs to conlang-6sa once the RZ lexicon exists.
+
+**Stack constraint (Edward, 2026-08-21): do not design against
+Plover as the foundation.** Plover's steno-protocol assumptions
+(42-key-class layouts, host-side engine) are not our ceiling:
+target **NKRO USB HID and/or Javelin-class on-device firmware**
+(on-board dictionaries, arbitrary key counts, Bluetooth) so the
+custom geometries above (28-key template board, 24-key mirrored,
+one-handed GF) are first-class. Plover remains an optional host
+layer, not the architecture.
