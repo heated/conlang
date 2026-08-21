@@ -23,10 +23,57 @@ Esperanto (a-posteriori lexicon = recognition not memorization —
 verify). Until calibrated, ledger rows are RELATIVE prices [H];
 relative ordering is the trustworthy part.
 
-## Budget baseline
+## The proficiency bar, defined (what the current numbers mean)
 
-RZ productive totals per cohort (rz-learning-time.md, uncalibrated
-model): Romance ~20-50h · English ~80-150h · non-Euro ~350-550h.
+- **Bar used by the current model figures** ("conversational/
+  functional"): ≈ CEFR **A2-B1** — routine everyday exchanges,
+  simple connected speech on familiar topics, transactional needs
+  met; frequent errors tolerated, narrow register range.
+- **C1** (Effective Operational Proficiency, the target): understand
+  demanding longer texts incl. implicit meaning; express fluently
+  and spontaneously without obvious searching; use the language
+  flexibly for social/professional/academic purposes; clear,
+  well-structured text on complex subjects. Errors rare.
+- **C2** (Mastery): understand virtually everything heard or read;
+  summarize across sources; differentiate fine shades of meaning in
+  the most complex situations. The C1→C2 delta is precision,
+  nuance, idiomatic range and effortlessness — not more grammar.
+
+Anchor: FSI's ~600-750h (Category I) targets ILR 3 ≈ C1-ish. So the
+model's RZ figures are an A2-B1-bar number; a C1 bar plausibly
+multiplies them 3-5x — which closes most of the apparent
+paradox against Esperanto's ~150-200h (that figure's bar is closer
+to B1-B2). Recalibration = conlang-pym.
+
+## Budget baseline (single owner: this file)
+
+This file owns ALL learning-time content (dedupe 2026-08-21;
+rz-learning-time.md and the gz-sketch table now point here).
+
+**Cross-system totals per cohort** (uncalibrated A2-B1-bar model):
+
+| learner | RZ | GZ | GF-N |
+|---|---|---|---|
+| Romance L1 | read ~immediate; speak ~20-50h | read near-immediate; speak ~30-60h | ~100-200h, no discount |
+| English L1 | ~100-150h | ~80-120h | ~100-200h |
+| non-Euro L1 | ~300-500h (no design help) | ~150-250h (regularity discount) | ~100-200h, flat |
+
+**RZ itemized breakdown** (per component; separable — reading-only
+RZ is a real endpoint):
+
+| component | Romance L1 | English L1 | non-Euro L1 |
+|---|---|---|---|
+| receptive reading | ~0-2h (sight) | ~5-15h | ~150-250h (vocab wall) |
+| grammar (invariant verbs, -va, va+inf, es/sta, clitics, neg. concord) | ~5-10h | ~10-20h | ~20-30h |
+| lexicon, productive (~380 + false-friend flags) | ~10-25h | ~40-80h | ~150-250h |
+| pronunciation & production | ~5-15h | ~20-40h | ~30-60h |
+| number mode (tentative) | ~2h casual +2h readback | ~2-4h | ~3-5h |
+| display script, reading | ~3-5h | ~3-5h | ~3-5h |
+| chording (optional, template v2) | ~5-10h competence; speed = practice | same | same |
+
+The dominant line item is the **lexicon**, and for the Romance
+cohort it is nearly free (recognition); for everyone else it is the
+wall.
 The dominant line item is the **lexicon**, and for the Romance
 cohort it is nearly free (recognition); for everyone else it is the
 wall. Design purchases that don't touch the lexicon are cheap
@@ -47,7 +94,7 @@ lives.
 | chording, template board v2 | +5-10h to competence (optional; speed = practice) | 1.13 strokes/word input | **BOUGHT as design** (rz-chording §4b) |
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
-| mirrored per-hand chording | — | — | **DECLINED for RZ** (15 keys/hand > span; kept for GF) |
+| mirrored per-hand chording (Yawei-style, 2 syl/stroke) | learning-curve cost above template board (bimanual interference is trainable, not a ceiling) | 0.92 strokes/word (beats template's 1.13) | **OPEN — ambitious tier**, prototype required (5.5x Yawei's syllable load); GF's version precedent-validated (rz-chording §4b) |
 
 Rule of thumb emerging from the first rows: channel purchases that
 are *cohort-flat and lexicon-free* (modes, script, chording, stress)

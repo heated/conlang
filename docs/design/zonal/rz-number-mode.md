@@ -36,7 +36,7 @@ Checksum: careful register only, optional for casual use. [h]
 production: the one real phonetic ask, and only inside frames.
 Estimate: **~2h to casual competence, +2h for readback discipline**
 [H — model estimate, zero subjects]. Recorded as a line item in
-rz-learning-time.md.
+learning-budget.md (the single learning-time owner).
 
 ## Status
 

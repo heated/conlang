@@ -25,7 +25,7 @@ modes-in-english (Track E); partial-systems.md.
 | computed check / error correction | full | tooling only | — | modes checksum | modes checksum |
 | self-segregating morphology | full | dies | — | — | frames self-delimit |
 | mode subsystems | native | portable convention | — | **full (the wedge)** | **full (the product)** |
-| chording: strokes/word | **1 (fused char = stroke = word)** | ~1.8 (briefs optional) | steno exists | steno exists | n/a |
+| chording: strokes/word | **1 (fused char = stroke = word)** [mirrored per-hand mechanism = Yawei-precedent-validated, rz-chording §4b] | ~1.8 (**1.13 template v2**; 0.92 Yawei-style ambitious tier) | steno exists | steno exists | n/a |
 | featural script | primary; fused chars **beat** stacked at equal line height | secondary layer; suffix logograms recover silhouette grammar | — | — | — |
 | one glyph per word | **achieved (48k codepoints/char)** | dies (Latin primary) | — | — | — |
 | silhouette/POS grammar | full (word-level strip) | display layer only | — | — | — |

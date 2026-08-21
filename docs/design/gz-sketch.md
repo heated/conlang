@@ -153,15 +153,9 @@ the donor base; RZ itself remains the receptive-decoding sibling.
 
 ## Learning-time model [H — predictions, zero subjects]
 
-Anchors (TODO-verify): FSI ~600-750h to professional proficiency in
-Spanish/French for English L1; Esperanto ~150-200h conversational;
-Interlingua read-at-sight for Romance L1s.
-
-| learner | RZ | GZ | GF-N |
-|---|---|---|---|
-| Romance L1 | read ~immediate; speak ~20-50h | read near-immediate; speak ~30-60h | ~100-200h, no discount |
-| English L1 | ~100-150h | ~80-120h (channels speed parsing) | ~100-200h |
-| non-European L1 | ~300-500h (no design help) | ~150-250h (regularity discount) | ~100-200h, flat for all |
+Numbers moved to the single owner: **learning-budget.md** (cross-
+system totals, RZ breakdown, proficiency-bar definitions, purchase
+ledger; dedupe 2026-08-21).
 
 The pattern is the portfolio logic: RZ's speed is zonal-only; GZ
 keeps most of the zonal discount and extends the Esperanto-style
