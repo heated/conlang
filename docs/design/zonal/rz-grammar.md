@@ -188,7 +188,7 @@ word is a major-spec-version event; content vocabulary remains open
 under the lexicon recipe. The guarantee a learner gets: **under a
 hundred short words are all the grammar there will ever be.**
 Corpus measurement: 60 of the 96 forms are attested in the current
-690-token corpus and carry 45.2% of running tokens.
+628-token corpus and carry 49.2% of running tokens.
 
 Scope note: this is inventory closure only. GZ's related mechanism
 — a *prosodic* clitic class (function words unstressed, carrying a

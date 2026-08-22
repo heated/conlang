@@ -3,19 +3,21 @@
 Question: if every lesson must leave the learner *immediately more
 able to parse real text*, what does RZ's first day buy? Computed by
 `tools/coverage.py` (`LESSON_PLAN` + `lesson_curve`) over the
-de-duplicated 690-token corpus. Lesson hours are model estimates [H];
+de-duplicated 628-token corpus (re-run 2026-08-22 after corpus
+cleaning — an English design-note blockquote had leaked ~60 tokens
+in; see rz-lexicon-coverage.md revision notes). Lesson hours are
+model estimates [H];
 coverage is computed **from the explicit lemma sets each block
 teaches**, not from a frequency curve with lesson labels pasted on
 (that was the first version's error, caught in review).
 
 | cumulative hours | lesson block | open lemmas known | tokens parseable |
 |---|---|---|---|
-| ~1 | closed-class block (60 words) + spelling/stress | 0 | **45.2%** |
-| ~2 | + complete verb system + top-20 lemmas | 20 | **56.7%** |
-| ~4 | + next 54 lemmas + derivation families | 74 | **72.6%** |
-| ~6 | + number mode + calendar + next 48 lemmas | 122 | **79.6%** |
-| ~10 | + topic packs (95 more lemmas) | 217 | 93.3% (in-corpus) |
-| ~14 | + tail to corpus edge | 241 | 96.8% (in-corpus) |
+| ~1 | closed-class block (60 words) + spelling/stress | 0 | **49.2%** |
+| ~2 | + complete verb system + top-20 lemmas | 20 | **61.2%** |
+| ~4 | + next 54 lemmas + derivation families | 74 | **76.9%** |
+| ~6 | + number mode + calendar + next 48 lemmas | 122 | **84.5%** |
+| ~10 | + topic packs (95 more lemmas) | 217 | 99.7% (in-corpus; the corpus edge is ~219 open lemmas) |
 
 Two honesty notes carried in the tool's output:
 

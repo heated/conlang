@@ -1,5 +1,5 @@
 ---
-title: "A Channel-Coded Constructed Language Optimized for Learning Speed"
+title: "Engineering Languages for Learning Speed: A Channel-Coded Greenfield, a Receptive-First Romance Zonal, and the Portable Toolkit Between Them"
 author: "Edward Swernofsky (with Claude)"
 date: 2026-08-08
 status: living draft — grows with the build; sections marked [TODO] are stubs
@@ -443,7 +443,7 @@ greenfield mechanism through the port gate under those weights.
 Outcome: one pure-upside purchase (a closed-class guarantee: the
 96-form function-word inventory is closed by rule — a lexical
 policy, distinct from the greenfield's unported prosodic clitic
-channel; 60 of the 96 forms are corpus-attested and carry 45.2% of
+channel; 60 of the 96 forms are corpus-attested and carry 49.2% of
 running tokens), one policy-now/instrument-pending purchase (an
 acoustic-confusion screen on minted vocabulary), and structural
 declines with a shared reason: POS-ending remapping and
@@ -519,12 +519,12 @@ careful register's "disyllables for the worst few digits" from a
 gesture into a determinate assignment.
 
 The learning-budget ledger's value side acquired its first
-measurement, and an instructive correction. Coverage curves over the
-de-duplicated ~690-token zonal corpus show the closed class — sixty
-articles, pronouns, prepositions, conjunctions and auxiliaries,
+measurement, and two instructive corrections. Coverage curves over
+the de-duplicated ~628-token zonal corpus show the closed class —
+sixty articles, pronouns, prepositions, conjunctions and auxiliaries,
 selected by the explicit criterion of appearing in the grammar's
-function-word sections — covering 45.2% of running tokens, with
-roughly a hundred and fifty content lemmas reaching 70% of
+function-word sections — covering 49.2% of running tokens, with
+roughly a hundred and twenty-five content lemmas reaching 70% of
 content-token coverage. An adversarial review of the first version
 found three defects worth recording as method: the corpus
 double-counted a cloze test that reproduces its source passages with
@@ -532,8 +532,13 @@ content words blanked, inflating the function-word share; the
 closed-class set had been curated by intuition rather than by rule,
 admitting greetings and ordinary verbs; and the lemmatizer stripped
 the class vowels that *are* the citation form, reducing *parla* to
-*parl*. The corrected curves are lower and the extrapolation is
-gone entirely: at this sample size the fitted Zipf exponent is too
+*parl*. A later audit pass found a fourth defect of the same
+family: an English design-note blockquote inside a corpus file was
+being swept in as RZ text (the corpus convention is that blockquotes
+*are* the text), silently diluting the function-word share by four
+points — the kind of contamination that flatters nothing and still
+corrupts everything downstream. The corrected curves are lower than
+the first version's and the extrapolation is gone entirely: at this sample size the fitted Zipf exponent is too
 shallow for the tail to be data-determined, so the size of the
 95%-coverage lexicon is reported as unknown rather than estimated.
 What survives is the shape — half the tokens reachable from one page

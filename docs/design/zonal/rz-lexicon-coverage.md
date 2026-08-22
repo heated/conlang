@@ -3,8 +3,18 @@
 What is one lemma WORTH, in percent of running text? The learning
 budget prices lexicon acquisition in hours but had never measured the
 value side. `tools/coverage.py` measures it on the de-duplicated RZ
-corpus: **690 tokens** from rz-texts / romance-zonal-v0 / rz-lite
+corpus: **628 tokens** from rz-texts / romance-zonal-v0 / rz-lite
 blockquotes.
+
+**Second revision note (2026-08-22, caught while building the
+transparency audit).** Two more corpus bugs, both now fixed:
+(4) an English design-note *blockquote* in romance-zonal-v0.md §10
+was being swept into the "RZ corpus" (~60 English tokens — corpus
+convention is blockquote = RZ text, and that quote violated it; the
+doc is reformatted). Removing it moves the corpus from 690 → 628
+tokens and RAISES the closed-class share from 45.2% → 49.2%
+(English content tokens were diluting it). (5) numerals were being
+plural-stripped (*tres* → *tre*); a numeral guard now blocks that.
 
 **Revision note (Codex review, same day).** The first run of this
 document reported 937 tokens and a 49.4% closed-class share. Both were
@@ -25,7 +35,7 @@ are the corrected ones.
    — articles, demonstratives, possessives, quantifiers, pronouns,
    prepositions, conjunctions, negators, question words, comparison
    particles, and the three irregular verbs that double as auxiliaries
-   — covers **45.2% of running tokens** with 60 words attested. The
+   — covers **49.2% of running tokens** with 60 words attested. The
    selection rule is explicit: exactly the items enumerated in
    rz-grammar.md §2-§7 (words that merely feel functional, like
    *gracias* or *prende*, are open-class and excluded). This is the
@@ -33,9 +43,9 @@ are the corrected ones.
    token within reach. Natural-language comparison: English function
    words cover ~40-50% of running text, so RZ sits squarely in the
    natural band.
-2. **~150 content lemmas → 70% of content tokens; ~245 → 95%**
+2. **~124 content lemmas → 70% of content tokens; ~204 → 95%**
    (in-corpus). With the closed class known, the open-class curve is:
-   50% at 74 lemmas, 70% at 150, 80% at 188, 90% at 226, 95% at 245.
+   50% at 61 lemmas, 70% at 124, 80% at 156, 90% at 188, 95% at 204.
 3. **The corpus CANNOT size the real-world lexicon — and saying so is
    the finding.** A truncated normalized Zipf fit gives exponent
    α ≈ 0.55, shallow enough that the 95%-coverage rank is set almost
@@ -47,8 +57,8 @@ are the corrected ones.
    productive lexicon needs a broader corpus, not a better fit.
 4. **The regularity dividend is now visible in the curves** — and
    still mostly a grammar fact. Surface-vs-lemma gap: 13 fewer items
-   for the same coverage at 70-95% (e.g. 302 surface forms vs 289
-   lemmas for 95%). That gap is small only because a 690-token corpus
+   for the same coverage at 80-95% (e.g. 261 surface forms vs 248
+   lemmas for 95%). That gap is small only because a 628-token corpus
    shows most content words once. From the grammar instead: an RZ
    lemma carries ~3.67 recognizable forms on average (verb 7, noun 2,
    adjective 2, all exceptionless) vs Spanish's ~19.67 synthetic forms
@@ -61,15 +71,15 @@ are the corrected ones.
 ## Ledger implication
 
 The shape, not the size, is the transferable result: **60 closed-class
-words = 45% of tokens, then a long shallow content tail.** Curriculum
-order follows directly (rz-curriculum.md): closed-class block → ~150
+words = ~49% of tokens, then a long shallow content tail.** Curriculum
+order follows directly (rz-curriculum.md): closed-class block → ~125
 lemma core → topic packs. The absolute size of the C1 lexicon stays as
 the ledger already has it — a model estimate, now explicitly NOT
 backed by a corpus extrapolation.
 
 ## Caveats
 
-- n = 690 tokens of largely translated/parallel material; register
+- n = 628 tokens of largely translated/parallel material; register
   breadth is narrow, so the tail is underestimated by any fit.
 - The lemmatizer is grammar-driven for verbs (shared analyzer with the
   script renderer) but heuristic for nominal plurals; spot-checked

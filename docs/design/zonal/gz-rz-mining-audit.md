@@ -39,7 +39,7 @@ CLOSED set in tools/coverage.py (**96 surface forms**; grammar
 §2–§7 plus the rz-lexicon function-word completions), now closed by
 rule: additions are major-spec-version events. Zero learner cost
 (nothing changes), and it converts an observed fact (60 of the 96
-attested, carrying 45.2% of running tokens) into a marketable
+attested, carrying 49.2% of running tokens) into a marketable
 guarantee — "under a hundred short words are ALL the grammar" — the
 S1 curriculum hook and an S2 measurable claim. Explicitly NOT
 ported here: GZ's *prosodic* clitic mechanism (1b), which is what

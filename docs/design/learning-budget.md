@@ -122,16 +122,18 @@ channels) are where GZ's case lives.
 **Measured value side (2026-08-22, rz-lexicon-coverage.md; numbers
 corrected same day after a Codex review found corpus duplication, a
 mis-specified closed-class set, and an over-stripping lemmatizer):**
-the closed class = 60 grammar words = **45.2% of running tokens**
-(the first-lesson block, selection rule = rz-grammar §2-§7); ~150
-content lemmas = 70% of content tokens. The **95%-lexicon size is
+the closed class = 60 grammar words = **49.2% of running tokens**
+(the first-lesson block, selection rule = rz-grammar §2-§7; share
+re-measured up from 45.2% after a second corpus cleaning removed a
+leaked English blockquote — rz-lexicon-coverage.md revision notes);
+~124 content lemmas = 70% of content tokens. The **95%-lexicon size is
 NOT known** — the corpus Zipf fit is too shallow (α ≈ 0.55) for the
 tail to be data-determined, so the earlier "~500 lemmas" figure is
 withdrawn; the C1 lexicon rows above remain model estimates with no
 corpus backing either way. Recognition load per lemma: RZ ~3.67
 exceptionless forms vs Spanish ~19.67 synthetic (**5.4x ratio** —
 the regularity dividend as a number; a grammar fact, not measurable
-in a 690-token corpus).
+in a 628-token corpus).
 
 ## The ledger
 
@@ -147,6 +149,8 @@ in a 690-token corpus).
 | chording, template board v2 | +5-10h to competence (optional; speed = practice) | 1.13 strokes/word input | **BOUGHT as design** (rz-chording §4b) |
 | humility screen | ~0 (invisible to learners) | blocked dangerous minimal pairs | bought (RZ practice) |
 | coinage acoustic-confusion screen (policy on minted forms) | ~0 (design-side rule; inherited words untouched) | mode/repair/neologism vocabulary screened for confusability | **POLICY BOUGHT / INSTRUMENT PENDING** (2026-08-22; rz-lexicon preamble; RZ instrument is a filed tooling bead — gz-chord-fit's audit covers chord banks only) |
+| defining-vocabulary discipline (RZ-RZ definitions in a frozen curriculum prefix) | ~0 learner-side — sign likely negative (saves intermediate-stage lookup hours [H]); author cost real but off-ledger | self-hosting lexicon past the curriculum head; monolingual tap-glosses for the S1 reader; Longman-precedented, curriculum-aligned (the alignment is the portable trick) | **POLICY BOUGHT / INSTRUMENT PENDING** (agent-called pure-upside, 2026-08-22; rz-defining-vocabulary.md; lint ships with the first dictionary artifact) |
+| spoken reference realization (orthography-transparent: cardinal unreduced vowels, syllable-timed, reference consonants + tolerated accent bands) | ~0 (production rule = "pronounce the spelling", which readers already learn; accents stay legal via the perception band) | an audible written skeleton — the listening on-ramp for media artifacts (S2/S6 voices); value for zero-study listeners [H], listening cloze ARMED | **BOUGHT as standard for recorded artifacts** (agent-called pure-upside, 2026-08-22; rz-spoken-standard.md) |
 | check bit in speech | — | — | **DECLINED** (inherited roots can't carry parity) |
 | mirrored per-hand chording (Yawei-style, 2 syl/stroke) | early interference surcharge; pro-speed training same band as steno (~2yr Yawei vocational) | 0.92 strokes/word (beats template's 1.13) | key-chords: **SHELVED for RZ** (needs phonology gutting — Edward ruled too expensive); **OPEN uncut on directional clusters**; GF precedent-supported [H] either way (rz-chording §4b-e) |
 | directional-cluster hardware (6/finger, 9/thumb, CharaChorder-proven) | hours-based (v2): competence ~5-10h; QWERTY-parity wpm ~40-60h; realtime ~200-400h; pro ~500h+ [H] | | 11,664 states/hand (5.7x keys) — full RZ per-hand uncut, 0.92 strokes/word | **STANDARD** (Edward 2026-08-22); key-chords demoted to compat lane |

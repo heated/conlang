@@ -6,6 +6,13 @@ EN-Latinate, false-friend screen). The conversational core lives in
 §8/§11. FLAG = split zone / screen-risk, cloze target. This list +
 those files ≈ 350 entries; growth path is frequency-ordered fields.
 
+**Defining-vocabulary rule (ADOPTED 2026-08-22,
+rz-defining-vocabulary.md):** future RZ-RZ definitions are written
+in a controlled defining set — a frozen curriculum prefix (target
+~1,000 lemmas + closed class + derivation) — so the lexicon is
+self-hosting past the curriculum head. Policy binds authorship now;
+the lint instrument ships with the first dictionary artifact.
+
 **Coinage rule (ADOPTED 2026-08-22, gz-rz-mining-audit.md):**
 inherited words pass the false-friend screen; **minted** forms
 (mode vocabulary, repair particles, neologisms) additionally pass

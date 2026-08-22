@@ -52,6 +52,16 @@ DERIVED_FILES = ("cloze-test-v0.md",)   # excluded; kept for the audit
 # set — a heuristic strip turns `historia` into `histo`.
 NOMINAL_INFLECTIONS = ("es", "s")
 VERBAL_TAIL = ("nte", "te", "r")
+# Numerals are invariant forms, not plurals — `tres` is not `tre`+s,
+# and compounds like `dece-ses`/`dos-centos` keep their final part
+# (2026-08-22, caught while building the transparency audit).
+NUMERALS = {
+    "zero", "un", "dos", "tres", "cuatro", "cinco", "ses", "sete",
+    "octo", "nove", "dece", "onze", "doze", "treze", "catorze",
+    "quinze", "vinte", "trenta", "cuaranta", "cincuenta", "sesenta",
+    "setenta", "octanta", "noventa", "cento", "centos", "mil",
+    "milion", "miliarde",
+}
 # derivational suffixes (§9) — these make NEW lemmas, so they are not
 # stripped for lemma counting; tracked separately as the multiplier.
 # Longest-first, and -itate strips as a unit (nacionalitate -> nacional
@@ -103,22 +113,30 @@ CLOSED = {
 }
 
 
-def corpus_tokens(include_derived=False):
-    """Blockquote lines of the de-duplicated corpus docs (blockquotes
-    are RZ text; surrounding prose is English commentary)."""
-    toks = []
+def corpus_tokens_by_file(include_derived=False):
+    """{filename: tokens} over blockquote lines of the corpus docs
+    (blockquotes are RZ text; surrounding prose is English
+    commentary)."""
+    out = {}
     base = ROOT / "docs" / "design" / "zonal"
     names = CORPUS_FILES + (DERIVED_FILES if include_derived else ())
     for name in names:
         path = base / name
         if not path.exists():
             continue
+        toks = []
         for m in re.finditer(r"^> (.*)$", path.read_text(), re.M):
             line = re.sub(r"\([^)]*\)", " ", m.group(1))
             for t in re.findall(r"[a-zA-Z][a-zA-Z-]*", line.lower()):
-                if t.isascii():
+                if t.isascii() and t.strip("-"):
                     toks.append(t.strip("-"))
-    return [t for t in toks if t]
+        out[name] = toks
+    return out
+
+
+def corpus_tokens(include_derived=False):
+    return [t for toks in corpus_tokens_by_file(include_derived).values()
+            for t in toks]
 
 
 def lemma(word):
@@ -126,6 +144,8 @@ def lemma(word):
     nouns/adjectives). Verbal morphology comes from rz_script.analyze,
     which gates tense suffixes on an attested verb-stem set."""
     if word in CLOSED:
+        return word
+    if word.rsplit("-", 1)[-1] in NUMERALS:
         return word
     try:
         from rz_script import analyze, verb_stems
@@ -265,8 +285,10 @@ LESSON_PLAN = [
      "skills": ["number mode (own ledger row)", "calendar"]},
     {"hours": 4.0, "name": "topic packs (+95 lemmas)",
      "closed": False, "lemma_ranks": 217, "skills": []},
-    {"hours": 4.0, "name": "tail to corpus edge",
-     "closed": False, "lemma_ranks": 241, "skills": []},
+    # the former "tail to corpus edge" block (rank 241) predates the
+    # 2026-08-22 corpus cleaning (an English design-note blockquote had
+    # leaked ~60 tokens in); the clean corpus edge is ~219 open lemmas,
+    # which the topic-packs row already reaches within rounding.
 ]
 
 

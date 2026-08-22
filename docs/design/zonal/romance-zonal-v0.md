@@ -278,14 +278,19 @@ host (`fenestra` doesn't fit a CV(C) grid word; anything that does
 fit stops being sight-readable). The hybrid buys a different, weaker
 good: **mnemonic hooks**. And that weaker good is *free*:
 
-> When the greenfield lexicon (kps) assigns meanings to root bodies,
-> the assignment is arbitrary within the confusion constraints — so
-> prefer, at zero structural cost, bodies that phonetically evoke a
-> widespread international/Romance form for that meaning. `so` for
-> sun (sol), `ma` for hand (mano), `no` for negation. The channel
-> machinery is untouched; acquisition for the billion-speaker
-> Romance+international cohort accelerates measurably; everyone else
-> loses nothing.
+*When the greenfield lexicon (kps) assigns meanings to root bodies,
+the assignment is arbitrary within the confusion constraints — so
+prefer, at zero structural cost, bodies that phonetically evoke a
+widespread international/Romance form for that meaning. `so` for
+sun (sol), `ma` for hand (mano), `no` for negation. The channel
+machinery is untouched; acquisition for the billion-speaker
+Romance+international cohort accelerates measurably; everyone else
+loses nothing.*
+
+(Formatting note, 2026-08-22: this design quote was a `>` blockquote,
+but in the corpus files blockquote = RZ running text by convention —
+`tools/coverage.py` was sweeping these English lines into the RZ
+corpus. Reformatted to italics; corpus numbers re-run.)
 
 So the pricing answer sharpens: the zonal and greenfield langs do not
 blend — but the greenfield should *loot* the zonal method's cognate

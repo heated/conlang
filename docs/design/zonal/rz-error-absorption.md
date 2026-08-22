@@ -60,13 +60,13 @@ error.
   full pronoun after the verb or a preposition (`io te dona le` /
   `io le dona a te`). No ordering rule to learn = no ordering
   errors to make. (Corpus already writes this way: zero clusters
-  in the 690-token de-duplicated corpus.)
+  in the 628-token de-duplicated corpus.)
 - **D6 — contractions optional.** `de le` ≡ `del`, `a le` ≡ `al`.
   Two fewer obligatory forms.
 - **D7 — merge para → por.** The zone's most famous preposition
   trap deleted; `por` covers both, `para que` survives as a frozen
   subordinator if wanted. Corpus evidence: para has **zero**
-  attestations in the 690-token corpus (por 2). Cost: Ibero readers find
+  attestations in the 628-token corpus (por 2). Cost: Ibero readers find
   por-for-para slightly marked but fully comprehensible; gain: an
   entire error class gone. This one deletes an inventory item, so
   it is the largest call on the menu.
