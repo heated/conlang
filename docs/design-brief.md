@@ -213,6 +213,12 @@ else is defined over these coordinates.
   zonal/continental/global auxlang; keep **stealing from other
   conlangs** where it pays; agent owns all of it including
   self-directed exploration. Charter: docs/design/program.md.
+- 2026-08-22 (later): **tentative go on the bootstrap pick** —
+  S1 graded-reader funnel launched through S2 thesis moment with
+  S5 tooling as catcher (rz-bootstrap-scenarios.md); mining-audit
+  weights hold. Saved on Edward's request: **S6, viral chording
+  world-record video** as a second media-moment option (long lead:
+  needs a built layout + a ~200–400h-trained demonstrator).
 - 2026-08-13 (later): Romance was picked for **recognizability to
   Edward** — who is EN-L1 and got gist-only. **Switch focus to the
   English-zone zonal** ("Atlantic" — the Anglo-Latinate stratum;

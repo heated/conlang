@@ -87,7 +87,42 @@ it demands from the spec).
 - **Evidence**: survey factor 4 — production tooling is a
   first-class growth mechanic, not an accessory.
 
-## The packet (recommendation — Edward's call to confirm)
+## S6 — Viral chording world-record video (saved, not scheduled)
+
+- **Audience**: speed-typing / mechanical-keyboard / steno
+  communities (r/MechanicalKeyboards, Plover circles, HN), then the
+  general short-video public if it catches.
+- **Artifact**: a video of a trained chordist writing RZ at record
+  pace, with the receipts on screen — live stroke counter, verified
+  text, the comparison ladder. The hook is the strokes/word
+  dividend: at the same motor skill that gives Velotype-class
+  systems ~140–180 wpm, RZ's 0.92 strokes/word projects ~215–275,
+  with speech-rate realtime (~160–195 wpm) reachable at ~200–400
+  practice hours (rz-chording.md model v2 — all [H] pending the
+  cluster-rate prototype). "World record" framing = fastest chorded
+  text entry in an engineered language, measured under a published
+  protocol.
+- **Channel**: YouTube/TikTok + HN; this is a *second* media-moment
+  generator, independent of S2's thesis (survey factor 3 twice).
+- **Metric**: views are vanity; the real metric is click-through
+  into the S1 reader ("the language itself takes an afternoon to
+  read — here's the cloze").
+- **Spec demand**: the longest-lead scenario in the packet. Needs
+  (1) a chord layout that actually exists (today: projections [H]),
+  (2) S5's input tooling at its power tier, (3) a demonstrator
+  trained to speech-rate — ~200–400h per the model, a serious
+  hobbyist year, and (4) an airtight measurement protocol, because
+  a record claim invites adversarial scrutiny (which fits the
+  receipts culture, but only if the number survives it).
+- **Risk**: high variance, long lead, and the wpm dividend is
+  unproven until the prototype measures cluster-rate. Same survey
+  caution as S2: a moment without catch infrastructure evaporates —
+  S5 and the S1 reader must already be standing when it fires.
+- **Position**: SAVED (Edward, 2026-08-22). Not on the critical
+  path; natural slot is *after* the thesis moment, re-firing the
+  funnel once chording tooling exists.
+
+## The packet (recommendation — tentatively confirmed)
 
 **Primary: S1, launched through S2, with S5 staged as the catcher.**
 This replicates three of Interslavic's five growth factors:
@@ -121,6 +156,8 @@ until then the metric is artifact readiness.
 | display script, GZ-side polish | LOW | S2 demo garnish; owns no funnel |
 
 Gate note (human-gates): the primary-scenario pick shapes what RZ
-becomes → Edward's call. The audit proceeds on these weights
-PROVISIONALLY; if Edward picks differently, re-weight before any
-non-reversible adoption.
+becomes → Edward's call. **Edward (2026-08-22): tentative go on
+S1-launched-through-S2-with-S5-catcher.** The mining-audit weights
+above are therefore no longer provisional; they hold unless the
+tentative pick is revised. S6 saved as an additional media-moment
+option on Edward's request, same date.
