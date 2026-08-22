@@ -5,7 +5,11 @@ zonal that's not a full language — whats the competition, NATO
 phonetic? reduced english?"). Companion to Track E
 (english-plus-channels.md); this generalizes it: the sub-language
 space is where most historically *successful* constructed systems
-live.
+live. See also the 2026-08-22 trailhead
+(../partial-auxlang-landscape.md): the full adoption-tiered
+inventory, the machine-mediation/institutional-mandate forces, and
+the four competition shapes (revision inside institutions,
+unclaimed channels, riding defaults, density niches).
 
 ## 1. Incumbent survey
 
