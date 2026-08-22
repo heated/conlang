@@ -58,12 +58,15 @@ def LETTERS():
     # n: wide double vertical
     L["n"] = dict(paths=[[(18, 6), (18, 54)], [(42, 6), (42, 54)]],
                   spine=((42, 6), (42, 54)), exit=(42, 30), entry=(18, 30))
-    # t: crossed diagonals (X)
+    # t: crossed diagonals (X); anchors must sit ON ink (stroke ends),
+    # not at the phantom mid-edge points the first draft used —
+    # joins/connectors attach here and floating anchors break the
+    # connected-figure invariant (2026-08-22 review finding)
     L["t"] = dict(paths=[[(8, 54), (52, 6)], [(8, 6), (52, 54)]],
-                  spine=((8, 54), (52, 6)), exit=(52, 30), entry=(8, 30))
+                  spine=((8, 54), (52, 6)), exit=(52, 54), entry=(8, 54))
     # s: doubled rising diagonal
     L["s"] = dict(paths=[[(4, 54), (40, 6)], [(20, 54), (56, 6)]],
-                  spine=((20, 54), (56, 6)), exit=(56, 30), entry=(4, 30))
+                  spine=((20, 54), (56, 6)), exit=(56, 6), entry=(4, 54))
     # l: corner
     L["l"] = dict(paths=[[(12, 6), (48, 6)], [(12, 6), (12, 54)]],
                   spine=((12, 6), (12, 54)), exit=(48, 6), entry=(12, 30))
@@ -82,9 +85,11 @@ def LETTERS():
     L["w"] = dict(paths=[arc_pts(30, 32, 20, -90, 270),
                          [(6, 12), (54, 12)]],
                   spine=((30, 12), (30, 52)), exit=(54, 12), entry=(6, 12))
-    # h: doubled short horizontal (=)
+    # h: doubled short horizontal (=); anchors on the bar ends (the
+    # letter itself is two disjoint bars — the internal gap is the
+    # rationed kind, but anchors must still be on ink)
     L["h"] = dict(paths=[[(12, 24), (48, 24)], [(12, 38), (48, 38)]],
-                  spine=((12, 24), (48, 24)), exit=(48, 31), entry=(12, 31))
+                  spine=((12, 24), (48, 24)), exit=(48, 38), entry=(12, 24))
     return L
 
 

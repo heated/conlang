@@ -8,7 +8,10 @@ script — can be judged side by side:
 
   E0  boxed featural blocks (v0.2 script.py): syllable blocks
       stacked vertically; vowel = carrier tick; coda = strip mark.
-      The incumbent.
+      The incumbent. Measured in TWO modes: full renderer (with the
+      register check dot) and vowel-channel-isolated (dot stripped),
+      because the dot is a function of the whole syllable and can
+      mask or fake vowel-channel distance.
   E1  continuous stroke chain (strokes_continuous.py, conlang-h05):
       letters are stroke programs joined by drawn connectors whose
       slope/reach IS the vowel; horizontal; coda = POS underline
@@ -26,6 +29,14 @@ script — can be judged side by side:
       A vowel change re-frames the whole block: vowel ink cannot
       phase-vanish by construction.
 
+Comparability discipline (2026-08-22 review): raster windows are
+SQUARE with square cells; grid resolution is derived from each
+engine's MEASURED median onset-ink span (cell = span/6) rather than
+hand-picked; phase offsets are thirds of the actual cell pitch; and
+paragraph scales are computed from the same measured spans so every
+engine renders onsets at the same pixel size, with a fixed pixel
+inter-word gap.
+
 Usage:
   python3 tools/engine_bakeoff.py sheet [--out PATH]
   python3 tools/engine_bakeoff.py para  [--outdir DIR]
@@ -36,6 +47,7 @@ from __future__ import annotations
 
 import itertools
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -44,7 +56,8 @@ from phonology import Syllable  # noqa: E402
 from script import (  # noqa: E402
     BLOCK, ScriptRenderer, _line, raster_distance, rasterize)
 from strokes import LETTERS, VOWEL_BRANCH, poly  # noqa: E402
-from strokes_continuous import word as c_word, word_bounds  # noqa: E402
+from strokes_continuous import word as c_word  # noqa: E402
+from strokes_topology import median  # noqa: E402
 
 S = Syllable
 
@@ -58,9 +71,10 @@ class E0:
         self.r = ScriptRenderer()
 
     def word(self, sylls, dx=0.0, dy=0.0, checks=True):
-        """checks=False strips the register dot (measurement mode: the
-        dot is a function of the syllable and would confound vowel-pair
-        distances with free check-channel ink)."""
+        """checks=False strips the register dot (vowel-channel
+        isolation mode: the dot is a function of the whole syllable —
+        it adds distance to some vowel pairs that the vowel INK does
+        not provide, and none to others)."""
         parts = []
         for i, syl in enumerate(sylls):
             parts += self.r.syllable_block(
@@ -71,6 +85,9 @@ class E0:
         inner = self.r.syllable_block(syl)
         return (refit(inner, 0.7, dx, dy + 0.15 * BLOCK),
                 BLOCK * 0.7, BLOCK * 0.7 + 0.15 * BLOCK)
+
+    def onset_ink(self, roman):
+        return self.r._onset(roman)
 
 
 # --- E1: continuous stroke chain ----------------------------------------
@@ -93,6 +110,12 @@ class E1:
                 parts.append(_line(x1, y, x1, y - 8, w=4.2))
         return parts, w, 96
     particle = word
+
+    def onset_ink(self, roman):
+        parts = []
+        for path in LETTERS()[roman]["paths"]:
+            parts += poly(path)
+        return parts
 
 
 # --- E2: fused narrow character (N1 spine stack, 1-3 syllables) ---------
@@ -122,17 +145,23 @@ class E2:
         return parts, CW, h
     particle = word
 
+    def onset_ink(self, roman):
+        # a row in the standard 2-row cell geometry, vowel ink off
+        return self.nr._row(S(roman, "a", ""), 12, 4, 12 + CW - 14, 50,
+                            vowel_ink=False)
+
 
 # --- E3: syllable block, vowel as structure (the Hangul move) -----------
 
-BW = 64          # block width; open block is 64 tall, coda adds 14
+BW = 64          # block width; open block is 64 tall, coda adds a band
 BAR_W = 4.6
 
 
 class E3:
     tag, name = "E3", "syllable block: vowel = structural bar (Hangul move)"
 
-    def block(self, syl, dx=0.0, dy=0.0):
+    def _frame(self, syl, dx, dy):
+        """The vowel's structural bar(s) + the onset region they leave."""
         f, side = VOWEL_BRANCH[syl.vowel]
         parts = []
         if side == -1:                     # front: vertical bar(s), right
@@ -151,26 +180,37 @@ class E3:
             parts.append(_line(dx + 55, dy + 10, dx + 55, dy + 55, w=BAR_W))
             parts.append(_line(dx + 10, dy + 55, dx + 55, dy + 55, w=BAR_W))
             region = (dx + 3, dy + 3, dx + 46, dy + 46)
+        return parts, region
+
+    def _onset_into(self, roman, region):
         rx0, ry0, rx1, ry1 = region
         s = min((rx1 - rx0) / 64, (ry1 - ry0) / 64)
         cx = rx0 + ((rx1 - rx0) - 60 * s) / 2
         cy = ry0 + ((ry1 - ry0) - 60 * s) / 2
-        for path in LETTERS()[syl.onset]["paths"]:
+        parts = []
+        for path in LETTERS()[roman]["paths"]:
             parts += poly([(cx + x * s, cy + y * s) for x, y in path],
                           w=BAR_W)
+        return parts
+
+    def block(self, syl, dx=0.0, dy=0.0):
+        parts, region = self._frame(syl, dx, dy)
+        parts += self._onset_into(syl.onset, region)
         h = 64.0
         if syl.coda:
-            y0 = dy + 68
+            # coda band fully inside the returned height (review
+            # finding: the first draft's s-bars overran it)
+            y0 = dy + 66
             x0, x1 = dx + 10, dx + 54
             if syl.coda == "n":
-                parts.append(_line(x0, y0 + 6, x1, y0 + 6, w=BAR_W))
+                parts.append(_line(x0, y0 + 7, x1, y0 + 7, w=BAR_W))
             elif syl.coda == "s":
-                parts.append(_line(x0, y0 + 2, x1, y0 + 2, w=BAR_W))
-                parts.append(_line(x0, y0 + 10, x1, y0 + 10, w=BAR_W))
+                parts.append(_line(x0, y0 + 3, x1, y0 + 3, w=BAR_W))
+                parts.append(_line(x0, y0 + 11, x1, y0 + 11, w=BAR_W))
             elif syl.coda == "l":
-                parts.append(_line(x0, y0 + 6, x1 - 8, y0 + 6, w=BAR_W))
-                parts.append(_line(x1 - 8, y0 + 6, x1 - 8, y0 - 2, w=BAR_W))
-            h = 78.0
+                parts.append(_line(x0, y0 + 7, x1 - 8, y0 + 7, w=BAR_W))
+                parts.append(_line(x1 - 8, y0 + 7, x1 - 8, y0 - 1, w=BAR_W))
+            h = 82.0
         return parts, h
 
     def word(self, sylls, dx=0.0, dy=0.0, checks=True):
@@ -181,6 +221,13 @@ class E3:
             y += bh + 2
         return parts, BW, y - 2 - dy
     particle = word
+
+    def onset_ink(self, roman):
+        # one variant per vowel frame (the region the onset gets
+        # depends on the vowel) — spans are measured per variant, not
+        # on the inflating union of all five
+        return [self._onset_into(roman, self._frame(
+                    S(roman, v, ""), 0, 0)[1]) for v in "aeiou"]
 
 
 ENGINES = [E0, E1, E2, E3]
@@ -210,11 +257,47 @@ PARA = ("ha weto salaan ho piton namu he lewas taako kimas ha wajone "
         "sela hu menokis sola he namu piton han sala weto hi taako "
         "lewas ha sela namu ho kimas salaan hu wajone he sala").split() * 3
 
-# paragraph scale per engine: chosen so onset letterforms render at
-# roughly equal apparent size (~12px) — the honest density comparison
-# is words-per-page at equal letter legibility, not equal glyph height
-PARA_SCALE = {"E0": 0.26, "E1": 0.26, "E2": 0.30, "E3": 0.30}
 PAGE_W = 1180
+TARGET_ONSET_PX = 12.0     # every engine renders onsets at this size
+WORD_GAP_PX = 10.0         # fixed pixel inter-word gap on the page
+
+
+def parts_bbox(parts):
+    xs, ys = [], []
+    for el in ET.fromstring("<svg>" + "".join(parts) + "</svg>"):
+        w = float(el.get("stroke-width", 0)) / 2
+        if el.tag == "line":
+            for k in ("x1", "x2"):
+                xs += [float(el.get(k)) - w, float(el.get(k)) + w]
+            for k in ("y1", "y2"):
+                ys += [float(el.get(k)) - w, float(el.get(k)) + w]
+        elif el.tag == "circle":
+            cx, cy, r = (float(el.get(k)) for k in ("cx", "cy", "r"))
+            xs += [cx - r - w, cx + r + w]
+            ys += [cy - r - w, cy + r + w]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+ONSETS = ["s", "l", "t", "m", "p", "k", "n", "w", "c", "j"]
+
+
+def onset_span(eng):
+    """Median over content onsets (and per-vowel variants, where the
+    onset's rendered size depends on the vowel) of the onset-ink bbox
+    max dimension, engine units — the normalizer for scales and
+    raster cells."""
+    spans = []
+    for o in ONSETS:
+        ink = eng.onset_ink(o)
+        variants = ink if ink and isinstance(ink[0], list) else [ink]
+        for v in variants:
+            b = parts_bbox(v)
+            spans.append(max(b[2] - b[0], b[3] - b[1]))
+    return median(sorted(spans))
+
+
+def para_scales():
+    return {cls.tag: TARGET_ONSET_PX / onset_span(cls()) for cls in ENGINES}
 
 
 def _is_particle(name):
@@ -243,6 +326,7 @@ def _svg(parts, w, h):
 
 
 def sheet():
+    ps = para_scales()
     parts, y = [], 44
     for cls in ENGINES:
         eng = cls()
@@ -257,14 +341,14 @@ def sheet():
             parts.append(_text(x, y + wh * disp + 16, name, 11, "#999"))
             x += ww * disp + 30
         tall = max(word_parts(eng, n)[2] for n, _ in WORDS) * disp
-        # reading-size running line
-        sc = PARA_SCALE[eng.tag] * 0.85
+        # reading-size running line at the normalized paragraph scale
+        sc = ps[eng.tag] * 0.85
         sx, small = 24, []
         strip_h = 0.0
         for name in PARA[:18]:
             wp, ww, wh = word_parts(eng, name)
             small += refit(wp, sc, sx, y + tall + 30)
-            sx += (ww + 26) * sc
+            sx += ww * sc + WORD_GAP_PX
             strip_h = max(strip_h, wh * sc)
         parts += small
         y += tall + 30 + strip_h + 56
@@ -272,17 +356,19 @@ def sheet():
 
 
 def para_pages():
+    ps = para_scales()
     pages = {}
     for cls in ENGINES:
         eng = cls()
-        sc = PARA_SCALE[eng.tag]
-        parts = [_text(20, 26, f"{eng.tag}: {eng.name}", 14)]
+        sc = ps[eng.tag]
+        parts = [_text(20, 26, f"{eng.tag}: {eng.name}  "
+                               f"(onset scale {sc:.3f})", 14)]
         x, y = 24, 60
         line_h = 0.0
         n_lines = 1
         for name in PARA:
             wp, ww, wh = word_parts(eng, name)
-            adv = (ww + 30) * sc
+            adv = ww * sc + WORD_GAP_PX
             # -44: word ink (tails, hooks) can overhang the nominal
             # advance; keep it clear of the page edge
             if x + adv > PAGE_W - 44:
@@ -303,64 +389,92 @@ def para_pages():
 
 # --- measurement: same pair families for every engine -------------------
 
-PHASES = [(px, py) for px in (0, 1.6, 3.2) for py in (0, 1.6, 3.2)]
+def _geometry(eng, span, cells_per_span):
+    """Square raster window + grid + phase set for one engine. Cell =
+    measured onset span / cells_per_span, cells square, phases thirds
+    of the actual cell pitch (review finding: the first draft's
+    rectangular windows gave per-engine, per-axis cell sizes differing
+    up to ~2x). cells_per_span=12 is the READING raster (stroke ~ one
+    cell, ~12px onsets); 6 is the EXTREME raster (~6px onsets), where
+    sub-cell strokes mostly vanish and only gross structure survives —
+    a fragility probe, too degenerate to rank engines by on its own."""
+    win = {"E0": (-8, -8, 208, 208),
+           "E1": (-25, -45, 195, 175),
+           "E2": (-26, -6, 90, 110),
+           "E3": (-38, -5, 102, 135)}[eng.tag]
+    size = win[2] - win[0]
+    assert size == win[3] - win[1], eng.tag
+    n = max(10, round(size / (span / cells_per_span)))
+    c = size / n
+    phases = [(px, py) for px in (0, c / 3, 2 * c / 3)
+              for py in (0, c / 3, 2 * c / 3)]
+    return win, n, phases
 
 
-def _window(eng):
-    """Raster window + grid per engine, cell size ~= onset_size/6 so
-    floors are comparable across engines with different glyph metrics."""
-    return {
-        "E0": ((-6, -6, 106, 206), 26),    # onset zone ~46u -> cell ~7.9
-        "E1": ((-24, -30, 176, 126), 24),  # letters 48u -> cell ~7.5
-        "E2": ((-4, -4, 68, 104), 14),     # row letters ~34u -> cell ~6.4
-        "E3": ((-4, -4, 68, 136), 18),     # onset region ~36u -> cell ~6.2
-    }[eng.tag]
-
-
-def _pmin(eng, a, b):
-    (x0, y0, x1, y1), n = _window(eng)
+def _pmin(win, n, phases, a, b):
+    x0, y0, x1, y1 = win
     return min(raster_distance(
         rasterize(a, x0 + px, y0 + py, x1 + px, y1 + py, n),
         rasterize(b, x0 + px, y0 + py, x1 + px, y1 + py, n))
-        for px, py in PHASES)
+        for px, py in phases)
 
 
-ONSETS = ["s", "l", "t", "m", "p", "k", "n", "w", "c", "j"]
-
-
-def measure():
+def measure(cells_per_span=12):
+    """Floors per engine; E0 in both modes (full renderer / vowel
+    channel isolated). Also returns the actual near-zero pair lists —
+    doc claims are written from these, not from aggregates."""
     out = {}
     for cls in ENGINES:
         eng = cls()
+        span = onset_span(eng)
+        win, n, phases = _geometry(eng, span, cells_per_span)
+        modes = ([("E0", False), ("E0+dot", True)] if eng.tag == "E0"
+                 else [(eng.tag, None)])
+        for label, checks in modes:
 
-        def render(sylls):
-            return (eng.word(sylls, checks=False)[0] if eng.tag == "E0"
-                    else eng.word(sylls)[0])
+            def render(sylls):
+                if eng.tag == "E0":
+                    return eng.word(sylls, checks=checks)[0]
+                return eng.word(sylls)[0]
 
-        vow, ons = [], []
-        for v1, v2 in itertools.combinations("aeiou", 2):
-            for pos in (0, 1):
-                base = [S("s", "a", ""), S("l", "a", "")]
-                other = [S("s", "a", ""), S("l", "a", "")]
-                base[pos] = S(base[pos].onset, v1, "")
-                other[pos] = S(other[pos].onset, v2, "")
-                vow.append(_pmin(eng, render(base), render(other)))
-        for o1, o2 in itertools.combinations(ONSETS, 2):
-            for pos in (0, 1):
-                base = [S("s", "a", ""), S("l", "a", "")]
-                other = [S("s", "a", ""), S("l", "a", "")]
-                base[pos] = S(o1, base[pos].vowel, "")
-                other[pos] = S(o2, other[pos].vowel, "")
-                ons.append(_pmin(eng, render(base), render(other)))
-        vow.sort()
-        ons.sort()
-        out[eng.tag] = {
-            "vowel_min": round(vow[0], 4),
-            "vowel_median": round(vow[len(vow) // 2], 4),
-            "onset_min": round(ons[0], 4),
-            "onset_median": round(ons[len(ons) // 2], 4),
-            "ratio": round(vow[len(vow) // 2] / ons[len(ons) // 2], 3)}
+            vow, ons = [], []
+            zeros = {"vowel": [], "onset": []}
+            for v1, v2 in itertools.combinations("aeiou", 2):
+                for pos in (0, 1):
+                    base = [S("s", "a", ""), S("l", "a", "")]
+                    other = [S("s", "a", ""), S("l", "a", "")]
+                    base[pos] = S(base[pos].onset, v1, "")
+                    other[pos] = S(other[pos].onset, v2, "")
+                    d = _pmin(win, n, phases, render(base), render(other))
+                    vow.append(d)
+                    if d < 0.02:
+                        zeros["vowel"].append(f"{v1}/{v2}@{pos}")
+            for o1, o2 in itertools.combinations(ONSETS, 2):
+                for pos in (0, 1):
+                    base = [S("s", "a", ""), S("l", "a", "")]
+                    other = [S("s", "a", ""), S("l", "a", "")]
+                    base[pos] = S(o1, base[pos].vowel, "")
+                    other[pos] = S(o2, other[pos].vowel, "")
+                    d = _pmin(win, n, phases, render(base), render(other))
+                    ons.append(d)
+                    if d < 0.02:
+                        zeros["onset"].append(f"{o1}/{o2}@{pos}")
+            vow.sort()
+            ons.sort()
+            out[label] = {
+                "vowel_min": round(vow[0], 4),
+                "vowel_median": round(median(vow), 4),
+                "vowel_zero_pairs": len([d for d in vow if d < 1e-9]),
+                "onset_min": round(ons[0], 4),
+                "onset_median": round(median(ons), 4),
+                "ratio": round(median(vow) / median(ons), 3),
+                "near_zeros": zeros,
+                "grid": f"n={n} cell={size_str(win, n)}u span={span:.1f}u"}
     return out
+
+
+def size_str(win, n):
+    return f"{(win[2] - win[0]) / n:.1f}"
 
 
 def main(argv=None):
@@ -377,19 +491,34 @@ def main(argv=None):
     if args and args[0] == "para":
         outdir = Path(args[args.index("--outdir") + 1]
                       if "--outdir" in args else ".")
+        for tag, sc in sorted(para_scales().items()):
+            print(f"{tag} scale {sc:.4f} (onset -> {TARGET_ONSET_PX}px)")
         for tag, (svg_text, stats) in para_pages().items():
             p = outdir / f"para_{tag}.svg"
             p.write_text(svg_text)
             print(f"{tag}: {stats}  -> {p}")
         return 0
     if args and args[0] == "measure":
-        res = measure()
-        print(f"{'engine':<8}{'vowel min':>11}{'vowel med':>11}"
-              f"{'onset min':>11}{'onset med':>11}{'ratio':>8}")
-        for tag, r in res.items():
-            print(f"{tag:<8}{r['vowel_min']:>11.4f}{r['vowel_median']:>11.4f}"
-                  f"{r['onset_min']:>11.4f}{r['onset_median']:>11.4f}"
-                  f"{r['ratio']:>8.3f}")
+        for cps, label in ((12, "READING raster (stroke ~ 1 cell, "
+                                "~12px onsets) — the primary table"),
+                           (6, "EXTREME raster (~6px onsets) — "
+                               "fragility probe, secondary")):
+            res = measure(cps)
+            print(f"\n== {label} ==")
+            print(f"{'engine':<12}{'vowel min':>10}{'vowel med':>10}"
+                  f"{'v-zeros':>8}{'onset min':>10}{'onset med':>10}"
+                  f"{'ratio':>7}   grid")
+            for tag, r in res.items():
+                print(f"{tag:<12}{r['vowel_min']:>10.4f}"
+                      f"{r['vowel_median']:>10.4f}"
+                      f"{r['vowel_zero_pairs']:>8}"
+                      f"{r['onset_min']:>10.4f}{r['onset_median']:>10.4f}"
+                      f"{r['ratio']:>7.3f}   {r['grid']}")
+            print("near-zero pairs (<0.02):")
+            for tag, r in res.items():
+                z = r["near_zeros"]
+                print(f"  {tag}  vowel: {', '.join(z['vowel']) or '—'}")
+                print(f"       onset: {', '.join(z['onset']) or '—'}")
         return 0
     print(__doc__, file=sys.stderr)
     return 2

@@ -124,6 +124,14 @@ VOWELS = "aeiou"
 ONSETS = ["s", "l", "t", "m", "p", "k", "n", "w", "c", "j"]
 
 
+def median(sorted_vals):
+    """Conventional median (mean of the middle two for even n) — the
+    first published tables used the upper-middle value, which inflated
+    even-n medians (2026-08-22 review finding)."""
+    n = len(sorted_vals)
+    return (sorted_vals[(n - 1) // 2] + sorted_vals[n // 2]) / 2
+
+
 def measure(n=22):
     """For each scheme: worst/median distance over one-vowel-different
     pairs, and over one-onset-different pairs, plus the ratio."""
@@ -151,11 +159,10 @@ def measure(n=22):
         ons.sort()
         out[scheme] = {
             "vowel_min": round(vow[0], 4),
-            "vowel_median": round(vow[len(vow) // 2], 4),
+            "vowel_median": round(median(vow), 4),
             "onset_min": round(ons[0], 4),
-            "onset_median": round(ons[len(ons) // 2], 4),
-            "ratio_median": round(vow[len(vow) // 2] /
-                                  ons[len(ons) // 2], 3),
+            "onset_median": round(median(ons), 4),
+            "ratio_median": round(median(vow) / median(ons), 3),
             "n_vowel_pairs": len(vow), "n_onset_pairs": len(ons),
         }
     return out

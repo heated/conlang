@@ -126,13 +126,14 @@ def measure():
             base[pos] = Syl(o1, base[pos].vowel)
             other[pos] = Syl(o2, other[pos].vowel)
             ons.append(pmin(word(base)[0], word(other)[0], 22))
+    from strokes_topology import median
     vow.sort()
     ons.sort()
     return {"vowel_min": round(vow[0], 4),
-            "vowel_median": round(vow[len(vow) // 2], 4),
+            "vowel_median": round(median(vow), 4),
             "onset_min": round(ons[0], 4),
-            "onset_median": round(ons[len(ons) // 2], 4),
-            "ratio_median": round(vow[len(vow) // 2] / ons[len(ons) // 2], 3)}
+            "onset_median": round(median(ons), 4),
+            "ratio_median": round(median(vow) / median(ons), 3)}
 
 
 def sheet():

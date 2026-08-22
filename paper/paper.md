@@ -334,17 +334,24 @@ disyllable layouts statistically indistinguishable under the proxy
 metric, with the fused radical composition ahead for trisyllables;
 no human legibility data yet). A four-engine bake-off on identical
 specimen text (`docs/design/gz-engine-bakeoff.md`) subsequently
-sharpened the question: every engine that carries the vowel as a
-small appended mark — including the v0.2 boxed default — renders
-*most* vowel-different word pairs identically at reading-size
-raster (phase-minimized distance 0.000), while the two engines that
-promote the vowel to word-level structure (a drawn inter-letter
-connector whose slope and reach encode the vowel; a Hangul-style
-block whose frame the vowel constitutes) clear the floor with an
-order-of-magnitude margin and beat the incumbent on density at
-equal letterform size. The design lesson generalizes beyond this
-script: a phonological channel is only as robust as the *scale* of
-the ink it modulates, and diacritic-scale ink fails first. The feature grammar has headroom by
+sharpened the question: engines that carry the vowel as a small
+appended mark — including the v0.2 boxed default — hold vowel
+distances an order of magnitude below their onset distances at a
+reading-size raster (median 0.05–0.08 against 0.25–0.57), and at
+a ~6px extreme raster their isolated vowel channels collapse
+outright (12/20 to 20/20 of vowel-different word pairs rendering
+identically under phase-minimized occupancy distance). The two
+engines that promote the vowel to word-level structure — a drawn
+inter-letter connector whose slope and reach encode the vowel, and
+a Hangul-style block whose frame the vowel constitutes — hold
+vowel medians of 0.30–0.42 at reading size, and the block engine's
+vowel channel survives even the extreme raster with no collapsed
+pairs. The chain engine is also the densest page at equal measured
+letterform size (~25–35% less area per word than the incumbent);
+the block engine is density-parity with it. The design lesson
+generalizes beyond this script: a phonological channel is only as
+robust as the *scale* of the ink it modulates, and diacritic-scale
+ink fails first. The feature grammar has headroom by
 construction: 18 usable onset cells against 11 assigned, nine vowel grid positions against five, so
 the wider codepoint model (§12) fits, with any new modifier required to
 pass the same robustness bar. The block diagram is simultaneously the

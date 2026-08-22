@@ -101,6 +101,10 @@ disyllable pairs:
 | T1 join topology only | 0.0690 | 0.1579 | 0.1379 | 0.5161 | 0.306 |
 | T2 topology + small tick | 0.0645 | **0.2000** | 0.1250 | 0.4848 | **0.412** |
 
+(Medians in this table use the upper-middle-value convention and
+pre-date the anchor correction — both fixed in §6; kept as the
+record of what round 1 was judged on.)
+
 Findings:
 
 1. **The defect is worse than §4.2 reported and is now confirmed at
@@ -160,15 +164,27 @@ subset-ink and phase-vanishes (measured: the first C build hit
 0.000 on final e/o exactly that way). One rule covers medial and
 final position; the T-scheme's hybrid tick asymmetry disappears.
 
-Measured on the §5 pair families and windows:
+The build surfaced two measurement corrections that apply to the
+whole lane (both from the 2026-08-22 Codex review): the t/s/h
+letters' entry/exit anchors were never ON their ink (so all joined
+schemes drew connectors from whitespace — fixed in strokes.py, with
+an anchors-on-ink regression test), and published "medians" were
+upper-middle values (even-n samples now use the conventional
+mean-of-middle-two). Re-measured on the §5 pair families and
+windows with both fixes:
 
 | scheme | vowel min | vowel median | onset min | onset median | ratio |
 |---|---|---|---|---|---|
-| T0 | 0.0000 | 0.0357 | 0.0000 | 0.4857 | 0.074 |
-| T2 | 0.0645 | 0.2000 | 0.1250 | 0.4848 | 0.412 |
-| **C** | **0.0625** | **0.3000** | 0.0769 | 0.5135 | **0.584** |
+| T0 | 0.0000 | 0.0351 | 0.0000 | 0.4815 | 0.073 |
+| T1 | 0.0690 | 0.1289 | 0.1379 | 0.5156 | 0.250 |
+| T2 | 0.0645 | 0.1469 | 0.1250 | 0.4838 | 0.304 |
+| **C** | 0.0606 | **0.2269** | 0.0741 | **0.5385** | **0.421** |
 
 C clears the vowel floor at T2's level, posts the best median and
 vowel/onset ratio of any scheme, and keeps the one-continuous-
-character quality Edward picked T0 for. Surfaced for verdict in the
-gz-engine-r1 bake-off (as engine E1); adoption is Edward's call.
+character quality Edward picked T0 for. One recorded fragility: at
+the coarser cross-engine "extreme raster" (~6px onsets,
+engine-bakeoff grids) C's word-final e/i pair still collapses —
+the terminal-tail slope contrast is the scheme's thinnest ink.
+Surfaced for verdict in the gz-engine-r1 bake-off (as engine E1);
+adoption is Edward's call.
