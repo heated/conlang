@@ -24,7 +24,7 @@ friends. Start here: **[Read RZ today](docs/rz-start.md)**.
 ## The two tracks
 
 - **RZ** (`docs/design/zonal/`) — the shipping bet. Receptive-first:
-  the zone reads it at sight. Its 96-form closed function-word
+  designed so the zone reads it at sight. Its 96-form closed function-word
   inventory — 60 forms attested in the current corpus — covers 49.2%
   of its 628 tokens; the curriculum models that block at ~1 hour,
   with the complete verb system arriving by ~2 hours (coverage is
@@ -49,8 +49,8 @@ auxiliary-language design can adopt.
 
 The project's design documents use three evidence labels: **[M]**
 measured/computed here, **[D]** derived arithmetic, **[H]**
-hypothesis. The project so
-far has **zero external human subjects** — corpus numbers are real,
+hypothesis. The project so far has **zero external human
+subjects** — corpus numbers are real,
 learner-facing numbers are labeled hypotheses until the
 pre-registered comprehension studies run. The receptive mechanism is
 precedented (Interslavic measured 84% zero-study comprehension in its
