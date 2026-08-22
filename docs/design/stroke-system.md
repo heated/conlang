@@ -141,3 +141,34 @@ Recommendation (agent, shadow-logged): **T2**. It wins the metric,
 keeps a visible vowel mark for large-size reading and for the
 word-final case (so one rule covers both positions), and the tick's
 cost is small ink at a position that already exists.
+
+## 6. Continuous joins — the h05 reconciliation (2026-08-22)
+
+Edward's round verdict rejected T1/T2 ("all over the place"; "a
+worse version of T0, maybe just from alignment") while preferring
+T0's continuity — but T0's vowel floor is 0.000. His "maybe just
+from alignment" hypothesis is now built and measured
+(`tools/strokes_continuous.py`, scheme **C**): the next letter still
+rides high/level/low (height) and tucks/extends (backness), but the
+junction is a DRAWN connector stroke from exit anchor to entry
+anchor — ink never breaks, so the word stays one continuous figure;
+there is no step-jump to misalign. Word-final vowels use the same
+rule: the connector becomes a terminal tail (slope = height, length
+= backness) with an end-hook 70° off the tail for front/back —
+sized above the raster cell pitch because pure tail-length is
+subset-ink and phase-vanishes (measured: the first C build hit
+0.000 on final e/o exactly that way). One rule covers medial and
+final position; the T-scheme's hybrid tick asymmetry disappears.
+
+Measured on the §5 pair families and windows:
+
+| scheme | vowel min | vowel median | onset min | onset median | ratio |
+|---|---|---|---|---|---|
+| T0 | 0.0000 | 0.0357 | 0.0000 | 0.4857 | 0.074 |
+| T2 | 0.0645 | 0.2000 | 0.1250 | 0.4848 | 0.412 |
+| **C** | **0.0625** | **0.3000** | 0.0769 | 0.5135 | **0.584** |
+
+C clears the vowel floor at T2's level, posts the best median and
+vowel/onset ratio of any scheme, and keeps the one-continuous-
+character quality Edward picked T0 for. Surfaced for verdict in the
+gz-engine-r1 bake-off (as engine E1); adoption is Edward's call.
