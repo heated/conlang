@@ -10,8 +10,10 @@ binding constraint), GZ gets the distributed/protocol half
 (concord-as-parity, citation-vs-colloquial register, sparsity
 dividend), doctrine items (channel-split validation,
 starboard/larboard screen rule, densify-with-fluency policy) apply
-to both. Work DEFERRED at Edward's direction; the full routing
-packet lives on bead conlang-ymu.
+to both. Work DEFERRED at Edward's direction, and scoped same day:
+**only the GZ side is of interest for now** — the GN half stays
+parked until reopened. The full routing packet lives on bead
+conlang-ymu.
 Empirical claims herein are chat-sourced — TODO-verify against
 primary sources before paper citation (project convention).
 
