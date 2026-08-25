@@ -358,9 +358,13 @@ class as bare vowel frames (its constant onset carries no
 information within the class), squashing multisyllable blocks
 vertically, and abbreviating high-frequency words to their first
 block plus a brief mark takes the same text to 77% of the
-transparent page area and 59% of its ink, with pair-distinctness
-floors essentially unchanged — the reading-comprehension cost of
-each dial position remains an untested hypothesis. The feature grammar has headroom by
+transparent page area and 59% of its ink; fixing every content
+word into one uniform character cell — the CJK move — reaches 50%
+of the area at 55% of the ink. The measured distinctness price is
+real but modest (the squash costs ~12% of the vowel-channel
+median, with no pair collapses at reading raster); the
+reading-comprehension cost of each dial position remains an
+untested hypothesis. The feature grammar has headroom by
 construction: 18 usable onset cells against 11 assigned, nine vowel grid positions against five, so
 the wider codepoint model (§12) fits, with any new modifier required to
 pass the same robustness bar. The block diagram is simultaneously the

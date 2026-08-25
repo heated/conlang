@@ -32,12 +32,14 @@ first, read holistically with practice. Tool:
 | D0 transparent | 2983 px² | 100% | 300 u | 100% |
 | D1 | 2960 | 99% | 275 | 92% |
 | D2 | 2357 | 79% | 244 | 82% |
-| D3 | 2282 | **77%** | 176 | **59%** |
+| D3 | 2296 | **77%** | 176 | **59%** |
 
-Distinctness price (reading-raster pair floors, shared grid):
-squash moves vowel median 0.450→0.404 and onset 0.260→0.239 with
-minima unchanged — nearly free. D1/D3 change lexical recovery, not
-pair geometry.
+Distinctness price (reading-raster pair floors on the
+PAGE-CONSISTENT grid — an earlier draft measured on a 4/3-finer
+raster and understated this; Codex review r2): squash moves vowel
+median 0.422→0.371 and vowel minimum 0.249→0.197 (onset median
+0.249→0.227). A real but modest cost — ~12% of vowel margin, no
+collapses. D1/D3 change lexical recovery, not pair geometry.
 
 ## Round 2: the fixed cell (Edward's r1 review, 2026-08-25)
 
@@ -50,25 +52,32 @@ standing ideal, named explicitly: **fixed-size characters** ("seems
 nicer, more beautiful, more perfect").
 
 **F-mode** builds that ideal: every content word occupies exactly
-one 64×78 cell — 1-syllable words fill it, n-syllable words squash
-n blocks into the same 64u body, briefs are one block + band mark,
-particles are ink-centered full-weight small marks (fixing both r1
-particle complaints), the brief tick is placed below the word's
-measured ink (fixing the clipping). Uniform cell → uniform line
-pitch, which dissolves the D0 line-gap ambiguity and removes the
-3-tall outliers by construction.
+one 64×82 cell — a 64u body plus an 18u band. 1-syllable words
+fill the body, n-syllable words squash n blocks into it, briefs
+are one block with shortened coda bars and the brief tick side by
+side INSIDE the band (fixing the r1 tick clipping), and particles
+are ink-centered full-weight small marks (fixing both r1 particle
+complaints). Uniform cell → uniform line pitch, which dissolves
+the D0 line-gap ambiguity and removes the 3-tall outliers by
+construction.
 
 | mode | area/word | vs D0 | ink/word | vs D0 |
 |---|---|---|---|---|
 | D3 (variable) | 2296 px² | 77% | 176 u | 59% |
-| **F fixed cell** | **1435** | **48%** | 171 | 57% |
+| **F fixed cell** | **1480** | **50%** | 165 | 55% |
 
-Floors (reading raster, shared grid): the F disyllable squash
-(0.49) holds — vowel median 0.377 vs 0.450 baseline, onset 0.232
-vs 0.260, no collapses. The measured pair families are disyllabic;
-the trisyllable-at-0.31 cell is NOT floor-covered yet and visibly
-darkens (the m ring squashes toward a blob) — briefs keep that
-tail rare, and it is the named next measurement.
+The cell is honestly enclosing: a bounds regression test verifies
+every mode's ink stays inside its reported (w, h) — the first F
+draft returned a 78u cell for ~96u of coda-brief ink and only
+looked right because line leading absorbed the overhang (Codex
+review r2 blocker; the band was redesigned so coda bars and the
+brief tick sit INSIDE it). Floors (page-consistent grid): the F
+disyllable squash holds — vowel median 0.366 vs 0.422 baseline,
+minimum 0.220 vs 0.249, onset median 0.205 vs 0.249, no collapses.
+The measured pair families are disyllabic; the trisyllable cell
+(squash 0.327) is NOT floor-covered yet and visibly darkens (the m
+ring squashes toward a blob) — briefs keep that tail rare, and it
+is the named next measurement.
 
 ## Word length is the remaining dial: the phoneme-space question
 

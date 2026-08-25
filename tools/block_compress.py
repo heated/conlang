@@ -154,7 +154,7 @@ def word(name, dial, dx=0.0, dy=0.0):
 
 # --- F-mode: fixed-size character cell ----------------------------------
 
-CELL_H = 78.0        # 64u body + 14u coda/brief band — EVERY content
+CELL_H = 82.0        # 64u body + 18u coda/brief band — EVERY content
 #                      word occupies exactly one 64x78 cell (the CJK
 #                      ideal Edward keeps pointing at): 1-syll words
 #                      fill it, n-syll words squash n blocks into the
@@ -165,20 +165,46 @@ CELL_H = 78.0        # 64u body + 14u coda/brief band — EVERY content
 #                      outliers that capped D3's space use.
 
 
+def _band_coda_short(coda, dx, y0):
+    """Coda bars shortened to the band's left half (x 10..36) so the
+    brief tick fits beside them INSIDE the cell (review r2: the
+    below-ink tick pushed coda briefs to ~96u, breaking the cell)."""
+    x0, x1 = dx + 10, dx + 36
+    if coda == "n":
+        return [_hline(x0, x1, y0 + 7)]
+    if coda == "s":
+        return [_hline(x0, x1, y0 + 3), _hline(x0, x1, y0 + 11)]
+    if coda == "l":
+        return [_hline(x0, x1 - 6, y0 + 7),
+                f'<line x1="{x1 - 6}" y1="{y0 + 7}" x2="{x1 - 6}" '
+                f'y2="{y0 - 1}" stroke="currentColor" stroke-width="4.6" '
+                f'stroke-linecap="round"/>']
+    return []
+
+
+def _hline(x0, x1, y):
+    return (f'<line x1="{x0}" y1="{y}" x2="{x1}" y2="{y}" '
+            f'stroke="currentColor" stroke-width="4.6" '
+            f'stroke-linecap="round"/>')
+
+
 def word_F(name, dx=0.0, dy=0.0):
     if is_particle(name):
         return particle_mark(name, dx, dy)
     sylls = LEX[name]
     if is_brief(name):
-        parts, w, _ = brief_glyph(name, dx, dy)
-        return parts, w, CELL_H
+        parts, _ = E.block(S(sylls[0].onset, sylls[0].vowel, ""), dx, dy)
+        band = dy + 66
+        parts += _band_coda_short(sylls[-1].coda, dx, band)
+        parts += _brief_mark(dx, band + 2)
+        return parts, 64, CELL_H
     coda = sylls[-1].coda
     bare = [S(s_.onset, s_.vowel, "") for s_ in sylls]
     parts, w, h = E.word(bare, dx, dy)
     if len(sylls) > 1 or h > 64:
         parts = squash_y(parts, 64.0 / h, dy)
     if coda:
-        parts += E.coda_band(coda, dx, dy + 66)
+        parts += E.coda_band(coda, dx, dy + 64)
     return parts, 64, CELL_H
 
 
@@ -263,8 +289,11 @@ def floors():
     """Does the D2 squash keep the reading-raster floors? Same pair
     families as the bake-off, squashed vs baseline disyllables."""
     import itertools
-    span = onset_span(E) * SQUASH        # squashed letterforms are smaller
-    win, n, phases = _geometry(E, span, 12)
+    # page-consistent grid: the page renders everything at ONE scale,
+    # so the raster must use the unsquashed onset span (review r2
+    # finding: shrinking the grid by SQUASH measured everything on a
+    # 4/3-finer raster than the page and understated the squash cost)
+    win, n, phases = _geometry(E, onset_span(E), 12)
     out = {}
     for tag, k in (("E3 baseline", 1.0), ("D2 squash", SQUASH),
                    ("F disyllable", 64.0 / 130.0)):

@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from engine_bakeoff import ENGINES, LEX, parts_bbox, word_parts  # noqa: E402
+# block_compress imported lazily inside its test (import cost)
 from strokes import LETTERS, W  # noqa: E402
 
 
@@ -49,3 +50,16 @@ def test_ink_within_reported_bounds():
             assert x0 >= -3 and y0 >= -3, (eng.tag, name, x0, y0)
             assert x1 <= ww + 3, (eng.tag, name, x1, ww)
             assert y1 <= wh + 3, (eng.tag, name, y1, wh)
+
+
+def test_compress_modes_within_reported_bounds():
+    """Every compression-dial mode honors its reported (w, h) — the
+    r2 review caught F-mode returning a 78u cell for ~96u ink."""
+    from block_compress import ALL_MODES, LEX as CLEX, word
+    for mode in ALL_MODES:
+        for name in CLEX:
+            wp, ww, wh = word(name, mode)
+            x0, y0, x1, y1 = parts_bbox(wp)
+            assert x0 >= -1 and y0 >= -1, (mode, name, x0, y0)
+            assert x1 <= ww + 1, (mode, name, x1, ww)
+            assert y1 <= wh + 1, (mode, name, y1, wh)
