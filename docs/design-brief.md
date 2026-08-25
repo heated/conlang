@@ -213,6 +213,14 @@ else is defined over these coordinates.
   zonal/continental/global auxlang; keep **stealing from other
   conlangs** where it pays; agent owns all of it including
   self-directed exploration. Charter: docs/design/program.md.
+- 2026-08-25: **script-engine call delegated to the agent** ("I'm
+  not just gonna tell you which engine should render the script —
+  ideally you own that") after reviewing the gz-engine-r1 bake-off;
+  his governing critique of all four engines: "still not very
+  efficient per se" — COMPRESSION is the standing script axis.
+  Agent adopted the E3 vowel-as-structure block substrate and built
+  the compression dial (gz-script-efficiency.md; D1+D2 default,
+  briefs as direction).
 - 2026-08-22 (later): **tentative go on the bootstrap pick** —
   S1 graded-reader funnel launched through S2 thesis moment with
   S5 tooling as catcher (rz-bootstrap-scenarios.md); mining-audit

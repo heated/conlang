@@ -193,23 +193,28 @@ class E3:
                           w=BAR_W)
         return parts
 
+    def coda_band(self, coda, dx=0.0, dy=0.0):
+        """POS radical band drawn below a block (band top at dy); ink
+        stays inside dy..dy+16 (review finding: the first draft's
+        s-bars overran the reported height)."""
+        y0 = dy + 2
+        x0, x1 = dx + 10, dx + 54
+        if coda == "n":
+            return [_line(x0, y0 + 7, x1, y0 + 7, w=BAR_W)]
+        if coda == "s":
+            return [_line(x0, y0 + 3, x1, y0 + 3, w=BAR_W),
+                    _line(x0, y0 + 11, x1, y0 + 11, w=BAR_W)]
+        if coda == "l":
+            return [_line(x0, y0 + 7, x1 - 8, y0 + 7, w=BAR_W),
+                    _line(x1 - 8, y0 + 7, x1 - 8, y0 - 1, w=BAR_W)]
+        return []
+
     def block(self, syl, dx=0.0, dy=0.0):
         parts, region = self._frame(syl, dx, dy)
         parts += self._onset_into(syl.onset, region)
         h = 64.0
         if syl.coda:
-            # coda band fully inside the returned height (review
-            # finding: the first draft's s-bars overran it)
-            y0 = dy + 66
-            x0, x1 = dx + 10, dx + 54
-            if syl.coda == "n":
-                parts.append(_line(x0, y0 + 7, x1, y0 + 7, w=BAR_W))
-            elif syl.coda == "s":
-                parts.append(_line(x0, y0 + 3, x1, y0 + 3, w=BAR_W))
-                parts.append(_line(x0, y0 + 11, x1, y0 + 11, w=BAR_W))
-            elif syl.coda == "l":
-                parts.append(_line(x0, y0 + 7, x1 - 8, y0 + 7, w=BAR_W))
-                parts.append(_line(x1 - 8, y0 + 7, x1 - 8, y0 - 1, w=BAR_W))
+            parts += self.coda_band(syl.coda, dx, dy + 64)
             h = 82.0
         return parts, h
 

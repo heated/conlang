@@ -351,7 +351,16 @@ letterform size (~25–35% less area per word than the incumbent);
 the block engine is density-parity with it. The design lesson
 generalizes beyond this script: a phonological channel is only as
 robust as the *scale* of the ink it modulates, and diacritic-scale
-ink fails first. The feature grammar has headroom by
+ink fails first. On the adopted block substrate, a rule-derived
+compression dial (`docs/design/gz-script-efficiency.md`) then
+prices page efficiency directly: rendering the closed particle
+class as bare vowel frames (its constant onset carries no
+information within the class), squashing multisyllable blocks
+vertically, and abbreviating high-frequency words to their first
+block plus a brief mark takes the same text to 77% of the
+transparent page area and 59% of its ink, with pair-distinctness
+floors essentially unchanged — the reading-comprehension cost of
+each dial position remains an untested hypothesis. The feature grammar has headroom by
 construction: 18 usable onset cells against 11 assigned, nine vowel grid positions against five, so
 the wider codepoint model (§12) fits, with any new modifier required to
 pass the same robustness bar. The block diagram is simultaneously the

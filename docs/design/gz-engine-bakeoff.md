@@ -125,3 +125,21 @@ All reversible; nothing touches the feature grammar or the frozen
 letter identities (E1/E3 reuse the stroke-program letterforms).
 
 Shadow pick sealed in `docs/process/workshop-shadow-log.md`.
+
+## Round outcome (Edward, 2026-08-25)
+
+Edward reviewed all four: E1 "interesting" but with blocking look
+objections (jarring s-joins; sala/sola not eye-distinguishable;
+piton "kinda bad"); E2 better than E0 but "same issue"; E3 like E0
+but "leaning into the blockiness... maybe a little better". His
+governing point: every page is "still not very efficient per se" —
+the missing axis is COMPRESSION, which no transparent rendering can
+show. He **delegated the engine call to the agent**.
+
+**Adoption (agent, under that delegation): E3 substrate.** Best
+measured vowel channel at every raster, Edward's mild lean, and the
+block form composes directly with the compression moves. E1's
+connector mechanism is parked as a possible handwriting/ligature
+mode, not adopted. The efficiency layer built on this substrate is
+`docs/design/gz-script-efficiency.md` — that lane, not further
+substrate rounds, is where the script goes next.
