@@ -79,15 +79,43 @@ The measured pair families are disyllabic; the trisyllable cell
 ring squashes toward a blob) — briefs keep that tail rare, and it
 is the named next measurement.
 
+## Round 2 verdict (Edward, 2026-08-25)
+
+**F is rejected** — "it just doesn't really work... squishing some
+characters into not being very distinguishable." The uniform cell's
+price (compressed internals) fails by eye even though the pair
+floors pass — a recorded case of the occupancy metric not
+capturing visual crowding. **D3 is the preferred page format**
+("looks pretty good overall"). D0 remains only as the measurement
+control. Standing adoption: D1+D2+briefs-direction (D3), F parked
+with its measurement as the bound on what uniform cells would buy
+(50% area) if a future letterform redesign survives squashing.
+
 ## Word length is the remaining dial: the phoneme-space question
 
 Edward (2026-08-25): would we use fewer characters per word with a
 larger phoneme inventory — and does humility constrain that? Yes on
 both, and it is already quantified: a word's character count IS its
 syllable count, and monosyllable capacity is the binding
-constraint. Raw body space is 10 onsets × 5 vowels = 50 cells;
-humility leaves **22 adopted (18 strict, 15 after reserve)**
-monosyllabic root bodies (lexgen report). The priced relaxation
+constraint.
+
+Number reconciliation (Edward pushed back on "raw space 50" —
+"GZ's raw space is 200 or 400"): both are right, counting
+different things. The FULL syllable space is 10 onsets × 5 vowels
+× 4 codas = 200 (≈220 with the particle row; ~440 written forms
+with the register doubling) — Edward's number. The **root-body
+space is 50** (onset × vowel only) because all four codas are
+reserved for POS — the coda channel multiplies *grammar*, not
+vocabulary. That reservation is exactly what makes monosyllabic
+vocabulary scarce; the sss ledger's POS-lane-reuse rung is
+precisely "spend some coda space on words again." (Naming flag:
+Edward contrasted "GN" vs "GZ" here — the repo has one greenfield,
+handle GZ, with the narrow 10×5×4 inventory; if GN/GZ is meant to
+distinguish the narrow build from a wider-phonology variant (the
+parked wide branch, tools/explore_wide.py), that naming should be
+settled next session.) Humility then leaves **22 adopted (18
+strict, 15 after reserve)** monosyllabic root bodies of the 50
+(lexgen report). The priced relaxation
 menu exists (capacity-ledger.md, conlang-sss): POS-lane reuse
 alone reaches ~66 bodies at a simulated cost of 2.5–30 silent
 substitutions/10k words depending on syntactic catch rate — i.e.
