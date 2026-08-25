@@ -1,5 +1,16 @@
 # GZ script-engine bake-off — round 1 (conlang-e35, 2026-08-22)
 
+> **Scope correction (Edward, 2026-08-25):** the "GZ-shaped text"
+> below is actually **GF-N-shaped** — the narrow v0.2 core
+> inventory (10 onsets, 5 vowels), not GZ, which per gz-sketch.md
+> inherits Romance's phoneme space (~29-36 onsets incl. clusters,
+> 8-14 nuclei, ~2,000-3,000 legal syllables). The engine-level
+> findings (structural vs appended-mark vowels, etc.) are
+> mechanism properties and stand; every numeric floor and density
+> figure is GF-N-scoped. The GZ-width port (3× letterforms via
+> extend-by-bases, diphthong frames, cluster onsets, clitic-class
+> particles) is open work — see gz-script-efficiency.md.
+
 The program charter left one fork open in the script lane: which
 rendering ENGINE carries the GZ script. This round put four
 genuinely different engines over the same GZ-shaped specimen

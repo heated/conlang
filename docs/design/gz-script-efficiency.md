@@ -91,42 +91,55 @@ control. Standing adoption: D1+D2+briefs-direction (D3), F parked
 with its measurement as the bound on what uniform cells would buy
 (50% area) if a future letterform redesign survives squashing.
 
-## Word length is the remaining dial: the phoneme-space question
+## SCOPE CORRECTION (Edward, 2026-08-25): this lane ran on GF-N,
+## not GZ
 
-Edward (2026-08-25): would we use fewer characters per word with a
-larger phoneme inventory — and does humility constrain that? Yes on
-both, and it is already quantified: a word's character count IS its
-syllable count, and monosyllable capacity is the binding
-constraint.
+Edward caught a session-long naming error: every round in this
+lane (the engine bake-off, the compression dial, F-mode) rendered
+the **GF-N inventory** — the narrow v0.2 core, 10 onsets × 5
+vowels × 4 codas, raw space 200 (width-ladder.md; 320-512 on the
+diphthong/wide rungs). **GZ is not that language.** Per gz-sketch.md
+(Edward directive 2026-08-15), GZ is the greenfield ZONAL: it
+inherits its syllable inventory from the Romance base — ~29-36
+onsets including clusters, 8-14 nuclei (vowels + rising
+diphthongs), 6-8 codas — a legal space of **~2,000-3,000
+syllables** (chord co-design: 5,184 raw, ~2,073 after the humility
+screen), roughly **10× GF-N**. And in GZ "the screen prunes pairs,
+not space": nothing is reserved.
 
-Number reconciliation (Edward pushed back on "raw space 50" —
-"GZ's raw space is 200 or 400"): both are right, counting
-different things. The FULL syllable space is 10 onsets × 5 vowels
-× 4 codas = 200 (≈220 with the particle row; ~440 written forms
-with the register doubling) — Edward's number. The **root-body
-space is 50** (onset × vowel only) because all four codas are
-reserved for POS — the coda channel multiplies *grammar*, not
-vocabulary. That reservation is exactly what makes monosyllabic
-vocabulary scarce; the sss ledger's POS-lane-reuse rung is
-precisely "spend some coda space on words again." (Naming flag:
-Edward contrasted "GN" vs "GZ" here — the repo has one greenfield,
-handle GZ, with the narrow 10×5×4 inventory; if GN/GZ is meant to
-distinguish the narrow build from a wider-phonology variant (the
-parked wide branch, tools/explore_wide.py), that naming should be
-settled next session.) Humility then leaves **22 adopted (18
-strict, 15 after reserve)** monosyllabic root bodies of the 50
-(lexgen report). The priced relaxation
-menu exists (capacity-ledger.md, conlang-sss): POS-lane reuse
-alone reaches ~66 bodies at a simulated cost of 2.5–30 silent
-substitutions/10k words depending on syntactic catch rate — i.e.
-moving from engineered-rare to natural-language-typical error
-rates. Expanding the inventory itself (more onsets/codas) is the
-other lever: the script has explicit headroom (18 usable onset
-cells vs 11 assigned; 9 vowel positions vs 5), so every added
-phoneme shortens the average word at the price of clearing the
-confusion matrix. Efficiency-of-page and robustness-of-channel
-meet exactly here; the trade lives in the sss ledger, not in the
-renderer.
+Consequences for the phoneme-space question Edward asked: in GZ it
+dissolves. With thousands of usable syllables, the core vocabulary
+can live at 1-2 syllables per word — the word-shortening that GF-N
+could only buy through the sss capacity ledger (22 bodies → ~66
+via priced POS-lane reuse) is GZ's *starting condition*. The
+GF-N numbers in earlier drafts of this section (raw 50 bodies, 22
+adopted) describe GF-N only.
+
+Consequences for the script results in this doc and
+gz-engine-bakeoff.md — what survives the re-scope and what does
+not:
+
+- **Substrate-level findings survive** [D]: appended-mark vowels
+  phase-vanish, structural (frame) vowels cannot, briefs and
+  fixed-cell trade the way they trade. These are properties of the
+  rendering mechanisms, measured on GF-N letterforms.
+- **All numeric floors and density figures are GF-N-scoped** [M on
+  GF-N]. GZ needs ~3× the onset letterforms (extend-by-bases law,
+  letterform-capacity.md — the wide-inventory question was already
+  flagged there as GF-W's blocker), diphthong frames (the vowel
+  grid has 9 positions for 5 assigned — headroom, but rising
+  diphthongs need a glide mark), and cluster onsets (compositional:
+  base + liquid mark is the natural move). Distinctness gets
+  HARDER at that width; nothing measured here licenses GZ floors.
+- **D1 does not port as-is**: GF-N's "h is the only particle
+  onset" is false in GZ, whose grammar words are the Romance
+  clitic set (le, les, a, de, no, va, se...) with varied onsets.
+  The particle move must become a class-styling tier (small cell,
+  full weight) justified by closed-class membership, not by a
+  redundant onset.
+- **Briefs port cleanly** (frequency logic is inventory-agnostic),
+  and matter LESS: with mostly 1-2-syllable words, the brief
+  tier's gain shrinks.
 
 ## Status and open work
 

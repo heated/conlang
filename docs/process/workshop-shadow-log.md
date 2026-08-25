@@ -16,6 +16,17 @@ filled only when something objective later adjudicates.
 | 2026-08-25 | gz-efficiency-r1: compression dial D0-D3 on the E3 substrate (.ship-notes/workshop/gz-efficiency-r1/) | **adopt D1+D2 now** (79% area / 82% ink vs transparent, floors nearly unchanged, rule-derived, zero memorization), **D3 as direction** (77% area / 59% ink) pending a bounded brief tier + collision policy. Scored with compression as first-class criterion per the engine-round lesson | same day: D0 readable (line-gap ambiguity with 3-tall stacks); D1 particles float in ghost box + too light; D2 readable but uglier; D3 fine except residual 3-tall words + tick clipping; and the standing ideal named: FIXED-SIZE characters | ~agree on substance (dial accepted as direction); missed that his ideal (fixed cell) was the real target — built as F-mode in r2 | r2 |
 | 2026-08-25 | gz-efficiency-r2: F-mode fixed 64x82 cell + particle/tick fixes | **adopt F as default page format** (50% area / 55% ink — the ideal is also the measured winner; floors hold at the disyllable squash); D-dial kept as loose/display mode; trisyllable cell + brief collision policy are the open costs | same day: **F "just doesn't really work — squishing some characters into not being very distinguishable"; D3 "looks pretty good overall"** (wants the brief mechanism explained); D0's role unclear to him (it's the control) | **MISS** — F was my pick, rejected on legibility-by-eye; his own fixed-size ideal lost to D3 when he saw the squash cost | D3 is the working format |
 
+Scope error caught by Edward (2026-08-25, after the F round): the
+entire engine + efficiency lane rendered the GF-N inventory while
+calling it GZ — GZ per gz-sketch.md has Romance's phoneme space
+(~10× the syllables, clitic particles, clusters, diphthongs). His
+"efficient script" ask was about GZ proper; part of why every page
+felt inefficient to him is that GF-N words are structurally 2-3
+syllables where GZ words would mostly be 1-2. Lesson: load the
+target language's DEFINITION before building rounds on it; the
+handles (GF-N / GF-W / GF-C / GZ / RZ) name different design
+points, not one greenfield.
+
 Lesson from the F miss: Edward's "fixed-size ideal" was a
 hypothesis he wanted tested, not a preference to satisfy — when
 uniformity's price (squashed internals) became visible he dropped
