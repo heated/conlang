@@ -62,6 +62,7 @@ FREQ = Counter(PARA)
 # not swallow real layout gains (105 tokens -> only 3 lines)
 PAGE_TEXT = PARA * 3
 DIALS = ("D0", "D1", "D2", "D3")
+ALL_MODES = DIALS + ("F",)
 
 
 def squash_y(parts, k, y_top):
@@ -100,33 +101,85 @@ def is_brief(name):
             and len(LEX[name]) >= 2)
 
 
+PARTICLE_CELL = 46.0
+
+
+def particle_mark(name, dx=0.0, dy=0.0):
+    """Frame-only particle, r2 fixes (Edward, 2026-08-25): FULL stroke
+    weight (the 0.72-scaled marks read 'not as bold' next to blocks),
+    and centered on its own INK — the frame's position inside the old
+    64u ghost box made marks sit 'on the right side of a blank
+    square'."""
+    syl = LEX[name][0]
+    raw = E._frame(syl, 0, 0)[0]
+    if syl.coda:
+        raw += E.coda_band(syl.coda, 0, 64)
+    x0, y0, x1, y1 = parts_bbox(raw)
+    s = PARTICLE_SCALE
+    ox = dx + (PARTICLE_CELL - (x1 - x0) * s) / 2 - x0 * s
+    oy = dy + 12 + (52 - (y1 - y0) * s) / 2 - y0 * s
+    return refit(raw, s, ox, oy, floor=4.6), PARTICLE_CELL, 64.0
+
+
+def brief_glyph(name, dx=0.0, dy=0.0):
+    """Brief, r2 fix: the tick sits fully BELOW the word's ink with
+    clearance (it 'intersects a little weirdly' when a bottom-bar
+    vowel put ink where the tick landed)."""
+    sylls = LEX[name]
+    parts, _ = E.block(S(sylls[0].onset, sylls[0].vowel, ""), dx, dy)
+    coda = sylls[-1].coda
+    if coda:
+        parts += E.coda_band(coda, dx, dy + 66)
+    bottom = parts_bbox(parts)[3]
+    parts += _brief_mark(dx, bottom + 4)
+    return parts, 64, bottom + 18 - dy
+
+
 def word(name, dial, dx=0.0, dy=0.0):
     """Render one word at a dial position. Returns (parts, w, h)."""
     sylls = LEX[name]
+    if dial == "F":
+        return word_F(name, dx, dy)
     lvl = DIALS.index(dial)
     if lvl >= 1 and is_particle(name):
-        syl = sylls[0]
-        parts = E._frame(syl, 0, 0)[0]
-        h = 64.0
-        if syl.coda:
-            parts += E.coda_band(syl.coda, 0, 64)
-            h = 80.0
-        parts = refit(parts, PARTICLE_SCALE, dx, dy + 8)
-        return parts, 64 * PARTICLE_SCALE, h * PARTICLE_SCALE + 8
+        return particle_mark(name, dx, dy)
     if lvl >= 3 and is_brief(name):
-        parts, _ = E.block(S(sylls[0].onset, sylls[0].vowel, ""), dx, dy)
-        y = dy + 66
-        coda = sylls[-1].coda
-        if coda:
-            parts += E.coda_band(coda, dx, y)
-            y += 16
-        parts += _brief_mark(dx, y - 12 if not coda else y - 2)
-        return parts, 64, (y - dy) + 6
+        return brief_glyph(name, dx, dy)
     parts, w, h = E.word(sylls, dx, dy)
     if lvl >= 2 and len(sylls) >= 2:
         parts = squash_y(parts, SQUASH, dy)
         h *= SQUASH
     return parts, w, h
+
+
+# --- F-mode: fixed-size character cell ----------------------------------
+
+CELL_H = 78.0        # 64u body + 14u coda/brief band — EVERY content
+#                      word occupies exactly one 64x78 cell (the CJK
+#                      ideal Edward keeps pointing at): 1-syll words
+#                      fill it, n-syll words squash n blocks into the
+#                      same 64u body, briefs are 1 block + band mark.
+#                      Uniform cell -> uniform line pitch, which also
+#                      answers the D0 complaint (inter-line gap vs
+#                      intra-word gap ambiguity) and kills the 3-tall
+#                      outliers that capped D3's space use.
+
+
+def word_F(name, dx=0.0, dy=0.0):
+    if is_particle(name):
+        return particle_mark(name, dx, dy)
+    sylls = LEX[name]
+    if is_brief(name):
+        parts, w, _ = brief_glyph(name, dx, dy)
+        return parts, w, CELL_H
+    coda = sylls[-1].coda
+    bare = [S(s_.onset, s_.vowel, "") for s_ in sylls]
+    parts, w, h = E.word(bare, dx, dy)
+    if len(sylls) > 1 or h > 64:
+        parts = squash_y(parts, 64.0 / h, dy)
+    if coda:
+        parts += E.coda_band(coda, dx, dy + 66)
+    return parts, 64, CELL_H
 
 
 def ink_length(parts):
@@ -141,7 +194,8 @@ DIAL_DESC = {
     "D0": "transparent baseline (adopted E3 blocks)",
     "D1": "+ frame-only particles (h carries no info in its class)",
     "D2": "+ 0.75 vertical squash on multisyllable content words",
-    "D3": "+ briefs: freq>=6 words as block1 + coda + tick"}
+    "D3": "+ briefs: freq>=6 words as block1 + coda + tick",
+    "F": "FIXED CELL 64x78: every content word is one character"}
 
 
 def page(dial):
@@ -169,7 +223,7 @@ def page(dial):
 def stats():
     rows = {}
     base = None
-    for dial in DIALS:
+    for dial in ALL_MODES:
         _, st = page(dial)
         if base is None:
             base = st
@@ -184,7 +238,7 @@ SAMPLE = ["ha", "ho", "han", "sala", "piton", "namu", "salaan", "menokis"]
 
 def sheet():
     parts, y = [], 46
-    for dial in DIALS:
+    for dial in ALL_MODES:
         parts.append(_text(20, y - 24, f"{dial}: {DIAL_DESC[dial]}"))
         x, tall = 24, 0.0
         for name in SAMPLE:
@@ -212,7 +266,8 @@ def floors():
     span = onset_span(E) * SQUASH        # squashed letterforms are smaller
     win, n, phases = _geometry(E, span, 12)
     out = {}
-    for tag, k in (("E3 baseline", 1.0), ("D2 squash", SQUASH)):
+    for tag, k in (("E3 baseline", 1.0), ("D2 squash", SQUASH),
+                   ("F disyllable", 64.0 / 130.0)):
         def render(sylls, k=k):
             p = E.word(sylls)[0]
             return squash_y(p, k, 0.0) if k != 1.0 else p
@@ -255,7 +310,7 @@ def main(argv=None):
     if args and args[0] == "pages":
         outdir = Path(args[args.index("--outdir") + 1]
                       if "--outdir" in args else ".")
-        for dial in DIALS:
+        for dial in ALL_MODES:
             svg_text, st = page(dial)
             p = outdir / f"page_{dial}.svg"
             p.write_text(svg_text)
