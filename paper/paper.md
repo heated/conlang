@@ -822,7 +822,34 @@ conclusion.
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:
 it is the only direction that attacks the ~39 bits/s wall itself rather
-than routing around it.
+than routing around it. A first structural bake-off has now been run
+(`docs/design/spatial-sentence-layer.md`): a deterministic parse of the
+grammar (POS coda, particle roles, SSM) into a clause graph, rendered
+by five spatial grammars — linear control, referent lanes (x = entity,
+the ASL move), role compass, Heptapod-style proposition rings, and a
+schema-grid ablation — with diagnostics computed from the placed
+geometry. Three results are worth recording, all [M] on the renders and
+none of them evidence about cognition. First, the **selection** margin
+is real and architectural: referent lanes confine the search for every
+mention of an entity to 0.6% of the page against 31.7% for running
+text. Second, the intuition that spatial layouts economize by writing
+each entity once is **false** once caps, bars and connectors are
+counted as marks — marks per proposition is flat across all layouts and
+the plain table is lowest. Third, and most usefully, **compactness and
+selection trade off directly**: pinning reference to a coordinate costs
+roughly a 10× area penalty, while a chain layout that reclaims that
+area (1.7× a plain string, clause order and complement attachment
+intact) buys essentially no selection, because a chain collapses only
+adjacent coreference. The Heptapod ring fails outright — with agent and
+patient at opposite angles every share forces collinearity, so the
+rings degenerate into a 1-D chain, and rings have no reading order, so
+clause order and complement attachment are lost. Whether the layer is a
+reading format at all, or a reference/skimming surface beside ordinary
+text, is the open question; a behavioural gate (randomized selection,
+binding and integration tasks after fixed training, with the
+precommitment that the thesis fails unless a spatial condition beats
+both the string and the table on accuracy-adjusted response time with a
+shallower slope in clause count) has been specified and not run.
 
 ## References
 
