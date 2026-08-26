@@ -9,20 +9,38 @@ The **spatial sentence layer** is the project's designated sequel
 (`docs/design-brief.md` Tier 4; `paper/paper.md` §closing). Its thesis,
 from the original design record:
 
-- Reading throughput converges near **~39 bits/s** across languages and
-  scripts. The bottleneck is downstream of perception — serial binding
-  plus working memory — not the eyes. [H, TODO-verify]
+- Throughput converges hard, but **the ~39 bits/s figure is about
+  SPEECH, not reading** (Coupe et al. 2019). Reading converges
+  separately: 184 wpm aloud / 238 wpm silent across 17 scripts, Chinese
+  fastest in the set (IReST 2012; Brysbaert 2019). The bottleneck is
+  downstream of perception — but see the correction below, because the
+  mechanism we assumed is wrong. [H]
 - So a denser script buys **compactness and scannability, not speed**
   (Chinese vs English: ~2× spatial density, same bits/s, shorter
   saccades).
 - The exploitable margins are **prediction**, **selection** (make
   structure visible pre-comprehension so you read *less*), and
-  **parallelism** (stop being a string). Only the third attacks the wall
-  itself: spatial layouts hand relations to parallel vision. Nobody reads
-  a subway map or a schematic aloud.
-- Precedents on record: ASL assigns referents to locations in signing
-  space (pronoun ambiguity becomes architecturally impossible);
-  Heptapod B writes propositions as nonlinear rings; math and circuit
+  **parallelism** (stop being a string).
+- **The parallelism premise is wrong as stated, and this is the round's
+  most important update** (prior-art survey, `spatial-layer-prior-art.md`):
+  binding is the one thing vision does *serially*. Treisman & Gelade —
+  features are preattentive and parallel, **conjunctions are searched
+  serially**; Franconeri et al. — the visual system delivers relations
+  "one relation at a time". What survives is not parallelism but
+  **Larkin & Simon's locality of search**: diagrams "group together all
+  information that is used together, thus avoiding large amounts of
+  search". So the defensible claim is reduced search and reduced
+  working-memory load for reference re-access, *for a reader who has
+  learned the conventions* — which is exactly what this lane measured.
+- **ASL is the decisive natural experiment, and it caps the ambition.**
+  It does assign referents to spatial loci, so unambiguous referents grow
+  with space rather than colliding on a few pronouns. But ASL runs ~2
+  signs/s against English's ~4–5 words/s at an **identical propositional
+  rate**, and Signed English — same language, spatial grammar removed —
+  runs at **half** ASL's propositional rate. The spatial machinery is
+  load-bearing for *parity*, and parity is the ceiling.
+- Other precedents on record: Heptapod B writes propositions as nonlinear
+  rings (a ~100-logogram film prop with no grammar); math and circuit
   notation.
 - **The conlang's specific contribution** is that extraction is
   deterministic. POS coda marks noun/verb/modifier, a closed particle

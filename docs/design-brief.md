@@ -15,7 +15,9 @@ publication, and portable-toolkit lanes.
 A language that is **maximally fast to learn**, where fast **typing**
 (chording) and fast-to-acquire **reading** (featural script) fall out of the
 architecture for free. Explicit non-goals: raw speaking/reading throughput
-(pinned by cognition at ~39 bits/s regardless of code), speech density (the
+(pinned by cognition regardless of code: speech converges near ~39
+bits/s [@coupe2019], and reading converges independently near 184 wpm
+aloud / 238 wpm silent across 17 scripts — IReST 2012, Brysbaert 2019), speech density (the
 "wide phonology" branch is dead), full FEC in casual speech.
 
 ## Core architecture

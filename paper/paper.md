@@ -64,8 +64,10 @@ two: the writing system, the input method, and the phonology are one
 object, not three curricula.
 
 Explicit non-goals, argued in §2: raw speech and reading throughput
-(empirically pinned near ~39 bits/s by cognition, not by the code
-[@coupe2019]), and spoken density (the "wide phonology" branch is
+(empirically pinned by cognition, not by the code: speech near ~39
+bits/s [@coupe2019], and reading — a separate literature that converges
+just as hard — near 184 wpm aloud and 238 wpm silent across 17 scripts,
+with Chinese the *fastest* in the set [@irest2012; @brysbaert2019]), and spoken density (the "wide phonology" branch is
 rejected in §3.4). The honest pitch is therefore narrow: large gains in
 time-to-literacy and input speed, real gains in compactness,
 scannability, and machine legibility, and approximately zero gains in
@@ -821,8 +823,22 @@ conclusion.
 
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:
-it is the only direction that attacks the ~39 bits/s wall itself rather
-than routing around it. A first structural bake-off has now been run
+it is the only direction that attacks the throughput wall itself rather
+than routing around it. That framing now needs one correction and one
+retreat. The correction: the ~39 bits/s figure is a *speech* result
+[@coupe2019]; reading converges separately and just as hard. The
+retreat is larger — the mechanism we assumed, that parallel vision
+would perform the relational binding, inverts the psychophysics.
+Feature-integration and relational-judgment work find that binding is
+precisely what vision does *serially*, one relation at a time. What
+survives is Larkin and Simon's locality-of-search argument: a diagram
+groups information that is used together and so avoids search, for a
+reader who already knows how to read it. And the natural experiment is
+unencouraging about the ceiling: signed languages do assign referents
+to spatial loci, yet produce roughly half as many signs per second as
+English produces words at an identical propositional rate, while a
+signed register that drops the spatial grammar halves that rate again.
+The spatial machinery buys parity, not surplus. A first structural bake-off has now been run
 (`docs/design/spatial-sentence-layer.md`): a deterministic parse of the
 grammar (POS coda, particle roles, SSM) into a clause graph, rendered
 by five spatial grammars — linear control, referent lanes (x = entity,
