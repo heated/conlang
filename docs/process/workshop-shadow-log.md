@@ -18,6 +18,51 @@ filled only when something objective later adjudicates.
 
 | 2026-08-26 | spatial-r1: the spatial sentence layer, S0 linear / S1 referent lanes / S2 role compass / S3 proposition rings / S4 schema grid (.ship-notes/workshop/spatial-r1/) | **S1 referent lanes as the direction**, with **S4 grid as the baseline it must beat** (S4 is complete on oracle coverage, lowest marks, half the area — fancy layouts must earn their keep against it). **S3 rejected on information, not taste**: rings have no reading order so clause order is lost, no complement attachment, and the angular channel degenerates to a 1-D chain (3/7 shares satisfiable). S2 dominated. Reason for S1: the only structural win round 1 actually supports is SELECTION — 0.6% of the page to find every mention of a referent vs 31.7% for a string, architectural rather than incidental. Scored with compression as a first-class criterion per the engine-round lesson, which is why the pick is hedged: **predicting Edward's efficiency axis fires on the ~10× area cost** and that he asks what the layer is FOR (reading vs skimming/reference) rather than accepting it as prose replacement. Secondary prediction: he finds S3's chain-of-circles visually interesting even though it fails the gate, and S2 gets rejected outright | — | — |
 
+**spatial-r1: NO VERDICT RENDERED — the sealed pick stays unscored.**
+Edward gave running commentary on all six panels, then corrected me
+explicitly (2026-08-26): *"I'm not sure that I chose anything. I know
+that you're framing all that as a choice... please just take what I say
+as feedback... you're looking at what I said as like explicitly
+rejecting certain things within your frame, but I was not operating
+within your frame."* An earlier draft of this row scored the pick a MISS
+against a supposed S4 win. That was me converting feedback into an
+adjudication so the scoreboard would resolve. **Process lesson: the
+shadow protocol scores picks against VERDICTS, and a round that receives
+feedback instead of a verdict simply does not resolve. Do not
+manufacture one — ask for a verdict if a verdict is wanted.**
+
+His feedback, recorded as feedback:
+
+- **The governing critique is general, not per-layout.** "It's just a map
+  of the mechanics of the story. I imagine you could just summarize it."
+  When I attached that to S1 alone he corrected me: *"I think that's true
+  of just all of these. Notably, these are all about the same thing."*
+  Every layout in the round is the same kind of object — a mechanics map
+  of a story — and the live question is whether that object is worth
+  making at all, against simply summarizing.
+- Readability notes: S0 hard at first because it has **no sentence
+  periods** — a defect in the CONTROL, which biases every comparison;
+  colours not doing much at this size; "I don't even know what the bold
+  thing is". S1 readable, space-hungry, arrow direction possibly
+  backwards. S2 "competing with plain text... doesn't compact very well",
+  complement line "just goes off" (bug). S3 "kinda ugly", overlapping
+  boxes and stranded rings (bugs), "I don't know why the circles
+  themselves are there" — though the chain inside it "seems cool and
+  fine". S4 "the easiest of these for me to learn", most prose-like,
+  "might be faster to scan"; worry: "when" is one of a long tail of
+  possible columns. S5 hard at first; seams "need to be more prominent
+  given that there's so much happening within each section"; the past
+  chevron reads as a reversed arrow.
+- **Method, his:** compare each layout on a NEW text (he already knew the
+  content); give training sentences first; make the real read 150-250
+  words. Corollary: the plain-English gloss printed atop every panel is
+  itself a confound — it hands over the answer before the layout is read.
+- **Scale:** area matters "at the essay level... less at the sentence or
+  short paragraph level, although those might be predictive."
+- **New thread, his:** "wasn't some of the stuff we were considering more
+  in the direction of a picture is worth a thousand words — use of
+  pictures or something."
+
 Addendum to the spatial-r1 row (logged AFTER the pick was sealed, BEFORE
 Edward answered — the pick above stands as written): the S3 post-mortem
 said its chain residue was the legible part, so **S5 "the chain" was

@@ -95,6 +95,28 @@ The stimulus itself (not any layout) forces a serial binding span of
 **7.1 tokens mean / 16 worst** — the working-memory reach a linear
 reader holds to bind a referent to its previous mention.
 
+## Essay scale [M] — the scale that actually matters
+
+Edward, 2026-08-26: area "matters a lot more for like at the essay level
+and less at the sentence or short paragraph level, although those might
+be predictive." He is right that it is predictive and right that the
+short-text numbers are the wrong headline. At 32 clauses (~200 words,
+the `study` test texts) the ordering holds but the ratios move a lot:
+
+| layout | page at 32 clauses | vs linear | vs its own 8-clause ratio |
+|---|---|---|---|
+| S0 linear | 0.55 Mpx | 1.0× | — |
+| S5 chain | 0.72 Mpx | **1.3×** | improved from 1.7× |
+| S4 grid | 1.69 Mpx | 3.1× | improved from 4.5× |
+| S1 lanes | 3.30 Mpx | 6.0× | improved from 9.6× |
+| S2 compass | 4.01 Mpx | 7.3× | improved from 9.9× |
+| S3 rings | 4.23 Mpx | 7.7× | and **7131 px wide** — unusable |
+
+Every spatial layout amortizes as the text grows (fixed scaffolding —
+lane heads, column headers — is paid once), so short-text area
+penalties are upper bounds. The exception is S3, which grows in one
+dimension only and becomes a 7000-pixel ribbon.
+
 ## Findings
 
 1. **The selection win is real and large.** To find everything about one

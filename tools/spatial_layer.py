@@ -32,15 +32,205 @@ from dataclasses import dataclass, field
 
 # ---------------------------------------------------------------- source
 
-SOURCE = [
-    "engineer build-n bridge stone-s hol valley",
-    "bridge cross-n river",
-    "river hoon flood-n valley hol spring",
-    "flood haan damage-n bridge",
-    "engineer say-n hel stone hold-n",
-    "stone come-n hees mountain",
-    "village praise-n engineer",
+# One STRUCTURE, many contents.  Reusing a single discourse across all
+# layouts is a confound (Edward 2026-08-26: "you might want to use
+# different sentences for each one because I already know the original
+# thing"; Codex plan review flagged the same as selection bias), so every
+# discourse below instantiates the identical template — same clause count,
+# same roles, same one negation / one past / one modifier / one complement
+# / two obliques — with different lexemes.  Comparisons stay fair; the
+# judge meets fresh content in each layout.
+TEMPLATE = [
+    "{e0} {v0}-n {e1} {e2}-s hol {e3}",
+    "{e1} {v1}-n {e4}",
+    "{e4} hoon {v2}-n {e3} hol {e5}",
+    "{e6} haan {v3}-n {e1}",
+    "{e0} {v4}-n hel {e2} {v5}-n",
+    "{e2} {v6}-n hees {e7}",
+    "{e8} {v7}-n {e0}",
 ]
+
+DISCOURSES = {
+    "bridge": {
+        "ents": ["engineer", "bridge", "stone", "valley", "river",
+                 "spring", "flood", "mountain", "village"],
+        "verbs": ["build", "cross", "flood", "damage", "say", "hold",
+                  "come", "praise"],
+        "time": "spring",
+        "prose": "The engineer built a stone bridge in the valley.  The "
+                 "bridge crosses the river.  The river flooded the valley "
+                 "in spring.  The flood did not damage the bridge.  The "
+                 "engineer says the stone held.  The stone came from the "
+                 "mountain.  The village praised the engineer.",
+    },
+    "ship": {
+        "ents": ["captain", "ship", "rope", "harbor", "reef", "night",
+                 "storm", "island", "crew"],
+        "verbs": ["rig", "clear", "batter", "sink", "swear", "grip",
+                  "come", "cheer"],
+        "time": "night",
+        "prose": "The captain rigged a rope ship in the harbor.  The ship "
+                 "clears the reef.  The reef battered the harbor at "
+                 "night.  The storm did not sink the ship.  The captain "
+                 "swears the rope gripped.  The rope came from the "
+                 "island.  The crew cheered the captain.",
+    },
+    "baker": {
+        "ents": ["baker", "bread", "grain", "market", "oven", "morning",
+                 "fire", "mill", "child"],
+        "verbs": ["bake", "fill", "heat", "burn", "claim", "rise",
+                  "come", "thank"],
+        "time": "morning",
+        "prose": "The baker baked a grain bread in the market.  The bread "
+                 "fills the oven.  The oven heated the market in the "
+                 "morning.  The fire did not burn the bread.  The baker "
+                 "claims the grain rose.  The grain came from the mill.  "
+                 "The child thanked the baker.",
+    },
+    "doctor": {
+        "ents": ["doctor", "medicine", "herb", "clinic", "fever",
+                 "winter", "cold", "garden", "patient"],
+        "verbs": ["mix", "break", "spread", "beat", "report", "work",
+                  "come", "trust"],
+        "time": "winter",
+        "prose": "The doctor mixed an herb medicine in the clinic.  The "
+                 "medicine breaks the fever.  The fever spread through "
+                 "the clinic in winter.  The cold did not beat the "
+                 "medicine.  The doctor reports the herb worked.  The "
+                 "herb came from the garden.  The patient trusted the "
+                 "doctor.",
+    },
+    "teacher": {
+        "ents": ["teacher", "lesson", "chalk", "school", "question",
+                 "autumn", "noise", "cupboard", "student"],
+        "verbs": ["write", "answer", "circle", "spoil", "insist", "hold",
+                  "come", "quote"],
+        "time": "autumn",
+        "prose": "The teacher wrote a chalk lesson in the school.  The "
+                 "lesson answers the question.  The question circled the "
+                 "school in autumn.  The noise did not spoil the lesson.  "
+                 "The teacher insists the chalk held.  The chalk came "
+                 "from the cupboard.  The student quoted the teacher.",
+    },
+    "smith": {
+        "ents": ["smith", "blade", "iron", "forge", "anvil", "summer",
+                 "rust", "mine", "soldier"],
+        "verbs": ["beat", "notch", "crack", "ruin", "swear", "hold",
+                  "come", "pay"],
+        "time": "summer",
+        "prose": "The smith beat an iron blade in the forge.  The blade "
+                 "notches the anvil.  The anvil cracked the forge in "
+                 "summer.  The rust did not ruin the blade.  The smith "
+                 "swears the iron held.  The iron came from the mine.  "
+                 "The soldier paid the smith.",
+    },
+    "farmer": {
+        "ents": ["farmer", "fence", "wire", "field", "goat", "dawn",
+                 "wolf", "barn", "neighbor"],
+        "verbs": ["mend", "ring", "test", "breach", "insist", "hold",
+                  "come", "warn"],
+        "time": "dawn",
+        "prose": "The farmer mended a wire fence in the field.  The fence "
+                 "rings the goat.  The goat tested the field at dawn.  "
+                 "The wolf did not breach the fence.  The farmer insists "
+                 "the wire held.  The wire came from the barn.  The "
+                 "neighbor warned the farmer.",
+    },
+}
+
+# Training runs on content the reader ALREADY knows, so the only thing
+# being learned on the training sheet is the notation.  The test then runs
+# on content he has never seen, one distinct discourse per layout, so no
+# panel can be decoded from memory of a previous panel.
+TRAIN_DISCOURSE = "bridge"
+FRESH = {"S0": "ship", "S1": "baker", "S2": "doctor", "S3": "teacher",
+         "S4": "smith", "S5": "farmer"}
+
+DEFAULT_DISCOURSE = "bridge"
+TEST_INSTANCES = 4          # ~28 clauses ~ 200 words, per Edward's 150-250
+
+
+def source_lines(name=None, instances=1):
+    """Instantiate the template.  `instances` > 1 rotates the entity cast
+    between repeats, which is how the long test texts are built: the same
+    nine entities recur in DIFFERENT roles, so reference tracking is
+    genuinely exercised across the whole text instead of each entity
+    keeping one fixed job.  A side effect is deliberate: rotated casts are
+    not always world-plausible, which stops the reader repairing an
+    ambiguous encoding from world knowledge rather than from the
+    notation (Codex plan review named that as the sharp English confound).
+    """
+    d = DISCOURSES[name or DEFAULT_DISCOURSE]
+    out = []
+    n = len(d["ents"])
+    for k in range(instances):
+        ents = [d["ents"][(i + k * 2) % n] for i in range(n)]
+        slots = {f"e{i}": e for i, e in enumerate(ents)}
+        slots.update({f"v{i}": v for i, v in enumerate(d["verbs"])})
+        out.extend(t.format(**slots) for t in TEMPLATE)
+    return out
+
+
+SOURCE = source_lines()
+
+# How each layout's conventions are explained on its training sheet.
+LEGEND = {
+    "S0": ["words in reading order, one sentence after another",
+           "bold = predicate, tinted box = entity, grey = function word"],
+    "S1": ["each entity owns a vertical LANE, named once at the top",
+           "each row is one clause: a bar joins the lanes it involves",
+           "square cap = agent, arrowhead = patient, circle = oblique",
+           "struck/red dashed bar = negated",
+           "dotted circle = modifier; right margin = time"],
+    "S2": ["the predicate sits at the centre of each clause glyph",
+           "ROLE IS THE COMPASS POSITION: agent W, patient E,",
+           "   time N, locative S, source NW",
+           "same tint = same entity (entities repeat per clause)"],
+    "S3": ["each ring is one proposition; role = angle on the ring",
+           "agent W, patient E, time N, locative S",
+           "a box between two rings belongs to BOTH (written once)"],
+    "S4": ["one row per clause, one column per role",
+           "columns: agent | predicate | patient | oblique | time",
+           "same tint = same entity"],
+    "S5": ["a path: entity - predicate - entity - predicate ...",
+           "role is the SIDE: before the predicate = agent, after =",
+           "   patient; a box between two predicates serves both",
+           "thick vertical bar = new clause; brackets = complement",
+           "small box under an entity = its modifier"],
+}
+
+
+# Conventions shared by every layout, so no sheet leaves them implicit.
+LEGEND_COMMON = [
+    "double rule under a predicate = past tense",
+    "dashed box with a red strike = negated",
+]
+
+
+def gloss(c):
+    """Unambiguous one-line reading of a clause — the answer key."""
+    bits = []
+    ag = c.arg("AG")
+    if ag:
+        bits.append(ag.ent + ("(" + "+".join(ag.mods) + ")"
+                              if ag.mods else ""))
+    pred = c.pred
+    if "PAST" in c.marks:
+        pred = "PAST " + pred
+    if "NEG" in c.marks:
+        pred = "NOT " + pred
+    bits.append("--" + pred + "-->")
+    pat = c.arg("PAT")
+    if pat:
+        bits.append(pat.ent + ("(" + "+".join(pat.mods) + ")"
+                               if pat.mods else ""))
+    for a in c.args:
+        if a.role in ("AG", "PAT"):
+            continue
+        bits.append(f"[{ROLE_LABEL[a.role]} {a.ent}]")
+    line = " ".join(bits)
+    return ("    (complement of clause %d) " % (c.parent + 1) + line
+            if c.parent is not None else line)
 
 # Plain English of the same discourse, for orientation only — so the judge
 # always knows what content he is looking at while judging the layout.
@@ -325,15 +515,18 @@ def _box(x, y, s, ents, size=15, pad=7, h=26, bold=False):
 
 def _pred_box(x, y, s, size=15, pad=9, h=26, neg=False, past=False):
     label = s
-    w = tw(label, size) + 2 * pad + (14 if past else 0)
+    w = tw(label, size) + 2 * pad
     parts = [rect(x, y, w, h, fill="#ffffff", stroke=INK, sw=2.0,
                   dash="5 3" if neg else None)]
-    tx = x + w / 2 + (7 if past else 0)
-    if past:
-        parts.append(text(x + pad, y + h / 2 + size * 0.36, "«",
-                          size=size, anchor="start", fill=MUTED))
-    parts.append(text(tx, y + h / 2 + size * 0.36, label, size=size,
+    parts.append(text(x + w / 2, y + h / 2 + size * 0.36, label, size=size,
                       weight="bold"))
+    if past:
+        # A chevron read as a left-pointing arrow ("flood seems to be
+        # acting in reverse" — Edward).  Tense is a double rule under the
+        # predicate instead: no direction, no confusion with role marks.
+        for k in (0, 3):
+            parts.append(line(x + 5, y + h + 2 + k, x + w - 5, y + h + 2 + k,
+                              stroke=INK, sw=1.2, cap="butt"))
     if neg:
         parts.append(line(x + 4, y + h - 3, x + w - 4, y + 3,
                           stroke="#c53030", sw=2.0))
@@ -348,6 +541,19 @@ def layout_S0(clauses, ents, width=1180):
     x, y = 40.0, 60.0
     size, gap = 17, 7
     labels = 0
+    # A sentence ends at its matrix clause, or at that clause's complement
+    # if it has one.  Round 1 shipped without any full stops, which made
+    # the CONTROL needlessly hard to parse and biased every comparison
+    # against plain text (Edward: "hard to read at first blush because it
+    # doesn't have any periods").
+    has_child = {d.parent for d in clauses if d.parent is not None}
+    sentence_end = set()
+    for c in clauses:
+        if c.parent is None and c.idx not in has_child:
+            sentence_end.add(c.idx)
+    for d in clauses:
+        if d.parent is not None:
+            sentence_end.add(d.idx)
     for c in clauses:
         toks = []
         if c.parent is not None:
@@ -370,13 +576,13 @@ def layout_S0(clauses, ents, width=1180):
             toks.append(("e", a.ent))
             for m in a.mods:
                 toks.append(("e", m))
-        if c.parent is None and not any(
-                d.parent == c.idx for d in clauses):
+        if c.idx in sentence_end:
             toks.append(("punct", "."))
         for kind, t in toks:
             if kind == "punct":
-                parts.append(text(x - gap + 2, y, ".", size=size,
+                parts.append(text(x - gap + 1, y, ".", size=size,
                                   anchor="start"))
+                x += 6
                 continue
             w = tw(t, size)
             if x + w > width - 40:
@@ -825,10 +1031,13 @@ def layout_S5(clauses, ents, wrap=1080.0):
                 joins += 1               # written once, serves both clauses
                 mentions.append((ag.ent, prev_tail[1], prev_tail[2], 16, 26))
             else:
-                if not suppress_seam:           # no join: mark the seam
-                    parts.append(line(x - gap / 2, y + 2, x - gap / 2,
-                                      y + 24, stroke="#b9c2d0", sw=1.6))
-                    x += 8
+                if not suppress_seam:
+                    # Edward: the seam "needs to be more prominent given
+                    # that there's so much happening within each section".
+                    x += 10
+                    parts.append(line(x, y - 4, x, y + 30, stroke=EDGE,
+                                      sw=3.4, cap="butt"))
+                    x += 14
                 if ag.ent in seen:
                     repeats += 1
                 seen.add(ag.ent)
@@ -1090,11 +1299,78 @@ TITLE = {
 }
 
 
-def build(key):
-    clauses = parse()
+def build(key, discourse=None, instances=1):
+    clauses = parse(source_lines(discourse, instances))
     ents = entity_order(clauses)
     fn = dict(LAYOUTS)[key]
     return fn(clauses, ents), clauses, ents
+
+
+def study_pages(key):
+    """Edward's protocol: train on known content, then read new content
+    cold.  Returns (training svg, test svg, answer-key text).
+
+    The test sheet carries NO English gloss.  Printing the prose above the
+    panel — as round 1 did — hands over the answer before the layout is
+    read, which makes the panel a confirmation exercise rather than a
+    reading one.
+    """
+    # --- training: familiar discourse, every clause glossed underneath
+    lay, clauses, ents = build(key, TRAIN_DISCOURSE, 1)
+    bx, by = content_extent(lay.parts)
+    w = max(lay.w, bx + 40, 1000.0)
+    head = [text(40, 44, f"{TITLE[key]} — TRAINING", size=24,
+                 anchor="start", weight="bold"),
+            text(40, 70, "content you already know; learn the notation.",
+                 size=14, anchor="start", fill=MUTED)]
+    y = 96
+    for ln in LEGEND[key] + LEGEND_COMMON:
+        head.append(text(40, y, "· " + ln, size=14, anchor="start",
+                         fill=INK))
+        y += 21
+    top = y + 16
+    body = [f'<g transform="translate(0,{top:.0f})">'
+            + "".join(lay.parts) + "</g>"]
+    y = top + max(lay.h, by) + 26
+    body.append(text(40, y, "what it says, clause by clause:", size=15,
+                     anchor="start", weight="bold"))
+    y += 26
+    for i, c in enumerate(clauses):
+        body.append(text(40, y, f"{i + 1}.  {gloss(c)}", size=14,
+                         anchor="start", fill=MUTED,
+                         family="Menlo, monospace"))
+        y += 21
+    train = svg(head + body, w, y + 30)
+
+    # --- test: unseen discourse, no gloss anywhere
+    tlay, tclauses, tents = build(key, FRESH[key], TEST_INSTANCES)
+    tbx, tby = content_extent(tlay.parts)
+    tw_ = max(tlay.w, tbx + 40, 1000.0)
+    thead = [text(40, 44, f"{TITLE[key]} — TEST", size=24, anchor="start",
+                  weight="bold"),
+             text(40, 70, f"{len(tclauses)} clauses / ~"
+                          f"{words_in(tclauses)} words, never seen before, "
+                          f"no gloss on purpose.  the events are "
+                          f"deliberately NOT world-plausible: that stops "
+                          f"you reconstructing the meaning from what makes "
+                          f"sense and forces the notation to carry it.",
+                  size=14, anchor="start", fill=MUTED)]
+    tbody = [f'<g transform="translate(0,100)">' + "".join(tlay.parts)
+             + "</g>"]
+    test = svg(thead + tbody, tw_, max(tlay.h, tby) + 130)
+
+    keylines = [f"ANSWER KEY — {TITLE[key]} test ({FRESH[key]} discourse)",
+                ""]
+    keylines += [f"{i + 1}.  {gloss(c)}" for i, c in enumerate(tclauses)]
+    return train, test, "\n".join(keylines) + "\n"
+
+
+def words_in(clauses):
+    """Words as the CONTROL renders them — S0's own token count, plus the
+    article each entity mention would carry in ordinary English."""
+    ents = entity_order(clauses)
+    lay = layout_S0(clauses, ents)
+    return lay.labels + len(lay.mentions)
 
 
 def prose_parts(x, y, width, size=14):
@@ -1242,6 +1518,20 @@ def main(argv=None):
             p = os.path.join(out, f"page_{key}.svg")
             with open(p, "w") as f:
                 f.write(page(key))
+            print(p)
+    elif cmd == "study":
+        out = argv[1] if len(argv) > 1 else "."
+        os.makedirs(out, exist_ok=True)
+        for key, _ in LAYOUTS:
+            tr, te, ky = study_pages(key)
+            for nm, blob in (("train", tr), ("test", te)):
+                p = os.path.join(out, f"{nm}_{key}.svg")
+                with open(p, "w") as f:
+                    f.write(blob)
+                print(p)
+            p = os.path.join(out, f"key_{key}.txt")
+            with open(p, "w") as f:
+                f.write(ky)
             print(p)
     elif cmd == "sheet":
         p = argv[1] if len(argv) > 1 else "sheet.svg"
