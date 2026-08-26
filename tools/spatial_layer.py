@@ -147,7 +147,7 @@ FRESH = {"S0": "ship", "S1": "baker", "S2": "doctor", "S3": "teacher",
          "S4": "smith", "S5": "farmer"}
 
 DEFAULT_DISCOURSE = "bridge"
-TEST_INSTANCES = 4          # ~28 clauses ~ 200 words, per Edward's 150-250
+TEST_INSTANCES = 3          # 24 clauses ~ 195 words, inside 150-250
 
 
 def source_lines(name=None, instances=1):
@@ -541,6 +541,7 @@ def layout_S0(clauses, ents, width=1180):
     x, y = 40.0, 60.0
     size, gap = 17, 7
     labels = 0
+    cap_next = True
     # A sentence ends at its matrix clause, or at that clause's complement
     # if it has one.  Round 1 shipped without any full stops, which made
     # the CONTROL needlessly hard to parse and biased every comparison
@@ -554,28 +555,47 @@ def layout_S0(clauses, ents, width=1180):
     for d in clauses:
         if d.parent is not None:
             sentence_end.add(d.idx)
+    # The control must be ORDINARY ENGLISH, not a gloss: articles, third
+    # person -s, "did" for past, "does not" for negation.  Round 1 rendered
+    # a bare token stream, which handicapped the baseline the spatial
+    # layouts are supposed to beat.
+    prep = {"LOC": "in", "SRC": "from", "INSTR": "with", "GOAL": "to",
+            "TIME": "at"}
+
+    def third(v):
+        if v.endswith(("s", "x", "z", "ch", "sh")):
+            return v + "es"            # cross -> crosses, notch -> notches
+        if len(v) > 1 and v.endswith("y") and v[-2] not in "aeiou":
+            return v[:-1] + "ies"
+        return v + "s"
+
+    def np(a):
+        out = [("p", "the")]
+        out.extend(("e", m) for m in a.mods)
+        out.append(("e", a.ent))
+        return out
+
     for c in clauses:
         toks = []
         if c.parent is not None:
-            toks.append(("p", "‹that›"))
-        for a in c.args:
-            if a.role == "AG":
-                toks.append(("e", a.ent))
-                for m in a.mods:
-                    toks.append(("e", m))
-        if "PAST" in c.marks:
-            toks.append(("p", "did"))
+            toks.append(("p", "that"))
+        ag = c.arg("AG")
+        if ag is not None:
+            toks.extend(np(ag))
         if "NEG" in c.marks:
-            toks.append(("p", "not"))
-        toks.append(("v", c.pred))
+            toks += [("p", "does"), ("p", "not"), ("v", c.pred)]
+        elif "PAST" in c.marks:
+            toks += [("p", "did"), ("v", c.pred)]
+        else:
+            toks.append(("v", third(c.pred)))
+        pat = c.arg("PAT")
+        if pat is not None:
+            toks.extend(np(pat))
         for a in c.args:
-            if a.role == "AG":
+            if a.role in ("AG", "PAT"):
                 continue
-            if ROLE_LABEL[a.role]:
-                toks.append(("p", ROLE_LABEL[a.role]))
-            toks.append(("e", a.ent))
-            for m in a.mods:
-                toks.append(("e", m))
+            toks.append(("p", prep.get(a.role, ROLE_LABEL[a.role])))
+            toks.extend(np(a))
         if c.idx in sentence_end:
             toks.append(("punct", "."))
         for kind, t in toks:
@@ -583,8 +603,11 @@ def layout_S0(clauses, ents, width=1180):
                 parts.append(text(x - gap + 1, y, ".", size=size,
                                   anchor="start"))
                 x += 6
+                cap_next = True
                 continue
-            w = tw(t, size)
+            shown = t[:1].upper() + t[1:] if cap_next else t
+            cap_next = False
+            w = tw(shown, size)
             if x + w > width - 40:
                 x, y = 40.0, y + 36
             if kind == "e":
@@ -593,7 +616,7 @@ def layout_S0(clauses, ents, width=1180):
                 mentions.append((t, x + w / 2, y - size * 0.35,
                                  w + 8, size + 9))
             parts.append(text(
-                x, y, t, size=size, anchor="start",
+                x, y, shown, size=size, anchor="start",
                 fill=MUTED if kind == "p" else INK,
                 weight="bold" if kind == "v" else "normal"))
             labels += 1
@@ -1346,18 +1369,19 @@ def study_pages(key):
     tlay, tclauses, tents = build(key, FRESH[key], TEST_INSTANCES)
     tbx, tby = content_extent(tlay.parts)
     tw_ = max(tlay.w, tbx + 40, 1000.0)
+    sub = (f"{len(tclauses)} clauses / ~{words_in(tclauses)} words, never "
+           f"seen before, no gloss on purpose.  the events are "
+           f"deliberately NOT world-plausible: that stops you "
+           f"reconstructing the meaning from what makes sense, and forces "
+           f"the notation to carry it.")
     thead = [text(40, 44, f"{TITLE[key]} — TEST", size=24, anchor="start",
-                  weight="bold"),
-             text(40, 70, f"{len(tclauses)} clauses / ~"
-                          f"{words_in(tclauses)} words, never seen before, "
-                          f"no gloss on purpose.  the events are "
-                          f"deliberately NOT world-plausible: that stops "
-                          f"you reconstructing the meaning from what makes "
-                          f"sense and forces the notation to carry it.",
-                  size=14, anchor="start", fill=MUTED)]
-    tbody = [f'<g transform="translate(0,100)">' + "".join(tlay.parts)
-             + "</g>"]
-    test = svg(thead + tbody, tw_, max(tlay.h, tby) + 130)
+                  weight="bold")]
+    sp, sh = wrap_text(40, 70, sub, tw_ - 80, size=14)
+    thead.extend(sp)
+    ttop = 70 + sh + 26
+    tbody = [f'<g transform="translate(0,{ttop:.0f})">'
+             + "".join(tlay.parts) + "</g>"]
+    test = svg(thead + tbody, tw_, max(tlay.h, tby) + ttop + 30)
 
     keylines = [f"ANSWER KEY — {TITLE[key]} test ({FRESH[key]} discourse)",
                 ""]
@@ -1371,6 +1395,27 @@ def words_in(clauses):
     ents = entity_order(clauses)
     lay = layout_S0(clauses, ents)
     return lay.labels + len(lay.mentions)
+
+
+def wrap_text(x, y, body, width, size=14, fill=MUTED, style="italic"):
+    """Wrap a string into lines; returns (parts, height)."""
+    parts, cy = [], y
+    line_h = size + 7
+    words, cur = body.split(), []
+    for wd in words:
+        trial = " ".join(cur + [wd])
+        if tw(trial, size) > width and cur:
+            parts.append(text(x, cy, " ".join(cur), size=size,
+                              anchor="start", fill=fill, style=style))
+            cy += line_h
+            cur = [wd]
+        else:
+            cur.append(wd)
+    if cur:
+        parts.append(text(x, cy, " ".join(cur), size=size, anchor="start",
+                          fill=fill, style=style))
+        cy += line_h
+    return parts, cy - y
 
 
 def prose_parts(x, y, width, size=14):

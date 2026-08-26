@@ -64,8 +64,22 @@ class TestLayouts(unittest.TestCase):
             lay = fn(self.clauses, self.ents)
             blob = "".join(lay.parts)
             for c in self.clauses:
-                self.assertIn(f">{c.pred}<", blob,
+                # S0 inflects (build -> builds), so match the stem
+                self.assertIn(f">{c.pred}", blob,
                               f"{key} dropped predicate {c.pred}")
+
+    def test_control_reads_as_english(self):
+        """The baseline must be ordinary prose, not a gloss: articles,
+        inflection, full stops.  A handicapped control silently flatters
+        every spatial layout."""
+        lay = S.layout_S0(self.clauses, self.ents)
+        blob = "".join(lay.parts)
+        self.assertIn(">the<", blob)
+        self.assertIn(">.<", blob)
+        self.assertIn(">builds<", blob)
+        self.assertIn(">crosses<", blob)      # not "crosss"
+        self.assertIn(">does<", blob)
+        self.assertIn(">did<", blob)
 
     def test_canvas_contains_all_ink(self):
         """qlmanage-style clipping hides real content; the canvas must be
