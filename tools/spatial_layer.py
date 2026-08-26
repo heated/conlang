@@ -174,8 +174,9 @@ TRAIN_DISCOURSE = "bridge"
 FRESH = {"S0": "ship", "S1": "baker", "S2": "doctor", "S3": "teacher",
          "S4": "smith", "S5": "farmer"}
 
+
 DEFAULT_DISCOURSE = "bridge"
-TEST_INSTANCES = 3          # 24 clauses ~ 195 words, inside 150-250
+TEST_INSTANCES = 4          # ~190 words, inside Edward's 150-250
 
 
 def source_lines(name=None, instances=1):
@@ -284,7 +285,12 @@ PARTICLES = {
     "hel": ("comp", "COMP"),
 }
 
-TIME_WORDS = {"spring"}  # lexicon type: temporal noun (hol + time = when)
+# Temporal nouns, so `hol` + a time word reads as "when" rather than
+# "where".  Derived from the discourses themselves — hard-coding only
+# "spring" silently gave every non-bridge discourse a LOCATIVE where it
+# meant a time (Codex code review, blocker 1).
+TIME_WORDS = set()
+TIME_WORDS.update(d["time"] for d in DISCOURSES.values())
 
 ROLE_ORDER = ["AG", "PAT", "LOC", "SRC", "INSTR", "GOAL", "TIME"]
 ROLE_LABEL = {
@@ -1318,7 +1324,13 @@ def metrics(lay, clauses, ents):
     normalization is against the INK bounding box, never the canvas, so a
     layout cannot improve its score by padding itself with margin.
     """
-    x0, y0, x1, y1 = content_bbox(lay.parts)
+    # Metric bounds must exclude the same guide primitives count_marks()
+    # declares non-content — otherwise a lane rule running past the ink
+    # enlarges the box and lowers `search` and `scatter` for free, with no
+    # mark added anywhere (Codex code review, blocker 2).
+    ink = [p for p in lay.parts
+           if not any(c in p for c in GUIDE_COLOURS)]
+    x0, y0, x1, y1 = content_bbox(ink)
     iw, ih = max(x1 - x0, 1.0), max(y1 - y0, 1.0)
     diag = math.hypot(iw, ih)
     ink_area = iw * ih
@@ -1488,11 +1500,14 @@ def study_pages(key):
 
 
 def words_in(clauses):
-    """Words as the CONTROL renders them — S0's own token count, plus the
-    article each entity mention would carry in ordinary English."""
+    """Words as the CONTROL renders them — S0's own token count.
+
+    An earlier version added len(mentions) "for articles", but S0 already
+    emits every article as its own token, so the count was inflated by
+    a third (Codex code review).
+    """
     ents = entity_order(clauses)
-    lay = layout_S0(clauses, ents)
-    return lay.labels + len(lay.mentions)
+    return layout_S0(clauses, ents).labels
 
 
 def wrap_text(x, y, body, width, size=14, fill=MUTED, style="italic"):

@@ -43,6 +43,34 @@ class TestParse(unittest.TestCase):
         self.assertIsNone(say.arg("PAT"))
 
 
+class TestDiscourses(unittest.TestCase):
+    def test_every_discourse_has_a_real_temporal_role(self):
+        """TIME_WORDS once held only "spring", so every other discourse
+        silently turned its time adjunct into a LOCATIVE."""
+        for name in S.DISCOURSES:
+            for inst in (1, S.TEST_INSTANCES):
+                cl = S.parse(S.source_lines(name, inst))
+                times = {a.ent for c in cl for a in c.args
+                         if a.role == "TIME"}
+                self.assertEqual(times, {S.DISCOURSES[name]["time"]},
+                                 f"{name} x{inst}: wrong TIME role")
+
+    def test_every_discourse_has_the_same_role_structure(self):
+        """Layouts are only comparable if the stimuli are."""
+        shape = None
+        for name in S.DISCOURSES:
+            cl = S.parse(S.source_lines(name, S.TEST_INSTANCES))
+            got = [tuple(sorted(a.role for a in c.args)) for c in cl]
+            if shape is None:
+                shape = got
+            self.assertEqual(got, shape, f"{name} differs in role shape")
+
+    def test_test_text_is_in_the_requested_word_band(self):
+        for name in S.DISCOURSES:
+            n = S.words_in(S.parse(S.source_lines(name, S.TEST_INSTANCES)))
+            self.assertTrue(150 <= n <= 250, f"{name}: {n} words")
+
+
 class TestLayouts(unittest.TestCase):
     def setUp(self):
         self.clauses = S.parse()
@@ -131,6 +159,20 @@ class TestMetrics(unittest.TestCase):
         padded = S.Layout(lay.key, lay.name, list(lay.parts), lay.w + 800,
                           lay.h + 800, lay.mentions, lay.labels)
         after = S.metrics(padded, self.clauses, self.ents)
+        self.assertAlmostEqual(base["search"], after["search"], places=9)
+        self.assertAlmostEqual(base["scatter"], after["scatter"], places=9)
+
+    def test_guide_geometry_cannot_move_a_metric(self):
+        """A guide line is declared non-content by count_marks, so it must
+        not enlarge the box that scatter and search normalize against —
+        otherwise a layout improves both by drawing a long faint rule."""
+        lay = S.layout_S4(self.clauses, self.ents)
+        base = S.metrics(lay, self.clauses, self.ents)
+        far = S.Layout(lay.key, lay.name,
+                       list(lay.parts) + [S.line(0, 0, 9000, 9000,
+                                                 stroke=S.GUIDE_COLOURS[0])],
+                       lay.w, lay.h, lay.mentions, lay.labels)
+        after = S.metrics(far, self.clauses, self.ents)
         self.assertAlmostEqual(base["search"], after["search"], places=9)
         self.assertAlmostEqual(base["scatter"], after["scatter"], places=9)
 
