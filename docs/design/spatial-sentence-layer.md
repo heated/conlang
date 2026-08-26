@@ -61,6 +61,15 @@ Tool: `tools/spatial_layer.py` (`pages`, `sheet`, `metrics`); images in
 - **S4 schema grid** — the ablation: a literal table, role = column,
   clause = row. Included so that if the plain table wins, the fancy
   layouts are decoration.
+- **S5 the chain** — built after S3 failed, from its residue. The
+  legible part of the ring layout was never the circles: it was the
+  alternating entity/predicate **path** with a shared entity written
+  once at the junction. Running that path in discourse order fixes both
+  of S3's disqualifiers — clause order survives (left to right) and a
+  complement clause attaches inline in brackets. Role is read off the
+  side of the predicate (before = agent, after = patient); modifiers
+  hang under their head so they cannot break a junction; a seam bar
+  marks a clause boundary wherever two clauses do not share.
 
 Specimens render **English lexemes inside the GF grammar** so that
 layout is the only variable the judge evaluates (see "What English
@@ -80,6 +89,7 @@ anchor points; `marks/prop` counts every information-bearing primitive
 | S2 compass | 86,759 | 8.6 | 0.425 | 30.1% | 1 |
 | S3 rings | 39,319 | 8.8 | 0.251 | 9.1% | 0 |
 | S4 grid | 39,141 | **7.5** | 0.323 | 25.3% | 0 |
+| S5 chain | 14,588 | 7.6 | 0.291 | 24.9% | 0 |
 
 The stimulus itself (not any layout) forces a serial binding span of
 **7.1 tokens mean / 16 worst** — the working-memory reach a linear
@@ -121,6 +131,17 @@ reader holds to bind a referent to its previous mention.
    lowest in marks, half S1's area — and it is boring on purpose. Any
    fancier layout has to earn its keep against it, and on this discourse
    only S1's search fraction does.
+8. **Compactness and selection are in direct tension — the round's
+   sharpest result.** S5, built from S3's residue, gets within **1.7×**
+   of a plain string (14,588 vs 8,792 px²/prop), keeps clause order and
+   complement attachment, and posts zero crossings — but its search
+   fraction is **24.9%**, barely better than running text's 31.7%,
+   because a chain only collapses *adjacent* shares (2 joins here, 4
+   distant mentions still repeated). Meanwhile S1 buys the 50×
+   selection win at 9.6× the area. **Nothing measured so far buys both**,
+   and that is the shape of the design problem: pinning reference to a
+   coordinate costs a whole page dimension, and reclaiming that
+   dimension costs the pin.
 
 ## The axis constraint, stated narrowly
 
@@ -167,9 +188,13 @@ unpredictable predicates, then with real script blocks.
 
 Round 2 candidates:
 
-- **S5 "the chain"** — S3's residue: drop the rings, keep the
-  alternating entity/predicate path with each shared entity written
-  once. It was the legible part of S3 and it is compact.
+- **Break the compactness/selection tension** (finding 8) — the central
+  open question. Candidates: narrow lanes (lane pitch is currently set
+  by English word width, which GZ blocks would cut ~3×); lanes that
+  carry only *recurring* entities with one-offs inlined; a hybrid that
+  chains within a line and pins lanes across lines; or accepting that
+  these are two different products (a reading format and a reference
+  surface) rather than one layout.
 - Fix S1's modifier attachment; add a leader line from the row bar to
   the right-gutter temporal.
 - Generated, untuned corpus crossing entity count, coreference distance,

@@ -18,6 +18,18 @@ filled only when something objective later adjudicates.
 
 | 2026-08-26 | spatial-r1: the spatial sentence layer, S0 linear / S1 referent lanes / S2 role compass / S3 proposition rings / S4 schema grid (.ship-notes/workshop/spatial-r1/) | **S1 referent lanes as the direction**, with **S4 grid as the baseline it must beat** (S4 is complete on oracle coverage, lowest marks, half the area — fancy layouts must earn their keep against it). **S3 rejected on information, not taste**: rings have no reading order so clause order is lost, no complement attachment, and the angular channel degenerates to a 1-D chain (3/7 shares satisfiable). S2 dominated. Reason for S1: the only structural win round 1 actually supports is SELECTION — 0.6% of the page to find every mention of a referent vs 31.7% for a string, architectural rather than incidental. Scored with compression as a first-class criterion per the engine-round lesson, which is why the pick is hedged: **predicting Edward's efficiency axis fires on the ~10× area cost** and that he asks what the layer is FOR (reading vs skimming/reference) rather than accepting it as prose replacement. Secondary prediction: he finds S3's chain-of-circles visually interesting even though it fails the gate, and S2 gets rejected outright | — | — |
 
+Addendum to the spatial-r1 row (logged AFTER the pick was sealed, BEFORE
+Edward answered — the pick above stands as written): the S3 post-mortem
+said its chain residue was the legible part, so **S5 "the chain" was
+built mid-round** and measured. It changes the pick's framing but not
+the pick: S5 lands at 1.7x a plain string (vs S1's 9.6x) and keeps
+clause order + complement attachment, but buys no selection (24.9% vs
+running text's 31.7%). So the round's real result is a TENSION —
+compactness and selection trade off directly and nothing measured buys
+both — and S1 remains the pick only if the layer's job is
+selection/reference rather than prose replacement. That conditional is
+exactly what Edward's answer should settle.
+
 Scope error caught by Edward (2026-08-25, after the F round): the
 entire engine + efficiency lane rendered the GF-N inventory while
 calling it GZ — GZ per gz-sketch.md has Romance's phoneme space

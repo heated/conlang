@@ -765,8 +765,137 @@ def layout_S4(clauses, ents):
                   note="role = column (pinned), reference = tint only")
 
 
+# ------------------------------------------------------------ S5 the chain
+
+def layout_S5(clauses, ents, wrap=1080.0):
+    """S3's residue, with the rings thrown away.
+
+    The legible part of the ring layout was never the circles — it was the
+    alternating entity/predicate PATH with each shared entity written once
+    at the junction.  Keeping the path but running it in discourse order
+    fixes both of S3's disqualifiers: clause order survives (left to right)
+    and a complement clause has somewhere to attach (a bracket under its
+    matrix predicate).  Role is read off the SIDE of the predicate:
+    before = agent, after = patient.
+    """
+    x0, y0 = 46.0, 40.0
+    row_h = 74.0
+    gap = 10.0
+    parts, mentions = [], []
+    labels = 0
+    x, y = x0, y0
+    joins = 0                    # entities written once at a junction
+    repeats = 0                  # distant coreference: still repeated
+    seen = set()
+    pred_pos = {}
+    order = [c for c in clauses if c.parent is None]
+    subs = {c.parent: c for c in clauses if c.parent is not None}
+    prev_tail = None             # (ent, box-center) available as next agent
+    suppress_seam = True         # no seam at the start or after a bracket
+
+    def place_box(s, kind, indent=0.0):
+        nonlocal x, y, labels
+        w = tw(s, 15) + 18
+        if x + w > wrap:
+            x, y = x0 + indent, y + row_h
+        if kind == "ent":
+            bp, bw, bh, cx, cy = _box(x, y, s, ents)
+        else:
+            bp, bw, bh, cx, cy = _pred_box(x, y, s)
+        parts.extend(bp)
+        labels += 1
+        x += bw + gap
+        return bw, bh, cx, cy
+
+    def hang_mods(arg, cx, cy):
+        """Modifiers hang UNDER their head.  Inline they would sit between
+        a patient and the next predicate and break the junction reading."""
+        for k, m in enumerate(arg.mods):
+            w = tw(m, 12) + 12
+            mp, mw, mh, mcx, mcy = _box(cx - w / 2, cy + 20 + k * 21, m,
+                                        ents, size=12, h=19)
+            parts.extend(mp)
+            mentions.append((m, mcx, mcy, mw, mh))
+
+    def emit_clause(c, indent=0.0):
+        nonlocal x, y, joins, repeats, prev_tail, suppress_seam
+        ag = c.arg("AG")
+        if ag is not None:
+            if prev_tail is not None and prev_tail[0] == ag.ent:
+                joins += 1               # written once, serves both clauses
+                mentions.append((ag.ent, prev_tail[1], prev_tail[2], 16, 26))
+            else:
+                if not suppress_seam:           # no join: mark the seam
+                    parts.append(line(x - gap / 2, y + 2, x - gap / 2,
+                                      y + 24, stroke="#b9c2d0", sw=1.6))
+                    x += 8
+                if ag.ent in seen:
+                    repeats += 1
+                seen.add(ag.ent)
+                bw, bh, cx, cy = place_box(ag.ent, "ent", indent)
+                mentions.append((ag.ent, cx, cy, bw, bh))
+                hang_mods(ag, cx, cy)
+                parts.append(line(x - gap, cy, x, cy, stroke="#b9c2d0",
+                                  sw=1.3))
+        neg = "NEG" in c.marks
+        pw_ = tw(c.pred, 15) + 18 + (14 if "PAST" in c.marks else 0)
+        if x + pw_ > wrap:
+            x, y = x0 + indent, y + row_h
+        pp, pw_, ph, pcx, pcy = _pred_box(x, y, c.pred, neg=neg,
+                                          past="PAST" in c.marks)
+        parts.extend(pp)
+        x += pw_ + gap
+        pred_pos[c.idx] = (pcx, pcy + ph / 2)
+        pat = c.arg("PAT")
+        tail = None
+        if pat is not None:
+            parts.append(line(x - gap, pcy, x, pcy, stroke="#b9c2d0", sw=1.3))
+            if pat.ent in seen:
+                repeats += 1
+            seen.add(pat.ent)
+            bw, bh, cx, cy = place_box(pat.ent, "ent", indent)
+            mentions.append((pat.ent, cx, cy, bw, bh))
+            tail = (pat.ent, cx, cy)
+            hang_mods(pat, cx, cy)
+        # obliques ride under the predicate
+        obl = [a for a in c.args if a.role not in ("AG", "PAT")]
+        for k, a in enumerate(obl):
+            s = f"{ROLE_LABEL[a.role]} {a.ent}"
+            parts.append(text(pcx, pcy + 26 + k * 17, s, size=12,
+                              fill=MUTED, style="italic"))
+            mentions.append((a.ent, pcx, pcy + 26 + k * 17,
+                             tw(s, 12), 15))
+        prev_tail = tail
+        suppress_seam = False
+        return tail
+
+    for c in order:
+        emit_clause(c)
+        sub = subs.get(c.idx)
+        if sub is not None:
+            # complement rides INLINE inside brackets: the bracket is the
+            # attachment, so no leader line has to be routed across the page
+            parts.append(text(x, y + 20, "⟨", size=22, anchor="start",
+                              fill=MUTED))
+            x += 16
+            prev_tail = None
+            suppress_seam = True
+            emit_clause(sub)
+            parts.append(text(x - gap + 2, y + 20, "⟩", size=22,
+                              anchor="start", fill=MUTED))
+            x += 18
+            prev_tail = None
+            suppress_seam = True
+    note = (f"discourse order preserved; {joins} shared entities written "
+            f"once at a junction, {repeats} distant mentions still repeated")
+    lay = Layout("S5", "the chain", parts, wrap + 60, y + row_h + 20,
+                 mentions, labels, note=note)
+    lay.joins = (joins, repeats)
+    return lay
+
+
 LAYOUTS = [("S0", layout_S0), ("S1", layout_S1), ("S2", layout_S2),
-           ("S3", layout_S3), ("S4", layout_S4)]
+           ("S3", layout_S3), ("S4", layout_S4), ("S5", layout_S5)]
 
 
 # ---------------------------------------------------------------- metrics
@@ -908,6 +1037,7 @@ COVERAGE = {
     "S2": ["yes", "yes", "yes", "yes", "tint", "yes", "yes", "yes", "yes"],
     "S3": ["NO", "yes", "yes", "yes", "part", "yes", "yes", "yes", "NO"],
     "S4": ["yes", "yes", "yes", "yes", "tint", "yes", "yes", "yes", "yes"],
+    "S5": ["yes", "yes", "yes", "yes", "part", "yes", "yes", "yes", "yes"],
 }
 
 COVERAGE_NOTES = {
@@ -922,6 +1052,9 @@ COVERAGE_NOTES = {
           "the complement edge has no place to attach; shared entities are "
           "written once only when the geometry permits.",
     "S4": "complete; reference by tint only.  The ablation to beat.",
+    "S5": "keeps clause order and complement attachment (S3's two fatal "
+          "losses) but only collapses ADJACENT shares; distant coreference "
+          "falls back to a repeated box plus tint.",
 }
 
 
@@ -953,6 +1086,7 @@ TITLE = {
     "S2": "S2 · role compass",
     "S3": "S3 · proposition rings",
     "S4": "S4 · schema grid",
+    "S5": "S5 · the chain",
 }
 
 
