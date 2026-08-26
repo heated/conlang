@@ -40,6 +40,12 @@ from dataclasses import dataclass, field
 # same roles, same one negation / one past / one modifier / one complement
 # / two obliques — with different lexemes.  Comparisons stay fair; the
 # judge meets fresh content in each layout.
+# Every discourse fills the same TYPED slots, which is what lets extra
+# templates stay coherent for all of them:
+#   e0 person   e1 artifact  e2 material  e3 place   e4 obstacle
+#   e5 time     e6 hazard    e7 source    e8 witness
+#   v0 make  v1 engage-obstacle  v2 hazard-act  v3 damage
+#   v4 say   v5 hold            v6 come        v7 commend
 TEMPLATE = [
     "{e0} {v0}-n {e1} {e2}-s hol {e3}",
     "{e1} {v1}-n {e4}",
@@ -49,6 +55,28 @@ TEMPLATE = [
     "{e2} {v6}-n hees {e7}",
     "{e8} {v7}-n {e0}",
 ]
+
+TEMPLATE2 = [
+    "{e8} {v7}-n {e1}",
+    "{e6} hoon {v3}-n {e3}",
+    "{e0} {v0}-n {e1} hol {e3}",
+    "{e2} {v6}-n hees {e7}",
+    "{e0} haan {v4}-n hel {e6} {v5}-n",
+    "{e1} {v1}-n {e4}",
+    "{e8} {v4}-n hel {e0} {v0}-n {e1}",
+]
+
+TEMPLATE3 = [
+    "{e0} {v0}-n {e1} hol {e7}",
+    "{e1} hoon {v1}-n {e4}",
+    "{e6} haan {v3}-n {e2}",
+    "{e8} {v4}-n hel {e1} {v5}-n",
+    "{e0} {v7}-n {e8}",
+    "{e2} {v6}-n hees {e3}",
+    "{e6} {v2}-n {e3} hol {e5}",
+]
+
+TEMPLATES = [TEMPLATE, TEMPLATE2, TEMPLATE3]
 
 DISCOURSES = {
     "bridge": {
@@ -151,23 +179,24 @@ TEST_INSTANCES = 3          # 24 clauses ~ 195 words, inside 150-250
 
 
 def source_lines(name=None, instances=1):
-    """Instantiate the template.  `instances` > 1 rotates the entity cast
-    between repeats, which is how the long test texts are built: the same
-    nine entities recur in DIFFERENT roles, so reference tracking is
-    genuinely exercised across the whole text instead of each entity
-    keeping one fixed job.  A side effect is deliberate: rotated casts are
-    not always world-plausible, which stops the reader repairing an
-    ambiguous encoding from world knowledge rather than from the
-    notation (Codex plan review named that as the sharp English confound).
+    """Instantiate `instances` templates over one discourse's cast.
+
+    An earlier version built long texts by ROTATING the cast through roles,
+    to stop the reader repairing an ambiguous encoding from world
+    knowledge.  It produced sentences like "the iron beats the anvil
+    forge", and Edward's response settles it: "not sure what you're testing
+    then — I decode and then I'm like, wait, that's not right."  A reader
+    who cannot trust the decode is measuring their own doubt.  The
+    templates are typed instead, so every instance stays coherent while
+    the entities recur in genuinely different roles.
     """
     d = DISCOURSES[name or DEFAULT_DISCOURSE]
+    slots = {f"e{i}": e for i, e in enumerate(d["ents"])}
+    slots.update({f"v{i}": v for i, v in enumerate(d["verbs"])})
     out = []
-    n = len(d["ents"])
     for k in range(instances):
-        ents = [d["ents"][(i + k * 2) % n] for i in range(n)]
-        slots = {f"e{i}": e for i, e in enumerate(ents)}
-        slots.update({f"v{i}": v for i, v in enumerate(d["verbs"])})
-        out.extend(t.format(**slots) for t in TEMPLATE)
+        for t in TEMPLATES[k % len(TEMPLATES)]:
+            out.append(t.format(**slots))
     return out
 
 
@@ -181,7 +210,8 @@ LEGEND = {
            "each row is one clause: a bar joins the lanes it involves",
            "square cap = agent, arrowhead = patient, circle = oblique",
            "struck/red dashed bar = negated",
-           "dotted circle = modifier; right margin = time"],
+           "diamond = modifier of the entity on that lane",
+           "right margin, on a leader line = time"],
     "S2": ["the predicate sits at the centre of each clause glyph",
            "ROLE IS THE COMPASS POSITION: agent W, patient E,",
            "   time N, locative S, source NW",
@@ -202,7 +232,7 @@ LEGEND = {
 
 # Conventions shared by every layout, so no sheet leaves them implicit.
 LEGEND_COMMON = [
-    "double rule under a predicate = past tense",
+    "grey-filled predicate box = past tense",
     "dashed box with a red strike = negated",
 ]
 
@@ -377,6 +407,36 @@ def tint(ents, e):
     return PALETTE[ents.index(e) % len(PALETTE)] if e in ents else "#eeeeee"
 
 
+# ------------------------------------------------- fixed-width word mode
+
+# Edward, 2026-08-26: "I tentatively want to consider if fixed-ish
+# 2-char-per-word does anything for this line of inquiry — if fixed width
+# words allows anything."  In GZ a word is one or two script blocks, where
+# an English word is 4-9 glyphs, so every area figure measured on English
+# is pessimistic AND the ratios between layouts can move.  This mode
+# renders every content word as a stable 2-character code so the layouts
+# can be measured at conlang word width.
+FIXED_WIDTH = False
+_CODES = {}
+
+
+def lex(word):
+    """Display form of a content word: itself, or a stable 2-char code."""
+    if not FIXED_WIDTH:
+        return word
+    if word not in _CODES:
+        base = word[:2]
+        if base in _CODES.values():
+            for ch in word[1:] + "aeiou":
+                if word[0] + ch not in _CODES.values():
+                    base = word[0] + ch
+                    break
+            else:
+                base = word[0] + str(len(_CODES) % 10)
+        _CODES[word] = base
+    return _CODES[word]
+
+
 # ---------------------------------------------------------------- svg prims
 
 def esc(s):
@@ -505,28 +565,31 @@ class Layout:
 
 
 def _box(x, y, s, ents, size=15, pad=7, h=26, bold=False):
-    """Tinted entity box; returns (parts, w, h, cx, cy)."""
-    w = tw(s, size) + 2 * pad
+    """Tinted entity box; returns (parts, w, h, cx, cy).
+
+    Tint keys on the real word; only the DISPLAY form is abbreviated in
+    fixed-width mode."""
+    shown = lex(s)
+    w = tw(shown, size) + 2 * pad
     parts = [rect(x, y, w, h, fill=tint(ents, s)),
-             text(x + w / 2, y + h / 2 + size * 0.36, s, size=size,
+             text(x + w / 2, y + h / 2 + size * 0.36, shown, size=size,
                   weight="bold" if bold else "normal")]
     return parts, w, h, x + w / 2, y + h / 2
 
 
 def _pred_box(x, y, s, size=15, pad=9, h=26, neg=False, past=False):
-    label = s
+    label = lex(s)
     w = tw(label, size) + 2 * pad
-    parts = [rect(x, y, w, h, fill="#ffffff", stroke=INK, sw=2.0,
-                  dash="5 3" if neg else None)]
+    # Tense is the predicate box's FILL, not an extra mark.  A chevron read
+    # as a reversed arrow; a double rule underneath collided with the
+    # underlines and bars the layouts already use ("too close to the
+    # bubbles across these" — Edward).  A grey body adds no ink, cannot be
+    # confused with a role mark, and stays distinct from entity boxes,
+    # which are always coloured.
+    parts = [rect(x, y, w, h, fill="#dfe4ec" if past else "#ffffff",
+                  stroke=INK, sw=2.0, dash="5 3" if neg else None)]
     parts.append(text(x + w / 2, y + h / 2 + size * 0.36, label, size=size,
                       weight="bold"))
-    if past:
-        # A chevron read as a left-pointing arrow ("flood seems to be
-        # acting in reverse" — Edward).  Tense is a double rule under the
-        # predicate instead: no direction, no confusion with role marks.
-        for k in (0, 3):
-            parts.append(line(x + 5, y + h + 2 + k, x + w - 5, y + h + 2 + k,
-                              stroke=INK, sw=1.2, cap="butt"))
     if neg:
         parts.append(line(x + 4, y + h - 3, x + w - 4, y + 3,
                           stroke="#c53030", sw=2.0))
@@ -605,7 +668,9 @@ def layout_S0(clauses, ents, width=1180):
                 x += 6
                 cap_next = True
                 continue
-            shown = t[:1].upper() + t[1:] if cap_next else t
+            shown = lex(t) if kind in ("e", "v") else t
+            if cap_next:
+                shown = shown[:1].upper() + shown[1:]
             cap_next = False
             w = tw(shown, size)
             if x + w > width - 40:
@@ -636,7 +701,9 @@ def layout_S1(clauses, ents):
     on the lane, so token repetition collapses.
     """
     lane_ents = [e for e in ents if e not in TIME_WORDS]
-    LANE = 118.0
+    # Lane pitch is set by the widest lane head, so narrow words buy a
+    # narrower page directly — the point of the fixed-width experiment.
+    LANE = max(62.0, max((tw(lex(e), 15) + 30) for e in lane_ents) + 22)
     x0, y0 = 90.0, 108.0
     row_h = 62.0
     lane_x = {e: x0 + i * LANE for i, e in enumerate(lane_ents)}
@@ -688,24 +755,40 @@ def layout_S1(clauses, ents):
             yy = y + indent
             mentions.append((a.ent, x, yy, 16, 16))
             if a.role == "AG":
-                parts.append(rect(x - 6, yy - 6, 12, 12,
-                                  fill=tint(ents, a.ent), sw=1.8, rx=1))
+                # agent = a solid filled square, deliberately chunkier than
+                # the patient arrowhead: "distinguishing subject/object here
+                # seems challenging" (Edward)
+                parts.append(rect(x - 8, yy - 8, 16, 16, fill=EDGE,
+                                  stroke=EDGE, sw=1.8, rx=1))
+                parts.append(rect(x - 5, yy - 5, 10, 10,
+                                  fill=tint(ents, a.ent), stroke="none",
+                                  sw=0, rx=0))
             elif a.role == "PAT":
                 parts.append(
-                    f'<polygon points="{x-9:.1f},{yy-7:.1f} {x+7:.1f},{yy:.1f}'
-                    f' {x-9:.1f},{yy+7:.1f}" fill="{tint(ents, a.ent)}"'
-                    f' stroke="{EDGE}" stroke-width="1.6"/>')
+                    f'<polygon points="{x-11:.1f},{yy-9:.1f} '
+                    f'{x+9:.1f},{yy:.1f}'
+                    f' {x-11:.1f},{yy+9:.1f}" fill="{tint(ents, a.ent)}"'
+                    f' stroke="{EDGE}" stroke-width="1.8"/>')
             else:
-                parts.append(circ(x, yy, 7, fill=tint(ents, a.ent), sw=1.6))
-                parts.append(text(x, yy + 3.5, ROLE_LABEL[a.role][0].upper(),
-                                  size=9, fill=EDGE))
+                # A capital inside a 7px circle is unreadable — "valley and
+                # mountain have letter annotations that can't be read, A vs
+                # at, F vs from" (Edward).  Write the word beside the cap.
+                parts.append(circ(x, yy, 6.5, fill=tint(ents, a.ent),
+                                  sw=1.8))
+                parts.append(text(x + 11, yy + 4, ROLE_LABEL[a.role],
+                                  size=12, anchor="start", fill=EDGE))
                 labels += 1
             for m in a.mods:
                 if m in lane_x:
                     mx = lane_x[m]
-                    mentions.append((m, mx, yy + 12, 10, 10))
-                    parts.append(circ(mx, yy, 5, fill=tint(ents, m),
-                                      sw=1.2, dash="2 2"))
+                    mentions.append((m, mx, yy + 12, 12, 12))
+                    # a dotted 5px circle was "kinda hard to see": use a
+                    # solid diamond tied to the bar instead
+                    parts.append(
+                        f'<polygon points="{mx:.1f},{yy-7:.1f} '
+                        f'{mx+7:.1f},{yy:.1f} {mx:.1f},{yy+7:.1f} '
+                        f'{mx-7:.1f},{yy:.1f}" fill="{tint(ents, m)}"'
+                        f' stroke="{EDGE}" stroke-width="1.5"/>')
         # predicate rides the bar
         px = (lo + hi) / 2 - tw(c.pred, 15) / 2 - 9
         pp, pw, ph, pcx, pcy = _pred_box(px, y + indent - 13, c.pred,
@@ -717,12 +800,19 @@ def layout_S1(clauses, ents):
         for a in c.args:
             if a.ent in lane_x:
                 continue
-            parts.append(text(gutter_x, y + indent + 5,
-                              f"{ROLE_LABEL[a.role]} {a.ent}", size=13,
-                              anchor="start", fill=MUTED, style="italic"))
-            mentions.append((a.ent, gutter_x + 30, y + indent,
-                             tw(a.ent, 13) + 30, 18))
-            labels += 1
+            # "'when spring' just whispered here" — give it a real box and
+            # a leader line back to the clause bar, at full weight.
+            parts.append(line(hi + 10, y + indent, gutter_x - 8,
+                              y + indent, stroke="#c9d2e0", sw=1.2,
+                              dash="2 3"))
+            parts.append(text(gutter_x, y + indent + 4,
+                              ROLE_LABEL[a.role], size=12, anchor="start",
+                              fill=EDGE))
+            bx = gutter_x + tw(ROLE_LABEL[a.role], 12) + 8
+            bp, bw, bh, bcx, bcy = _box(bx, y + indent - 13, a.ent, ents)
+            parts.extend(bp)
+            mentions.append((a.ent, bcx, bcy, bw, bh))
+            labels += 2
         if c.parent is not None and c.parent in pred_pos:
             mx, my = pred_pos[c.parent]
             parts.append(line(mx, my, mx, y + indent, stroke=MUTED, sw=1.4,
@@ -914,8 +1004,14 @@ def layout_S3(clauses, ents):
 
 def layout_S4(clauses, ents):
     """Ablation: just make it a table.  Role = column, clause = row."""
-    cols = ["AG", "pred", "PAT", "oblique", "when"]
-    widths = [170.0, 165.0, 170.0, 200.0, 130.0]
+    # "when" was one of a long tail of possible columns, and the oblique
+    # column was already a grab-bag — Edward: it "seems like it's
+    # tentatively begging to be a misc with natural language".  So it is
+    # one honest MISC column carrying a full-weight natural-language
+    # phrase, rather than a pretence that every adjunct has its own slot.
+    cols = ["agent", "predicate", "patient", "misc"]
+    wid = max((tw(lex(e), 15) + 30) for e in ents) + 24
+    widths = [wid, wid + 12, wid, 2 * wid + 40]
     x0, y0 = 46.0, 96.0
     row_h = 44.0
     width = x0 + sum(widths) + 46
@@ -969,23 +1065,17 @@ def layout_S4(clauses, ents):
                 mentions.append((m, mx, my, mw, mh))
         cx = x0 + sum(widths[:3])
         for a in c.args:
-            if a.role in ("AG", "PAT", "TIME"):
+            if a.role in ("AG", "PAT"):
                 continue
-            parts.append(text(cx + 6, y + 22, ROLE_LABEL[a.role], size=12,
-                              anchor="start", fill=MUTED))
-            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 12),
+            # role word at full weight: it is content, not chrome
+            parts.append(text(cx + 6, y + 22, ROLE_LABEL[a.role], size=13,
+                              anchor="start", fill=INK))
+            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 13),
                                       y + 4, a.ent, ents)
             parts.extend(bp)
             labels += 2
             mentions.append((a.ent, bx, by, bw, bh))
-            cx += 30 + bw
-        cx = x0 + sum(widths[:4])
-        a = c.arg("TIME")
-        if a:
-            bp, bw, bh, bx, by = _box(cx + 6, y + 4, a.ent, ents)
-            parts.extend(bp)
-            labels += 1
-            mentions.append((a.ent, bx, by, bw, bh))
+            cx += 34 + bw
         if c.parent is not None:
             parts.append(text(x0 + 4, y + 24, "↳", size=15,
                               anchor="start", fill=MUTED))
@@ -1053,6 +1143,12 @@ def layout_S5(clauses, ents, wrap=1080.0):
             if prev_tail is not None and prev_tail[0] == ag.ent:
                 joins += 1               # written once, serves both clauses
                 mentions.append((ag.ent, prev_tail[1], prev_tail[2], 16, 26))
+                # The join box was drawn for the PREVIOUS clause and then
+                # nothing linked it forward, so it read as detached:
+                # "'bridge cross river' — bridge isn't connected to cross"
+                # (Edward).  Draw the link the join is claiming to make.
+                parts.append(line(prev_tail[1] + prev_tail[3] / 2, prev_tail[2],
+                                  x, prev_tail[2], stroke="#b9c2d0", sw=1.3))
             else:
                 if not suppress_seam:
                     # Edward: the seam "needs to be more prominent given
@@ -1087,15 +1183,17 @@ def layout_S5(clauses, ents, wrap=1080.0):
             seen.add(pat.ent)
             bw, bh, cx, cy = place_box(pat.ent, "ent", indent)
             mentions.append((pat.ent, cx, cy, bw, bh))
-            tail = (pat.ent, cx, cy)
+            tail = (pat.ent, cx, cy, bw)
             hang_mods(pat, cx, cy)
         # obliques ride under the predicate
         obl = [a for a in c.args if a.role not in ("AG", "PAT")]
         for k, a in enumerate(obl):
+            # obliques were italic grey under the predicate, which read as
+            # decoration; they are content, so full weight
             s = f"{ROLE_LABEL[a.role]} {a.ent}"
-            parts.append(text(pcx, pcy + 26 + k * 17, s, size=12,
-                              fill=MUTED, style="italic"))
-            mentions.append((a.ent, pcx, pcy + 26 + k * 17,
+            parts.append(text(pcx, pcy + 27 + k * 17, s, size=12,
+                              fill=INK))
+            mentions.append((a.ent, pcx, pcy + 27 + k * 17,
                              tw(s, 12), 15))
         prev_tail = tail
         suppress_seam = False
@@ -1369,11 +1467,11 @@ def study_pages(key):
     tlay, tclauses, tents = build(key, FRESH[key], TEST_INSTANCES)
     tbx, tby = content_extent(tlay.parts)
     tw_ = max(tlay.w, tbx + 40, 1000.0)
-    sub = (f"{len(tclauses)} clauses / ~{words_in(tclauses)} words, never "
-           f"seen before, no gloss on purpose.  the events are "
-           f"deliberately NOT world-plausible: that stops you "
-           f"reconstructing the meaning from what makes sense, and forces "
-           f"the notation to carry it.")
+    sub = (f"{len(tclauses)} clauses / ~{words_in(tclauses)} words you have "
+           f"not seen, in the layout you just trained on.  no gloss — read "
+           f"it, then check yourself against the answer key.  the same nine "
+           f"things recur in different roles, which is the part worth "
+           f"watching: can you keep track of who is doing what to whom?")
     thead = [text(40, 44, f"{TITLE[key]} — TEST", size=24, anchor="start",
                   weight="bold")]
     sp, sh = wrap_text(40, 70, sub, tw_ - 80, size=14)
@@ -1564,6 +1662,29 @@ def main(argv=None):
             with open(p, "w") as f:
                 f.write(page(key))
             print(p)
+    elif cmd == "areas":
+        # Does fixed-width (conlang-block) word rendering change the
+        # layout economics, or only shrink everything uniformly?
+        import importlib
+        rows = []
+        for fixed in (False, True):
+            globals()["FIXED_WIDTH"] = fixed
+            _CODES.clear()
+            col = {}
+            for key, fn in LAYOUTS:
+                lay, clauses, ents = build(key, FRESH[key], TEST_INSTANCES)
+                x0, y0, x1, y1 = content_bbox(lay.parts)
+                col[key] = (x1 - x0) * (y1 - y0) / 1e6
+            rows.append(col)
+        globals()["FIXED_WIDTH"] = False
+        base_e, base_f = rows[0]["S0"], rows[1]["S0"]
+        print(f"{'layout':<22}{'english':>10}{'fixed-2ch':>12}"
+              f"{'shrink':>9}{'xS0 eng':>10}{'xS0 fix':>10}")
+        print("-" * 73)
+        for key, _ in LAYOUTS:
+            e, f = rows[0][key], rows[1][key]
+            print(f"{TITLE[key]:<22}{e:>10.2f}{f:>12.2f}"
+                  f"{f / e:>9.2f}{e / base_e:>10.2f}{f / base_f:>10.2f}")
     elif cmd == "study":
         out = argv[1] if len(argv) > 1 else "."
         os.makedirs(out, exist_ok=True)
