@@ -206,6 +206,71 @@ legibility or learnability. The named fix before those claims: re-render
 survivors with neutral fixed-width entity IDs and semantically
 unpredictable predicates, then with real script blocks.
 
+## Direction review (Codex xhigh, 2026-08-26): **PURSUE NARROWLY**
+
+The verdict, and it converges with Edward's own reaction ("it's just a
+map of the mechanics of the story… you could just summarize it"):
+
+> The result worth preserving is not "a new way to read language." It is
+> a deterministic semantic trace: an optional, generated view for
+> inspecting reference, roles, scope, and change. As a compulsory
+> notation, it conflicts with the learning-speed north star.
+
+**The finding that guts the headline.** The 0.6% search fraction is not a
+reading result — and worse, it is not even a *spatial* result, because
+plain text with the referent's mentions highlighted would deliver most of
+it for free. "At present, the evidence supports structured indexing — not
+a spatial sentence layer." So the distinguishing experiment must hold
+selection constant: compare (1) linear text with mentions highlighted,
+(2) linear text with filtering and folding, (3) the spatial projection —
+and ask *relational* questions (role transitions, scope, multi-clause
+inference), never "find all mentions". If the spatial advantage survives
+matched selection, parallel binding is supported; if it disappears, "the
+project has built an index and should name itself accordingly."
+
+**The honest killer application** is what `ctrl-F` cannot answer: show
+every event involving this referent, *the role it occupies in each*, how
+that role changes, which embedded propositions depend on it, and what
+changed between two versions. Translation checking, semantic diffing,
+contracts, procedural texts. Search finds strings; it does not expose
+referent identity, role transitions, omitted arguments or scope.
+
+**The strongest version** is a semantic oscilloscope, not a page format:
+the canonical language stays linear; only *active or selected* referents
+get lanes (nine permanent lanes must not become ninety); roles are shown
+locally at the event as well as spatially; the unit is the working set —
+an episode or a referent's history, roughly 3–12 clauses — not the whole
+discourse; complements are collapsible insets; and the best fit with the
+north star is as a **teaching scaffold that fades** as the learner
+internalizes the grammar.
+
+**S4 is not an ablation.** "Its boringness is an advantage: tables are
+already learned. Start from the table and add only the spatial
+affordances that produce measured gains. The winning artifact may be a
+table–lane hybrid rather than a novel script." This is also what Edward
+reached for unprompted — easiest to learn, most prose-like.
+
+**Precedent ranking:** sheet music is the most instructive (strict
+temporal axis, concurrent structure aligned spatially, serves specific
+tasks that repay training, never claims to replace prose). Heptapod B is
+the trap — its appeal is aesthetic, and circular simultaneity conceals
+order, embedding and revision, which is exactly how S3 failed here. ASL
+proves spatial reference exists but is embodied, temporal and
+interactive, not static parallel reading. Dependency treebanks and node
+editors warn that making structure explicit does not make people prefer
+it for *consuming* content — their strength is debugging.
+
+**Cut from the core** (adopted): compulsory spatial literacy; free-form
+layouts; proposition rings; role compasses as sole encoding; "write each
+entity once" as a design goal; any grammar added to serve the display;
+any claim that the view replaces ordinary reading. Keep the deterministic
+graph and optional projections; promote on evidence only.
+
+**Kill condition, precommitted:** if the trace does not improve accuracy
+or time after accounting for training — and especially if its benefit
+disappears against *highlighted* linear text — stop developing it as a
+notation.
+
 ## Open work
 
 Round 2 candidates:
