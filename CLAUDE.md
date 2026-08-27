@@ -1,24 +1,13 @@
 # conlang — Agent Instructions
 
-An engineered conlang optimized for learning speed. North star:
+An engineered conlang optimized for learning speed and other things. North star:
 `docs/design-brief.md`; program charter (endgame + lanes, Edward
 2026-08-22): `docs/design/program.md` — RZ ships, GZ is the feature
 mine and owns the script. Versioned spec: `docs/spec/`. Living
-research paper: `paper/paper.md`. The duke seat owns project shape
-and translates human direction into beads.
-
-- Duke role: load the `duke` skill (`/duke`) and `human-gates`.
-- Issue tracking: **bd** (beads). `bd ready`, `bd create`, `bd show`, `bd close`.
-- Land work on `origin/main`; don't let branches accumulate.
-- This file is the source of truth for project conventions; grow it as the
-  project takes shape.
+research paper: `paper/paper.md`. 
 
 ## Conventions
 
-- **Remotes:** `origin` = local crew landing target (bare repo); `github` =
-  public mirror (github.com/heated/conlang). After landing on `origin/main`,
-  also `git push github main`. The repo is PUBLIC — nothing sensitive in
-  commits.
 - **Paper:** every substantive bead updates its section of `paper/paper.md`
   as part of the bead (tracker: conlang-8c2). Citations seeded from the
   design chat stay marked TODO-verify until checked against primary sources.
@@ -37,7 +26,7 @@ and translates human direction into beads.
   and anything that changes frozen-core language definitions.
 - **Gate calibration (Edward, 2026-08-22, from the D1-D7 ruling):**
   decisions that are "basically just a win and don't negatively affect
-  anything" (pure-upside, preferred forms unchanged, reversible) may be
+  much" (mostly-upside, preferred forms unchanged, reversible) may be
   called by the agent directly — adopt, document, and report. The human
   gate is for real trades (inventory removals were flagged correctly;
   even that one Edward approved and reclassified as callable).
@@ -52,50 +41,3 @@ and translates human direction into beads.
   carries a sealed shadow pick logged in
   `docs/process/workshop-shadow-log.md` before Edward answers, scored
   against his verdict over time (Edward 2026-08-22).
-
-<!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
-## Beads Issue Tracker
-
-This project uses **bd (beads)** for issue tracking. Run `bd prime` to see full workflow context and commands.
-
-### Quick Reference
-
-```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --claim  # Claim work
-bd close <id>         # Complete work
-```
-
-### Rules
-
-- Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
-- Run `bd prime` for detailed command reference and session close protocol
-- Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
-
-## Session Completion
-
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
-
-**MANDATORY WORKFLOW:**
-
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **PUSH TO REMOTE** - This is MANDATORY:
-   ```bash
-   git pull --rebase
-   bd dolt push
-   git push
-   git status  # MUST show "up to date with origin"
-   ```
-5. **Clean up** - Clear stashes, prune remote branches
-6. **Verify** - All changes committed AND pushed
-7. **Hand off** - Provide context for next session
-
-**CRITICAL RULES:**
-- Work is NOT complete until `git push` succeeds
-- NEVER stop before pushing - that leaves work stranded locally
-- NEVER say "ready to push when you are" - YOU must push
-- If push fails, resolve and retry until it succeeds
-<!-- END BEADS INTEGRATION -->
