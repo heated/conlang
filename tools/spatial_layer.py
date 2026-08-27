@@ -781,8 +781,8 @@ def layout_S1(clauses, ents):
                 # at, F vs from" (Edward).  Write the word beside the cap.
                 parts.append(circ(x, yy, 6.5, fill=tint(ents, a.ent),
                                   sw=1.8))
-                parts.append(text(x + 12, yy + 5, ROLE_LABEL[a.role],
-                                  size=15, anchor="start", fill=INK))
+                parts.append(text(x + 11, yy + 4.5, ROLE_LABEL[a.role],
+                                  size=14, anchor="start", fill=INK))
                 labels += 1
             for m in a.mods:
                 if m in lane_x:
@@ -812,9 +812,9 @@ def layout_S1(clauses, ents):
                               y + indent, stroke="#c9d2e0", sw=1.2,
                               dash="2 3"))
             parts.append(text(gutter_x, y + indent + 5,
-                              ROLE_LABEL[a.role], size=15, anchor="start",
+                              ROLE_LABEL[a.role], size=14, anchor="start",
                               fill=INK))
-            bx = gutter_x + tw(ROLE_LABEL[a.role], 15) + 8
+            bx = gutter_x + tw(ROLE_LABEL[a.role], 14) + 8
             bp, bw, bh, bcx, bcy = _box(bx, y + indent - 13, a.ent, ents)
             parts.extend(bp)
             mentions.append((a.ent, bcx, bcy, bw, bh))
@@ -1074,9 +1074,9 @@ def layout_S4(clauses, ents):
             if a.role in ("AG", "PAT"):
                 continue
             # role word at full weight: it is content, not chrome
-            parts.append(text(cx + 6, y + 23, ROLE_LABEL[a.role], size=15,
+            parts.append(text(cx + 6, y + 22, ROLE_LABEL[a.role], size=13,
                               anchor="start", fill=INK))
-            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 15),
+            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 13),
                                       y + 4, a.ent, ents)
             parts.extend(bp)
             labels += 2
@@ -1142,9 +1142,27 @@ def layout_S5(clauses, ents, wrap=1080.0):
             parts.extend(mp)
             mentions.append((m, mcx, mcy, mw, mh))
 
-    def emit_clause(c, indent=0.0):
+    def clause_width(c, joining):
+        """Width the whole clause needs, so it is never split mid-way.
+        Edward: "prob dont want |-blocks to be cut off like 'engineer say
+        stone hold' is"."""
+        w = 0.0
+        ag, pat = c.arg("AG"), c.arg("PAT")
+        if ag is not None and not joining:
+            w += tw(lex(ag.ent), 15) + 18 + gap + 8
+        w += tw(lex(c.pred), 15) + 18 + gap
+        if pat is not None:
+            w += tw(lex(pat.ent), 15) + 18 + gap
+        return w
+
+    def emit_clause(c, indent=0.0, reserve=0.0):
         nonlocal x, y, joins, repeats, prev_tail, suppress_seam
         ag = c.arg("AG")
+        joining = (ag is not None and prev_tail is not None
+                   and prev_tail[0] == ag.ent)
+        if not joining and x + clause_width(c, joining) + reserve > wrap:
+            x, y = x0 + indent, y + row_h      # break BEFORE the clause
+            suppress_seam = True
         if ag is not None:
             if prev_tail is not None and prev_tail[0] == ag.ent:
                 joins += 1               # written once, serves both clauses
@@ -1197,17 +1215,20 @@ def layout_S5(clauses, ents, wrap=1080.0):
             # obliques were italic grey under the predicate, which read as
             # decoration; they are content, so full weight
             s = f"{ROLE_LABEL[a.role]} {a.ent}"
-            parts.append(text(pcx, pcy + 29 + k * 20, s, size=15,
+            parts.append(text(pcx, pcy + 28 + k * 18, s, size=14,
                               fill=INK))
-            mentions.append((a.ent, pcx, pcy + 29 + k * 20,
-                             tw(s, 15), 18))
+            mentions.append((a.ent, pcx, pcy + 28 + k * 18,
+                             tw(s, 14), 17))
         prev_tail = tail
         suppress_seam = False
         return tail
 
     for c in order:
-        emit_clause(c)
         sub = subs.get(c.idx)
+        # a matrix clause and its bracketed complement are one unit and
+        # must not be split across a line break
+        emit_clause(c, reserve=(clause_width(sub, False) + 34
+                                if sub is not None else 0.0))
         if sub is not None:
             # complement rides INLINE inside brackets: the bracket is the
             # attachment, so no leader line has to be routed across the page
@@ -1666,6 +1687,101 @@ def sheet():
     return svg(parts, W, y + 50)
 
 
+# ------------------------------------------------------- ASCII renderings
+
+# Edward's actual question about 2-char words was not "how much smaller do
+# the SVGs get" — it was whether fixed-width words let the spatial layer
+# collapse into a character-based format small enough to be ultra tiny.
+# These are that experiment: the same three layouts with the geometry
+# thrown away and only the structure kept, in monospace text.
+
+ROLE_CH = {"AG": "A", "PAT": "P", "LOC": "L", "SRC": "F", "INSTR": "W",
+           "GOAL": "G", "TIME": "T"}
+
+
+def _mark(c):
+    return ("!" if "NEG" in c.marks else "") + ("~" if "PAST" in c.marks
+                                                else "")
+
+
+def ascii_lanes(clauses, ents):
+    """x = entity, y = clause — as a character grid."""
+    lanes = [e for e in ents if e not in TIME_WORDS]
+    w = 3
+    out = ["      " + "".join(lex(e).ljust(w) for e in lanes)]
+    for i, c in enumerate(clauses):
+        cells = {}
+        for a in c.args:
+            if a.ent in lanes:
+                cells[a.ent] = ROLE_CH.get(a.role, "o")
+            for m in a.mods:
+                if m in lanes:
+                    cells.setdefault(m, "m")
+        row = "".join(cells.get(e, ".").ljust(w) for e in lanes)
+        tail = "".join(" @" + lex(a.ent) for a in c.args
+                       if a.ent not in lanes)
+        pre = ("  >" if c.parent is not None else f"{i + 1:3d}")
+        out.append(f"{pre} {lex(c.pred)}{_mark(c):<2}{row}{tail}")
+    return "\n".join(out)
+
+
+def ascii_chain(clauses, ents):
+    """entity-predicate path; a shared entity is written once."""
+    parts, prev = [], None
+    for c in clauses:
+        ag, pat = c.arg("AG"), c.arg("PAT")
+        seg = []
+        if ag is not None:
+            if prev == ag.ent:
+                seg.append("")           # already on the page
+            else:
+                seg.append(lex(ag.ent))
+        mods = "".join("(" + lex(m) + ")" for a in c.args for m in a.mods)
+        seg.append(lex(c.pred) + _mark(c))
+        if pat is not None:
+            seg.append(lex(pat.ent))
+            prev = pat.ent
+        else:
+            prev = None
+        obl = "".join("@" + lex(a.ent) for a in c.args
+                      if a.role not in ("AG", "PAT"))
+        body = "-".join(s for s in seg if s) + mods + obl
+        parts.append(("<" + body + ">") if c.parent is not None else body)
+    return " | ".join(parts)
+
+
+def ascii_grid(clauses, ents):
+    """role = column."""
+    rows = [("#", "ag", "pred", "pat", "misc")]
+    for i, c in enumerate(clauses):
+        ag, pat = c.arg("AG"), c.arg("PAT")
+        misc = " ".join(
+            ROLE_CH.get(a.role, "o").lower() + ":" + lex(a.ent)
+            for a in c.args if a.role not in ("AG", "PAT"))
+        mods = "".join("+" + lex(m) for a in c.args for m in a.mods)
+        rows.append((("  >" if c.parent is not None else str(i + 1)),
+                     lex(ag.ent) if ag else "", lex(c.pred) + _mark(c),
+                     (lex(pat.ent) if pat else "") + mods, misc))
+    wid = [max(len(r[k]) for r in rows) for k in range(5)]
+    return "\n".join(" ".join(r[k].ljust(wid[k]) for k in range(5)).rstrip()
+                     for r in rows)
+
+
+def prose_chars(clauses, ents):
+    """The control, as characters: S0's own token stream."""
+    toks = []
+    for c in clauses:
+        for a in c.args:
+            if a.role == "AG":
+                toks += ["the"] + [lex(m) for m in a.mods] + [lex(a.ent)]
+        toks.append(lex(c.pred))
+        for a in c.args:
+            if a.role == "AG":
+                continue
+            toks += ["the", lex(a.ent)]
+    return len(" ".join(toks))
+
+
 def main(argv=None):
     argv = argv or sys.argv[1:]
     cmd = argv[0] if argv else "sheet"
@@ -1677,6 +1793,27 @@ def main(argv=None):
             with open(p, "w") as f:
                 f.write(page(key))
             print(p)
+    elif cmd == "ascii":
+        name = argv[1] if len(argv) > 1 else "doctor"
+        inst = int(argv[2]) if len(argv) > 2 else TEST_INSTANCES
+        globals()["FIXED_WIDTH"] = True
+        _CODES.clear()
+        clauses = parse(source_lines(name, inst))
+        ents = entity_order(clauses)
+        base = prose_chars(clauses, ents)
+        for title, fn in (("LANES", ascii_lanes), ("GRID", ascii_grid),
+                          ("CHAIN", ascii_chain)):
+            body = fn(clauses, ents)
+            n = len(body)
+            print(f"=== {title}  {n} chars  "
+                  f"({n / base:.2f}x the same text as 2-char prose)")
+            print(body)
+            print()
+        globals()["FIXED_WIDTH"] = False
+        _CODES.clear()
+        eng = prose_chars(clauses, ents)
+        print(f"reference: {len(clauses)} clauses; 2-char prose {base} "
+              f"chars, full-word prose {eng} chars")
     elif cmd == "areas":
         # Does fixed-width (conlang-block) word rendering change the
         # layout economics, or only shrink everything uniformly?
