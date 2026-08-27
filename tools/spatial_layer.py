@@ -1698,30 +1698,89 @@ def sheet():
 ROLE_CH = {"AG": "A", "PAT": "P", "LOC": "L", "SRC": "F", "INSTR": "W",
            "GOAL": "G", "TIME": "T"}
 
+# The same thing in a script where two-character words are the norm rather
+# than an abbreviation scheme.  Real words; a few are approximations and
+# are marked.  The role markers are the payoff: in Chinese the natural
+# choices are already morphemes that MEAN the role, so the notation needs
+# no legend — the self-describing-label idea (QA-SRL) for free.
+CJK_LEX = {
+    "engineer": "工匠", "bridge": "桥梁", "stone": "石头", "valley": "山谷",
+    "river": "河流", "spring": "春天", "flood": "洪水", "mountain": "山脉",
+    "village": "村庄",
+    "build": "建造", "cross": "横跨", "damage": "损坏", "say": "说道",
+    "hold": "撑住", "come": "来自", "praise": "称赞",
+}
+CJK_APPROX = {"engineer": "工匠 is 'artisan'; 工程师 is the exact word but "
+                          "is three characters"}
+CJK_VERB_FLOOD = "淹没"          # flood-as-verb, distinct from 洪水 the noun
+
+ROLE_CJK = {"AG": "主", "PAT": "受", "LOC": "在", "SRC": "从",
+            "INSTR": "以", "GOAL": "向", "TIME": "时"}
+MOD_CJK = "的"
+NEG_CJK = "不"
+PAST_CJK = "了"
+BLANK_CJK = "　"                  # U+3000, one ideographic width
+
+CJK = False                       # set by the `ascii cjk` subcommand
+
+
+def cjk(word, verb=False):
+    if word == "flood" and verb:
+        return CJK_VERB_FLOOD
+    return CJK_LEX.get(word, word)
+
 
 def _mark(c):
+    if CJK:
+        return (NEG_CJK if "NEG" in c.marks else "") + (
+            PAST_CJK if "PAST" in c.marks else "")
     return ("!" if "NEG" in c.marks else "") + ("~" if "PAST" in c.marks
                                                 else "")
 
 
+def _w(word, verb=False):
+    """Surface form of one lexeme in whichever script is active."""
+    return cjk(word, verb) if CJK else lex(word)
+
+
+def _pred(c):
+    """Predicate with its tense/polarity marking, placed where the script
+    puts it — Chinese takes 不 before the verb and 了 after, which is not
+    an added symbol at all but the language's own morphology."""
+    v = _w(c.pred, verb=True)
+    if CJK:
+        return (NEG_CJK if "NEG" in c.marks else "") + v + (
+            PAST_CJK if "PAST" in c.marks else "")
+    return v + _mark(c)
+
+
+def _pad(s, width):
+    """Pad to `width` cells.  Every CJK char is one cell, so fixed-width
+    words need no separator between them — Edward's point."""
+    fill = BLANK_CJK if CJK else " "
+    return s + fill * max(0, width - len(s))
+
+
 def ascii_lanes(clauses, ents):
-    """x = entity, y = clause — as a character grid."""
+    """x = entity, y = clause.  No separators, no line numbers."""
     lanes = [e for e in ents if e not in TIME_WORDS]
-    w = 3
-    out = ["      " + "".join(lex(e).ljust(w) for e in lanes)]
-    for i, c in enumerate(clauses):
+    cell = 2
+    predw = max(len(_pred(c)) for c in clauses)
+    blank = BLANK_CJK if CJK else "."
+    out = [_pad("", predw + 1) + "".join(_pad(_w(e), cell) for e in lanes)]
+    for c in clauses:
         cells = {}
         for a in c.args:
             if a.ent in lanes:
-                cells[a.ent] = ROLE_CH.get(a.role, "o")
+                cells[a.ent] = (ROLE_CJK if CJK else ROLE_CH)[a.role]
             for m in a.mods:
                 if m in lanes:
-                    cells.setdefault(m, "m")
-        row = "".join(cells.get(e, ".").ljust(w) for e in lanes)
-        tail = "".join(" @" + lex(a.ent) for a in c.args
-                       if a.ent not in lanes)
-        pre = ("  >" if c.parent is not None else f"{i + 1:3d}")
-        out.append(f"{pre} {lex(c.pred)}{_mark(c):<2}{row}{tail}")
+                    cells.setdefault(m, MOD_CJK if CJK else "m")
+        row = "".join(_pad(cells.get(e, blank), cell) for e in lanes)
+        tail = "".join((ROLE_CJK if CJK else ROLE_CH)[a.role] + _w(a.ent)
+                       for a in c.args if a.ent not in lanes)
+        sub = (">" if not CJK else "＞") if c.parent is not None else ""
+        out.append(_pad(sub + _pred(c), predw + 1) + row + tail)
     return "\n".join(out)
 
 
@@ -1731,55 +1790,74 @@ def ascii_chain(clauses, ents):
     for c in clauses:
         ag, pat = c.arg("AG"), c.arg("PAT")
         seg = []
-        if ag is not None:
-            if prev == ag.ent:
-                seg.append("")           # already on the page
-            else:
-                seg.append(lex(ag.ent))
-        mods = "".join("(" + lex(m) + ")" for a in c.args for m in a.mods)
-        seg.append(lex(c.pred) + _mark(c))
+        if ag is not None and prev != ag.ent:
+            seg.append(_w(ag.ent))
+        seg.append(_pred(c))
         if pat is not None:
-            seg.append(lex(pat.ent))
+            seg.append(_w(pat.ent))
             prev = pat.ent
         else:
             prev = None
-        obl = "".join("@" + lex(a.ent) for a in c.args
-                      if a.role not in ("AG", "PAT"))
-        body = "-".join(s for s in seg if s) + mods + obl
-        parts.append(("<" + body + ">") if c.parent is not None else body)
-    return " | ".join(parts)
+        for a in c.args:
+            for m in a.mods:
+                seg.append((MOD_CJK if CJK else "'") + _w(m))
+        for a in c.args:
+            if a.role not in ("AG", "PAT"):
+                seg.append((ROLE_CJK if CJK else ROLE_CH)[a.role]
+                           + _w(a.ent))
+        body = "".join(seg)
+        parts.append(("〈" + body + "〉") if c.parent is not None and CJK
+                     else ("<" + body + ">") if c.parent is not None
+                     else body)
+    return ("、" if CJK else " | ").join(parts)
 
 
 def ascii_grid(clauses, ents):
     """role = column."""
-    rows = [("#", "ag", "pred", "pat", "misc")]
-    for i, c in enumerate(clauses):
+    rows = []
+    for c in clauses:
         ag, pat = c.arg("AG"), c.arg("PAT")
-        misc = " ".join(
-            ROLE_CH.get(a.role, "o").lower() + ":" + lex(a.ent)
-            for a in c.args if a.role not in ("AG", "PAT"))
-        mods = "".join("+" + lex(m) for a in c.args for m in a.mods)
-        rows.append((("  >" if c.parent is not None else str(i + 1)),
-                     lex(ag.ent) if ag else "", lex(c.pred) + _mark(c),
-                     (lex(pat.ent) if pat else "") + mods, misc))
+        misc = "".join((ROLE_CJK if CJK else ROLE_CH)[a.role] + _w(a.ent)
+                       for a in c.args if a.role not in ("AG", "PAT"))
+        mods = "".join((MOD_CJK if CJK else "'") + _w(m)
+                       for a in c.args for m in a.mods)
+        rows.append([(("＞" if CJK else ">") if c.parent is not None
+                      else ""),
+                     _w(ag.ent) if ag else "", _pred(c),
+                     (_w(pat.ent) if pat else "") + mods, misc])
     wid = [max(len(r[k]) for r in rows) for k in range(5)]
-    return "\n".join(" ".join(r[k].ljust(wid[k]) for k in range(5)).rstrip()
+    return "\n".join("".join(_pad(r[k], wid[k] + (0 if k == 0 else 1))
+                             for k in range(5)).rstrip()
                      for r in rows)
 
 
 def prose_chars(clauses, ents):
-    """The control, as characters: S0's own token stream."""
-    toks = []
+    """The control, as characters, in whichever script is active.
+
+    Chinese prose needs no articles and no inter-word spaces, so this is
+    the honest comparison rather than a Latin transliteration."""
+    out = []
     for c in clauses:
-        for a in c.args:
-            if a.role == "AG":
-                toks += ["the"] + [lex(m) for m in a.mods] + [lex(a.ent)]
-        toks.append(lex(c.pred))
-        for a in c.args:
-            if a.role == "AG":
+        toks = []
+        ag, pat = c.arg("AG"), c.arg("PAT")
+        if ag is not None:
+            toks += ([_w(m) + MOD_CJK for m in ag.mods] if CJK
+                     else ["the"] + [_w(m) for m in ag.mods])
+            toks.append(_w(ag.ent))
+        for a in c.args:                       # obliques: PP before verb
+            if a.role in ("AG", "PAT"):
                 continue
-            toks += ["the", lex(a.ent)]
-    return len(" ".join(toks))
+            toks.append((ROLE_CJK[a.role] + _w(a.ent)) if CJK
+                        else ROLE_LABEL[a.role])
+            if not CJK:
+                toks += ["the", _w(a.ent)]
+        toks.append(_pred(c))
+        if pat is not None:
+            toks += ([_w(m) + MOD_CJK for m in pat.mods] if CJK
+                     else ["the"] + [_w(m) for m in pat.mods])
+            toks.append(_w(pat.ent))
+        out.append("".join(toks) if CJK else " ".join(toks))
+    return len(("".join(out)) if CJK else " ".join(out))
 
 
 def main(argv=None):
@@ -1794,26 +1872,37 @@ def main(argv=None):
                 f.write(page(key))
             print(p)
     elif cmd == "ascii":
-        name = argv[1] if len(argv) > 1 else "doctor"
-        inst = int(argv[2]) if len(argv) > 2 else TEST_INSTANCES
-        globals()["FIXED_WIDTH"] = True
+        want_cjk = "cjk" in argv
+        rest = [a for a in argv[1:] if a != "cjk"]
+        name = rest[0] if rest else ("bridge" if want_cjk else "doctor")
+        inst = int(rest[1]) if len(rest) > 1 else TEST_INSTANCES
+        globals()["CJK"] = want_cjk
+        globals()["FIXED_WIDTH"] = not want_cjk
         _CODES.clear()
         clauses = parse(source_lines(name, inst))
         ents = entity_order(clauses)
         base = prose_chars(clauses, ents)
+        script = "chinese" if want_cjk else "2-char latin"
+        print(f"# {len(clauses)} clauses, {name} discourse, {script}")
+        if want_cjk:
+            print("# roles are real morphemes, so there is no legend to "
+                  "learn:")
+            print("#   主 agent  受 patient  在 at  从 from  时 when  "
+                  "的 modifier  不 not  了 past")
+            for k, v in CJK_APPROX.items():
+                print(f"# approximation: {k} -> {CJK_LEX[k]} ({v})")
+        print()
         for title, fn in (("LANES", ascii_lanes), ("GRID", ascii_grid),
                           ("CHAIN", ascii_chain)):
             body = fn(clauses, ents)
-            n = len(body)
-            print(f"=== {title}  {n} chars  "
-                  f"({n / base:.2f}x the same text as 2-char prose)")
+            n = len(body.replace("\n", ""))
+            print(f"=== {title}  {n} chars  ({n / base:.2f}x prose)")
             print(body)
             print()
+        print(f"# prose in the same script: {base} chars")
+        globals()["CJK"] = False
         globals()["FIXED_WIDTH"] = False
         _CODES.clear()
-        eng = prose_chars(clauses, ents)
-        print(f"reference: {len(clauses)} clauses; 2-char prose {base} "
-              f"chars, full-word prose {eng} chars")
     elif cmd == "areas":
         # Does fixed-width (conlang-block) word rendering change the
         # layout economics, or only shrink everything uniformly?
