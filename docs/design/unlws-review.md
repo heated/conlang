@@ -2,22 +2,68 @@
 
 Edward: "review UNLWS & steal its ideas. and show me more of what it is."
 
+> **CORRECTION (2026-08-27, same day).** The first version of this review
+> was written from Sai's 2000s-era design manifesto only, and concluded
+> that UNLWS leaves negation, quantification, scope, tense and modality
+> unsolved. **That is wrong for the system as built.** Having pulled the
+> repo and read the actual reference (a published Google Doc behind the
+> `s.ai/nlws` iframe), all five are solved, and the solutions are the most
+> interesting things here. The struggles section below has been rewritten;
+> the steals stand and have grown.
+
 ## What I read, and what I did not
 
 **Read in full:** Sai's design manifesto, *Non-Linear Fully-2D Writing
 Systems* (`s.ai/essays/nlf2dws`). This is the theory document, and it is
 where every mechanism below comes from.
 
-**Could NOT read:** UNLWS proper — the system Sai and Alex Fink actually
-built. `s.ai/nlws` serves a JavaScript renderer with no text; the GitHub
-repo (`saizai/unlws`, 189 commits, **last touched 2026-08-26**, Git-LFS
-assets, active Discord) did not render its README to me. So the glyph
-inventory, the current grammar, and the worked specimens are **unverified**.
-Everything below describes the *design*, and the built system may well have
-solved things the essay lists as open. Flagged, not assumed.
+**Now also read:** UNLWS proper. `s.ai/nlws` is a one-line iframe onto a
+**published Google Doc**, which is the real reference; and the repo
+(`saizai/unlws`, 189 commits, last touched 2026-08-26) carries **131 glyph
+PNGs** with self-describing filenames plus the Prayer of St Francis
+specimen. A contact sheet of the instructive ones is at
+`.ship-notes/workshop/unlws/index.html`.
 
-Sai's own status note on the manifesto: *"This was never completed, and
-I've lost the original accompanying diagrams."*
+Sai's status note on the *manifesto* — *"This was never completed, and I've
+lost the original accompanying diagrams"* — does not apply to UNLWS, which
+is a live system with a Discord community.
+
+## The built system, corrected
+
+Terminology first: the built system says **binding points (BPs)**, not
+attachment points.
+
+- **A glyph is a predicate.** *"A glyph expresses a predicate, more or
+  less."* There is **no noun/verb distinction** — glyphs are uniformly one
+  part of speech.
+- **BPs are the argument slots.** *"Each binding point has a meaning,
+  referring to one of the participants in the event."* Join two BPs with a
+  relation line and *"the entities filling those semantic roles of the
+  glyphs involved coincide."*
+- **There are no syntactic relations at all.** Subject and object are not
+  reified; *all* BPs on a relation line *"have equal status. None of them
+  is subordinate to another."* The consequence is startling: the same text
+  reads indifferently as *I bought a muffin from Bob* or *Bob sold me a
+  muffin*, depending only on traversal. **UNLWS declines the agent/patient
+  asymmetry that every one of our layouts is built on.**
+- **Rel gaps** — a perpendicular line binding with a small gap — are
+  nominalisation and complement clauses: *"X is the fact that an A is B."*
+  This is exactly the attachment our proposition rings had nowhere to put.
+- **Cartouches** — dotted boundaries — group a region and mark **scope**
+  for quantifiers and irrealis, and *"lines penetrate the boundary of a
+  cartouche, to make binding points inside and outside coreferential."*
+- **Line decorations** carry mood: expectedly, unexpectedly, which-is-good,
+  which-is-bad — and *"can take the stroke denoting negation across their
+  body"*, so negation composes with mood rather than sitting beside it.
+- **TAMs sit inside the glyph**, marking aspect (completive, progressive,
+  habitual) and tense.
+- **Pronouns are equilateral triangles with different fillings, and they
+  exist as a LAYOUT DEVICE** — explicitly to avoid long snaking lines.
+  Independent confirmation of the cost problem we measured. Lovely detail:
+  a lone pronoun with no match nearby *"raises an implicature that there's
+  a part of the text that isn't being shown."*
+- **Quotation distinguishes use from mention in the script itself**: double
+  quotes for form/inscription, single quotes for meaning.
 
 ## What it is
 
@@ -114,26 +160,32 @@ where one character ends and another begins."
    foregrounded — is a compression mechanism we have not considered and it
    is not obviously expensive.
 
-## Three places it demonstrably struggles — design around these
+## Where it is genuinely open — design around these
 
-1. **Negation, quantification, scope, tense, modality are unsolved.** They
-   appear in the TODO, not the design. This is precisely what Stenning &
-   Oberlander predict: graphical systems "limit abstraction and thereby aid
-   processibility," so the abstract operators are what a graph gives up.
-   Our oracle-coverage gate already catches this class of failure, and it
-   should stay the first gate any spatial candidate passes.
-2. **Time is linear and the system is not.** Sai concedes it directly:
-   *"To write a sequence of events, you will need some sort of (linear)
-   connection."* He argues causation is often circular or multithreaded and
-   so better served — true, but narrative order is not, and this is exactly
-   how our S3 rings failed the oracle gate on clause order.
-3. **Reading order, editing, and pagination are all open.** "There is no
-   single traversal method"; editing is listed as unsolved and "analogous
-   to database problems"; and books are rejected outright — *"A nonlinear
-   language would suffer from being chopped up into 8.5×11 chunks."* His
-   own TODO even asks *"Will users impose linearity despite design?"* Petre
-   1995 answers that: readers of graphical notations lack navigation cues
-   and fall back on any text present.
+Not the abstract operators; those are solved, and better than in our
+prototypes. What remains open is navigational and practical.
+
+1. **Reading order is undefined on purpose, and only weakly repairable.**
+   *"Reading order is intentionally not defined."* Information structure is
+   marked only by *"focus indicated by bolding lines."* Petre 1995 is the
+   warning: readers of graphical notations lack navigation cues, work
+   visibly harder, and fall back on any text present. Sai's own TODO asks
+   *"Will users impose linearity despite design?"*
+2. **Editing, insertion and pagination.** Listed as unsolved and
+   *"analogous to database problems"*; books are rejected outright — *"A
+   nonlinear language would suffer from being chopped up into 8.5×11
+   chunks."*
+3. **Evidence of readership.** There is a community and a Discord, but no
+   comprehension study, no learning-time measure, and little running text.
+   Our train/test harness is the thing that could actually supply this,
+   for UNLWS as much as for us.
+
+On time specifically, Edward's framing is better than Sai's: *time tends to
+be linear but it's not always there, or not there enough to be linear.*
+Narrative needs sequence; definitions, taxonomies, specifications and
+arguments largely do not. Every text we have tested has been narrative,
+which is the case that most favours a linear control. **Non-narrative
+content is untested and is where a spatial layer should be strongest.**
 
 ## One genuine disagreement to record
 
@@ -152,9 +204,7 @@ take the opposite side of that trade, and steal UNLWS's *mechanisms* (APs,
 hashing, typed lines) into a grid-shaped host rather than adopting its
 topology.
 
-## Open
+## Where this goes
 
-I could not verify the built system. If it matters, the routes are the
-UNLWS Discord, the LFS assets in `saizai/unlws`, and Alex Fink's LCC talks.
-Worth doing before we implement APs, in case they have already found the
-failure modes.
+`docs/design/unlws-trailhead.md` is the standing entry point for mining
+UNLWS features into GZ.
