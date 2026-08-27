@@ -1775,7 +1775,7 @@ def ascii_lanes(clauses, ents):
                 cells[a.ent] = (ROLE_CJK if CJK else ROLE_CH)[a.role]
             for m in a.mods:
                 if m in lanes:
-                    cells.setdefault(m, MOD_CJK if CJK else "m")
+                    cells.setdefault(m, MOD_CJK if CJK else "'")
         row = "".join(_pad(cells.get(e, blank), cell) for e in lanes)
         tail = "".join((ROLE_CJK if CJK else ROLE_CH)[a.role] + _w(a.ent)
                        for a in c.args if a.ent not in lanes)
@@ -1888,9 +1888,23 @@ def main(argv=None):
             print("# roles are real morphemes, so there is no legend to "
                   "learn:")
             print("#   主 agent  受 patient  在 at  从 from  时 when  "
-                  "的 modifier  不 not  了 past")
+                  "的 modifier  不 not  了 past  ＞ complement")
             for k, v in CJK_APPROX.items():
                 print(f"# approximation: {k} -> {CJK_LEX[k]} ({v})")
+        else:
+            # The Latin codes are arbitrary and therefore need the legend
+            # the Chinese version does not.  Omitting it was the whole
+            # reason "!", "~", "br'st" and "Lva" were unreadable.
+            print("# every content word is a 2-letter code; the marks are:")
+            print("#   A agent   P patient   L at(locative)   F from")
+            print("#   T when(time)   W with   G to")
+            print("#   ' modifier of the word before it   (br'st = a stone "
+                  "bridge)")
+            print("#   ! negated   ~ past   <...> complement clause")
+            print("#   so Lva = at valley, Tsp = when spring, fl~ = "
+                  "flooded, da! = does not damage")
+            print("# codes: " + "  ".join(
+                f"{lex(e)}={e}" for e in entity_order(clauses)))
         print()
         for title, fn in (("LANES", ascii_lanes), ("GRID", ascii_grid),
                           ("CHAIN", ascii_chain)):
