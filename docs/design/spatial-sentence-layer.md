@@ -224,6 +224,31 @@ legibility or learnability. The named fix before those claims: re-render
 survivors with neutral fixed-width entity IDs and semantically
 unpredictable predicates, then with real script blocks.
 
+## The chain is infix notation (Edward, 2026-08-27)
+
+His read of the character form: "chain basically looks like a math-heavy
+script." That is not a complaint and it is worth taking literally — the
+chain *is* infix notation. `engineer build bridge` is `a OP b`, obliques
+are postfix operators, the complement bracket is a parenthesis. Three
+consequences:
+
+- Math notation is one of the very few non-linear-text notations people
+  demonstrably read fast (prior-art survey §3), so the resemblance puts
+  the chain in good company rather than bad.
+- It comes with an off-the-shelf toolkit we have not used: **precedence**
+  (so brackets appear only where they disambiguate), and **grouping by
+  spacing**, which Landy & Goldstone showed is read as real syntax —
+  formally irrelevant whitespace changes *accuracy* on order-of-operations
+  judgements, and Kirshner found students learn precedence from spacing
+  rather than from the stated rules.
+- It also inherits math's cost: years to fluency, and precedence errors
+  that persist in experts. An infix notation is not a low-learning-cost
+  artifact, which cuts against the north star.
+
+The actionable version: if the chain is infix, stop hand-placing seams and
+brackets and give it a precedence grammar plus a spacing convention, and
+measure whether spacing alone can replace the seam bars.
+
 ## Direction review (Codex xhigh, 2026-08-26): **PURSUE NARROWLY**
 
 The verdict, and it converges with Edward's own reaction ("it's just a
