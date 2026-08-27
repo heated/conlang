@@ -781,8 +781,8 @@ def layout_S1(clauses, ents):
                 # at, F vs from" (Edward).  Write the word beside the cap.
                 parts.append(circ(x, yy, 6.5, fill=tint(ents, a.ent),
                                   sw=1.8))
-                parts.append(text(x + 11, yy + 4, ROLE_LABEL[a.role],
-                                  size=12, anchor="start", fill=EDGE))
+                parts.append(text(x + 12, yy + 5, ROLE_LABEL[a.role],
+                                  size=15, anchor="start", fill=INK))
                 labels += 1
             for m in a.mods:
                 if m in lane_x:
@@ -811,10 +811,10 @@ def layout_S1(clauses, ents):
             parts.append(line(hi + 10, y + indent, gutter_x - 8,
                               y + indent, stroke="#c9d2e0", sw=1.2,
                               dash="2 3"))
-            parts.append(text(gutter_x, y + indent + 4,
-                              ROLE_LABEL[a.role], size=12, anchor="start",
-                              fill=EDGE))
-            bx = gutter_x + tw(ROLE_LABEL[a.role], 12) + 8
+            parts.append(text(gutter_x, y + indent + 5,
+                              ROLE_LABEL[a.role], size=15, anchor="start",
+                              fill=INK))
+            bx = gutter_x + tw(ROLE_LABEL[a.role], 15) + 8
             bp, bw, bh, bcx, bcy = _box(bx, y + indent - 13, a.ent, ents)
             parts.extend(bp)
             mentions.append((a.ent, bcx, bcy, bw, bh))
@@ -1074,9 +1074,9 @@ def layout_S4(clauses, ents):
             if a.role in ("AG", "PAT"):
                 continue
             # role word at full weight: it is content, not chrome
-            parts.append(text(cx + 6, y + 22, ROLE_LABEL[a.role], size=13,
+            parts.append(text(cx + 6, y + 23, ROLE_LABEL[a.role], size=15,
                               anchor="start", fill=INK))
-            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 13),
+            bp, bw, bh, bx, by = _box(cx + 12 + tw(ROLE_LABEL[a.role], 15),
                                       y + 4, a.ent, ents)
             parts.extend(bp)
             labels += 2
@@ -1197,10 +1197,10 @@ def layout_S5(clauses, ents, wrap=1080.0):
             # obliques were italic grey under the predicate, which read as
             # decoration; they are content, so full weight
             s = f"{ROLE_LABEL[a.role]} {a.ent}"
-            parts.append(text(pcx, pcy + 27 + k * 17, s, size=12,
+            parts.append(text(pcx, pcy + 29 + k * 20, s, size=15,
                               fill=INK))
-            mentions.append((a.ent, pcx, pcy + 27 + k * 17,
-                             tw(s, 12), 15))
+            mentions.append((a.ent, pcx, pcy + 29 + k * 20,
+                             tw(s, 15), 18))
         prev_tail = tail
         suppress_seam = False
         return tail
