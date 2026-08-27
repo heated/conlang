@@ -38,14 +38,29 @@ sequence of attention — but this is not often noted in VP literature."
 search** — diagrams "group together all information that is used
 together, thus avoiding large amounts of search" and "use location to
 group information about a single element, avoiding the need to match
-symbolic labels." Their own caveat is the one nobody quotes: "*nothing
-ensures that these inferences must be useful… diagrams are useful only
-to those who know the appropriate computational processes for taking
-advantage of them.*" So the defensible claim is **reduced search cost
-and reduced working-memory load for reference re-access, for a reader who
-has learned the conventions** — which is exactly what this lane
-measured, and exactly what the Codex direction review independently
-reduced it to.
+symbolic labels."
+
+Two caveats, and the second is usually not stated at all.
+
+Theirs: "*nothing ensures that these inferences must be useful… diagrams
+are useful only to those who know the appropriate computational processes
+for taking advantage of them.*"
+
+About the paper itself: **Larkin & Simon report no human effect size,
+because it is not a human-subjects study.** [Confidence high; the PDF
+could not be re-retrieved to verify wording — flagged.] It is a
+computational analysis. They build production-system models that solve
+physics and geometry problems from a "diagrammatic" and a "sentential"
+representation which are *informationally* equivalent but not
+*computationally* equivalent, and compare search steps **in the models**.
+The famous title is an argument, not a measurement. So locality of search
+is a **modelling result**, and this lane must stop citing it as an
+established magnitude.
+
+If a measured number is wanted for "grouping related things helps", it has
+to come from the multimedia meta-analyses instead: **spatial contiguity
+g = 0.63–0.74** (k = 46–58) and **signaling g = 0.43** (k = 209), Noetel
+et al. — and those measure *learning*, not reading speed.
 
 ## The decisive natural experiment: ASL
 
