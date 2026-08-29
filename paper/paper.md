@@ -704,8 +704,8 @@ design forks that avoid it is a hypothesis, not a measurement
 is the category catalogue, kept as a registry of markable
 distinctions alongside the Leipzig and UniMorph conventions
 [@leipzig2015; @sylakglassman2016], and a specification-grid
-proposal priced on the ledger against the greenfield's scarce root
-bodies. Solresol's seven notes sit below the articulatory
+proposal entered on the ledger — as an open question about the
+greenfield's scarce root bodies, not yet a price. Solresol's seven notes sit below the articulatory
 floor while prefiguring multimodal serialization of one code. ASD-STE100
 and aviation English show institutions adopt constrained registers when
 reliability wins are legible — the model for this design's safety-critical
