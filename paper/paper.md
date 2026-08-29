@@ -693,7 +693,17 @@ and locates its own bottleneck in arbitrary briefs and irregular
 orthography — precisely what a regular channel grammar removes. Toki Pona
 marks the floor of the inventory-size curve (conversation slows when
 paraphrase becomes constant); Ithkuil marks the ceiling (completeness
-kills speakability); Solresol's seven notes sit below the articulatory
+kills speakability — and the steal-pass in
+docs/design/alternatives/ithkuil-forks.md traces that failure to
+four separable decisions: obligatory marking, lookup-fusion for
+concision, a phonology inflated to pay for it, and a category set
+never pruned by use — resting on the throughput premise §2 rejects,
+since spoken concision cannot raise bits per second; what survives
+is its category catalogue, kept here as a reference namespace of
+markable distinctions cross-referenced to the Leipzig and UniMorph
+standards, docs/design/construal-namespace.md, and its root × stem
+× specification grid, entered on the ledger as a priced capacity
+candidate for the greenfield's scarce root bodies); Solresol's seven notes sit below the articulatory
 floor while prefiguring multimodal serialization of one code. ASD-STE100
 and aviation English show institutions adopt constrained registers when
 reliability wins are legible — the model for this design's safety-critical
