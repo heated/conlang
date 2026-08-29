@@ -110,11 +110,13 @@ else is defined over these coordinates.
   input methods as standalone tools usable inside English. A language ships
   better inside a world (stories, beauty budget at Tier 4). Ithkuil died of
   completeness: pick the load-bearing set, resist feature accretion.
-  (Steal-pass 2026-08-30, `docs/design/alternatives/ithkuil-forks.md`:
-  the failure decomposes into obligatory marking + lookup-fusion +
-  inflated phonology + unpruned categories; kept from it the category
-  catalogue as a reference namespace — `construal-namespace.md` — and
-  the root × Stem × Specification grid as a priced capacity candidate.)
+  (Steal-pass 2026-08-30, `docs/design/alternatives/ithkuil-forks.md`
+  — the diagnosis there is [H], not measured: a large mandatory core
+  per word, fusion for a concision whose spoken payoff is doubtful,
+  a phonology sized to pay for it, and categories never pruned by
+  use. Kept from it: the category catalogue as a project registry,
+  `construal-namespace.md`; and Specification as an unpriced
+  derivational-capacity candidate for GZ.)
 
 ## User directives on record
 
