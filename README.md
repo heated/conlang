@@ -23,7 +23,13 @@ friends. Start here: **[Read RZ today](docs/rz-start.md)**.
 
 ## The two tracks
 
-- **RZ** (`docs/design/zonal/`) — the shipping bet. Receptive-first:
+- **RZ** (`docs/design/zonal/`) — the shipping bet, and a declared
+  **profile of Interlingua** (IALA, 1951): Interlingua's grammar and
+  lexical base, a shallow orthography, an Ibero-weighted lexicon, a
+  few grammatical deltas (each a falsifiable bet, measured against the
+  baseline), and a set of engineered add-ons built as host-neutral
+  patterns
+  (`docs/design/zonal/rz-interlingua-profile.md`). Receptive-first:
   designed so the zone reads it at sight. Its 96-form closed function-word
   inventory — 60 forms attested in the current corpus — covers 49.2%
   of its 628 tokens; the curriculum models that block at ~1 hour,

@@ -255,6 +255,23 @@ else is defined over these coordinates.
   a real timer, filled fully; don't stop by default until languages
   are fully fleshed out or goals exhausted.
 
+- 2026-08-30 (landing directive): Edward asked "what's the value of
+  a paper for this over 'ok so it's um, interlingua'?" — agreed the
+  answer: none as a language; the value is method + host-neutral
+  add-on patterns + the lexicon-as-code simulation results (humility
+  assignment; the repair frontier, whose first headline was withdrawn
+  under review and is now a Pareto exchange) + the instrument, against
+  Interlingua as the explicit BASELINE. Directive: "do all that.
+  start an epic for landing this whole project." → paper reframed
+  (§9b baseline section), **RZ declared an Interlingua profile**
+  (conlang-wan, `zonal/rz-interlingua-profile.md`), objective
+  function adopted at option C (readers above a usability threshold;
+  the cloze decides the weights — ym3.2, agent-called, reversible),
+  landing epic conlang-5i1 filed, exploration lines (spatial, GF-W,
+  AZ, DSLs, Sanskritic, Ithkuil grid) deferred until RZ has a
+  measured number. The cloze pilot (5i1.1) asks to lift the
+  2026-08-15 no-human-testing directive.
+
 ## Decisions log (previously open questions)
 
 - Inventory: 10+1 onsets (c added for digit-0), a e i o u, ∅/n/s/l —

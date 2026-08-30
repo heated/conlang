@@ -42,6 +42,17 @@ large-sample test), but RZ's own number has not been measured yet.
 Everything learner-facing in this project is a labeled hypothesis
 until the comprehension studies run.
 
+RZ is not the first language built on this idea, and it does not
+pretend to be: it is a declared **profile of Interlingua** (IALA,
+1951) — Interlingua's grammar and word stock, with a shallower
+spelling, an Ibero-leaning choice of words, a few grammatical
+simplifications, and a set of engineered add-ons (number modes, a
+repair register, error-absorbing grammar, chorded input) built as
+patterns that a language like Interlingua could also adopt. If you already read Interlingua, you already
+read most of this. The differences are bets, and each one is
+measured against Interlingua on the same texts
+(`design/zonal/rz-interlingua-profile.md`).
+
 ## Why it reads at sight
 
 1. **Words are elected, not invented.** Each concept's form comes

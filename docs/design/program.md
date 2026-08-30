@@ -5,7 +5,19 @@ what the project is trying to become.)
 
 ## Endgame
 
-**RZ is the language we ship.** The zonal bet is the favorite on
+**RZ is the language we ship — as a declared Interlingua profile**
+(Edward 2026-08-30, conlang-wan; decision record
+`zonal/rz-interlingua-profile.md`). Interlingua (IALA 1951) is the
+baseline; RZ's differences are enumerated surface deltas (each a
+falsifiable bet) plus the add-on toolkit (which ports to plain
+Interlingua as host-neutral PATTERNS requiring their own realization
+and price there — not as drop-in artifacts). The paper is framed the
+same way (§9b): the contribution is method + toolkit + results +
+instrument, not a new language; the method, instrument and
+simulations survive the kill-gate either way, while toolkit
+portability to the unprofiled baseline is a hypothesis, not a
+fallback. Landing epic:
+conlang-5i1. The zonal bet is the favorite on
 total time to value, with the targets stated at their separate bars
 and labeled
 honestly [H = hypothesis until measured]: zero-study cloze
@@ -22,15 +34,35 @@ enough to *measure*. Features migrate from GZ into RZ exactly when
 they are worth their learning cost. GZ also owns the native script
 (see Script program below).
 
-**The objective function for RZ**: sit on the Pareto frontier of
-*easy to learn* × *featureful in good ways*. The learning-budget
+**The objective function for RZ** (primary, adopted 2026-08-30,
+conlang-ym3.2 option C): **maximize the number of zone readers ABOVE A
+USABILITY THRESHOLD** of zero-study comprehension — not mean
+comprehension, and not the unweighted centroid. Whether that favours
+concentrating on the Ibero bloc or spreading toward Interlingua's
+control-language centroid is an empirical question the cloze pilot
+answers; the threshold and weights are estimated by the pilot and the
+deltas are judged on an independent confirmation set (paper §11).
+Secondary, as an accounting constraint rather than the objective: sit
+on the Pareto frontier of *easy to learn* × *featureful in good ways*.
+The learning-budget
 ledger (learning-budget.md, bead caq) is the accounting instrument:
 every candidate feature is priced in learner-hours and bought, made
-optional, or declined — never adopted unpriced. The one invariant
-RZ never trades away is the bootstrap: **first-contact receptive
-intelligibility for zone readers**. Any feature that taxes the
-first hour is display-layer, opt-in, or dead
-(zonal-script-pricing.md is the precedent ruling).
+optional, or declined — never adopted unpriced. The bootstrap
+invariant — **first-contact receptive intelligibility for zone
+readers** — is what RZ never trades away, and it is enforced by two
+DIFFERENT gates, which the charter previously conflated:
+
+- **Add-on gate** (mechanisms ported from GZ, or invented): must cost
+  the first-contact reader nothing. Any such feature that taxes the
+  first hour is display-layer, opt-in, or dead
+  (zonal-script-pricing.md is the precedent ruling).
+- **Surface gate** (changes to inherited word forms — the profile's
+  surface deltas, and any lexicon repair): these DO touch the first
+  hour by construction, so "no tax" cannot be the rule. They are
+  admitted only as falsifiable bets, kept only if they raise the share
+  of readers above the usability threshold on the instrument, subject
+  to a per-language non-inferiority floor fixed in advance, and
+  reverted to the Interlingua form otherwise.
 
 ## The mining gate (GZ → RZ)
 

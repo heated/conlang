@@ -1,5 +1,5 @@
 ---
-title: "Engineering Languages for Learning Speed: A Channel-Coded Greenfield, a Receptive-First Romance Zonal, and the Portable Toolkit Between Them"
+title: "Engineering Languages for Learning Speed: Interlingua as the Baseline, a Priced Toolkit of Improvements, and the Channel-Coded Laboratory That Produced Them"
 author: "Edward Swernofsky (with Claude)"
 date: 2026-08-08
 status: living draft — grows with the build; sections marked [TODO] are stubs
@@ -8,37 +8,50 @@ bibliography: references.bib
 
 ## Abstract
 
-[Draft.] We present the design of a constructed language that treats the
-syllable as a vector of independent channels (onset, vowel, coda, plus a
-computed written-layer check bit) and applies coding-theoretic error
-correction over that space. The design
-goal is minimal time-to-fluency for second-language learners, with fast
-chorded text input and rapidly-acquired reading falling out of the same
-channel architecture rather than being separate systems. We describe (1) a
-baseline phonology chosen so that no learner is asked to perceive a contrast
-absent from their native language; (2) an error-correcting lexicon built with
-perceptually weighted distance rather than uniform Hamming spacing; (3) a
-decoupled featural block script in which glyph, chord, and pronunciation are
-three renderings of the same channel vector; (4) self-segregating morphology
-implemented prosodically; and (5) closed-domain "mode" subsystems that encode
-numbers, dates, times, and foreign material at near-information-theoretic
-density inside an otherwise redundant language. The project runs two
-tracks: this engineered ("greenfield") design, and a receptive-first
-Romance zonal auxlang (RZ) that inherits its surface from the zone and
-imports the engineered mechanisms only where they are worth their
-measured learning cost — the intended shipping product, with the
-greenfield as its laboratory. The generalizable contribution is the
-portable toolkit that migration produces: a priced menu of mechanisms
-(mode subsystems, error-absorption declarations, closed-class
-discipline, chorded input, display-script layers, learning-budget
-accounting) applicable to auxiliary-language designs beyond either
-track. We argue from the cross-linguistic literature that such designs
-can compress learning time substantially while leaving speaking and
-reading throughput unchanged, and we outline an evaluation program.
-Evidence status, stated plainly: all results to date are computed,
-simulated, or corpus-measured; the project has zero external human
-subjects, and every learner-facing number is a labeled hypothesis
-until the pre-registered comprehension studies run.
+[Draft.] A Romance-zone auxiliary language designed to be read at sight
+already exists: Interlingua (IALA, 1951). This paper does not present
+another. It takes Interlingua as the *baseline*
+and asks what engineering, applied on top of it, buys a learner — and
+how one would know. The contribution has four parts, developed inside a from-scratch
+channel-coded design that serves as the laboratory rather than the
+product. (1) A **method**:
+every candidate feature is priced in learner-hours on a ledger and
+tied to a precommitted kill criterion, under two distinct gates — an
+*add-on* gate that admits only mechanisms costing the first-contact
+reader nothing, and a *surface* gate under which a change to inherited
+word forms must earn its place against the baseline on the
+instrument. (2) A
+**toolkit of portable add-ons** that Interlingua never had and that
+touch nothing a first-contact reader sees: closed-domain "mode"
+subsystems for numbers, dates and times with a transposition-catching
+checksum; an aviation-style conversation-repair register;
+error-absorption declarations that make a learner's most probable
+deviations grammatical; a closed 96-form function-word
+inventory, of which the 60 forms attested in the current 628-token
+corpus carry 49.2% of its tokens; chorded input over the phonology; and an
+optional featural display script. (3) A **result from a
+coding-theory treatment of the lexicon**, simulated: the *assignment
+policy* — refusing unrelated minimal pairs on likely mishearings —
+dominates any check channel (silent-substitution rate 22% → 3.9%) —
+together with an in-flight companion measurement of the *repair*
+frontier, which reversed direction under adversarial review and now
+reports a Pareto exchange rather than a dominance (§12). (4) An **instrument**: a zero-study cloze protocol
+with a stated objective function (readers above a usability
+threshold, not mean comprehension) that turns the source-weighting
+question into a measurement. The demonstration instance is RZ, a
+declared Interlingua *profile* — shallow orthography, Ibero-weighted
+lexicon, a handful of grammatical deltas — in which each delta is a
+treatment the instrument can reject. If none pays, the surface deltas
+revert to the baseline's forms and the method, the instrument and the
+simulations stand unaffected; the add-ons would then have to be
+realized against plain Interlingua and repriced, which is a
+hypothesis this paper does not test. We argue from the
+cross-linguistic literature that learning time is the variable
+engineering can move and that speaking and reading throughput are
+not. Evidence status, stated plainly: all results to date are
+computed, simulated, or corpus-measured; the project has zero external
+human subjects, and every learner-facing number is a labeled
+hypothesis until the comprehension pilot runs.
 
 ## 1. Introduction and design goal
 
@@ -49,6 +62,26 @@ a single variable those designs treat as incidental: **learning speed** —
 time from zero to functional use, for adult second-language learners of
 any first language. Every other property is either derived from that
 target, priced against it explicitly, or declared a non-goal.
+
+**The baseline.** For the Romance zone, an auxiliary language
+*designed* for at-sight receptive readability has existed since 1951:
+Interlingua [@gode1951; @godeblair1951] extracts a vocabulary by a
+three-of-four control-language rule and strips the grammar of
+agreement and personal inflection. Its at-sight claim has substantial
+informal historical support and, as far as this project's survey
+located, no controlled comprehension percentage — so the baseline's
+own score is unknown, and the instrument of §11 is designed to produce
+it alongside RZ's. The zonal language this project ships (RZ,
+§9b–9c) is roughly 80–85% Interlingua at the grammar level, form for
+form. A paper whose contribution was "another Romance auxlang" would
+be worth nothing, and this is not that paper. Interlingua is the
+baseline throughout; the question is what Interlingua never had — a
+way to price features, add-ons that cost the first-contact reader
+nothing, a treatment of the lexicon as a code, and an instrument that
+says whether any of it paid — and every claim is a delta against that
+baseline. The channel-coded greenfield design that occupies most of
+§§3–8 is the laboratory in which those deltas were developed and can
+be measured in isolation; it is not the product.
 
 The central design move is to treat the syllable not as an atom but as a
 **vector of independent channels** — onset, vowel, coda, and a computed
@@ -77,29 +110,40 @@ comprehend. We treat those two as low-prior directions rather than
 proven walls; §2 states precisely how much the cited work does and does
 not establish, since none of it tested a constructed language.
 
-Contributions:
+Contributions, stated against the baseline:
 
-1. A syllable-as-channel-vector phonology with an explicit codespace budget.
-2. A two-layer error-correction stack: casual speech protected by a
-   humility assignment policy (no unrelated minimal pairs on likely
-   confusions), word templates, phonotactics, and conversational repair;
-   the written layer and careful speech registers add a
-   confusion-weighted check bit on top.
-3. A featural block script deterministically coupled to the phonology, with
-   chorded (desktop) and touch (phone) input methods derived mechanically
-   from the same spec.
-4. Mode subsystems: closed semantic grids (numbers, dates, times,
-   coordinates, spell-out) fenced by reserved boundary particles and a
-   provably transposition-catching checksum, with written-layer
-   anti-check marking.
-5. A governance model: small frozen core, versioned spec, open periphery.
-6. A two-track method and its product: a zonal auxlang (RZ) built by
-   recipe from the zone with a measured false-friend screen, a
-   learning-budget ledger that prices every design decision in
-   learner-hours, a mining gate for porting engineered mechanisms into
-   a naturalistic surface, and the resulting portable toolkit of
-   priced, conditional add-ons for auxiliary languages generally
-   (§9b).
+1. The **ledger method** (§9c): every design feature priced in
+   learner-hours, with a precommitted kill criterion, under two gates
+   — optional and invisible add-ons must cost the first-contact reader
+   nothing, while changes to inherited surfaces are admitted only as
+   falsifiable bets measured against the baseline (§9b, §11). No
+   auxlang, Interlingua included, has applied such a discipline to
+   itself as far as this project's survey located.
+2. The **add-on toolkit** (§7, §9c): mode subsystems fenced
+   by reserved boundary particles with a provably
+   transposition-catching checksum and written-layer anti-check
+   marking; a conversation-repair register; error-absorption
+   declarations; the closed-class guarantee; chorded (desktop) and
+   touch (phone) input derived mechanically from the phonology; an
+   optional featural display script. Entries are **conditional
+   patterns, not drop-in artifacts**: each is priced against RZ and
+   would need an Interlingua-specific realization and a fresh price to
+   run on the unprofiled baseline (§9b).
+3. A **coding-theory result** on lexicon design (§4, §12): assignment
+   policy dominates the check channel. A companion measurement of the
+   repair-versus-minting frontier is in flight and is reported as an
+   exchange rate, not a dominance (§12).
+4. The **instrument** (§11): a zero-study cloze with a stated
+   objective function, in a profile-versus-baseline design where every
+   surface delta is a treatment with a control.
+5. The **laboratory** (§§3–8): a syllable-as-channel-vector phonology
+   with an explicit codespace budget; a two-layer error-correction
+   stack (casual speech protected by humility assignment, word
+   templates, phonotactics and repair; a confusion-weighted check bit
+   in the written layer and careful registers); a featural block
+   script deterministically coupled to the phonology; self-segregating
+   morphology implemented prosodically; a governance model of small
+   frozen core, versioned spec, open periphery.
 
 ## 2. Why not faster speech or reading: the throughput ceiling
 
@@ -461,13 +505,183 @@ the steno comparison; **phone/touch input** as a first-class target —
 channel-per-gesture-axis designs; number/date modes as standalone mobile
 keyboard wedge.]
 
-## 9. Morphology and lexicon design
+## 9a. Morphology and lexicon design
 
 [TODO: closed core of roots + fully productive derivation; correlative
 grids for all closed paradigms; Zipf assignment of monosyllables as designed
 policy rather than diachronic erosion; governance.]
 
-## 9b. The zonal program (companion track)
+## 9b. The baseline: Interlingua, and what it never had
+
+*Source note.* The facts in this subsection come from this project's
+zonal survey (docs/design/alternatives/zonal-auxlang-survey.md §1.1,
+whose own sources are Wikipedia, Omniglot and Grokipedia) and from the
+English Wikipedia article on Interlingua, read 2026-08-30. The 1951
+dictionary and grammar are cited below as the primary artifacts they
+are, but **neither has been read for this paper**; every claim about
+their content is secondary and carries [TODO-verify] until a primary
+reading is done (project convention, bead conlang-7ds).
+
+Interlingua was published by the International Auxiliary Language
+Association in 1951 as a dictionary [@gode1951] and a grammar
+[@godeblair1951]; IALA closed in 1953 (not formally dissolved until
+1956 or later) and the standard has been stable ever since, with no
+active regulatory body to revise it [TODO-verify]. Its design method is a prototyping rule: a word
+enters the vocabulary if it is attested in at least three of four
+control-language groups (English, French, Italian, Spanish/Portuguese
+counted as one), with German and Russian as substitutable secondary
+controls, and the form chosen is the historical prototype the attested
+variants descend from [TODO-verify against the 1951 grammar]. The grammar is stripped Romance: no
+noun–adjective agreement, no personal verb inflection, no grammatical
+gender, no case, no subjunctive. The orthography is 26-letter,
+diacritic-free and mildly etymological (double consonants, Greek
+digraphs). The receptive claim — readability at sight for Romance
+speakers and educated English speakers — rests on practice rather than
+measurement. Roughly thirty scientific and mainly medical journals
+carried article summaries in Interlingua (the survey dates this to the
+1950s–60s; the Wikipedia article says mid-1950s to late 1970s —
+[TODO-verify] which is right), and Swedish school experiments reported
+that pupils taught Interlingua for a year could read Spanish, Italian
+and Portuguese newspaper text at sight with good comprehension. As far
+as the survey located, no controlled comprehension percentage has been
+published for Interlingua. Its community is estimated at a few hundred
+to ~1,500 users, concentrated in Scandinavia rather than in any
+source-language homeland; its corpus base (a 27k-entry dictionary, a
+Wikipedia edition, a bimonthly magazine since 1988) is large by
+constructed-language standards
+(docs/design/alternatives/zonal-auxlang-survey.md §1.1, with sources).
+
+**What it got right**, judged from this project's objective: the
+a-posteriori lexicon (recognition rather than memorization for the
+zone — the largest single discount in the learning budget), the
+regularized productive layer, and the absence of any "learn a system
+first" wall. These are exactly the moves the zonal bet (§9c) rests on,
+and RZ takes them from Interlingua form for form — the article system,
+the `-e` adjective, the `-te` participle, person-invariant verbs with
+obligatory subject pronouns, the `-va` past, the derivational suffix
+family, the pronouns, the calendar. The overlap is roughly 80–85% of
+the grammar, literally shared rather than analogous
+(docs/design/zonal/rz-interlingua-profile.md).
+
+**What we did not find in it** is the list this paper is about. Each
+item is a **scoped search result** — what this project's survey and
+sources located, not a proof of absence.
+
+- *No price on any feature.* We located nothing, in the sources
+  consulted, that states what an Interlingua feature costs a learner,
+  so nothing could be traded against anything else. The ledger (§9c)
+  is the instrument we did not find.
+- *No measured comprehension number.* We located no published
+  controlled comprehension percentage for Interlingua; the only zonal
+  auxlang this project's survey found one for is Interslavic (84%), in a
+different zone. The
+  protocol of §11 is designed to produce Interlingua's number
+  alongside RZ's, on the same texts.
+- *No model of the learner's errors.* Interlingua's collateral forms
+  function as an absorption move, but we located no evidence that this
+  or any other part of its grammar was chosen from a model of which
+  deviations a Romance-L1 or English-L1 writer produces. The
+  error-absorption declarations (§9c) make that an explicit design
+  surface with seven entries.
+- *No engineering for the noisy channel.* No number, date or time
+  mode, no checksum, no repair protocol, no confusion screen on coined
+  vocabulary. These are the add-ons of §7 and §9c. In RZ they occupy
+  phonological space the zone's orthography leaves vacant (the silent
+  `h`); whether the same room exists in Interlingua, whose `h` is not
+  uniformly silent, is exactly the repricing question below.
+- *No input or display engineering.* No chording layer, no display
+  script; its diacritic-free orthography happens to be chord-friendly,
+  but we found nothing built on that.
+- *No active governance.* UMI is promotional rather than regulatory
+  and the 1951 standard has remained stable by inertia. The Romance
+  zone has meanwhile accreted separately codified standards (Neolatino,
+  LFN, Interlingua Romanica); we offer the governance gap as a
+  plausible contributing reason, not a demonstrated cause, and note
+  that Neolatino is an independent codification rather than a fork.
+
+**The profile decision.** Because the overlap is what it is, RZ is
+declared — and is currently *migrating to* — an Interlingua *profile*
+rather than a fourth fork (decision record:
+rz-interlingua-profile.md, 2026-08-30). The intent is that
+Interlingua's form and rule apply wherever RZ has not stated a
+difference; the enabling artifact, a normative restatement of
+rz-grammar.md as a diff against Gode and Blair plus a canonical
+delta registry, **does not exist yet**, so the enumeration below is
+the current best list and not yet a closed one. Differences fall into
+three kinds, not two:
+
+1. **Surface deltas** — shallow orthography (`-cion`, no Greek
+   digraphs, no double consonants), Ibero-weighted lexical choices
+   (*dos/cuatro/cinco*; *en/por/sobre/necun/aquel/altre* for
+   *in/pro/super/nulle/celle/altere*), adjective number agreement and
+   `les`, analytic future and conditional, negative concord, the
+   *es*/*sta* split, the *tener* perfect and *sta* progressive. Each
+   is a bet that the change improves zone comprehension over the
+   baseline; each is falsifiable by the kill-gate; each reverts to the
+   Interlingua form if it does not pay.
+2. **Host-neutral design patterns** — the mode subsystems, the repair
+   register, the error-absorption method, closed-class discipline,
+   chorded input, the display-script layer, the coinage screen, the
+   defining-vocabulary and spoken-reference disciplines. These leave
+   ordinary baseline prose untouched, and they are what the toolkit
+   lane generalizes — but they are *patterns*, not drop-in artifacts.
+   Running them on unprofiled Interlingua requires an
+   Interlingua-specific realization and a fresh ledger price: the
+   number and repair modes need a phonological hole for their frame
+   particles and RZ's is the zone's silent `h`, which Interlingua does
+   not straightforwardly offer; the chord layout is fitted to RZ
+   phonotactics; the display script encodes RZ suffixes. That
+   portability is a **hypothesis this paper does not test**.
+3. **RZ-specific policies and artifacts** — the seven absorption
+   declarations as written (including the inventory-level *para*→*por*
+   merge and optional adjective agreement, both of which presuppose
+   RZ's own grammar), the closure of RZ's particular 96-form
+   inventory, and the built display-script and chord tables. These are
+   not portable as written; only the pattern behind each one is.
+
+The consequence for this paper: its contribution does not depend on RZ
+winning. If the profile loses to the baseline, the surface deltas
+revert, and the method, the instrument and the simulation results
+stand exactly as they are — while the toolkit would have to be rebuilt
+against Interlingua and repriced, which is work, not a conclusion. The
+consequence for the language is inheritance: a 27k-entry dictionary
+and seventy years of text become reachable through a deterministic
+orthographic converter whose coverage is a number to be reported, not
+assumed.
+
+The deltas against the baseline as of 2026-08-30. **The surface
+deltas are UNPRICED**: the learning-budget ledger has rows for the
+add-ons only, and inventing qualitative prices for the rest would
+defeat the method this paper is arguing for. Pricing them is open work
+(the ledger, not this table, is the canonical record):
+
+| delta | kind | ledger price [H] | status |
+|---|---|---|---|
+| shallow orthography | surface | **UNPRICED** | bet; falsifiable by the kill-gate |
+| Ibero lexical weighting | surface | **UNPRICED** | bet; *is* the objective-function question (§11) |
+| adjective number agreement + `les` | surface | **UNPRICED** | bet |
+| analytic future/conditional, negative concord, *es*/*sta* | surface | **UNPRICED** | bet |
+| *tener* perfect, *sta* progressive | surface | **UNPRICED** | bet |
+| repair of highest-damage paradigms (§12) | surface | **UNPRICED** (measured in error-rate and donor-text terms only) | in flight; human gate on the forms |
+| closed-class guarantee (96 forms) | pattern (RZ inventory is RZ-specific) | ~0 | bought |
+| error-absorption declarations D1–D7 | pattern (the seven as written are RZ-specific) | ~0 | bought |
+| number mode + checksum | pattern | +2h casual, +2h readback; cohort-flat | bought (tentative) |
+| date/time/coord/spell modes | pattern | increments on the learned frame grammar | **not adopted** — per-mode adoption at spec bumps, after number mode passes its test |
+| conversation-repair register | pattern | +~1h, cohort-flat | proposed / recommend-buy; purchase waits on its test |
+| chording (directional clusters) | pattern (layout is RZ-fitted) | +5–10h to competence, optional | standard as design |
+| featural display script | pattern (glyphs encode RZ suffixes) | +3–5h reading, optional | bought de facto as display layer |
+| coinage acoustic-confusion screen | pattern | ~0 | policy bought / instrument pending |
+| defining-vocabulary discipline | pattern | ~0 learner-side | policy bought / instrument pending |
+| spoken reference standard | pattern | ~0 | bought as standard for recorded artifacts |
+| R-scheme display POS marks | pattern | +~0.5h, opt-in | adopt-pending-evidence (script workshop gate) |
+| ledger + gate + kill criterion | method | — | in force |
+| cloze instrument with stated objective | instrument | — | specified, unrun |
+
+Statuses are copied from the ledger (learning-budget.md) and the
+mining audit (gz-rz-mining-audit.md); where this table and those
+documents disagree, they are the record and this is the error.
+
+## 9c. The zonal program (the shipping track, as a profile of §9b)
 
 *Program note (2026-08-22): the tracks' roles have inverted. The
 zonal language (RZ) is now the intended shipping product — the
@@ -522,7 +736,8 @@ are deliberately modest pending human testing: its comprehension
 instrument (cloze + gist, incumbent-controlled) is specified but
 unrun; the milestone reviews correctly note that the entire program
 has zero external subjects to date, and that its niche overlaps
-Interlingua's. Full designs and measurements: the repository's
+Interlingua's — an overlap since resolved by declaring RZ an
+Interlingua profile (§9b). Full designs and measurements: the repository's
 docs/design/zonal/ tree; a wide-inventory greenfield variant (GF-W:
 16 onsets, 320 syllables, 38 humility-safe monosyllabic roots,
 computed) bridges the two tracks and frames the width decision.
@@ -683,7 +898,8 @@ decision is which point, or nested pair of points, to commit to
 
 ## 10. Related systems
 
-Every load-bearing mechanism here has a precedent that demonstrates
+Interlingua is not related work here but the baseline, and is treated
+as such in §9b. Every other load-bearing mechanism has a precedent that demonstrates
 the mechanism *elsewhere* and a failure that locates its limit.
 Esperanto demonstrates designed-language learnability (~150–200 hours
 to conversational use — a ~B1 bar; the C1 bar runs 300–500h — versus
@@ -763,14 +979,40 @@ comparative kill-gate) are armed, not scheduled.
 - *RZ zero-study cloze pilot (the program's first gate).* Interslavic-
   style 7-word cloze + gist on Romance-L1 readers with zero study,
   against the specified instrument (cloze-test-v0.md). Claim: RZ lands
-  in the Interslavic-class comprehension band; RZ currently has NO
-  measured number of its own.
-- *Comparative kill-gate (precommitted).* Same texts in RZ vs
-  Interlingua vs a control (plain Spanish or MT), measuring cloze +
-  gist + confidence + reading time + preference, plus a small
-  production arm. Precommitment: if RZ does not materially beat the
-  best incumbent, stop designing a new Romance standard and redirect
-  the measurement/tooling program to the incumbent.
+  in the Interslavic-class comprehension band. Neither RZ nor its
+  baseline has a measured number; the pilot produces both on the same
+  texts. The primary outcome is the per-source *distribution* of
+  scores, not the mean, because the adopted objective (option C,
+  conlang-ym3.2) is readers above a usability threshold. Turning that
+  objective into an executable metric requires three things the
+  instrument does not yet specify and that must be precommitted before
+  the confirmatory arm runs: (a) the usability outcome that defines
+  the threshold (a comprehension criterion tied to a reading task, not
+  a cloze score chosen post hoc), (b) the population weights or an
+  explicitly declared alternative denominator, and (c) a materiality
+  margin. The pilot is therefore **exploratory**: it estimates the
+  threshold and the weights. Using the same data to also judge the
+  deltas would make the analysis circular, so the kill-gate below is
+  reserved as an independent confirmation set.
+- *Comparative kill-gate (precommitted).* Same texts in the RZ
+  profile vs baseline Interlingua vs a control (plain Spanish or MT),
+  measuring cloze + gist + confidence + reading time + preference,
+  plus a small production arm. Because RZ is a declared profile
+  (§9b), this is a treatment–control design: each surface delta can
+  be isolated by rendering the same text with only that delta applied
+  (orthography-only, lexicon-only, grammar-only). Precommitment, to be
+  registered with the threshold and weights fixed by the pilot: a
+  surface delta is kept only if it materially raises the share of zone
+  readers above the usability threshold, subject to a declared
+  per-language non-inferiority floor — the objective permits trading
+  mean comprehension between cohorts, but the floor bounds how much
+  any one source-language cohort may lose, and its value is a
+  positioning decision that must be fixed in advance rather than read
+  off the data. Deltas failing that test revert to the Interlingua
+  form. If none passes, RZ collapses to Interlingua plus the add-on
+  patterns, which then need an Interlingua realization and a fresh
+  price (§9b). The measurement and tooling program continues either
+  way.
 - *Decoding acquisition.* Hours of instruction to accurate pseudo-word
   reading in the featural script, versus matched training on Finnish-style
   Latin orthography (the transparent-orthography gold standard
@@ -849,7 +1091,58 @@ wedge, keeping the channel language as the research artifact) is
 attractive but underdetermined: the host could as easily be English as
 Esperanto, and the hybrid defers rather than answers the values
 question. We record it as an open program decision rather than a
-conclusion.
+conclusion. [Resolved 2026-08-22 and 2026-08-30: the zonal bet was
+taken, and the host is Interlingua — §9b.]
+
+**Repair or mint? An exchange rate, not a dominance.** The humility
+result above concerns how to *assign* forms in a lexicon one is free to
+design. A companion line asks the question a profile actually faces:
+given an inherited lexicon that was never spaced for error, is it
+better to *repair* its worst words or to *mint* a purpose-built
+lexicon? The first answer, that repair dominated minting on every
+axis, was **withdrawn under adversarial review**: the minted baseline
+it beat had been built by a dense-prefix candidate scan, and that scan
+— not minting — was the whole of its weakness. With the candidate
+order shuffled within length classes, a minted lexicon reaches 0.23%
+off-model one-error and 0.7% two-error at 4.00 running segments,
+better than every repaired variant on robustness *and* on length. What
+survives is an exchange rate: repaired variants keep 67–76% of running
+text on the donor's exact form (98–100% within one segment) at 2–5×
+the residual one-error rate and ~0.6 extra segments; the untouched
+inherited lexicon sits at 12.26% on that same one-error measure. Neither endpoint dominates,
+and that Pareto curve — transparency bought with robustness — is the
+real result. A separate, targeted application of the same tool to RZ's
+own lexicon finds the curve extremely concave: eight paradigm repairs
+take the cross-unit silent-error rate from 10.73% to under 2% while
+leaving ~82% of running text on the donor's exact form, with five of
+478 units carrying half the total damage and the largest carriers all
+one- and two-segment function words. That repair list is a human gate,
+not an adopted change: it spends zone transparency, which is the one
+thing the profile's bootstrap cannot buy back. All figures here are
+simulation outputs under assumed confusion weights, from an in-flight
+work line (beads conlang-gpc, conlang-ui7) whose documentation had not
+landed in this repository when this section was written; they are
+recorded as measurements of a model, not of readers.
+
+**Is it just Interlingua?** Largely, yes, and the paper is built on
+saying so (§9b). Pricing the zonal bet honestly showed that the
+language it produces shares four-fifths of its grammar with a standard
+published in 1951. What remains after that admission is the part of
+the project that was never a language: a ledger that prices features,
+two gates that separate invisible add-ons from bets on inherited
+surfaces, a set of add-on patterns that
+Interlingua could be given a realization of, simulation results about
+how confusion-aware assignment and targeted repair behave in an
+inherited lexicon, and an instrument that would give Interlingua the
+comprehension number it has lacked for seventy years. Whether RZ's surface deltas —
+orthography, Ibero weighting, a few grammatical choices — are
+improvements on the baseline or merely differences is exactly what the
+kill-gate measures, and the contribution is designed to survive either
+answer. The honest limitation is the same one stated in the abstract:
+until the pilot runs, the simulation results — humility assignment,
+and the repair frontier with its withdrawn first headline — are the
+only results in this paper that are not hypotheses, and they are
+results about models rather than about readers.
 
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:

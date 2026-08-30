@@ -18,21 +18,55 @@ when cognate recognition and engineering elegance conflict, recognition
 wins. (This is the mirror image of the greenfield lang, and exactly
 why the two are worth pricing against each other — bead conlang-ow7.)
 
-Positioning vs the incumbents (survey §1): Interlingua has the corpus
-but an etymology-heavy orthography and 1950s infrastructure; Neolatino
-is scholarly and pan-Romance but conservative (keeps gender/agreement
-complexity); LFN is regular but respells away visual cognacy. The open
-niche: **Neolatino's pan-Romance lexicon + Interlingua's simplified
-grammar + measurement-driven iteration + modern tooling** (chorded
-input, spellcheck, parallel texts) — no incumbent has ever *measured*
-its comprehension claim. The first published cloze number is the
-growth asset.
+Positioning (revised 2026-08-30, conlang-wan — decision record:
+`rz-interlingua-profile.md`): **RZ is a declared Interlingua
+profile**, not a fourth Romance fork. Interlingua's form and rule apply
+wherever this document states no difference; every difference is
+a *surface delta* (shallow orthography, Ibero weighting, adjective
+number agreement, analytic future/conditional, negative concord,
+es/sta, tener-perfect, sta-progressive) — a falsifiable bet that
+reverts to the Interlingua form if the kill-gate says it does not pay
+— or a *host-neutral pattern* (closed-class discipline, absorption
+declarations, modes, repair register, chording, display script,
+coinage screen, defining vocabulary, spoken standard) that leaves
+ordinary baseline prose untouched but would need an
+Interlingua-specific realization and a fresh ledger price to run on
+the unprofiled baseline — or an *RZ-specific artifact* (the seven
+declarations as written, this inventory's 96 forms, the built chord
+and glyph tables), portable only as the pattern behind it. The
+normative diff of rz-grammar.md against Gode & Blair does not exist
+yet, so RZ is *migrating to* the profile rather than already being a
+closed enumeration of it. The earlier framing ("Neolatino's lexicon +
+Interlingua's grammar + measurement + tooling", survey §1) survives as
+the description of the deltas; what changed is that Interlingua's
+27k-entry dictionary and seventy years of text are inherited rather
+than re-minted. No Romance-zone incumbent located in this
+project's survey has published a controlled measurement of its
+comprehension claim (Interslavic, in the Slavic zone, has); the first
+published cloze number for the Romance zone — covering the profile AND
+its baseline, on the same texts — is the growth asset.
 
 ## 1. Source set and weighting
 
 Primary sources: **ES, PT, IT, FR, RO** (+CA consulted on ties).
-Weights ≈ reader-base share of the zone: ES .40, PT .25, IT .15,
-FR .15, RO .05. Working rule: a form must be *sight-recognizable* to
+**Objective function (adopted 2026-08-30, conlang-ym3.2, option C,
+agent-called as the deferral-friendly option; Edward may override):
+RZ maximizes the number of zone readers ABOVE A USABILITY THRESHOLD
+of zero-study comprehension, not mean comprehension.** Whether that
+favours concentrating on the Ibero bloc or spreading to the centroid
+(Interlingua's control-language rule) is therefore an empirical
+question the cloze pilot answers (ym3.3 locates the threshold); the
+weights below are a provisional hedge until it does. Dependency, stated
+correctly: **ym3.2 is the DECISION** (made — option C); **ym3.3 plus
+the cloze pilot (5i1.1) are the MEASUREMENT**; **8zy restates these
+weights from the measured answer**. The pilot estimates the threshold
+and the weights; an independent kill-gate arm judges the deltas, so the
+same data are not used to both choose and confirm.
+Working weights: ES .40, PT .25, IT .15, FR .15, RO .05 — NOT
+reader-base shares (approx. L1 shares are ES .55, PT .27, FR .08,
+IT .07, RO .03; ym3.1 verifies) but an unlabeled hedge between
+population weighting and Interlingua's control-language centroid, kept
+as-is pending the pilot. Working rule: a form must be *sight-recognizable* to
 readers of a weighted majority; the Ibero cluster (ES+PT = .65) plus
 IT usually decides. FR contributes mostly through *written* cognates
 (its spellings stayed Latin even where its phonology left), which is
