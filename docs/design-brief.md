@@ -15,8 +15,11 @@ publication, and portable-toolkit lanes.
 A language that is **maximally fast to learn**, where fast **typing**
 (chording) and fast-to-acquire **reading** (featural script) fall out of the
 architecture for free. Explicit non-goals: raw speaking/reading throughput
-(pinned by cognition regardless of code: speech converges near ~39
-bits/s [@coupe2019], and reading converges independently near 184 wpm
+(bounded well below what a code could plausibly move: *read* speech
+clusters near a mean of ~39 bits/s [@coupe2019] — a cross-linguistic
+correlation in a controlled task, not a proven universal ceiling, and
+no constructed language was in the sample (paper §2, bead conlang-81l);
+reading converges independently near 184 wpm
 aloud / 238 wpm silent across 17 scripts — IReST 2012, Brysbaert 2019), speech density (the
 "wide phonology" branch is dead), full FEC in casual speech.
 

@@ -122,7 +122,7 @@ facility.
 | `SPEC` | specification — which facet of the root | BSC CTE CSV OBJ (**4**), carried in slot IV's Vr alongside Function and Context [V 2026-08-30] | Ithkuil / local | — (**proposed**, GZ; bead conlang-czq) |
 | `FUNC` | function | STA DYN (2), slot IV | Ithkuil / local | GZ's O/A/P/R alternation classes cover part of this (gf-grammar §2) |
 | `CTX` | context | 2011: 4 Contexts [V 2026-08-30]; New Ithkuil carries Context in slot IV | Ithkuil / local | — |
-| `VER` | version — process vs goal-attainment (`VRF` in some published material) | PRC CPT (2) | Ithkuil / local | — (RZ and English lexicalise it: *look for* / *find*) |
+| `VRSN` | version — process vs goal-attainment | PRC CPT (2). **Renamed from `CN:VER` on 2026-08-30**: Ithkuil's `VER` is the Verificative *illocution*, so reusing it here was ambiguous. Some published material also labels this dimension `VRF` | Ithkuil / local | — (RZ and English lexicalise it: *look for* / *find*) |
 | `DSGN` | designation | 2011 only: 2 values [V 2026-08-30]. **Dropped in New Ithkuil** — recorded because a category disappearing is itself data about the pruning question | Ithkuil (2011) / local | — |
 | `DERIV` ‡ | derivational family | project-listed affixes | project / local | RZ §9 (`-cion -itate -mente -al -or …`); GZ none yet |
 
@@ -145,9 +145,9 @@ facility.
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `ILL` | illocution | Ithkuil's set — **count not verified**; the adjuncts and verb chapters fetched on 2026-08-30 did not enumerate it [TODO-verify] | Ithkuil / local | GZ partial: `hus` clause-final polar question, bare-verb imperative — **no general illocution channel**. RZ: intonation/`?`, imperative |
+| `ILL` | illocution | ASR DIR DEC IRG VER ADM POT HOR CNJ (**9**), carried by the Vk affix in slot IX [V 2026-08-30]. **Note the collision**: Ithkuil's `VER` here is Verificative, unrelated to the Version dimension below | Ithkuil / local | GZ partial: `hus` clause-final polar question, bare-verb imperative — **no general illocution channel**. RZ: intonation/`?`, imperative |
 | `MOOD` | mood / modality | UniMorph dimension [V 2026-08-30]; Ithkuil: FAC SUB ASM SPC COU HYP (**6**) [V 2026-08-30] | UniMorph + Ithkuil / overlap | RZ `-ria` conditional, `si` + indicative; no subjunctive (absorbed). GZ `huul` preverbal irrealis/future |
-| `EVID` | evidentiality / validation | UniMorph dimension [V 2026-08-30]; values [S16]. Ithkuil's Validation is a parallel set — **count not verified** [TODO-verify] | UniMorph + Ithkuil / overlap | — (candidate for GZ's careful/safety register) |
+| `EVID` | evidentiality / validation | UniMorph dimension [V 2026-08-30]; values [S16]. Ithkuil Validation: OBS REC PUP RPR USP IMA CVN ITU INF (**9**), Vk affix in slot IX, and **required only within assertive illocution** [V 2026-08-30] — a worked example of conditional rather than blanket obligation (cf. F1) | UniMorph + Ithkuil / overlap | — (candidate for GZ's careful/safety register) |
 | `EXPT` | expectation — stance toward outcome | COG RSP EXE (3) | Ithkuil / local | — |
 | `BIAS` | affective / attitudinal stance | **66** entries, ACC…VEX, carried by Bias adjuncts [V 2026-08-30]. (Earlier drafts said ~57 and 61; both wrong — this is why rows get read off the source) | Ithkuil / local | — (declined for design; precedent only) |
 | `REG` | discourse register — parenthetical, exemplary, quoted thought | Ithkuil's set [TODO-verify] | Ithkuil / local | — |

@@ -53,7 +53,7 @@ are cited; the causal claim is ours and unmeasured.
 |---|---|---|
 | **R1** | **A mandatory core that is small in slots but wide in choices.** The 2011 formative has **15 slots**; the New Ithkuil formative has **10** (I–X), of which five are unparenthesised in the official template — Cr (root), Vr, Ca, Vc/Vk, and stress [V 2026-08-30]. That looks modest until you expand the two bundling slots: **Vr carries Stem, Specification, Function and Context; Ca carries Configuration, Affiliation, Extension, Perspective and Essence** [V 2026-08-30]. So a *minimal* content word still commits the speaker to roughly ten independent semantic choices — Stem, Specification, Function, Context, Configuration, Affiliation, Extension, Perspective, Essence, Case — before any optional affix | a per-word **selection cost**: uttering any content word means resolving ~10 decisions, most about things the speaker has formed no opinion on. This is a production cost no encoding removes, and it is our best candidate for why composition stays slow even for people who know the tables. Note this is the *corrected* version of the argument: "~20 slots" was wrong, and slot-counting was the wrong metric — bundling slots hide the real width |
 | **R2** | Fusion for concision: the `Ca` complex encodes Configuration + Affiliation + Extension + Perspective + Essence — nominally 20 × 4 × 6 × 4 × 2 = **3,840 combinations** in one consonant complex [V 2026-08-30]. It is **systematically assembled from sequential affixes**, with documented allomorphy and substitution rules — not the pure lookup table the earlier draft claimed | the form is still not transparently decomposable by ear at speed, and packing that many combinations into one consonant complex leaves little acoustic slack between neighbours. Whether real mishearings land on valid forms is **unmeasured** — the coding-theoretic claim in the earlier draft is withdrawn pending a confusion analysis |
-| **R3** | A phonology sized to pay for R2: 2011 used ~45 consonants, 13 vowels and 7 tones [TODO-verify — the 2011 phonology chapter was not fetched]; New Ithkuil dropped tone and cut the consonant inventory | no L1 covers that inventory, and the densest channels (tone, voicing series, clusters) are the ones humans discriminate worst under noise. That the revision cut exactly these is the strongest evidence for the diagnosis |
+| **R3** | A phonology sized to pay for R2: 2011 has **45 consonants and 13 vowels**, with **7 tones** — one morpho-phonologically neutral mid tone plus six functionally significant (low, high, falling, rising, rising-falling, falling-rising) [V 2026-08-30]. New Ithkuil dropped tone and cut the consonant inventory | no L1 covers that inventory, and the densest channels (tone, voicing series, clusters) are the ones humans discriminate worst under noise. That the revision cut exactly these is the strongest evidence for the diagnosis |
 | **R4** | A category set built from theory rather than use. **But the revision history is not simple accretion, and the earlier draft got this wrong**: New Ithkuil *cut* cases 96 → 68 while *expanding* Configuration 9 → 20 and Aspect 32 → 36, and the current Bias table has **66** entries [V 2026-08-30]. 2011 also carried a Designation category that New Ithkuil drops | not "never pruned" but **pruned without a pruning function** — redistribution guided by the designer's judgement rather than by usage data, since no corpus, learner data or frequency count exists for either version. The long tail costs learning time at the same rate as the head while carrying a fraction of the use. Same failure class as Wilkins 1668 |
 
 **The premise underneath R2/R3.** The concision drive assumes that
@@ -102,6 +102,16 @@ mitigation — defaults, contextual licensing, syncretism,
 lexicalisation, underspecification, and plain automatisation with
 practice all reduce the conscious choice, and a fluent speaker's
 cost is not a beginner's.
+
+Ithkuil itself supplies the worked example, which cuts against the
+crudest form of our own R1: **Validation is required only within
+assertive illocution** [V 2026-08-30]. Ask a question and the
+evidential choice does not arise. That is conditional obligation —
+a category that costs nothing in the contexts where it has nothing
+to say — and it is a cheaper instrument than either blanket
+obligation or full optionality, because the condition does the
+selecting instead of the speaker. Worth stealing on its own terms:
+a GZ careful-register evidential should fire on assertions only.
 
 **F2 — agglutinate; compress in the script** (addresses R2; R3 falls
 out). One morpheme, one meaning, one consistent shape per category.

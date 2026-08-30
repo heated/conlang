@@ -64,15 +64,18 @@ two: the writing system, the input method, and the phonology are one
 object, not three curricula.
 
 Explicit non-goals, argued in §2: raw speech and reading throughput
-(empirically pinned by cognition, not by the code: speech near ~39
-bits/s [@coupe2019], and reading — a separate literature that converges
-just as hard — near 184 wpm aloud and 238 wpm silent across 17 scripts,
-with Chinese the *fastest* in the set [@irest2012; @brysbaert2019]), and spoken density (the "wide phonology" branch is
-rejected in §3.4). The honest pitch is therefore narrow: large gains in
-time-to-literacy and input speed, real gains in compactness,
-scannability, and machine legibility, and approximately zero gains in
-how fast a human can talk or comprehend — those walls belong to the
-brain, not the notation.
+(both look bounded well below what a notation could plausibly move:
+read speech near ~39 bits/s [@coupe2019], and reading — a separate
+literature that converges just as hard — near 184 wpm aloud and 238 wpm
+silent across 17 scripts, with Chinese the *fastest* in the set
+[@irest2012; @brysbaert2019]), and spoken density (the "wide phonology"
+branch is rejected in §3.4). The honest pitch is therefore narrow:
+large gains in time-to-literacy and input speed, real gains in
+compactness, scannability, and machine legibility, and — on the
+evidence available — little or no gain in how fast a human can talk or
+comprehend. We treat those as walls; §2 states precisely how much the
+cited work does and does not establish, since none of it tested a
+constructed language.
 
 Contributions:
 
@@ -100,13 +103,26 @@ Contributions:
 
 ## 2. Why not faster speech or reading: the throughput ceiling
 
-A language designed for *speed* would be optimizing the wrong variable.
-Across 17 typologically diverse languages, information rate in speech
-converges near ~39 bits/s: languages with information-dense syllables are
-spoken proportionally slower, and sparse ones faster, so the product stays
-flat [@coupe2019]. The ceiling appears to be cognitive rather than
-articulatory — inner speech, silent reading, and deliberate sequential
-thought cluster in the same band. Reading tells the same story from the
+A language designed for *speed* would be optimizing a variable the
+evidence says is hard to move. Across 17 typologically diverse languages,
+information rate in *read* speech clusters near a mean of ~39 bits/s:
+languages with information-dense syllables are read proportionally
+slower, and sparse ones faster, so the product stays roughly flat
+[@coupe2019]. Because this premise is load-bearing for the whole design,
+its limits belong in the same breath as the number. It is a controlled
+reading task rather than spontaneous conversation; the compensation is a
+cross-linguistic correlation, not a demonstrated mechanism; the measure
+is information-theoretic, which is not the same object as the count of
+semantic distinctions a grammar marks explicitly; and no constructed
+language was in the sample, so extending it to one whose speakers are all
+deliberate L2 composers is an extrapolation [H]. What the result
+does support is that the *expected return* on engineering for raw spoken
+throughput is small and may be zero — enough to make it a non-goal,
+not enough to call the gain impossible. The authors read the bound as
+cognitive rather than articulatory, and inner speech, silent reading and
+deliberate sequential thought do cluster in the same band, though that
+convergence is assembled from separate literatures rather than measured
+as one constant. Reading tells the same story from the
 other side: comprehension of normal prose degrades in proportion to speed
 past roughly 400–500 WPM, RSVP presentation demonstrates that eye
 movements were never the bottleneck, and subvocalization is load-bearing
