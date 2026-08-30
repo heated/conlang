@@ -73,9 +73,9 @@ branch is rejected in §3.4). The honest pitch is therefore narrow:
 large gains in time-to-literacy and input speed, real gains in
 compactness, scannability, and machine legibility, and — on the
 evidence available — little or no gain in how fast a human can talk or
-comprehend. We treat those as walls; §2 states precisely how much the
-cited work does and does not establish, since none of it tested a
-constructed language.
+comprehend. We treat those two as low-prior directions rather than
+proven walls; §2 states precisely how much the cited work does and does
+not establish, since none of it tested a constructed language.
 
 Contributions:
 
@@ -708,12 +708,14 @@ decay. Stenotype proves one-chord-per-unit motor performance (200+ WPM)
 and locates its own bottleneck in arbitrary briefs and irregular
 orthography — precisely what a regular channel grammar removes. Toki Pona
 marks the floor of the inventory-size curve (conversation slows when
-paraphrase becomes constant); Ithkuil marks the ceiling: a large mandatory core per content word
-(fifteen formative slots in the 2011 grammar, ten in its successor),
-fused for a concision whose spoken payoff §2 gives reason to doubt,
-over a phonology sized to pay for that fusion — and its own revision
-history, which dropped tone and a third of the case inventory, is the
-most direct evidence available that these were the expensive choices
+paraphrase becomes constant); Ithkuil marks the ceiling: every content
+word is grammatically specified for about a dozen dimensions — stem,
+version, function, specification, context, and the five categories
+bundled into its `Ca` complex — fused for a concision whose spoken
+payoff §2 gives reason to doubt, over a phonology sized to pay for that
+fusion. Its own revision history, which dropped tone and a third of the
+case inventory, is the most direct evidence available that these were
+the expensive choices
 [@quijada2011; @quijada2023]. Our reading of that failure and the
 design forks that avoid it is a hypothesis, not a measurement
 (docs/design/alternatives/ithkuil-forks.md); what survives the pass
@@ -851,10 +853,11 @@ conclusion.
 
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:
-it is the only direction that attacks the throughput wall itself rather
+it is the only direction that attacks the throughput bound itself rather
 than routing around it. That framing now needs one correction and one
-retreat. The correction: the ~39 bits/s figure is a *speech* result
-[@coupe2019]; reading converges separately and just as hard. The
+retreat. The correction: the ~39 bits/s figure is a *read-speech* result
+[@coupe2019] and licenses less than we asked of it (§2); reading
+converges separately, on its own evidence, and just as hard. The
 retreat is larger — the mechanism we assumed, that parallel vision
 would perform the relational binding, inverts the psychophysics.
 Feature-integration and relational-judgment work find that binding is

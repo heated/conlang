@@ -39,9 +39,14 @@ drawn from cognitive linguistics (Lakoff, Langacker, Talmy) rather
 than from any language's traditional grammar.
 
 The commonly repeated outcome — that no one, including the designer,
-speaks it fluently — is consistent with everything published, but we
-found no source in which Quijada states he accepted that as a price,
-so the motive attributed to him in the earlier draft is withdrawn.
+speaks it fluently — is a **universal negative we have not verified**
+[TODO-verify]. It is widely asserted and we found nothing
+contradicting it, which is not the same as evidence. We also found
+no source in which Quijada states he accepted that as a price, so
+the motive attributed to him in the earlier draft is withdrawn.
+Nothing in §2 depends on the fluency claim; the diagnosis is about
+design costs, and would be worth stating even if a dozen fluent
+speakers turned up tomorrow.
 
 ## 2. The diagnosis [H]
 
@@ -51,10 +56,10 @@ are cited; the causal claim is ours and unmeasured.
 
 | | design fact | why we think it costs [H] |
 |---|---|---|
-| **R1** | **A mandatory core that is small in slots but wide in choices.** The 2011 formative has **15 slots**; the New Ithkuil formative has **10** (I–X), of which five are unparenthesised in the official template — Cr (root), Vr, Ca, Vc/Vk, and stress [V 2026-08-30]. That looks modest until you expand the two bundling slots: **Vr carries Stem, Specification, Function and Context; Ca carries Configuration, Affiliation, Extension, Perspective and Essence** [V 2026-08-30]. So a *minimal* content word still commits the speaker to roughly ten independent semantic choices — Stem, Specification, Function, Context, Configuration, Affiliation, Extension, Perspective, Essence, Case — before any optional affix | a per-word **selection cost**: uttering any content word means resolving ~10 decisions, most about things the speaker has formed no opinion on. This is a production cost no encoding removes, and it is our best candidate for why composition stays slow even for people who know the tables. Note this is the *corrected* version of the argument: "~20 slots" was wrong, and slot-counting was the wrong metric — bundling slots hide the real width |
+| **R1** | **Every formative is grammatically specified for about a dozen dimensions, because the always-present slots are bundling slots.** From the official slot table [V 2026-08-30]: **Slot II (`Vv`) = Version + Stem**; **Slot IV (`Vr`) = Function + Specification + Context**; **Slot VI (`Ca`) = Configuration + Extension + Affiliation + Perspective + Essence**; **Slot IX = Case *or* Format *or* Illocution + Validation**, selected by **Slot X stress**, which itself marks Relation. That is ten dimensions from slots II/IV/VI alone, plus Relation and the conditional Slot IX choice. **Slot-counting is the wrong metric** — the 2011 formative has 15 slots and New Ithkuil 10, and neither number tells you this | a per-word **specification load**. State the cost carefully, because the grammar undercuts the strong version: every one of these dimensions has a **default** (BSC = *-a-*, CTE = *-ë-*, …), and Slot II can carry "shortcut" information that lets Slots IV and VI be **elided entirely** [V 2026-08-30]. So "the speaker consciously resolves ten choices per word" is *not* established — defaults plausibly absorb most of it, and fluent production may automatise the rest. What survives is narrower and still unmeasured: a language that specifies a dozen dimensions on every content word imposes *some* extra production and comprehension cost over one that specifies three, concentrated in the non-default choices [H]. Nobody has measured it |
 | **R2** | Fusion for concision: the `Ca` complex encodes Configuration + Affiliation + Extension + Perspective + Essence — nominally 20 × 4 × 6 × 4 × 2 = **3,840 combinations** in one consonant complex [V 2026-08-30]. It is **systematically assembled from sequential affixes**, with documented allomorphy and substitution rules — not the pure lookup table the earlier draft claimed | the form is still not transparently decomposable by ear at speed, and packing that many combinations into one consonant complex leaves little acoustic slack between neighbours. Whether real mishearings land on valid forms is **unmeasured** — the coding-theoretic claim in the earlier draft is withdrawn pending a confusion analysis |
 | **R3** | A phonology sized to pay for R2: 2011 has **45 consonants and 13 vowels**, with **7 tones** — one morpho-phonologically neutral mid tone plus six functionally significant (low, high, falling, rising, rising-falling, falling-rising) [V 2026-08-30]. New Ithkuil dropped tone and cut the consonant inventory | no L1 covers that inventory, and the densest channels (tone, voicing series, clusters) are the ones humans discriminate worst under noise. That the revision cut exactly these is the strongest evidence for the diagnosis |
-| **R4** | A category set built from theory rather than use. **But the revision history is not simple accretion, and the earlier draft got this wrong**: New Ithkuil *cut* cases 96 → 68 while *expanding* Configuration 9 → 20 and Aspect 32 → 36, and the current Bias table has **66** entries [V 2026-08-30]. 2011 also carried a Designation category that New Ithkuil drops | not "never pruned" but **pruned without a pruning function** — redistribution guided by the designer's judgement rather than by usage data, since no corpus, learner data or frequency count exists for either version. The long tail costs learning time at the same rate as the head while carrying a fraction of the use. Same failure class as Wilkins 1668 |
+| **R4** | A category set built from theory rather than use. **The revision history is not simple accretion, and the earlier draft got this wrong**: New Ithkuil *cut* cases 96 → 68 while *expanding* Configuration 9 → 20 and Aspect 32 → 36. The Bias table has **61** entries, ACC…VEX [V 2026-08-30, counted from the table's own rows]. 2011 also carried a Designation category that New Ithkuil drops | not "never pruned" but **pruned without a published pruning function** — redistribution guided by the designer's judgement, since we located no corpus, learner data or frequency count for either version [TODO-verify: an absence we could not confirm]. The long tail costs learning time at the same rate as the head while carrying a fraction of the use. Same failure class as Wilkins 1668 |
 
 **The premise underneath R2/R3.** The concision drive assumes that
 denser encoding buys communicative throughput. The best available
@@ -66,15 +71,19 @@ is a robust cross-linguistic regularity in a controlled task — it is
 **not** a demonstrated universal ceiling, not a proven one-for-one
 compensation mechanism, not a measurement of spontaneous
 conversation, and not a result about constructed languages, whose
-speakers are all L2 learners composing deliberately. Their
-information measure is also not the same object as "explicitly
-marked semantic distinctions." So the honest statement is: *the
-expected return on spoken concision is small and may be zero* [H],
-which is enough to make R2/R3 a bad trade against their costs, and
-not enough to call the compression pointless. **The same caveat
-applies to this project's own paper §2, README, and design brief,
-which state the result more strongly than it supports** — filed as
-bead conlang-81l.
+speakers are all L2 learners composing deliberately. The corpus was
+native speakers reading rehearsed parallel texts, and the authors
+say plainly it is unsuited to studying pragmatic and cognitive
+planning; they attribute the observed band to **combined
+articulatory, planning, perceptual and social pressures**, not to
+cognition instead of articulation. Their information measure is also
+not the same object as "explicitly marked semantic distinctions." So
+the honest statement is: *on the available evidence the expected
+return on spoken concision is small and may be zero* [H] — enough to
+make R2/R3 a poor bet against their costs, not enough to call the
+compression pointless, and not a "wall." **The same caveat applies
+to this project's own paper §1/§2 and design brief** — filed as bead
+conlang-81l, and partly repaired there already.
 
 **What Ithkuil got right** (any fork must preserve these): the
 category catalogue (→ namespace doc); the root × Stem ×
@@ -171,14 +180,21 @@ reserved slot. Usable in a week, grows into precision. Our
 expansion-compatible-family idea (SPEC §9) applied to grammar
 instead of phonology.
 
-**F9 — a testing loop from year one.** Ithkuil ran two decades
-without learner data. New Ithkuil was developed with community
-involvement and the revision cut tone and 28 cases — consistent with
-a feedback loop working, though we have no source showing the
-community process *caused* those specific cuts, so this is
-suggestive, not evidence. The counter-observation matters too: the
-same revision *grew* Configuration from 9 to 20 values, which is not
-what a learnability-driven loop produces. Whatever the loop
+**F9 — a testing loop from year one.** We located no learner data or
+usage corpus for either version [TODO-verify — an absence we could
+not confirm, and absence of a published corpus is not proof none
+exists]. New Ithkuil was developed with community involvement and
+the revision cut tone and 28 cases — consistent with a feedback loop
+working, though we have no source showing the community process
+*caused* those specific cuts, so this is suggestive, not evidence.
+One observation cuts the other way and is worth recording as
+counterevidence rather than proof: the same revision *grew*
+Configuration from 9 to 20 values and Aspect from 32 to 36. That is
+not what across-the-board learner-cost minimisation looks like [H] —
+though the official introduction states New Ithkuil was *intended*
+to be easier to learn, and a revision that removes categories
+elsewhere may well reduce aggregate cost, which we have not
+measured. Whatever the loop
 optimised, it was not learner cost.
 
 **F10 — reframe: a notation, not a language.** Precision of construal
@@ -206,10 +222,13 @@ demonstration, Ithkuil-W is the design that follows — the script is
 the component whose value survives every criticism above, and the
 phonology is where the costs concentrate. That is a preference of
 this project, not a correction of Quijada, whose goal was a spoken
-language and who is entitled to it. Whether the script "worked"
-while the speech "failed" has no operational success criterion; the
-weaker and defensible version is that the script's costs are
-demonstrably lower.
+language and who is entitled to it. And "the script worked while the
+speech failed" has no operational success criterion behind it — we
+have not defined, let alone measured, a cost for either. The
+defensible version is a hypothesis: the script's costs look lower
+because they are bounded by what a reader must learn once, while the
+phonology's costs recur on every utterance and fall on perceptual
+machinery no learner can retrain [H].
 
 ### What no fork fixes
 

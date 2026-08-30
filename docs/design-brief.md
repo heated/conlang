@@ -168,7 +168,13 @@ else is defined over these coordinates.
   no per-word memorization). Commitments: visible POS zone, mode
   payloads visually flagged. Priced ceilings: density buys compactness
   and skimming, never WPM; ~1–3k chord inventory saturates composition
-  at ~39 bits/s, so the chording layer is optimal. Deliverables (font
+  at ~39 bits/s, so the chording layer is optimal. (Correction
+  2026-08-30, conlang-81l: the ~39 bit/s figure is a *read-speech*
+  result and says nothing about typing, so it cannot license a claim
+  about chord-inventory optimality. The chord sizing needs
+  input-specific evidence — steno's own inventory data — not this
+  citation. The recorded directive stands as written; the inference
+  attached to it does not.) Deliverables (font
   pipeline, IME, chord engine) run **alongside and lower priority than
   straightening out the script itself**.
 - 2026-08-09 (capacity steering): explore a **cross-POS humility
