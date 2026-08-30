@@ -756,11 +756,51 @@ a-posteriori lexicon (recognition rather than memorization for the
 zone — the largest single discount in the learning budget), the
 regularized productive layer, and the absence of any "learn a system
 first" wall. These are exactly the moves the zonal bet (§9c) rests on,
-and RZ takes them from Interlingua form for form — the article system,
-the `-e` adjective, the `-te` participle, person-invariant verbs with
-obligatory subject pronouns, the `-va` past, the derivational suffix
-family, the pronouns, the calendar. The overlap is roughly 80–85% of
-the grammar, literally shared rather than analogous
+and RZ takes them from Interlingua largely form for form: the article
+system, the `-e` adjective, the `-te` participle, person-invariant
+verbs with obligatory subject pronouns, the `-va` past, plural
+`-s`/`-es`, the invariant possessives, and most of the derivational
+suffix family. The overlap is roughly 80–85% **at the level of
+rules** — and that framing needs three qualifications the first draft
+of this section did not make.
+
+First, "form for form" was too strong even inside the claimed-shared
+list. The first and second persons are shared (*io, tu, nos, vos*);
+the third person is not — RZ *el/ela/eles/elas* against Interlingua
+*ille/illa/illes/illas* — and those are among the highest-frequency
+words in any text. Parts of the derivational family diverge too (RZ
+*des-* against *dis-*, RZ *-oso* against *-ose*, the latter also
+breaking the claimed-shared `-e` adjective pattern), and neither
+follows from the stated orthographic rules. The calendar is
+near-identical rather than identical (*marzo/agosto* against
+*martio/augusto*).
+
+Second, the delta list below is **known-incomplete**, and what is
+missing concentrates in the closed class that carries 49.2% of running
+tokens: the negator itself (*no* against *non*), the negative
+indefinites (*nada, nunca, nadie* against *nihil, nunquam, necuno*)
+which the negative-concord delta interacts with, the interrogatives
+and subordinators (*donde, por que, cual, cuante, aunque, mentre,
+alora*), the quantifier *poc*, and — pending a primary reading of Gode
+and Blair — obligatory preverbal object clitic placement, which would
+be a *syntactic* delta rather than a lexical one.
+
+Third, because those are high-frequency function words, the
+**token-level** distance is larger than the rule-level figure suggests
+— so we measured it, on the only matched material that exists: the two
+passages rendered in both languages for the cloze study, whose
+Interlingua side has every visible word attested in running Interlingua
+prose. Over 168 aligned visible tokens
+(`tools/profile_distance.py`): **63% are literally the same word, 77%
+are within a single character edit, 8% are different words entirely,
+2% appear in only one rendering.** The limits are severe and all point
+the same way — two passages, both renderings ours, and the passages
+were *chosen to exercise the deltas* — so this is an upper bound on
+distance, not a corpus estimate. Read that way it supports the profile
+framing more than the rule-level number did: on text selected to be
+maximally delta-heavy, two thirds of what the eye lands on is still
+the baseline's own word. What none of this does is enumerate the
+deltas, and this paper should not be read as having done so
 (docs/design/zonal/rz-interlingua-profile.md).
 
 **What we did not find in it** is the list this paper is about. Each
@@ -1186,6 +1226,23 @@ Evidence: none — this is a discipline, not a result, and this paper's
 own ledger has an admitted hole where the profile's surface deltas
 should be (§9b).*
 
+**The currency's limitation, stated as a property of the method rather
+than of this instance.** Learner-hours are a decision unit, not a
+measured one, and the gap is structural. No study in §12 measures the
+hour-price of any add-on: the two that come closest measure
+hours-to-criterion for a *skill* (chord entry, script decoding), which
+is not the marginal hours a feature adds to acquiring a language. The
+kill-gate outputs comprehension percent, a different variable, so
+surface deltas are falsifiable while add-on prices are not. And the
+ledger implicitly treats prices as additive across features, which
+contradicts what is known about interference and blocking in
+second-language acquisition. What survives is the *ordering*: the
+ledger is reliable for saying that modes cost less than a
+part-of-speech remapping, and unreliable for saying that either costs
+two hours. Anyone adopting this entry should treat every row as a
+prior, and should be able to say what evidence would update it — a
+question this project can currently answer for one row.
+
 **Two gates, not one.** Separate mechanisms that are invisible or
 optional to a first-contact reader (which can be admitted on price
 alone) from changes to inherited word forms (which cannot, and must
@@ -1360,7 +1417,24 @@ purchase intact.
 ## 11. Related systems
 
 Interlingua is not related work here but the baseline, and is treated
-as such in §9b. Every other load-bearing mechanism has a precedent that demonstrates
+as such in §9b.
+
+**The field this instrument belongs to, and did not cite.** Zero-study
+cross-language comprehension is the subject matter of *receptive
+multilingualism*, which has measured it systematically: the MICReLa
+project and related work by Gooskens and colleagues tested mutual
+intelligibility across Germanic, Romance and Slavic groups using
+precisely this class of instrument — cloze and translation tasks on
+readers with no study of the target — and EuroComRom's "seven sieves"
+is an entire pedagogy for reading unfamiliar Romance languages at
+sight [TODO-verify: named from knowledge, primary sources not yet
+read]. Omitting this was a real gap, and closing it cuts both ways. It
+supplies validated task designs and a comparison class, which
+strengthens the instrument's legitimacy; and it shrinks the
+instrument's novelty to what it actually is, which is not the cloze
+but the two things wrapped around it — the precommitted
+usability-threshold objective, and the profile-versus-baseline design
+in which each surface delta is applied alone. Every other load-bearing mechanism has a precedent that demonstrates
 the mechanism *elsewhere* and a failure that locates its limit.
 Esperanto demonstrates designed-language learnability (~150–200 hours
 to conversational use — a ~B1 bar; the C1 bar runs 300–500h — versus
