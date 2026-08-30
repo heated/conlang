@@ -6,10 +6,12 @@ namespace (`../construal-namespace.md`).
 
 **Evidence discipline for this document.** Facts about Ithkuil are
 cited to the official grammars (Quijada 2011; New Ithkuil, living web
-grammar at ithkuil.net). Claims checked against those sources during
-the 2026-08-30 Codex review are marked **[V 2026-08-30]**; claims
-written from secondary knowledge and *not* verified carry
-TODO-verify. **The failure diagnosis in §2 is [H] throughout** — it
+grammar at ithkuil.net). Claims marked **[V 2026-08-30]** were read
+off those pages directly on that date — the morphology, verb-category
+and adjunct chapters — during the review-and-repair pass; claims
+written from secondary knowledge and *not* checked carry TODO-verify.
+The first draft of this document had neither discipline and was
+substantially wrong; see the §2 notes on what changed. **The failure diagnosis in §2 is [H] throughout** — it
 is this project's reading of why Ithkuil has no speakers, not a
 measured result. Nobody has run a learner study on Ithkuil, so every
 causal arrow below is a hypothesis about design, argued from the
@@ -49,10 +51,10 @@ are cited; the causal claim is ours and unmeasured.
 
 | | design fact | why we think it costs [H] |
 |---|---|---|
-| **R1** | A large mandatory core per word. The 2011 standard formative has **15 slots**; the New Ithkuil formative has **10** [V 2026-08-30 — official morphology chapters]. Not every category is obligatory — both grammars have optional, conditional and adjunct-borne categories, and New Ithkuil deliberately shrank the mandatory core — but a speaker still fills several independent semantic choices to utter any content word | a per-word **selection cost**: composing a word means resolving several decisions the speaker may not have formed an opinion about. This is a production cost no encoding removes, and it is our best candidate for why composition stays slow even for people who know the tables |
-| **R2** | Fusion for concision: the `Ca` complex encodes Configuration + Affiliation + Perspective + Extension + Essence in one consonant complex [V 2026-08-30]. It is **systematically assembled** with documented allomorphy and substitution rules — not the pure lookup table the earlier draft claimed | the form is still not transparently decomposable by ear at speed, and a dense assignment leaves little acoustic slack between neighbouring category combinations. Whether real mishearings land on valid forms is **unmeasured** — the coding-theoretic claim in the earlier draft is withdrawn pending a confusion analysis |
-| **R3** | A phonology sized to pay for R2: 2011 used ~45 consonants, 13 vowels and 7 tones; New Ithkuil dropped tone and cut the consonant inventory [V 2026-08-30] | no L1 covers that inventory, and the densest channels (tone, voicing series, clusters) are the ones humans discriminate worst under noise. That the 2023 revision cut exactly these is the strongest evidence for the diagnosis |
-| **R4** | A category set expanded from theory: 96 cases (2011) → 68 (New Ithkuil); 32 → 36 aspects; 9 phases; 9 valences; 61 biases [V 2026-08-30]. No corpus, learner data, or usage frequency informed the inventory | a generator with no pruning function. The long tail of distinctions costs learning time at the same rate as the head while carrying a fraction of the use. Same failure class as Wilkins 1668 |
+| **R1** | **A mandatory core that is small in slots but wide in choices.** The 2011 formative has **15 slots**; the New Ithkuil formative has **10** (I–X), of which five are unparenthesised in the official template — Cr (root), Vr, Ca, Vc/Vk, and stress [V 2026-08-30]. That looks modest until you expand the two bundling slots: **Vr carries Stem, Specification, Function and Context; Ca carries Configuration, Affiliation, Extension, Perspective and Essence** [V 2026-08-30]. So a *minimal* content word still commits the speaker to roughly ten independent semantic choices — Stem, Specification, Function, Context, Configuration, Affiliation, Extension, Perspective, Essence, Case — before any optional affix | a per-word **selection cost**: uttering any content word means resolving ~10 decisions, most about things the speaker has formed no opinion on. This is a production cost no encoding removes, and it is our best candidate for why composition stays slow even for people who know the tables. Note this is the *corrected* version of the argument: "~20 slots" was wrong, and slot-counting was the wrong metric — bundling slots hide the real width |
+| **R2** | Fusion for concision: the `Ca` complex encodes Configuration + Affiliation + Extension + Perspective + Essence — nominally 20 × 4 × 6 × 4 × 2 = **3,840 combinations** in one consonant complex [V 2026-08-30]. It is **systematically assembled from sequential affixes**, with documented allomorphy and substitution rules — not the pure lookup table the earlier draft claimed | the form is still not transparently decomposable by ear at speed, and packing that many combinations into one consonant complex leaves little acoustic slack between neighbours. Whether real mishearings land on valid forms is **unmeasured** — the coding-theoretic claim in the earlier draft is withdrawn pending a confusion analysis |
+| **R3** | A phonology sized to pay for R2: 2011 used ~45 consonants, 13 vowels and 7 tones [TODO-verify — the 2011 phonology chapter was not fetched]; New Ithkuil dropped tone and cut the consonant inventory | no L1 covers that inventory, and the densest channels (tone, voicing series, clusters) are the ones humans discriminate worst under noise. That the revision cut exactly these is the strongest evidence for the diagnosis |
+| **R4** | A category set built from theory rather than use. **But the revision history is not simple accretion, and the earlier draft got this wrong**: New Ithkuil *cut* cases 96 → 68 while *expanding* Configuration 9 → 20 and Aspect 32 → 36, and the current Bias table has **66** entries [V 2026-08-30]. 2011 also carried a Designation category that New Ithkuil drops | not "never pruned" but **pruned without a pruning function** — redistribution guided by the designer's judgement rather than by usage data, since no corpus, learner data or frequency count exists for either version. The long tail costs learning time at the same rate as the head while carrying a fraction of the use. Same failure class as Wilkins 1668 |
 
 **The premise underneath R2/R3.** The concision drive assumes that
 denser encoding buys communicative throughput. The best available
@@ -161,10 +163,13 @@ instead of phonology.
 
 **F9 — a testing loop from year one.** Ithkuil ran two decades
 without learner data. New Ithkuil was developed with community
-involvement [V 2026-08-30] and the revision cut tone and 28 cases —
-consistent with the loop working, though we have no source showing
-the community process *caused* those specific cuts, so this is
-suggestive, not evidence.
+involvement and the revision cut tone and 28 cases — consistent with
+a feedback loop working, though we have no source showing the
+community process *caused* those specific cuts, so this is
+suggestive, not evidence. The counter-observation matters too: the
+same revision *grew* Configuration from 9 to 20 values, which is not
+what a learnability-driven loop produces. Whatever the loop
+optimised, it was not learner cost.
 
 **F10 — reframe: a notation, not a language.** Precision of construal
 does not require speakability. **Ithkuil-as-notation**: a

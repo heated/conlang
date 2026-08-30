@@ -7,17 +7,20 @@ produced = bead conlang-czq. Origin: the Ithkuil steal-pass
 taxonomy or namespace might be useful as a reference, sort of like
 IPA."
 
-> **Provenance rule, and the reason this document is v0.** Every
-> `CN:` identifier is **project-owned**. Nothing here is an official
-> Leipzig, UniMorph, or Ithkuil identifier, and a row's `src` column
-> records where a *concept* was imported from and how our dimension
-> relates to that source — never that the source endorses our code.
-> Value inventories reproduced below were checked against the live
-> sources during the 2026-08-30 review and are marked
-> **[V 2026-08-30]**; unmarked inventories are unverified and must be
-> regenerated from a pinned release before use (bead conlang-ma1).
-> Ithkuil's own codes drift between published versions (`VER`/`VRF`,
-> `PCT`/`PUN`), which is exactly why an unversioned import is unsafe.
+> **Provenance rule.** Every `CN:` identifier is **project-owned**.
+> Nothing here is an official Leipzig, UniMorph, or Ithkuil
+> identifier; a row's `src` column records where a *concept* was
+> imported from and how our dimension relates to that source — never
+> that the source endorses our code. Every inventory carries a
+> verification marker (key at the end of §4): **[V 2026-08-30]** was
+> read off the primary source on that date, **[S16]** lives in a
+> paper the current site defers to and is *not* pinned, and
+> TODO-verify means nobody has checked it. Ithkuil's codes drift
+> between published versions (`VER`/`VRF`, `PCT`/`PUN`) and its
+> inventories change size in both directions across the revision, so
+> an unversioned import is unsafe by default — three successive
+> drafts of this file gave three different counts for Bias before
+> anyone opened the table.
 
 ## 1. What it is, and the limits of the IPA analogy
 
@@ -98,64 +101,69 @@ facility.
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `NUM` | number | 8 values in the current UniMorph schema (SG DU TRI PL GRPL GPAUC INVN PAUC) [V 2026-08-30] | UniMorph / exact | RZ `-s`/`-es`; GZ none — plurality by quantifier (gf-grammar §1) |
-| `CFG` | configuration — shape of the set | Ithkuil: UPX plus a multi-axis set (similar/dissimilar × separate/connected/fused) — **inventory not reproduced here; regenerate from a pinned grammar** | Ithkuil / local | — (pilot candidate, GZ) |
-| `AFL` | affiliation — how members relate | CSL, ASO, COA, VAR | Ithkuil / local | — |
-| `PRS` | perspective | M, G, N, A | Ithkuil / local | — |
-| `EXT` | extension — which portion of the entity | DEL, PRX, ICP, ATV, GRA, DPL | Ithkuil / local | — |
-| `ESS` | essence — real vs represented | NRM, RPV | Ithkuil / local | — (**no RZ or GZ equivalent**; RZ's `si`-conditional is irrealis, a different object) |
-| `DEF` | definiteness | DEF INDF SPEC NSPEC | UniMorph / exact | RZ `le/les/un`; GZ none, by design (gf-grammar §6: definiteness left to context) |
-| `GEND` | gender / noun class | MASC FEM NEUT + class features [V 2026-08-30] | UniMorph / exact | RZ none — deleted; natural gender in animate pairs only (rz-grammar §2). GZ none |
-| `ANIM` | animacy | ANIM INAN HUM NHUM | UniMorph / exact | — |
-| `POSS` | possession | possessor person/number features | UniMorph / exact | RZ invariant possessives (§2) |
-| `CASE` | semantic/syntactic role | UniMorph's case inventory; Ithkuil's 68 [V 2026-08-30] is a different and much finer object | UniMorph + Ithkuil / overlap | RZ prepositions, no case; GZ adposition particles `hal/hees/his/hol` + word order (gf-grammar §3–4) |
+| `NUM` | number | UniMorph: SG DU TRI PL GRPL GPAUC INVN PAUC (8) [S16 — not on the current site, which defers per-dimension values to Sylak-Glassman 2016] | UniMorph / exact | RZ `-s`/`-es`; GZ none — plurality by quantifier (gf-grammar §1) |
+| `CFG` | configuration — shape of the set | New Ithkuil: UPX DPX MSS DSS MSC DSC MSF DSF MDS DDS MDC DDC MDF DDF MFS DFS MFC DFC MFF DFF (**20**) [V 2026-08-30]. **2011 had 9** — the revision grew this one | Ithkuil / local | — (pilot candidate, GZ) |
+| `AFL` | affiliation — how members relate | CSL ASO COA VAR (4) [V 2026-08-30] | Ithkuil / local | — |
+| `PRS` | perspective | M G N A (4) [V 2026-08-30] | Ithkuil / local | — |
+| `EXT` | extension — which portion of the entity | DEL PRX ICP ATV GRA DPL (6) [V 2026-08-30] | Ithkuil / local | — |
+| `ESS` | essence — real vs represented | NRM RPV (2) [V 2026-08-30] | Ithkuil / local | — (**no RZ or GZ equivalent**; RZ's `si`-conditional is irrealis, a different object) |
+| `DEF` | definiteness | UniMorph dimension [V 2026-08-30 — dimension list]; values [S16] | UniMorph / exact | RZ `le/les/un`; GZ none, by design (gf-grammar §6: definiteness left to context) |
+| `GEND` | gender / noun class | UniMorph: MASC FEM NEUT + class features [S16] | UniMorph / exact | RZ none — deleted; natural gender in animate pairs only (rz-grammar §2). GZ none |
+| `ANIM` | animacy | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | — |
+| `POSS` | possession | possessor person/number features [S16] | UniMorph / exact | RZ invariant possessives (§2) |
+| `CASE` | semantic/syntactic role | UniMorph: **39 features — the schema's largest dimension** [V 2026-08-30]. Ithkuil: 96 (2011) → **68** (New Ithkuil), a much finer and differently-cut object | UniMorph + Ithkuil / overlap | RZ prepositions, no case; GZ adposition particles `hal/hees/his/hol` + word order (gf-grammar §3–4) |
 
 ### B. Lexical / derivational
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `POS` | part of speech | N V ADJ ADV + closed classes | UniMorph / exact | GZ final coda ∅/n/s (SPEC §6); RZ partial — R-scheme script-only marking is adopt-pending-evidence, not shipped |
-| `STEM` | stem within a root | 4 stems in New Ithkuil [V 2026-08-30] | Ithkuil / local | — |
-| `SPEC` | specification — which facet of the root | BSC, CTE, CSV, OBJ | Ithkuil / local | — (**proposed**, GZ; bead conlang-czq) |
-| `FUNC` | function | STA, DYN | Ithkuil / local | GZ's O/A/P/R alternation classes cover part of this (gf-grammar §2) |
-| `CTX` | context | EXS, FNC, RPS, AMG | Ithkuil / local | — |
-| `VER` | version — process vs goal-attainment (`VRF` in some versions) | PRC, CPT | Ithkuil / local | — (RZ and English lexicalise it: *look for* / *find*) |
+| `POS` | part of speech | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | GZ final coda ∅/n/s (SPEC §6); RZ partial — R-scheme script-only marking is adopt-pending-evidence, not shipped |
+| `STEM` | stem within a root | New Ithkuil: Stems 0–3 (**4**), carried in slot IV's Vr [V 2026-08-30] | Ithkuil / local | — |
+| `SPEC` | specification — which facet of the root | BSC CTE CSV OBJ (**4**), carried in slot IV's Vr alongside Function and Context [V 2026-08-30] | Ithkuil / local | — (**proposed**, GZ; bead conlang-czq) |
+| `FUNC` | function | STA DYN (2), slot IV | Ithkuil / local | GZ's O/A/P/R alternation classes cover part of this (gf-grammar §2) |
+| `CTX` | context | 2011: 4 Contexts [V 2026-08-30]; New Ithkuil carries Context in slot IV | Ithkuil / local | — |
+| `VER` | version — process vs goal-attainment (`VRF` in some published material) | PRC CPT (2) | Ithkuil / local | — (RZ and English lexicalise it: *look for* / *find*) |
+| `DSGN` | designation | 2011 only: 2 values [V 2026-08-30]. **Dropped in New Ithkuil** — recorded because a category disappearing is itself data about the pruning question | Ithkuil (2011) / local | — |
 | `DERIV` ‡ | derivational family | project-listed affixes | project / local | RZ §9 (`-cion -itate -mente -al -or …`); GZ none yet |
 
 ### C. Event structure
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `TNS` | tense | PRS PST FUT + remoteness | UniMorph / exact | RZ `-va` past, `va` + inf future; GZ `hoon` preverbal past, unmarked = nonpast (gf-grammar §3) |
-| `ASP` | aspect | UniMorph's inventory; Ithkuil's 36 [V 2026-08-30] is far finer | UniMorph + Ithkuil / overlap | RZ `sta` + gerund, `tener` + participle |
-| `PHS` | phase (`PCT` in the current grammar, `PUN` in older material) | 9 values [V 2026-08-30] | Ithkuil / local | — |
-| `VOICE` | voice | ACT PASS MID ANTIP | UniMorph / narrower — **valency-changing features (CAUS APPL RECP REFL) are a separate UniMorph dimension** [V 2026-08-30] | RZ `es` + participle; `se` reflexive |
-| `VALN` | valence — relation between co-participants | 9 values [V 2026-08-30] | Ithkuil / local | — |
-| `LVL` | level — comparison as a grammatical category | 9 values | Ithkuil / local | RZ periphrastic `plus/minus … que` (§7); GZ `mu-s` + `hees` |
-| `EFF` | effect — beneficial/detrimental, and to whom | 9 values, including self-beneficial and self-detrimental [V 2026-08-30] | Ithkuil / local | — |
-| `POL` | polarity | POS NEG | UniMorph / exact | RZ preverbal `no` + negative concord (D1) — **the `no`~`lo` hazard is bead conlang-1op**; GZ `haan`, deliberately long and nasal for robustness (gf-grammar §3) |
+| `TNS` | tense | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | RZ `-va` past, `va` + inf future; GZ `hoon` preverbal past, unmarked = nonpast (gf-grammar §3) |
+| `ASP` | aspect | UniMorph dimension [V 2026-08-30]; Ithkuil: **36** (32 in 2011 — this one also grew) [V 2026-08-30] | UniMorph + Ithkuil / overlap | RZ `sta` + gerund, `tener` + participle |
+| `AKT` | Aktionsart | UniMorph dimension, distinct from aspect [V 2026-08-30]; values [S16] | UniMorph / exact | — (no RZ or GZ marking) |
+| `PHS` | phase | PCT ITR REP ITM RCT FRE FRG VAC FLC (**9**) [V 2026-08-30]. Punctual is `PCT`; older material uses `PUN` | Ithkuil / local | — |
+| `VOICE` | voice | UniMorph: ACT PASS MID ANTIP etc. [S16] | UniMorph / narrower | RZ `es` + participle; `se` reflexive |
+| `VLNC` | valency | **A UniMorph dimension in its own right, separate from voice** [V 2026-08-30] — CAUS/APPL/RECP/REFL live here, not under `VOICE` | UniMorph / exact | RZ `se`; GZ none |
+| `VALN` | valence — relation between co-participants (Ithkuil's category, unrelated to UniMorph valency) | MNO PRL CRO RCP CPL DUP DEM CNG PTI (**9**) [V 2026-08-30] | Ithkuil / local | — |
+| `LVL` | level — comparison as a grammatical category | MIN SBE IFR DFT EQU SUR SPL SPQ MAX (**9**) [V 2026-08-30]. UniMorph has a separate `comparison` dimension | Ithkuil / local | RZ periphrastic `plus/minus … que` (§7); GZ `mu-s` + `hees` |
+| `EFF` | effect — beneficial/detrimental, and to whom | 1:BEN 2:BEN 3:BEN **SLF:BEN** UNK **SLF:DET** 3:DET 2:DET 1:DET (**9**) [V 2026-08-30] | Ithkuil / local | — |
+| `POL` | polarity | UniMorph dimension [V 2026-08-30]: POS NEG | UniMorph / exact | RZ preverbal `no` + negative concord (D1) — **the `no`~`lo` hazard is bead conlang-1op**; GZ `haan`, deliberately long and nasal for robustness (gf-grammar §3) |
 
 ### D. Speaker stance (clause-level)
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `ILL` | illocution | 9 values in New Ithkuil, including POT [V 2026-08-30] | Ithkuil / local | GZ partial: `hus` clause-final polar question, bare-verb imperative — **no general illocution channel**. RZ: intonation/`?`, imperative |
-| `MOOD` | mood / modality | UniMorph's inventory; Ithkuil's 6 | UniMorph + Ithkuil / overlap | RZ `-ria` conditional, `si` + indicative; no subjunctive (absorbed). GZ `huul` preverbal irrealis/future |
-| `EVID` | evidentiality / validation | 12 values in the current UniMorph schema, incl. `VISU` [V 2026-08-30]; Ithkuil's Validation is a parallel 9 | UniMorph + Ithkuil / overlap | — (candidate for GZ's careful/safety register) |
-| `EXPT` | expectation — stance toward outcome | COG, RSP, EXE | Ithkuil / local | — |
-| `BIAS` | affective / attitudinal stance | 61 entries in the current Ithkuil table [V 2026-08-30] | Ithkuil / local | — (declined for design; precedent only) |
-| `REG` | discourse register — parenthetical, exemplary, quoted thought | Ithkuil's set | Ithkuil / local | — |
-| `HON` | politeness / honorification | 13 values listed in the current UniMorph schema [V 2026-08-30] | UniMorph / exact | **RZ none** — `tu`/`vos` is a number distinction, not T/V. **GZ none, permanently** (gf-grammar §6 rules honorifics out) |
+| `ILL` | illocution | Ithkuil's set — **count not verified**; the adjuncts and verb chapters fetched on 2026-08-30 did not enumerate it [TODO-verify] | Ithkuil / local | GZ partial: `hus` clause-final polar question, bare-verb imperative — **no general illocution channel**. RZ: intonation/`?`, imperative |
+| `MOOD` | mood / modality | UniMorph dimension [V 2026-08-30]; Ithkuil: FAC SUB ASM SPC COU HYP (**6**) [V 2026-08-30] | UniMorph + Ithkuil / overlap | RZ `-ria` conditional, `si` + indicative; no subjunctive (absorbed). GZ `huul` preverbal irrealis/future |
+| `EVID` | evidentiality / validation | UniMorph dimension [V 2026-08-30]; values [S16]. Ithkuil's Validation is a parallel set — **count not verified** [TODO-verify] | UniMorph + Ithkuil / overlap | — (candidate for GZ's careful/safety register) |
+| `EXPT` | expectation — stance toward outcome | COG RSP EXE (3) | Ithkuil / local | — |
+| `BIAS` | affective / attitudinal stance | **66** entries, ACC…VEX, carried by Bias adjuncts [V 2026-08-30]. (Earlier drafts said ~57 and 61; both wrong — this is why rows get read off the source) | Ithkuil / local | — (declined for design; precedent only) |
+| `REG` | discourse register — parenthetical, exemplary, quoted thought | Ithkuil's set [TODO-verify] | Ithkuil / local | — |
+| `HON` | politeness / honorification | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | **RZ none** — `tu`/`vos` is a number distinction, not T/V. **GZ none, permanently** (gf-grammar §6 rules honorifics out) |
+| `INTQ` | interrogativity | UniMorph dimension [V 2026-08-30] | UniMorph / exact | RZ fronting, no inversion (§6); GZ clause-final `hus` |
+| `FIN` | finiteness | UniMorph dimension, **2 features — the schema's smallest** [V 2026-08-30] | UniMorph / exact | RZ infinitive vs finite; GZ none (no agreement to be finite about) |
 
 ### E. Reference and discourse
 
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
-| `PERS` | person, with clusivity | 1 2 3, INCL, EXCL | UniMorph / exact | RZ pronouns (§3); GZ pronouns as content words (SPEC §5.2) |
-| `OBV` | proximate / obviative | PROX, OBV | typological literature / local — not a Leipzig dimension | — (bead conlang-ax3) |
-| `SWREF` | switch reference | SS, DS | typological literature / local | — (bead conlang-ax3) |
-| `DEIX` | deictic distance | PROX, MED, DIST | typological literature / local | RZ two-way: `iste` / `aquel` (§2) |
-| `INFO` ‡ | information structure | TOP, FOC, CONTR | project / local — assembled from the information-structure literature, not from a single standard | **neither language marks it today**: GZ has no topic particle (its 11 particles are listed in gf-grammar §3) and defers discourse particles to future work |
+| `PERS` | person, with clusivity | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | RZ pronouns (§3); GZ pronouns as content words (SPEC §5.2) |
+| `SWREF` | switch reference | **A UniMorph dimension** [V 2026-08-30] — the earlier draft wrongly filed this as non-standard | UniMorph / exact | — (bead conlang-ax3) |
+| `DEIX` | deictic distance | **A UniMorph dimension** [V 2026-08-30]; values [S16] | UniMorph / exact | RZ two-way: `iste` / `aquel` (§2) |
+| `INFO` | information structure | **A UniMorph dimension** [V 2026-08-30]; values [S16] | UniMorph / exact | **neither language marks it today**: GZ has no topic particle (its 11 particles are listed in gf-grammar §3) and defers discourse particles to future work |
+| `OBV` | proximate / obviative | typological literature; **not a UniMorph dimension of its own** (obviation surfaces under person/argument marking) | literature / local | — (bead conlang-ax3) |
 | `COREF` ‡ | coreference device | pronoun; miniature/"hashing" (UNLWS); lane | project / local | spatial layer (bead conlang-v9m) |
 
 ### F. Written-only and meta channels
@@ -163,11 +171,21 @@ facility.
 | dim | name | values | src / rel | here |
 |---|---|---|---|---|
 | `CHK` ‡ | integrity check | computed check bit; mod-101 checksum | project / local | GZ written layer (SPEC §4.1); modes §8 |
-| `PAYLD` ‡ | payload vs lexical role | LEX, PAY | project / local | modes anti-check marking (SPEC §4.2) |
+| `PAYLD` ‡ | payload vs lexical role | LEX PAY | project / local | modes anti-check marking (SPEC §4.2) |
 | `MODE` ‡ | closed-domain frame | NUM DATE TIME SPELL PHON COORD | project / local | `docs/spec/modes.md`; RZ number mode |
-| `USEM` ‡ | use vs mention (form-quote vs meaning-quote) | FORM, MEAN | UNLWS / local — **distinct from Leipzig's `QUOT`**, which glosses a reported-speech quotative | — (unlws-trailhead: to evaluate) |
+| `USEM` ‡ | use vs mention (form-quote vs meaning-quote) | FORM MEAN | UNLWS / local — **distinct from Leipzig's `QUOT`**, which glosses a reported-speech quotative | — (unlws-trailhead: to evaluate) |
 | `SCOPE` ‡ | drawn scope for quantifiers and irrealis | cartouche | UNLWS / local | spatial layer (to evaluate) |
 | `CLASS` ‡ | semantic classifier zone | open | project / local (Chinese radicals as precedent) | reserved script channel (SPEC §9) |
+
+**Verification key.** `[V 2026-08-30]` = read directly off the cited
+primary source on that date. `[S16]` = the value inventory lives in
+Sylak-Glassman (2016); the current UniMorph site publishes the
+**23 dimensions and "over 212 features"** totals but defers
+per-dimension values to that paper, which reports a larger feature
+count — so any `[S16]` row must be pinned to a release before its
+numbers are quoted anywhere (bead conlang-ma1). No `[S16]` count is
+reproduced above for exactly this reason, except `NUM`, which is
+flagged as unpinned.
 
 ## 5. How to use it here
 
