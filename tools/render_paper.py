@@ -179,8 +179,11 @@ def render(md, bib):
             flush()
             lvl = len(m.group(1))
             txt = inline(m.group(2), cite)
-            anchor = re.sub(r"[^a-z0-9]+", "-",
-                            re.sub(r"<[^>]+>", "", m.group(2)).lower()).strip("-")
+            # prefix with a letter: an id starting with a digit is legal
+            # HTML but is not a valid CSS selector, which breaks
+            # querySelector and any :target styling.
+            anchor = "sec-" + re.sub(r"[^a-z0-9]+", "-",
+                                     re.sub(r"<[^>]+>", "", m.group(2)).lower()).strip("-")
             out.append(f'<h{lvl} id="{anchor}">{txt}</h{lvl}>')
             i += 1
             continue
