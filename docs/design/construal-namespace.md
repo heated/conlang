@@ -1,26 +1,25 @@
-# Construal namespace — a project registry of markable distinctions
+# Construal namespace — a shopping list of markable distinctions
 
-**Status:** instrument, v0 (2026-08-30). Adoption across the ledger
-and toolkit = bead conlang-ma1; the one pricing question it has
-produced = bead conlang-czq (PROPOSED, UNPRICED). Origin: the Ithkuil steal-pass
-(`alternatives/ithkuil-forks.md`) — Edward's framing: "Ithkuil as
-taxonomy or namespace might be useful as a reference, sort of like
-IPA."
+**Status: PARKED, 2026-08-30. Good enough; not to be polished further.**
+(Edward, 2026-08-30: "I don't want to put too much effort toward
+establishing any kind of reference to Ithkuil ... being meticulous
+about our documentation of it.")
 
-> **Provenance rule.** Every `CN:` identifier is **project-owned**.
-> Nothing here is an official Leipzig, UniMorph, or Ithkuil
-> identifier; a row's `src` column records where a *concept* was
-> imported from and how our dimension relates to that source — never
-> that the source endorses our code. Every inventory carries a
-> verification marker (key at the end of §4): **[V 2026-08-30]** was
-> read off the primary source on that date, **[S16]** lives in a
-> paper the current site defers to and is *not* pinned, and
-> TODO-verify means nobody has checked it. Ithkuil's codes drift
-> between published versions (`VER`/`VRF`, `PCT`/`PUN`) and its
-> inventories change size in both directions across the revision, so
-> an unversioned import is unsafe by default — three successive
-> drafts of this file gave three different counts for Bias before
-> anyone opened the table.
+This exists for **one** purpose: to answer "what distinctions could a
+language mark that ours don't?" so the mining work has a checklist.
+It is not a standard, not a maintained reference, and not a
+deliverable. Rows marked TODO-verify stay that way — do not spend
+cycles closing them unless a specific mining proposal depends on
+the number.
+
+Where the mining actually happens: `alternatives/ithkuil-mining.md`.
+
+Provenance, briefly: every `CN:` identifier is project-owned; the
+`src` column says where a concept came from, never that the source
+endorses our code. `[V 2026-08-30]` = read off the primary source
+(for counts, parsed from the raw table — a summariser miscounted
+Bias twice). `[S16]` = lives in Sylak-Glassman 2016, unpinned.
+TODO-verify = unchecked, and staying that way.
 
 ## 1. What it is, and the limits of the IPA analogy
 
@@ -125,7 +124,7 @@ facility.
 | `SPEC` | specification — which facet of the root | BSC CTE CSV OBJ (**4**), carried in **slot IV's `Vr`** alongside Function and Context — the three of them share 32 vowel-forms (2×4×4) [V 2026-08-30] | Ithkuil / imported | — (**proposed**, GZ; bead conlang-czq) |
 | `FUNC` | function | STA DYN (2), slot IV's Vr [V 2026-08-30] | Ithkuil / imported | GZ's O/A/P/R alternation classes cover part of this (gf-grammar §2) |
 | `CTX` | context | 2011: 4 Contexts [V 2026-08-30]; New Ithkuil carries Context in slot IV | Ithkuil / imported | — |
-| `VRSN` | version — process vs goal-attainment | PRC CPT (2) [TODO-verify]. **Renamed from `CN:VER` on 2026-08-30**: Ithkuil's `VER` is the Verificative *illocution*, so reusing it here was ambiguous. Some published material also labels this dimension `VRF` | Ithkuil / imported | — (RZ and English lexicalise it: *look for* / *find*) |
+| `VRSN` | version — process vs goal-attainment | PROCESSUAL / COMPLETIVE (**2**) [V 2026-08-30]; the grammar's own glosses make it concrete — *hunt→hunt down, study→learn, strive for→accomplish, work→build*, i.e. Western languages lexicalise this rather than lacking it. **Renamed from `CN:VER` on 2026-08-30**: Ithkuil's `VER` is the Verificative *illocution*, so reusing it here was ambiguous. Some published material also labels this dimension `VRF` | Ithkuil / imported | — (RZ and English lexicalise it: *look for* / *find*) |
 | `DSGN` | designation | 2011 only: 2 values [V 2026-08-30]. **Dropped in New Ithkuil** — recorded because a category disappearing is itself data about the pruning question | Ithkuil (2011) / imported | — |
 | `DERIV` ‡ | derivational family | project-listed affixes | project / local | RZ §9 (`-cion -itate -mente -al -or …`); GZ none yet |
 
@@ -154,7 +153,7 @@ facility.
 | `EVID` | evidentiality / validation | UniMorph dimension [V 2026-08-30]; values [S16]. Ithkuil Validation: OBS REC PUP RPR USP IMA CVN ITU INF (**9**), Vk affix in slot IX, and **required only within assertive illocution** [V 2026-08-30] — a worked example of conditional rather than blanket obligation (cf. F1) | UniMorph + Ithkuil / overlap | — (candidate for GZ's careful/safety register) |
 | `EXPT` | expectation — stance toward outcome | COG RSP EXE (3) [TODO-verify — not enumerated in the chapters fetched] | Ithkuil / imported | — |
 | `BIAS` | affective / attitudinal stance | **61** entries, ACC…VEX, carried by Bias adjuncts [V 2026-08-30, counted from the table's own 61 rows]. (Drafts of this file said ~57, then 66; a summariser produced the 66 by counting `LOL` and `WTF` out of the gloss text. The count is 61) | Ithkuil / imported | — (declined for design; precedent only) |
-| `REG` | discourse register — parenthetical, exemplary, quoted thought | Ithkuil's set [TODO-verify] | Ithkuil / imported | — |
+| `REG` | discourse register | NRR narrative (**the default — marked by nothing**), DSV discursive/direct speech, PNT parenthetical, SPF specificative (names the preceding referent), EXM exemplificative ("for example…"), CGT cogitant (silent thought), END carrier-end (**7**) [V 2026-08-30] | Ithkuil / imported | — (**mining candidate — see ithkuil-mining.md §3**) |
 | `HON` | politeness / honorification | UniMorph dimension [V 2026-08-30]; values [S16] | UniMorph / exact | **RZ none** — `tu`/`vos` is a number distinction, not T/V. **GZ none, permanently** (gf-grammar §6 rules honorifics out) |
 | `INTQ` | interrogativity | UniMorph dimension [V 2026-08-30] | UniMorph / exact | RZ fronting, no inversion (§6); GZ clause-final `hus` |
 | `FIN` | finiteness | UniMorph dimension, **2 features — the schema's smallest** [V 2026-08-30] | UniMorph / exact | RZ infinitive vs finite; GZ none — no finite/nonfinite morphological opposition exists, since every verb takes the same POS-coda form regardless of clause position |
