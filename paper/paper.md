@@ -42,10 +42,16 @@ dominates the modeled check-channel configuration in this simulation
 (silent-substitution rate 22% → 3.9%) —
 together with an in-flight companion measurement of the *repair*
 frontier, which reversed direction under adversarial review and now
-reports a Pareto exchange rather than a dominance (§13). (4) An **instrument**: a zero-study cloze protocol
-with a stated objective function (readers above a usability
-threshold, not mean comprehension) that turns the source-weighting
-question into a measurement. The demonstration instance is RZ, a
+reports a Pareto exchange rather than a dominance (§13). (4) An **instrument and a design**: a zero-study cloze protocol with
+a stated objective function (readers above a usability threshold, not
+mean comprehension) that turns the source-weighting question into a
+measurement, embedded in a **per-delta treatment-control experiment**
+— the same text rendered with one delta applied at a time, against
+the unmodified baseline, with a precommitted per-cohort
+non-inferiority floor. We also precommit **negative controls**: this
+design predicts that expert reading speed and conversational bit rate
+should *not* improve, and finding otherwise would falsify the framing
+rather than vindicate the language. The demonstration instance is RZ, a
 declared Interlingua *profile* — shallow orthography, Ibero-weighted
 lexicon, a handful of grammatical deltas — in which each delta is a
 treatment the instrument can reject. If none pays, the surface deltas
@@ -131,9 +137,11 @@ Contributions, stated against the baseline:
 2. The **add-on toolkit** (§10; mechanisms in §7 and §9c): mode
    subsystems fenced
    by reserved boundary particles with a provably
-   transposition-catching checksum and written-layer anti-check
-   marking; a conversation-repair register; error-absorption
-   declarations; the closed-class guarantee; chorded (desktop) and
+   transposition-catching checksum (standard check-digit theory —
+   ISBN-10's position-weighted prime modulus, and the Verhoeff and
+   Damm schemes, cover exactly this class of error [TODO-verify]) and
+   written-layer anti-check marking; a conversation-repair register;
+   error-absorption declarations; the closed-class guarantee; chorded (desktop) and
    touch (phone) input derived mechanically from the phonology; an
    optional featural display script. Entries are **conditional
    patterns, not drop-in artifacts**: each is priced against RZ and
@@ -529,13 +537,33 @@ phonology.
 banks are the syllable's own coordinates: a left bank of about nine
 keys for onsets, with clusters formed compositionally (a liquid key
 chords onto any obstruent to give *pr*, *bl*; an s-key gives *st*,
-*sp*), a five-key thumb bank for the vowels, and — the gift of
-Romance phonotactics — a right bank of only four keys, because under
-onset-maximal syllabification the entire coda inventory collapses to
-`l n r s`. English stenography cannot do this; its codas are the hard
-part. The mapping from chord to text has **zero exceptions**, because
-the orthography is regular by construction, which is exactly the pain
-that dominates learning English steno.
+*sp*), a five-key thumb bank for the vowels, and a right bank
+dominated by four sonorant-plus-*s* codas, `l n r s`.
+
+That last bank is where an earlier version of this section overreached,
+and the correction is worth stating precisely because it is the kind of
+error a channel framing invites. The claim was that the coda inventory
+*collapses* to those four under onset-maximal syllabification. It does
+not. RZ's own normative lexicon contains obstruent codas wherever
+Latinate medial clusters survive — `oc.to`, `oc.tobre`, `sep.tembre`,
+`tec.nico`, `construc.cion`, `adjec.tivo` — and one of them,
+`poc` 'little, few', is in the ninety-six-form closed class itself.
+Those clusters live in exactly the international vocabulary the
+cognacy rule exists to protect, so they are not a corner case to be
+waved away. What is true, and is still a real asymmetry against
+English stenography, is that sonorants and *s* dominate coda *tokens*
+while obstruent codas are lexically restricted to that Latinate
+stratum. A complete layout therefore needs either two or three
+additional coda keys or a documented two-stroke escape for the
+Latinate cluster words — a cost this design has not yet paid, and one
+that must be priced before any chord layout is called finished.
+
+With that gap closed, the mapping from chord to text is exceptionless
+in the sense that matters: it is a function of the spelling, which is
+regular by construction, rather than of a memorised dictionary. That
+is the pain which dominates learning English steno, and it is genuinely
+absent here — but "no exceptions" is a claim about the *rule*, not a
+claim that the current four-key bank covers the language.
 
 **What that buys, and what it does not.** The measurable shape of the
 zonal language is ~1.83 syllables per word (function words are
@@ -611,12 +639,25 @@ reduction, and a grammar fact [D] rather than a measured learning
 effect. It accrues precisely to the cohorts the zone's cognate
 transfer does not serve.
 
-**Correlative grids for every closed paradigm.** Esperanto's 5×9
-correlative table is the one part of that language its speakers
-report as the easiest, and the mechanism generalises: wherever a
-paradigm is semantically a grid — demonstratives, quantifiers,
+**Correlative grids for every closed paradigm, given a spacing
+screen.** Esperanto's 5×9 correlative table is widely reported as the
+easiest part of that language to learn [TODO-verify: the claim is
+frequently repeated and, as far as we located, not measured], and the
+mechanism generalises: wherever a paradigm is semantically a grid — demonstratives, quantifiers,
 interrogatives, the number system — realise it as a grid in the
-forms. The engineered line does this throughout. The zonal line
+forms. But the recommendation carries a condition that this project's
+own coding-theory sections supply, and that the Esperanto case
+illustrates against itself: a semantic grid realised as a form grid
+*minimises* phonetic distance between semantically adjacent items,
+which is exactly what the humility policy (§13) exists to forbid.
+Esperanto's correlatives are also the standard example of that hazard
+— *kie*, *kiel*, *kiam* are near-minimal pairs whose meanings are
+neighbours. The digit codebook (§7) shows the resolution: keep the
+grid's compositional transparency, then space the cells *within* the
+grid by perceptual distance rather than by the semantics' own
+geometry. Grid without spacing screen is a learnability win bought
+with a robustness loss, and the pair should be adopted together. The
+engineered line does this throughout. The zonal line
 mostly cannot, and the reason is instructive: replacing natural
 question words with a regular grid fails the first-contact gate, so
 the mechanism is declined for the shipping language and kept as a
@@ -722,10 +763,14 @@ sources located, not a proof of absence.
   is the instrument we did not find.
 - *No measured comprehension number.* We located no published
   controlled comprehension percentage for Interlingua; the only zonal
-  auxlang this project's survey found one for is Interslavic (84%), in a
-different zone. The
-  protocol of §12 is designed to produce Interlingua's number
-  alongside RZ's, on the same texts.
+  auxlang this project's survey found one for is Interslavic, in a
+  different zone. That 84% deserves the same scrutiny we apply to
+  Interlingua's silence: it comes from self-selected online
+  respondents, not a sampled population, so it is a strong existence
+  proof for the mechanism and a weak estimate of any population's
+  comprehension. The protocol of §12 is designed to produce
+  Interlingua's number alongside RZ's, on the same texts, under a
+  sampling frame that neither of them currently has.
 - *No model of the learner's errors.* Interlingua's collateral forms
   function as an absorption move, but we located no evidence that this
   or any other part of its grammar was chosen from a model of which
@@ -946,7 +991,12 @@ sixty articles, pronouns, prepositions, conjunctions and auxiliaries,
 selected by the explicit criterion of appearing in the grammar's
 function-word sections — covering 49.2% of running tokens, with
 roughly a hundred and twenty-five content lemmas reaching 70% of
-content-token coverage. An adversarial review of the first version
+content-token coverage. One caveat travels with every corpus figure in
+this paper and is easy to forget once a number has a decimal point:
+the corpus was written by the language's own designers, in their own
+register, so these curves describe the authors' style at least as much
+as the language, and a corpus written by anyone else would move them
+by an unknown amount. An adversarial review of the first version
 found three defects worth recording as method: the corpus
 double-counted a cloze test that reproduces its source passages with
 content words blanked, inflating the function-word share; the
@@ -985,9 +1035,12 @@ teachable: the invariant closed class alone puts roughly half of
 running tokens within reach in a first lesson block priced at ~1h
 [H — coverage is corpus-measured, the hour axis is a model
 estimate], the exceptionless verb table brings the second block
-past sixty percent — a curve natural
-languages cannot offer because agreement and conjugation force
-grammar to interleave with vocabulary, and one that becomes a
+past sixty percent — a curve the zone's natural
+languages cannot offer, because agreement and conjugation force
+grammar to interleave with vocabulary (isolating languages can and do
+offer it — Mandarin's function words over zero inflection support the
+same coverage-greedy order, so the claim is about Romance, not about
+natural language), and one that becomes a
 design criterion in its own right (a scheme that flattens the
 first evening trades against the zonal strategy's strongest
 adoption asset).
@@ -1013,6 +1066,41 @@ all seven declarations were subsequently adopted as normative
 grammar — including the inventory-level merge of *para* into *por*,
 deleting the zone's most famous preposition trap outright
 (docs/design/zonal/rz-error-absorption.md; rz-grammar.md §10).
+
+A review of this section found the accounting one-sided, and the
+correction sharpens the idea rather than retiring it. The fifteen
+error classes are drawn from the literature on second-language
+learners **of** Spanish and French — largely Anglophone and
+article-less-L1 classroom populations. That is the right profile for
+learners coming to RZ from outside the zone. It is the wrong profile
+for the cohort the adopted objective function actually privileges:
+Romance-L1 readers, whose deviations when *writing* RZ are
+interference from their own morphology, and which nothing here scores.
+Two consequences follow.
+
+The first is an omission. RZ makes subject pronouns obligatory,
+because its verbs are person-invariant; every major zone language
+except French is pro-drop. Dropping *io* or *el* is therefore the
+single most probable in-zone deviation, and it is
+information-destroying rather than merely non-preferred — so it cannot
+be absorbed, and belongs on the scorecard as *exposed*, which is where
+it now goes.
+
+The second is a purchase that was never recorded. Some declarations
+absorb an out-zone error by creating an in-zone one. Deleting *para*
+removes a famous trap for learners and simultaneously makes a
+top-thirty Spanish and Portuguese word ungrammatical for native
+writers of those languages. Banning clitic clusters absorbs ordering
+errors by making the clusters themselves — *io te le dona*, direct
+Spanish and Italian transfer — illegal. And optional adjective
+agreement (D3) sits in real tension with the reason number agreement
+was bought at all: fully invariant adjectives were rejected as the
+loudest "broken Spanish" signal to naive readers, and the spoken-French
+precedent for tolerating inaudible variation does not transfer
+cleanly to a written-first language, where French itself maintains
+agreement rigidly. Each of these may still be worth it. None of them
+was priced, and the production arm of the kill-gate (§12) is where
+they become measurable.
 
 Where the zonal language merely *happened* to fit the per-hand
 chord space, the greenfield-zonal target can be co-designed with
@@ -1143,6 +1231,25 @@ cohort-flat. Transfers to: any host with a vacant phonological
 region — which is the condition to check first, and which Interlingua
 does not obviously satisfy.*
 
+**Vacancy: find the dead region of the host and colonise it.** The
+mode subsystem above works in RZ for one reason worth stating as its
+own pattern, because it is the entry most likely to transfer and the
+one a designer is most likely to miss. RZ's orthography declares `h`
+silent, so an entire onset region of the phonology is *dead in words
+and available for frames*: mode particles can live there without
+colliding with a single inherited lexeme, and their pronounced [h] is
+unambiguous precisely because nothing else is ever pronounced there.
+Generalised: **before adding machine-checkable subsystems to a
+language, look for a region its orthographic or phonological
+conventions have vacated, and put the machinery there.** The questions
+that make this a pattern rather than an anecdote are what counts as
+vacant (orthographic, phonological, or both), whether a given host has
+such a region at all — Interlingua's `h` is not uniformly silent, so
+it may not — and what the equivalent would be for a host like English.
+We have answered none of these; we have only used the trick once, and
+noticed afterwards that it was a trick. *Price: zero where a vacancy
+exists. Transfers to: unknown, and that is the interesting part.*
+
 **A conversation-repair register.** Aviation and maritime radio
 solved the noisy-channel protocol problem decades ago; the result
 reduces to a handful of particles — say-again, correction, confirm,
@@ -1157,7 +1264,13 @@ the particle forms must not collide with the host's lexicon.*
 **Confusion-aware assignment (the "humility" policy).** When
 minting vocabulary, refuse to place unrelated words at a distance of
 one high-confusion substitution — do not rely on a check channel to
-catch them afterwards. This is the paper's clearest simulation
+catch them afterwards. The idea of spacing codewords by acoustic
+distance is not new and should not be presented as new: the ICAO
+spelling alphabet was developed with intelligibility testing, and the
+PGP word list was explicitly built to maximise phonetic distance
+between codewords [TODO-verify both]. What is added here is applying
+it to an *open lexicon* under a graded cost model, and — the part that
+is actually a result — measuring the capacity price. This is the paper's clearest simulation
 result: licensing such pairs among frequent words produces a 22%
 silent-substitution rate for listeners who cannot hear the check
 contrast, and refusing them cuts it to 3.9% whether or not the check
@@ -1254,7 +1367,22 @@ validation of grammar-on-a-channel — tone marking syntactic role deletes
 Lojban's terminator clutter — and simultaneously the argument against
 spending the worst-perceived channel on syntax; this design relocates the
 insight to the glyph layer, the particle class, and (optionally) the
-register bit. Hangul is the standard citation for fast featural-script
+register bit.
+
+Two further literatures underwrite mechanisms this paper otherwise
+asserts. Consonant confusion has been measured since Miller and
+Nicely's matrices, with L1-specific replications since — that is the
+empirical anchor the assumed confusion weights of §3 and §13 currently
+lack, and calibrating against it is the single most valuable thing
+this project could still buy [TODO-verify]. And the segmentation
+strategy of §5 is not novel but deliberate: fixed word-initial stress
+as a demarcative cue is the metrical segmentation strategy of Cutler
+and Norris, with fixed-edge-stress languages such as Finnish,
+Hungarian and Czech as the natural cases [TODO-verify]. Naming it
+upgrades that section's claim from "simulation target" to "mechanism
+with human evidence behind it."
+
+Hangul is the standard citation for fast featural-script
 decoding acquisition ("learnable in days" [H, TODO-verify]);
 Chinese radicals demonstrate semantic-plus-phonetic glyph composition at scale
 and, at 30% phonetic reliability, price the cost of letting the mapping

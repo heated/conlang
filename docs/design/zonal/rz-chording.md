@@ -9,10 +9,19 @@ Romance lexicon actually wreck chorded input?
 
 - ~1.83 syllables/word overall (function words are monosyllables;
   content words ≈ 2.7).
-- Under onset-maximal syllabification, codas — word-final AND
-  word-medial — collapse to a tiny set: **l n r s** (plus rare
-  geminate-ish medials the orthography splits). The complexity lives
-  in onsets: ~20 simple consonants + obstruent–liquid clusters
+- Under onset-maximal syllabification, codas are **dominated** by
+  **l n r s** — but they do NOT collapse to that set, and the earlier
+  wording here ("collapse to a tiny set") was wrong on RZ's own
+  lexicon (Fable review, 2026-08-30). Obstruent codas survive wherever
+  Latinate medial clusters do: `oc.to`, `oc.tobre`, `sep.tembre`,
+  `tec.nico`, `construc.cion`, `adjec.tivo` — and `poc` is a
+  word-final /k/ **inside the closed class**. That stratum is exactly
+  the international vocabulary the cognacy rule protects, so the right
+  bank needs two or three more keys or a documented two-stroke escape,
+  and the layout is not finished until that is priced. What survives
+  is the token-frequency asymmetry: sonorants and s carry the
+  overwhelming majority of coda tokens, which English steno cannot
+  say. The complexity lives in onsets: ~20 simple consonants + obstruent–liquid clusters
   (pr br tr dr cr gr fr, pl bl cl gl fl) + s-clusters (sp st sc…).
 - Distinct syllables: 70 in one paragraph alone; a full lexicon
   extrapolates to the low thousands (vs the greenfield's closed 220).
@@ -27,9 +36,11 @@ One stroke = one syllable, emitted as orthographic text:
   one chord; nothing is arbitrary.
 - **Thumb bank (nucleus), 5 keys**: a e i o u; two-key chords give
   diphthongs, with element order from thumb position (left = first).
-- **Right bank (coda), 4 keys**: l n r s — the entire coda system.
-  This is the gift of Romance phonotactics: the right hand is almost
-  free, exactly like steno English is not.
+- **Right bank (coda), 4 keys + escape**: l n r s cover the coda
+  tokens; the Latinate obstruent codas (see §1) need either extra keys
+  or a two-stroke rule, UNPRICED and open. The right hand is much
+  freer than English steno's, which is the real gift of Romance
+  phonotactics — but it is not free.
 - **Emission**: chords → syllable text; a dictionary-assisted joiner
   places word boundaries (explicit boundary thumb-chord as fallback).
 
