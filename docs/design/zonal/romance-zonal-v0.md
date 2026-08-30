@@ -9,7 +9,7 @@ Companion docs: `../alternatives/zonal-auxlang-survey.md` (evidence),
 ## 0. The bet, restated
 
 A zonal auxlang wins by being **readable at first contact** by the
-~900M Romance-language speakers, the way Interslavic measured 84% mean
+~800–900M Romance-language speakers (figure unverified — ym3.1), the way Interslavic measured 84% mean
 cloze comprehension with zero study. The product is *receptive
 intelligibility* plus a *regularized productive layer* you can learn in
 tens of hours, not hundreds [H — and an A2–B1 bar; the C1 bar runs

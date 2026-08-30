@@ -75,6 +75,10 @@ A GZ mechanism ports into RZ iff:
 3. it costs the first-contact reader nothing — either invisible
    (input/display layers), optional (registers, modes), or an
    absorption move that makes learner output *more* grammatical.
+   This is the ADD-ON gate. A mechanism that changes inherited word
+   forms does not fail here; it leaves this gate and enters the
+   SURFACE gate (objective-function section above), where it is a
+   measured bet, not a port.
 
 Already through the gate (the pattern to follow): number/digit mode
 (bought — rz-number-mode), error-absorption declarations D1–D7
@@ -91,22 +95,30 @@ calibration bead (pym), so gate verdicts are *provisional prices*,
 not settled facts. Per the gate-calibration convention, pure-upside
 moves (no preferred-form change, reversible, no first-hour tax) are
 agent-callable immediately; anything else is adopt-pending-evidence
-or an Edward call. The bootstrap invariant is operationalized as
-non-inferiority: a paid feature that touches RZ's surface must not
-reduce zero-study cloze on the instrument when it runs. Human
-testing is deferred by standing directive (2026-08-15); the
-evidence gates (cloze pilot, x6t) are therefore ARMED, not
-scheduled — until they run, every outcome claim stays
-hypothesis-labeled, in the paper and in anything published.
+or an Edward call. The bootstrap invariant is operationalized through
+the surface gate: a feature that touches RZ's surface is kept only if
+it raises the share of zone readers above the usability threshold,
+subject to a per-language non-inferiority floor fixed in advance.
+**Human-testing directive, revised (Edward 2026-08-30):** the
+2026-08-15 deferral is lifted for CHEAP paid studies — Prolific
+micro-studies with a hard ceiling of **$30 per study**; if a question
+cannot be answered for that, do not run it. **LLM-as-reader proxies
+are ruled out** (Edward 2026-08-30) — no model-scored cloze stands in
+for a human number, not even for ordering. Until a study actually
+runs, every outcome claim stays hypothesis-labeled, in the paper and
+in anything published.
 
 ## Lanes
 
 **A. RZ excellence** (product lane — the default lane). Grammar,
 lexicon, curriculum, error absorption, repair, modes, texts; every
 change ledger-priced; the paper records each result. Kill-gate
-stays armed: x6t (RZ vs Interlingua vs control, precommitted
-criteria) is the honesty check that RZ is actually better, not just
-ours.
+stays armed and is now a PROFILE-VS-BASELINE design: x6t renders the
+same texts with each surface delta isolated (orthography-only,
+lexicon-only, grammar-only) against plain Interlingua and a control,
+so each delta is a treatment with a control rather than a whole-
+language beauty contest. It is the honesty check that RZ's departures
+from the baseline are actually better, not just ours.
 
 **B. GZ mine** (lab lane). Develop GZ features to measurable
 clarity; port what pays. GZ is not itself a shipping product; it is

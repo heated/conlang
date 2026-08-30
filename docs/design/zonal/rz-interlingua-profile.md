@@ -37,9 +37,11 @@ Interlingua as the baseline.
 ## What "profile" means, concretely
 
 1. **Base = Interlingua (IALA 1951).** Where RZ has not stated a
-   difference, the Interlingua form and rule are RZ's. The grammar in
-   `rz-grammar.md` is read as a *diff* against Gode & Blair, not a
-   standalone spec; a future revision restates it that way.
+   difference, the Interlingua form and rule are RZ's — once the
+   grammar in `rz-grammar.md` has been restated as a *diff* against
+   Gode & Blair (bead conlang-5i1.4). Until that restatement exists,
+   the standalone grammar is the spec and "unstated = Interlingua"
+   is an intent, not a rule anyone can apply.
 2. **The deltas are enumerated in three classes.** They are NOT all
    priced: the ledger currently has rows for the add-ons only, and the
    surface deltas are **UNPRICED [H]**. Pricing them is open work; no
@@ -96,10 +98,14 @@ Interlingua as the baseline.
 - **The kill-gate (x6t) becomes profile-vs-baseline**, which is a
   cleaner experiment than RZ-vs-incumbent: the same texts in
   Interlingua orthography/lexicon and in RZ's, so every surface
-  delta is a treatment with a control. Precommitment unchanged: if
-  the profile does not beat the baseline on zero-study cloze, the
-  surface deltas revert and the method, the instrument and the
-  simulation results stand; realizing the patterns on plain
+  delta is a treatment with a control. The rule is PER DELTA (paper
+  §11 is canonical): a surface delta is kept only if it materially
+  raises the share of zone readers above the usability threshold,
+  subject to a per-language non-inferiority floor fixed in advance;
+  deltas that fail revert individually, so a losing bundle does not
+  delete a winning delta. If none passes, RZ collapses to Interlingua
+  plus the add-on patterns; the method, the instrument and the
+  simulation results stand either way; realizing the patterns on plain
   Interlingua is then work to be done and repriced, not a fallback
   that ships itself.
 - **The objective-function question (ym3.2) narrows.** Interlingua's

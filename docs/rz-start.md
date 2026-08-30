@@ -34,7 +34,9 @@ is exactly the unmeasured claim the project is built to test.
 
 The language is **RZ** (working name: "Romance zonal"), a constructed
 auxiliary language designed *receptive-first*: before anyone studies
-it, its target zone — roughly 800 million Romance-language readers —
+it, its target zone — on the order of 800–900 million
+Romance-language speakers, a figure this project has not yet verified
+against primary sources —
 should already be able to read it. Honesty about that claim: the
 mechanism is precedented (Interslavic, the same design move for the
 Slavic zone, measured **84%** zero-study comprehension in a
@@ -44,13 +46,15 @@ until the comprehension studies run.
 
 RZ is not the first language built on this idea, and it does not
 pretend to be: it is a declared **profile of Interlingua** (IALA,
-1951) — Interlingua's grammar and word stock, with a shallower
-spelling, an Ibero-leaning choice of words, a few grammatical
-simplifications, and a set of engineered add-ons (number modes, a
+1951) — Interlingua's grammar and word stock (the formal diff that
+makes this inheritance mechanical is still being written), with a
+shallower spelling, an Ibero-leaning choice of words, a few
+grammatical changes, and a set of engineered add-ons (number modes, a
 repair register, error-absorbing grammar, chorded input) built as
-patterns that a language like Interlingua could also adopt. If you already read Interlingua, you already
-read most of this. The differences are bets, and each one is
-measured against Interlingua on the same texts
+patterns that a language like Interlingua could also adopt. If you
+already read Interlingua, you already read most of this. The
+differences are bets, and each one is to be tested against
+Interlingua on the same texts
 (`design/zonal/rz-interlingua-profile.md`).
 
 ## Why it reads at sight

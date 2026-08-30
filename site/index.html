@@ -1,0 +1,589 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read Before You Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --paper:#F5F6F4;
+  --panel:#FFFFFF;
+  --ink:#1A1D22;
+  --ink-soft:#5A6068;
+  --ink-faint:#878D94;
+  --rule:#D9DCD8;
+  --rule-soft:#E9EBE7;
+  --accent:#2244AA;
+  --accent-soft:#E5EAF8;
+  --accent-line:#B9C6EC;
+  --ochre:#8A5F28;
+  --ochre-soft:#F4EDE0;
+  --good:#2C6A4E;
+  --near:#8A5F28;
+  --miss:#A33A32;
+  --btn-fg:#FFFFFF;
+  --shadow:0 1px 2px rgba(26,29,34,.06), 0 8px 24px rgba(26,29,34,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15171B;
+    --panel:#1C1F25;
+    --ink:#E9EAE6;
+    --ink-soft:#A2A9B2;
+    --ink-faint:#767D86;
+    --rule:#2C3138;
+    --rule-soft:#23272D;
+    --accent:#8AA6F2;
+    --accent-soft:#1E2740;
+    --accent-line:#39466B;
+    --ochre:#C79A55;
+    --ochre-soft:#2A2318;
+    --good:#6FBF95;
+    --near:#C79A55;
+    --miss:#E0796F;
+    --btn-fg:#12151C;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15171B;
+  --panel:#1C1F25;
+  --ink:#E9EAE6;
+  --ink-soft:#A2A9B2;
+  --ink-faint:#767D86;
+  --rule:#2C3138;
+  --rule-soft:#23272D;
+  --accent:#8AA6F2;
+  --accent-soft:#1E2740;
+  --accent-line:#39466B;
+  --ochre:#C79A55;
+  --ochre-soft:#2A2318;
+  --good:#6FBF95;
+  --near:#C79A55;
+  --miss:#E0796F;
+  --btn-fg:#12151C;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.col{max-width:660px;margin-left:auto;margin-right:auto}
+
+h1,h2,h3{text-wrap:balance;margin:0}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);
+}
+h2{
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:15px;font-weight:600;letter-spacing:.02em;
+  color:var(--ink);
+}
+h3{font-size:16px;font-weight:600}
+
+/* ---------- hero ---------- */
+header.hero{
+  border-bottom:1px solid var(--rule);
+  padding:72px 0 56px;
+}
+.hero .col{display:flex;flex-direction:column;gap:28px}
+.fable{
+  font-family:Spectral,Georgia,"Times New Roman",serif;
+  font-weight:300;
+  font-size:clamp(21px,2.6vw,26px);
+  line-height:1.62;
+  letter-spacing:-.003em;
+  margin:0;
+}
+.fable::first-letter{
+  font-size:3.1em;float:left;line-height:.86;
+  padding:.06em .09em 0 0;font-weight:400;color:var(--accent);
+}
+.hero-claim{
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:17px;line-height:1.55;color:var(--ink-soft);
+  border-left:2px solid var(--accent);padding-left:16px;
+}
+.hero-claim strong{color:var(--ink);font-weight:600}
+
+/* ---------- generic sections ---------- */
+section{padding:56px 0;border-bottom:1px solid var(--rule-soft)}
+section .col>*+*{margin-top:18px}
+p{margin:0}
+.body{font-size:16.5px;line-height:1.68;color:var(--ink-soft)}
+.body strong{color:var(--ink);font-weight:600}
+a{color:var(--accent)}
+.sechead{display:flex;flex-direction:column;gap:6px;margin-bottom:22px}
+
+/* ---------- the test ---------- */
+.test{background:var(--panel);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.passage{
+  font-family:Spectral,Georgia,serif;
+  font-size:19px;line-height:2.05;font-weight:400;
+  color:var(--ink);
+}
+.passage.dialogue{white-space:pre-line;line-height:2.2}
+.blank{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:14.5px;
+  width:8.5em;
+  padding:1px 6px 2px;
+  margin:0 1px;
+  color:var(--ink);
+  background:transparent;
+  border:none;
+  border-bottom:1.5px solid var(--accent-line);
+  outline-offset:3px;
+  transition:border-color .15s, background .15s;
+}
+.blank::placeholder{color:var(--ink-faint);opacity:.65}
+.blank:focus{border-bottom-color:var(--accent);background:var(--accent-soft)}
+.blank:focus-visible{outline:2px solid var(--accent)}
+.blank.ok{border-bottom-color:var(--good);color:var(--good)}
+.blank.no{border-bottom-color:var(--miss);color:var(--miss)}
+.blank.revealed{border-bottom-style:dotted;color:var(--ink-faint)}
+
+.passage-card{
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:26px 28px 24px;
+  background:var(--paper);
+  display:flex;flex-direction:column;gap:16px;
+}
+.passage-meta{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+}
+.gist{
+  display:flex;gap:10px;align-items:flex-start;
+  font-size:14.5px;color:var(--ink-soft);
+  border-top:1px dashed var(--rule);padding-top:14px;
+}
+.gist input{margin-top:5px;accent-color:var(--accent);flex:none}
+.stack{display:flex;flex-direction:column;gap:22px}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{
+  font-family:"IBM Plex Sans",sans-serif;font-size:14px;font-weight:500;
+  padding:9px 16px;border-radius:2px;cursor:pointer;
+  border:1px solid var(--accent);background:var(--accent);color:var(--btn-fg);
+  transition:opacity .15s;
+}
+button:hover{opacity:.86}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+button.ghost{background:transparent;color:var(--accent);border-color:var(--rule)}
+
+/* ---------- score ---------- */
+.score{
+  border:1px solid var(--accent-line);background:var(--accent-soft);
+  border-radius:2px;padding:26px 28px;
+  display:flex;flex-direction:column;gap:18px;
+}
+.score[hidden]{display:none}
+.score-top{display:flex;flex-wrap:wrap;gap:28px;align-items:baseline}
+.bignum{
+  font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  font-size:52px;font-weight:500;line-height:1;color:var(--accent);
+  letter-spacing:-.02em;
+}
+.score-label{font-size:14px;color:var(--ink-soft);max-width:30ch}
+table{width:100%;border-collapse:collapse;font-size:14px}
+.tablewrap{overflow-x:auto}
+th,td{text-align:left;padding:7px 12px 7px 0;border-bottom:1px solid var(--rule)}
+th{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);font-weight:500;
+}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;padding-right:0}
+
+/* ---------- gloss ---------- */
+.glossed{
+  font-family:Spectral,Georgia,serif;font-size:18px;line-height:1.95;
+}
+.glossed.pre{white-space:pre-line}
+.g{
+  border-bottom:1px dotted var(--ochre);cursor:help;
+  position:relative;
+}
+.g:hover,.g:focus{background:var(--ochre-soft);outline:none}
+.g::after{
+  content:attr(data-gloss);
+  position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);
+  font-family:"IBM Plex Sans",sans-serif;font-size:12.5px;line-height:1.35;
+  padding:5px 9px;border-radius:2px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .12s;z-index:5;
+}
+.g:hover::after,.g:focus::after{opacity:1}
+
+/* ---------- deltas ---------- */
+.delta-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--rule);border-radius:2px;overflow:hidden;
+}
+.delta-row>div{padding:16px 18px}
+.delta-row>div:first-child{border-right:1px solid var(--rule);background:var(--panel)}
+.delta-h{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;
+}
+.delta-t{font-family:Spectral,Georgia,serif;font-size:16.5px;line-height:1.7}
+mark{background:var(--accent-soft);color:var(--accent);padding:0 2px;border-radius:2px}
+:root[data-theme="dark"] mark,:root:not([data-theme="light"]) mark{background:var(--accent-soft);color:var(--accent)}
+@media (max-width:620px){.delta-row{grid-template-columns:1fr}.delta-row>div:first-child{border-right:none;border-bottom:1px solid var(--rule)}}
+
+.hedge{
+  font-size:14px;line-height:1.6;color:var(--ink-soft);
+  border-left:2px solid var(--ochre);padding-left:14px;
+}
+.hedge b{color:var(--ochre);font-weight:600}
+.tag{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+  padding:2px 6px;border:1px solid var(--rule);border-radius:2px;color:var(--ink-faint);
+  white-space:nowrap;
+}
+footer{padding:48px 0 72px;font-size:14px;color:var(--ink-faint)}
+footer .col{display:flex;flex-direction:column;gap:10px}
+ul{margin:0;padding-left:20px}
+li+li{margin-top:7px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="hero">
+  <div class="wrap col">
+    <p class="eyebrow">A constructed language you have not studied</p>
+    <p class="fable">Le vento del norte e le sol disputava sobre qui era le plus forte, quando un viajator passava, coprite de un manto calde. Les dos accordava que le prime a facer le viajator remover su manto seria considerate le plus forte. Le vento comenzava a soplar con tote su forza, ma quanto plus el soplava, tanto plus le viajator se copriva. Alora le sol comenzava a brilar caldemente, e immediatamente le viajator removeva su manto.</p>
+    <p class="hero-claim">If your reading languages include <strong>Spanish, Portuguese, Italian, French, Catalan or Romanian</strong> — or if English's Latinate stratum carried you — you just read a language designed so that you would not have to learn it first. This page asks you to <strong>measure how much of it you actually got</strong>, and then tells you honestly what that number is and is not worth.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">What you just read</p><h2>RZ, a profile of Interlingua</h2></div>
+    <p class="body">This is <strong>RZ</strong>, a Romance zonal auxiliary language. It is not the first language built on this idea and does not pretend to be: RZ is a declared <strong>profile of Interlingua</strong> (IALA, 1951) — Interlingua's grammar and word stock, with a shallower spelling, an Ibero-leaning choice of words, a few grammatical changes, and a set of engineered add-ons. If you already read Interlingua, you already read most of this.</p>
+    <p class="body">What is new is not the language. It is the <strong>method</strong>: every design difference is a bet to be tested against Interlingua on the same texts, priced in learner-hours, and reverted if it does not pay. Interlingua has claimed at-sight readability for seventy years without, as far as this project could find, a published number; no Romance-zone auxiliary language has one. Only Interslavic, in the Slavic zone, does. The point of this page is to start producing that number.</p>
+  </div>
+</section>
+
+<section class="test">
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">The instrument · 35 blanks · 4 passages</p><h2>Fill in what you understood</h2></div>
+    <p class="body">Type into each blank <strong>in your own language, or in English</strong>. This measures comprehension, not production — writing <em>viento</em>, <em>wind</em> or <em>vento</em> all count. Guess freely; leave blanks you truly cannot infer. Nothing is sent anywhere: scoring happens in your browser.</p>
+
+    <div class="stack" style="margin-top:26px" id="passages"></div>
+
+    <div class="controls" style="margin-top:26px">
+      <button id="scoreBtn">Score my reading</button>
+      <button class="ghost" id="revealBtn">Reveal answers</button>
+      <button class="ghost" id="resetBtn">Clear</button>
+    </div>
+
+    <div class="score" id="score" hidden style="margin-top:26px">
+      <div class="score-top">
+        <div><div class="bignum" id="pct">—</div><div class="eyebrow" style="margin-top:6px">specifics score</div></div>
+        <div><div class="bignum" id="gistPct" style="color:var(--ochre)">—</div><div class="eyebrow" style="margin-top:6px">gist score</div></div>
+        <p class="score-label" id="verdict"></p>
+      </div>
+      <div class="tablewrap">
+        <table><thead><tr><th>Passage</th><th>Register</th><th style="text-align:right">Correct</th></tr></thead><tbody id="breakdown"></tbody></table>
+      </div>
+      <p class="hedge"><b>What this number is not.</b> It is one reader, self-administered, auto-scored by string matching against a list of accepted answers — the real instrument uses human semantic scoring, blind subjects with no prior exposure, and n ≥ 30 per source language. Your score is a demonstration of the mechanism, not evidence about it. RZ has <b>no measured comprehension number</b>, and neither, as far as this project's survey found, does Interlingua.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">Two published numbers, always</p><h2>Why specifics and gist are scored separately</h2></div>
+    <p class="body">Readers routinely report that they "kind of knew what was going on" while failing most of the blanks — a distinct state from reading, and one a single blended percentage hides. A reader inside the zone should score high on both. A reader reached only through English's Latinate vocabulary should show <strong>high gist, low specifics</strong>. If in-zone readers ever pattern gist-only, the lexicon is failing the zone it was built for, and that is a design bug the instrument is there to catch.</p>
+    <p class="body">The benchmark is Interslavic, the one zonal language in any family with a published figure: <strong>84% mean cloze comprehension</strong> from readers with zero study. That is the precedent for the mechanism. It is not RZ's number, and quoting it as though it were would be exactly the move this project exists to stop making.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">Read more · hover or tap the dotted words</p><h2>Three registers</h2></div>
+
+    <div class="stack">
+      <div class="passage-card">
+        <div class="passage-meta"><span>Narrative</span><span>Le tren de les sete</span></div>
+        <div class="glossed pre">Cata <span class="g" data-gloss="morning">matina</span>, Maria <span class="g" data-gloss="took (past)">prendeva</span> le tren de les sete a le <span class="g" data-gloss="city">citate</span>. Ma <span class="g" data-gloss="today">hodie</span>, quando ela <span class="g" data-gloss="arrived">arivava</span> al stacion, le tren no <span class="g" data-gloss="was not there">stava ala</span>.
+«Por que le tren no <span class="g" data-gloss="was not coming">veniva</span>?» ela <span class="g" data-gloss="asked">demandava</span> al <span class="g" data-gloss="employee, member of staff">empleate</span>.
+«Un problema tecnico», el <span class="g" data-gloss="answered">respondeva</span> sin la <span class="g" data-gloss="to look at her — clitic before the infinitive">mirar</span>. «Le <span class="g" data-gloss="next">proxime</span> va partir a les octo e quinze.»
+Maria no voleva <span class="g" data-gloss="to wait">atender</span> un hora. Ela telefonava a su oficina: «Io va arivar <span class="g" data-gloss="late">tarde</span>. No, no es grave — io pote <span class="g" data-gloss="to work">laborar</span> durante le <span class="g" data-gloss="journey">viaje</span>.»</div>
+      </div>
+
+      <div class="passage-card">
+        <div class="passage-meta"><span>Instructional</span><span>Sopa de tomate</span></div>
+        <div class="glossed"><span class="g" data-gloss="chop (imperative)">Corta</span> dos <span class="g" data-gloss="onions">cebolas</span> e tres <span class="g" data-gloss="cloves">dentes</span> de <span class="g" data-gloss="garlic">alio</span>. <span class="g" data-gloss="heat">Calenta</span> un <span class="g" data-gloss="a little">poc</span> de <span class="g" data-gloss="oil">oleo</span> en un <span class="g" data-gloss="pot">pote</span> grande. <span class="g" data-gloss="add">Ajunta</span> les cebolas e <span class="g" data-gloss="cook">coce</span> cinco minutos. Ajunta le alio, ses tomates <span class="g" data-gloss="chopped — participle agreeing in number only">cortates</span>, sal e <span class="g" data-gloss="pepper">pepe</span>. Coce vinte minutos a <span class="g" data-gloss="low heat">foco basse</span>. Al fin, <span class="g" data-gloss="mix">mescla</span> tote ben e serve calde, con pan.</div>
+      </div>
+
+      <div class="passage-card">
+        <div class="passage-meta"><span>Fable</span><span>Le pastor e le lupo</span></div>
+        <div class="glossed">Un jove <span class="g" data-gloss="shepherd">pastor</span> <span class="g" data-gloss="guarded, watched over">guardava</span> su <span class="g" data-gloss="sheep (plural)">oves</span> proxime del <span class="g" data-gloss="village">vilage</span>. Por se <span class="g" data-gloss="to amuse himself">divertir</span>, el <span class="g" data-gloss="shouted">critava</span>: «Lupo! Lupo!» Les <span class="g" data-gloss="villagers">vilageses</span> veniva a le <span class="g" data-gloss="to help him">ajutar</span>, ma no <span class="g" data-gloss="did not find">encontrava</span> <span class="g" data-gloss="no (negative concord)">necun</span> lupo. Le pastor <span class="g" data-gloss="laughed">rideva</span>. El <span class="g" data-gloss="repeated">repeteva</span> le <span class="g" data-gloss="joke">joco</span> tres <span class="g" data-gloss="times">veses</span>. Alora un lupo veniva realmente. Le pastor critava con tote su forza, ma <span class="g" data-gloss="nobody">nadie</span> veniva plus. Le lupo <span class="g" data-gloss="ate">comeva</span> multe oves.<br><em>Qui <span class="g" data-gloss="lies">menti</span> sempre, no es <span class="g" data-gloss="believed">credite</span> quando dice le <span class="g" data-gloss="truth">veritate</span>.</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">Profile, not fork</p><h2>What RZ changes about Interlingua</h2></div>
+    <p class="body">Roughly 80–85% of RZ's grammar is Interlingua's, form for form: the articles, the <em>-e</em> adjectives, the <em>-te</em> participles, person-invariant verbs, the <em>-va</em> past, the whole derivational suffix family, the pronouns, the calendar. The differences are few, deliberate, and each one is a claim that can lose.</p>
+
+    <div class="delta-row" style="margin-top:8px">
+      <div>
+        <div class="delta-h">Interlingua (baseline)</div>
+        <div class="delta-t">Le vento del <mark>nord</mark> e le sol <mark>disputava super</mark> qui <mark>esseva</mark> le plus forte, quando un <mark>viagiator</mark> passava, <mark>coperite</mark> de un <mark>mantello calide</mark>.</div>
+      </div>
+      <div>
+        <div class="delta-h">RZ (profile)</div>
+        <div class="delta-t">Le vento del <mark>norte</mark> e le sol <mark>disputava sobre</mark> qui <mark>era</mark> le plus forte, quando un <mark>viajator</mark> passava, <mark>coprite</mark> de un <mark>manto calde</mark>.</div>
+      </div>
+    </div>
+    <p class="hedge" style="margin-top:14px"><b>Illustrative, not authoritative.</b> The Interlingua column is this project's own rendering, written to show where the deltas fall. A deterministic Interlingua→RZ converter is planned precisely so this comparison stops depending on anyone's hand.</p>
+
+    <p class="body" style="margin-top:26px"><strong>Surface deltas</strong> — shallower spelling (<em>-cion</em> for <em>-tion</em>, no Greek digraphs, no doubled consonants), Ibero-leaning word choices, adjective plural agreement, an analytic future, negative concord. Each is a bet that it improves comprehension for the zone; each reverts to the Interlingua form if a measurement says otherwise — and none has been measured yet.</p>
+    <p class="body"><strong>Add-ons</strong> — a dense number-and-date mode with a checksum, an aviation-style repair register for noisy conversation, a grammar that declares a learner's most likely mistakes correct rather than wrong, a closed inventory of under a hundred function words, chorded input, an optional display script. These leave ordinary text untouched. They are <em>patterns</em>, not drop-in parts: running them on Interlingua itself would take a fresh implementation and a fresh price.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap col">
+    <div class="sechead"><p class="eyebrow">Evidence status</p><h2>What is measured, and what is a hypothesis</h2></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Claim</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Interslavic reaches 84% mean zero-study cloze in its zone</td><td><span class="tag">published, other zone</span></td></tr>
+          <tr><td>60 function words carry 49.2% of RZ's 628-token corpus</td><td><span class="tag">corpus-measured</span></td></tr>
+          <tr><td>Refusing confusable minimal pairs cuts silent mishearings 22% → 3.9%</td><td><span class="tag">simulated</span></td></tr>
+          <tr><td>RZ is read at sight by the Romance zone</td><td><span class="tag" style="color:var(--miss);border-color:var(--miss)">unmeasured</span></td></tr>
+          <tr><td>Interlingua is read at sight by the Romance zone</td><td><span class="tag" style="color:var(--miss);border-color:var(--miss)">unmeasured</span></td></tr>
+          <tr><td>Comfortable receptive reading in ~5–10 hours</td><td><span class="tag" style="color:var(--near);border-color:var(--near)">modelled</span></td></tr>
+          <tr><td>C1 production in ~100–200 hours for a Romance L1</td><td><span class="tag" style="color:var(--near);border-color:var(--near)">modelled</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body" style="margin-top:20px">The project has <strong>zero external human subjects</strong>. Every learner-facing figure above that is not marked measured is a labelled hypothesis, and stays labelled until the pilot runs. The kill criterion is written down in advance: if RZ's departures from Interlingua do not beat Interlingua on the same texts, they revert, and the engineering ships on the baseline instead.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap col">
+    <p>RZ — a Romance zonal auxiliary language, developed as a profile of Interlingua (IALA, 1951). Specification, lexicon, curriculum, learning-budget ledger and the research paper are public.</p>
+    <p>Passages from the project reader pack. Cloze instrument v0. Auto-scoring here is lenient string matching and is not the study protocol.</p>
+  </div>
+</footer>
+
+<script>
+const PASSAGES = [
+  {
+    id:"A", label:"Narrative", title:"Le vento del norte e le sol",
+    gist:"I could summarise this passage in one sentence.",
+    parts:["Le vento del norte e le sol disputava sobre qui era le plus ",
+      {n:1,a:["forte","fuerte","strong","fort","puternic","forta"]},
+      ", quando un viajator passava, coprite de un ",
+      {n:2,a:["manto","cloak","coat","cape","capa","mantello","manteau","abrigo","manta","mantle","mantel"]},
+      " calde. Les dos accordava que le prime a facer le viajator ",
+      {n:3,a:["remover","remove","removing","take off","quitar","togliere","enlever","tirar","sacar","tirer","despir","scoate"]},
+      " su manto seria considerate le plus forte. Le vento del norte comenzava a ",
+      {n:4,a:["soplar","blow","blowing","soffiare","souffler","soprar","sopla","sufla","assoprar"]},
+      " con tote su forza, ma quanto plus el soplava, tanto plus le viajator se ",
+      {n:5,a:["copriva","covered","cubria","cubrio","cubrir","coprire","couvrir","cobrir","cobria","wrapped","copria","acopera"]},
+      " con su manto; e al ",
+      {n:6,a:["fin","end","final","fine","finally","fim","sfarsit","last"]},
+      ", le vento abandonava le tentativa. Alora le sol comenzava a ",
+      {n:7,a:["brilar","shine","shining","brillar","brillare","briller","brilhar","stralui","glow"]},
+      " caldemente, e immediatamente le viajator ",
+      {n:8,a:["removeva","removed","remove","quito","quitar","took off","tolse","enleva","tirou","tirar","scoase","sacó","saco"]},
+      " su manto. E asi le vento del norte deveva ",
+      {n:9,a:["reconocer","admit","recognise","recognize","reconocer","riconoscere","reconnaitre","reconhecer","acknowledge","admitir","ammettere","recunoaste"]},
+      " que le sol era le plus ",
+      {n:10,a:["forte","fuerte","strong","fort","puternic","forta"]},
+      " de les dos."]
+  },
+  {
+    id:"B", label:"Conversation", title:"Un cafe",
+    gist:"I could say what these two people arranged.",
+    pre:true,
+    parts:["— Bon ",
+      {n:11,a:["dia","day","dias","giorno","jour","zi","morning"]},
+      "! Como tu sta?\n— Multo ",
+      {n:12,a:["ben","well","bien","bene","bem","fine","good","bine"]},
+      ", gracias. E tu?\n— Anque ben. Tu vole ",
+      {n:13,a:["prender","take","have","tomar","prendere","prendre","beber","drink","get","tomarse"]},
+      " un cafe con me?\n— Si, con ",
+      {n:14,a:["placer","pleasure","placer","piacere","plaisir","prazer","gladly","placere"]},
+      ". Io conoce un bon sitio ",
+      {n:15,a:["proxime","near","nearby","cerca","cerca de","vicino","proche","perto","close","aproape"]},
+      " de aqui.\n— Perfecte. Alora nos ",
+      {n:16,a:["va","go","vamos","let us go","andiamo","allons","vamo","mergem","going"]},
+      "."]
+  },
+  {
+    id:"C", label:"Expository", title:"Iste lingua",
+    gist:"I could explain what this passage claims about the language.",
+    parts:["Iste lingua es un lingua zonal ",
+      {n:17,a:["romance","romanic","romanica","romance","romanza","romane","latin"]},
+      ". Si tu parla espaniol, portugues, italiano, frances o rumano, tu pote ",
+      {n:18,a:["leger","read","leer","leggere","lire","ler","citi","reading"]},
+      " iste texto sin ",
+      {n:19,a:["studiar","studying","study","estudiar","studiare","etudier","estudar","studia","learning","aprender"]},
+      ". Le gramatica es ",
+      {n:20,a:["simple","easy","facil","semplice","facile","simples","regular","simpla","usoara"]},
+      ": les verbos no cambia con le ",
+      {n:21,a:["persona","person","persona","personne","pessoa","subject","persoana"]},
+      ", les adjectivos no cambia con le ",
+      {n:22,a:["genero","gender","genero","genere","genre","gênero","gen","sex"]},
+      ", e tote le ortografia se ",
+      {n:23,a:["pronuncia","pronounces","pronounced","pronuncia","pronounce","legge","prononce","pronuncia-se","reads","spells"]},
+      " como se escribe. Nos mesura le ",
+      {n:24,a:["comprension","comprehension","understanding","comprension","comprensione","comprehension","compreensao","intelegere"]},
+      " con testes reales, e nos ",
+      {n:25,a:["publica","publish","publica","pubblica","publie","publicamos","publish it","publicam","share"]},
+      " les resultatos."]
+  },
+  {
+    id:"D", label:"News", title:"Energia solar",
+    gist:"I could report the main facts of this news item.",
+    parts:["Le governo anunciava ",
+      {n:26,a:["hodie","today","hoy","oggi","aujourdhui","hoje","azi"]},
+      " un nove programa de energia ",
+      {n:27,a:["solar","solar","solare","solaire","sun","solara"]},
+      ". Le plan preve la construccion de ",
+      {n:28,a:["tres","three","tre","trois","3","trei"]},
+      " centrales in le sud del ",
+      {n:29,a:["pais","country","pais","paese","pays","tara","nation","state"]},
+      " durante les proximes cinco annos, con un ",
+      {n:30,a:["investimento","investment","inversion","investimento","investissement","investitie","cost","budget"]},
+      " total de dos miliardes de euros. Segun le ministra de energia, le programa va ",
+      {n:31,a:["crear","create","crear","creare","creer","criar","crea","generate","make"]},
+      " plus de cuatro mil emplees e va ",
+      {n:32,a:["reducir","reduce","reducir","ridurre","reduire","reduzir","reduce","cut","lower","reduces"]},
+      " les emisiones de carbon in vinte per ",
+      {n:33,a:["cento","cent","percent","ciento","cento","per cent","suta","100"]},
+      ". Les organizaciones ambientales reciveva le ",
+      {n:34,a:["anuncio","announcement","anuncio","annuncio","annonce","anuncio","news","plan","anunt"]},
+      " con optimismo prudente, ma demandava plus ",
+      {n:35,a:["transparencia","transparency","transparencia","trasparenza","transparence","detail","details","detalles","claritate","clarity"]},
+      " sobre le calendario de construccion."]
+  }
+];
+
+const norm = s => (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g,"").trim();
+
+function accepts(ans, list){
+  const a = norm(ans);
+  if(!a) return false;
+  for(const v of list){
+    const n = norm(v);
+    if(a === n) return true;
+    if(n.length >= 5 && a.length >= 5 && (a.startsWith(n.slice(0,5)) || n.startsWith(a.slice(0,5)))) return true;
+  }
+  return false;
+}
+
+const host = document.getElementById("passages");
+PASSAGES.forEach(p => {
+  const card = document.createElement("div");
+  card.className = "passage-card";
+  const meta = document.createElement("div");
+  meta.className = "passage-meta";
+  meta.innerHTML = `<span>${p.label}</span><span>${p.title}</span>`;
+  const body = document.createElement("div");
+  body.className = "passage" + (p.pre ? " dialogue" : "");
+  p.parts.forEach(part => {
+    if(typeof part === "string"){ body.appendChild(document.createTextNode(part)); }
+    else {
+      const input = document.createElement("input");
+      input.className = "blank";
+      input.type = "text";
+      input.autocomplete = "off";
+      input.spellcheck = false;
+      input.placeholder = part.n;
+      input.setAttribute("aria-label", "Blank " + part.n);
+      input.dataset.n = part.n;
+      input.dataset.passage = p.id;
+      input.dataset.answers = JSON.stringify(part.a);
+      body.appendChild(input);
+    }
+  });
+  const gist = document.createElement("label");
+  gist.className = "gist";
+  gist.innerHTML = `<input type="checkbox" data-gist="${p.id}"><span>${p.gist}</span>`;
+  card.append(meta, body, gist);
+  host.appendChild(card);
+});
+
+const $ = s => document.querySelector(s);
+const blanks = () => [...document.querySelectorAll(".blank")];
+
+function score(){
+  const per = {};
+  let ok = 0, total = 0;
+  blanks().forEach(b => {
+    const list = JSON.parse(b.dataset.answers);
+    const good = accepts(b.value, list);
+    b.classList.remove("ok","no","revealed");
+    if(b.value.trim()) b.classList.add(good ? "ok" : "no");
+    else b.classList.add("no");
+    const pid = b.dataset.passage;
+    per[pid] = per[pid] || {ok:0,n:0};
+    per[pid].n++; total++;
+    if(good){ per[pid].ok++; ok++; }
+  });
+  const gists = [...document.querySelectorAll("[data-gist]")];
+  const gOk = gists.filter(g => g.checked).length;
+  const pct = Math.round(ok / total * 100);
+  const gPct = Math.round(gOk / gists.length * 100);
+  $("#pct").textContent = pct + "%";
+  $("#gistPct").textContent = gPct + "%";
+  const body = $("#breakdown");
+  body.innerHTML = "";
+  PASSAGES.forEach(p => {
+    const r = per[p.id];
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${p.title}</td><td style="color:var(--ink-faint)">${p.label}</td><td class="num">${r.ok}/${r.n}</td>`;
+    body.appendChild(tr);
+  });
+  let v;
+  if(pct >= 80 && gPct >= 75) v = "Both scores high — the pattern a reader inside the zone is predicted to show.";
+  else if(pct < 55 && gPct >= 75) v = "High gist, low specifics — the pattern predicted for a reader reached through English's Latinate vocabulary rather than a Romance first language.";
+  else if(pct >= 55) v = "Partial reading. Which blanks failed matters more than the total: an item everyone misses is a lexicon bug, an item one language group misses is a weighting bug.";
+  else v = "Low on both. If your first language is in the Romance zone, this passage is failing at its one job — which is the result the instrument exists to surface.";
+  $("#verdict").textContent = v;
+  $("#score").hidden = false;
+  $("#score").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+$("#scoreBtn").addEventListener("click", score);
+$("#revealBtn").addEventListener("click", () => {
+  blanks().forEach(b => {
+    const list = JSON.parse(b.dataset.answers);
+    if(!accepts(b.value, list)){
+      b.value = list[0];
+      b.classList.remove("ok","no");
+      b.classList.add("revealed");
+    }
+  });
+});
+$("#resetBtn").addEventListener("click", () => {
+  blanks().forEach(b => { b.value = ""; b.classList.remove("ok","no","revealed"); });
+  document.querySelectorAll("[data-gist]").forEach(g => g.checked = false);
+  $("#score").hidden = true;
+});
+document.querySelectorAll(".g").forEach(g => g.setAttribute("tabindex","0"));
+</script>

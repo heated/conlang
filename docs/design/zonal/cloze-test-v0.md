@@ -117,3 +117,55 @@ mechanism the project has — run it before any further zonal design.
 - Control idea when convenient: same test with Interlingua text on a
   matched sample, so RZ's number has a comparator beyond Interslavic's
   published 84%.
+
+## v1 — the $30 micro-study (2026-08-30, conlang-5i1.1)
+
+Edward's constraints (2026-08-30): Prolific is allowed with a hard
+ceiling of **$30 per study**; no LLM-as-reader proxy; "if that's not
+enough, don't bother." His doubt, recorded: a cloze may add little if
+RZ is basically Interlingua. The agent's read agrees for the
+RZ-vs-Interlingua question — the surface deltas are a small-effect
+comparison that needs n in the hundreds per language — and re-scopes
+the study to the one thing $30 buys that has value on its own.
+
+**Primary outcome (the thing $30 buys).** The first measured
+zero-study cloze number for Interlingua-class text among Romance-L1
+readers — a data point the baseline has lacked since 1951. Reported
+as a mean with a 95% CI, per source language and pooled, with the
+gist score alongside (§"Two published numbers").
+
+**Secondary, exploratory, explicitly underpowered.** A within-subject
+contrast of RZ orthography/lexicon vs Interlingua orthography/lexicon
+on matched passages. With n≈25 the detectable paired effect is on the
+order of 15 points on a 10-item passage; a small real delta will read
+as noise. The report must say so, and must not present a null as
+"no difference."
+
+**Design.**
+- Two 10-blank passages per participant: Text A (fable) and Text D
+  (news), one rendered in RZ and one in Interlingua, counterbalanced
+  in four groups (A-RZ/D-IA, A-IA/D-RZ, and the two orders). 20
+  blanks + 2 gist items ≈ 4 minutes.
+- Prescreen: first language Spanish, Portuguese, Italian or French
+  (Prolific "first language" filter); exclusion question at the end:
+  "Have you ever studied Interlingua or another constructed
+  language?" (self-report; exclude yes).
+- Hosting: a Google Form (free) with a Prolific completion code;
+  scoring by hand against the key with semantic matching (the auto
+  scorer on the reader page is a demo, not the protocol).
+- Interlingua arm: the renderings must be REAL Interlingua, checked
+  against the IED/grammar or an Interlingua-community reader — model
+  recall is not a source (conlang-7ds). Until checked, the arm is not
+  runnable.
+
+**Cost (estimate — verify on Prolific's pricing page before
+launch).** £9/hr recommended rate × 4 min = £0.60 per participant;
+n=25 → £15.00; Prolific service fee ~33% → ≈£20; ≈$27 at current
+rates. Under the ceiling with margin for a 5-minute median. At the
+£6/hr minimum (rated "low"), n≈35 for the same money.
+
+**Go / no-go.** Go, on the agent's judgment: one real number with a
+wide CI beats zero real numbers, and the cost is inside the ceiling.
+The launch itself is Edward's (payment); the agent prepares the full
+packet — form text, both renderings, prescreens, consent line,
+scoring key, analysis script — and files it for his one-click review.

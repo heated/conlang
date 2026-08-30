@@ -1,5 +1,5 @@
 ---
-title: "Engineering Languages for Learning Speed: Interlingua as the Baseline, a Priced Toolkit of Improvements, and the Channel-Coded Laboratory That Produced Them"
+title: "Engineering Languages for Learning Speed: Interlingua as the Baseline, a Ledger-Priced Toolkit of Add-Ons, and the Channel-Coded Laboratory Behind Them"
 author: "Edward Swernofsky (with Claude)"
 date: 2026-08-08
 status: living draft — grows with the build; sections marked [TODO] are stubs
@@ -15,24 +15,29 @@ and asks what engineering, applied on top of it, buys a learner — and
 how one would know. The contribution has four parts, developed inside a from-scratch
 channel-coded design that serves as the laboratory rather than the
 product. (1) A **method**:
-every candidate feature is priced in learner-hours on a ledger and
-tied to a precommitted kill criterion, under two distinct gates — an
+a ledger that prices design features in learner-hours (every add-on
+is priced; the profile's surface deltas are, as of this draft, still
+unpriced — an admitted hole), tied to a precommitted kill criterion,
+under two distinct gates — an
 *add-on* gate that admits only mechanisms costing the first-contact
 reader nothing, and a *surface* gate under which a change to inherited
 word forms must earn its place against the baseline on the
 instrument. (2) A
-**toolkit of portable add-ons** that Interlingua never had and that
-touch nothing a first-contact reader sees: closed-domain "mode"
-subsystems for numbers, dates and times with a transposition-catching
-checksum; an aviation-style conversation-repair register;
-error-absorption declarations that make a learner's most probable
-deviations grammatical; a closed 96-form function-word
+**toolkit of add-on patterns** we did not find in Interlingua, each of
+which leaves ordinary text untouched: closed-domain "mode" subsystems
+for numbers, dates and times with a transposition-catching checksum;
+an aviation-style conversation-repair register; the error-absorption
+method, which declares a learner's most probable deviations
+grammatical; closed-class discipline (in RZ: a 96-form function-word
 inventory, of which the 60 forms attested in the current 628-token
-corpus carry 49.2% of its tokens; chorded input over the phonology; and an
-optional featural display script. (3) A **result from a
+corpus carry 49.2% of its tokens); chorded input over the phonology;
+and an optional featural display script. These are patterns, not
+drop-in parts: each is priced against RZ, and running one on
+Interlingua itself would take a fresh realization and a fresh price. (3) A **result from a
 coding-theory treatment of the lexicon**, simulated: the *assignment
 policy* — refusing unrelated minimal pairs on likely mishearings —
-dominates any check channel (silent-substitution rate 22% → 3.9%) —
+dominates the modeled check-channel configuration in this simulation
+(silent-substitution rate 22% → 3.9%) —
 together with an in-flight companion measurement of the *repair*
 frontier, which reversed direction under adversarial review and now
 reports a Pareto exchange rather than a dominance (§12). (4) An **instrument**: a zero-study cloze protocol
@@ -75,7 +80,7 @@ it alongside RZ's. The zonal language this project ships (RZ,
 §9b–9c) is roughly 80–85% Interlingua at the grammar level, form for
 form. A paper whose contribution was "another Romance auxlang" would
 be worth nothing, and this is not that paper. Interlingua is the
-baseline throughout; the question is what Interlingua never had — a
+baseline throughout; the question is what we could not find in Interlingua — a
 way to price features, add-ons that cost the first-contact reader
 nothing, a treatment of the lexicon as a code, and an instrument that
 says whether any of it paid — and every claim is a delta against that
@@ -112,8 +117,10 @@ not establish, since none of it tested a constructed language.
 
 Contributions, stated against the baseline:
 
-1. The **ledger method** (§9c): every design feature priced in
-   learner-hours, with a precommitted kill criterion, under two gates
+1. The **ledger method** (§9c): design features priced in
+   learner-hours on a ledger — every add-on has a row; the profile's
+   surface deltas do not yet, and §9b says so — with a precommitted
+   kill criterion, under two gates
    — optional and invisible add-ons must cost the first-contact reader
    nothing, while changes to inherited surfaces are admitted only as
    falsifiable bets measured against the baseline (§9b, §11). No
@@ -136,14 +143,16 @@ Contributions, stated against the baseline:
 4. The **instrument** (§11): a zero-study cloze with a stated
    objective function, in a profile-versus-baseline design where every
    surface delta is a treatment with a control.
-5. The **laboratory** (§§3–8): a syllable-as-channel-vector phonology
-   with an explicit codespace budget; a two-layer error-correction
-   stack (casual speech protected by humility assignment, word
-   templates, phonotactics and repair; a confusion-weighted check bit
-   in the written layer and careful registers); a featural block
-   script deterministically coupled to the phonology; self-segregating
-   morphology implemented prosodically; a governance model of small
-   frozen core, versioned spec, open periphery.
+
+The setting in which these were developed, and not itself a
+contribution against the baseline, is **the laboratory** (§§3–8): a
+syllable-as-channel-vector phonology with an explicit codespace
+budget; a two-layer error-correction stack (casual speech protected by
+humility assignment, word templates, phonotactics and repair; a
+confusion-weighted check bit in the written layer and careful
+registers); a featural block script deterministically coupled to the
+phonology; self-segregating morphology implemented prosodically; and a
+governance model of small frozen core, versioned spec, open periphery.
 
 ## 2. Why not faster speech or reading: the throughput ceiling
 
@@ -533,21 +542,23 @@ counted as one), with German and Russian as substitutable secondary
 controls, and the form chosen is the historical prototype the attested
 variants descend from [TODO-verify against the 1951 grammar]. The grammar is stripped Romance: no
 noun–adjective agreement, no personal verb inflection, no grammatical
-gender, no case, no subjunctive. The orthography is 26-letter,
-diacritic-free and mildly etymological (double consonants, Greek
-digraphs). The receptive claim — readability at sight for Romance
+gender, no case, no subjunctive [TODO-verify against the 1951
+grammar]. The orthography is 26-letter, diacritic-free and mildly
+etymological (double consonants, Greek digraphs) [TODO-verify]. The receptive claim — readability at sight for Romance
 speakers and educated English speakers — rests on practice rather than
 measurement. Roughly thirty scientific and mainly medical journals
 carried article summaries in Interlingua (the survey dates this to the
 1950s–60s; the Wikipedia article says mid-1950s to late 1970s —
 [TODO-verify] which is right), and Swedish school experiments reported
 that pupils taught Interlingua for a year could read Spanish, Italian
-and Portuguese newspaper text at sight with good comprehension. As far
+and Portuguese newspaper text at sight with good comprehension
+[TODO-verify: secondary report, no primary record located]. As far
 as the survey located, no controlled comprehension percentage has been
 published for Interlingua. Its community is estimated at a few hundred
 to ~1,500 users, concentrated in Scandinavia rather than in any
-source-language homeland; its corpus base (a 27k-entry dictionary, a
-Wikipedia edition, a bimonthly magazine since 1988) is large by
+source-language homeland [TODO-verify: 2007-era estimates via
+Wikipedia]; its corpus base (a 27k-entry dictionary, a Wikipedia
+edition, a bimonthly magazine since 1988 [TODO-verify]) is large by
 constructed-language standards
 (docs/design/alternatives/zonal-auxlang-survey.md §1.1, with sources).
 
@@ -660,13 +671,15 @@ defeat the method this paper is arguing for. Pricing them is open work
 | shallow orthography | surface | **UNPRICED** | bet; falsifiable by the kill-gate |
 | Ibero lexical weighting | surface | **UNPRICED** | bet; *is* the objective-function question (§11) |
 | adjective number agreement + `les` | surface | **UNPRICED** | bet |
-| analytic future/conditional, negative concord, *es*/*sta* | surface | **UNPRICED** | bet |
+| analytic future and conditional | surface | **UNPRICED** | bet |
+| negative concord | surface | **UNPRICED** | bet |
+| *es*/*sta* split | surface | **UNPRICED** | bet |
 | *tener* perfect, *sta* progressive | surface | **UNPRICED** | bet |
 | repair of highest-damage paradigms (§12) | surface | **UNPRICED** (measured in error-rate and donor-text terms only) | in flight; human gate on the forms |
 | closed-class guarantee (96 forms) | pattern (RZ inventory is RZ-specific) | ~0 | bought |
 | error-absorption declarations D1–D7 | pattern (the seven as written are RZ-specific) | ~0 | bought |
 | number mode + checksum | pattern | +2h casual, +2h readback; cohort-flat | bought (tentative) |
-| date/time/coord/spell modes | pattern | increments on the learned frame grammar | **not adopted** — per-mode adoption at spec bumps, after number mode passes its test |
+| date/time/coord/spell modes | pattern | **UNPRICED** (audit says "increments on the learned frame grammar"; no ledger row) | **not adopted** — per-mode adoption at spec bumps, after number mode passes its test |
 | conversation-repair register | pattern | +~1h, cohort-flat | proposed / recommend-buy; purchase waits on its test |
 | chording (directional clusters) | pattern (layout is RZ-fitted) | +5–10h to competence, optional | standard as design |
 | featural display script | pattern (glyphs encode RZ suffixes) | +3–5h reading, optional | bought de facto as display layer |
@@ -991,9 +1004,11 @@ comparative kill-gate) are armed, not scheduled.
   a cloze score chosen post hoc), (b) the population weights or an
   explicitly declared alternative denominator, and (c) a materiality
   margin. The pilot is therefore **exploratory**: it estimates the
-  threshold and the weights. Using the same data to also judge the
-  deltas would make the analysis circular, so the kill-gate below is
-  reserved as an independent confirmation set.
+  threshold. The population weights are not estimated from the sample
+  — they come from the target-population definition and its
+  demography (bead conlang-ym3.1 verifies the figures). Using the same
+  data to also judge the deltas would make the analysis circular, so
+  the kill-gate below is reserved as an independent confirmation set.
 - *Comparative kill-gate (precommitted).* Same texts in the RZ
   profile vs baseline Interlingua vs a control (plain Spanish or MT),
   measuring cloze + gist + confidence + reading time + preference,
@@ -1100,7 +1115,7 @@ design. A companion line asks the question a profile actually faces:
 given an inherited lexicon that was never spaced for error, is it
 better to *repair* its worst words or to *mint* a purpose-built
 lexicon? The first answer, that repair dominated minting on every
-axis, was **withdrawn under adversarial review**: the minted baseline
+axis, was **withdrawn under Codex review**: the minted baseline
 it beat had been built by a dense-prefix candidate scan, and that scan
 — not minting — was the whole of its weakness. With the candidate
 order shuffled within length classes, a minted lexicon reaches 0.23%
@@ -1139,10 +1154,12 @@ orthography, Ibero weighting, a few grammatical choices — are
 improvements on the baseline or merely differences is exactly what the
 kill-gate measures, and the contribution is designed to survive either
 answer. The honest limitation is the same one stated in the abstract:
-until the pilot runs, the simulation results — humility assignment,
-and the repair frontier with its withdrawn first headline — are the
-only results in this paper that are not hypotheses, and they are
-results about models rather than about readers.
+until a reader study runs, this paper contains no reader-outcome
+result at all. What it does contain are results about models and
+artifacts — the humility simulation, the repair frontier with its
+withdrawn first headline, the corpus coverage curves, the codebook
+arithmetic, the renderer and layout measurements — and none of them
+says anything about a human reading the language.
 
 The spatial sentence layer — rendering argument structure for parallel
 vision rather than the serial channel — remains the designated sequel:

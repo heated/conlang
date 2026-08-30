@@ -25,10 +25,11 @@ friends. Start here: **[Read RZ today](docs/rz-start.md)**.
 
 - **RZ** (`docs/design/zonal/`) — the shipping bet, and a declared
   **profile of Interlingua** (IALA, 1951): Interlingua's grammar and
-  lexical base, a shallow orthography, an Ibero-weighted lexicon, a
-  few grammatical deltas (each a falsifiable bet, measured against the
-  baseline), and a set of engineered add-ons built as host-neutral
-  patterns
+  lexical base (the normative diff and converter that make that
+  inheritance mechanical are pending), a shallow orthography, an
+  Ibero-weighted lexicon, a few grammatical deltas (each a falsifiable
+  bet, to be tested against the baseline on matched texts), and a set
+  of engineered add-ons built as host-neutral patterns
   (`docs/design/zonal/rz-interlingua-profile.md`). Receptive-first:
   designed so the zone reads it at sight. Its 96-form closed function-word
   inventory — 60 forms attested in the current corpus — covers 49.2%
@@ -48,8 +49,9 @@ The two tracks are connected by a **mining gate**: every greenfield
 mechanism is priced in learner-hours and ported to RZ only if it
 survives RZ's naturalistic surface and costs first contact nothing
 (`docs/design/zonal/gz-rz-mining-audit.md`). What migration produces
-is the generalizable result — a priced menu of mechanisms any
-auxiliary-language design can adopt.
+is the generalizable result — a priced menu of *patterns* another
+auxiliary-language design can adopt, each needing its own realization
+and a fresh price on the new host.
 
 ## Evidence discipline
 

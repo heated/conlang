@@ -19,7 +19,7 @@ first-contact tax.
 | 1b | prosodic clitic class (function words unstressed = word-boundary signal) | would prescribe speech behavior; price unpriced | needs a prosodic spec + the 2b measurement first | **UNPORTED, pending** |
 | 2 | fixed penult stress (GZ: penult-ALWAYS) | would shift stress on consonant-final inherited words (natural final stress) | fails gates 2–3: audible surface change on inherited vocabulary | **DECLINED for RZ**; RZ keeps its own deterministic two-pattern rule (§1), which is what any parse channel must build on |
 | 2b | SSM-lite segmentation *claim* (unique word-boundary parse from RZ's actual stress rule + closed inventory) | 0 learner-hours; needs a measurement, not a purchase | claim currently unverified | **ADOPT-PENDING-MEASUREMENT** (tool bead filed; result decides whether 1b is worth speccing) |
-| 3 | E-scheme POS endings (remap content-word shapes) | +5–15h zone cohort; changes inherited surfaces | **fails gate 3** — taxes first-contact reading, the invariant | **DECLINED for RZ, permanently** (stays live for GZ) |
+| 3 | E-scheme POS endings (remap content-word shapes) | +5–15h zone cohort; changes inherited surfaces | **fails gate 3** (the add-on gate) — taxes first-contact reading | **DECLINED for RZ as a port** (stays live for GZ). Note 2026-08-30: the charter now has a separate SURFACE gate under which a change to inherited forms could in principle be admitted as a measured bet; nobody is proposing E for that, and it would need its own threshold-share evidence |
 | 4 | M-scheme residual (mark bare present verbs) | +2–5h (ledger); surface change on the highest-frequency forms | gate 3 alone disposes of it (price listed for completeness); RZ already owns M's free part (-va/-ria/-nte/-mente/-cion are deterministic) | **DECLINED** (free part documented as owned) |
 | 5 | R-scheme POS marks (display-only underlines) | +~0.5h opt-in — NOT zero, so not agent-callable | display layer; zero surface violence; built & tested; display changes go through the script workshop gate | **ADOPT-PENDING-EVIDENCE** — the only live option on RZ's POS dial (see below) |
 | 6 | coinage screen extension (minted forms audited for acoustic confusion) | ~0 (design-side rule; affects only minted words) | policy invisible; the *instrument* does not exist yet for arbitrary RZ coinages (gz-chord-fit's audit covers chord banks, not general wordforms) | **POLICY BOUGHT / INSTRUMENT PENDING** (tool bead filed; until it exists the false-friend screen + manual confusion check apply) |
@@ -60,10 +60,11 @@ recorded in rz-lexicon.md preamble.
 
 ## The consequence for the POS dial (E/R/M)
 
-For RZ the dial is now **narrowed by invariant, not settled by
-bake-off**: E and residual-M fail the first-contact gate regardless
-of their measured value, leaving R (display-only) as the only live
-option — itself adopt-pending-evidence behind the script workshop
+For RZ the dial is now **narrowed by the add-on gate, not settled by
+bake-off**: E and residual-M fail it as ports (they change inherited
+forms), leaving R (display-only) as the only live option under that
+gate — the 2026-08-30 surface gate is the only route by which a
+form-changing scheme could return, and only as a measured bet — itself adopt-pending-evidence behind the script workshop
 gate, since its +0.5h is not zero and display changes are
 workshop-governed. The z0s E/R/M bake-off remains open **as a
 GZ-internal decision** — its outcome no longer propagates to RZ.

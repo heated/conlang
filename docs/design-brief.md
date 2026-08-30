@@ -272,6 +272,19 @@ else is defined over these coordinates.
   measured number. The cloze pilot (5i1.1) asks to lift the
   2026-08-15 no-human-testing directive.
 
+- 2026-08-30 (later — landing ownership): **"you own this."** Agent
+  owns the landing epic (conlang-5i1) end to end. **No LLM-as-reader
+  proxies** for any comprehension number. **Prolific studies allowed
+  with a hard ceiling of $30 per study** — "if that's not enough,
+  don't bother." Keep running Codex reviews; get Edward's review for
+  broad copy / vibe on anything published or highly visible, but
+  "mostly don't stop for that." Edward's stated doubt, recorded: a
+  cloze pilot may add little if RZ is basically Interlingua; agent's
+  read agrees for the surface-delta question (small effect, needs
+  large n) and re-scopes the human measurement to what $30 buys — a
+  first zero-study number for Interlingua-class text, n≈25, wide CI
+  (cloze-test-v0.md §v1).
+
 ## Decisions log (previously open questions)
 
 - Inventory: 10+1 onsets (c added for digit-0), a e i o u, ∅/n/s/l —
