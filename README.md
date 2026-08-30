@@ -5,6 +5,10 @@ an adult learner gets to functional use in a fraction of the usual
 time? This project builds two languages to find out, and prices every
 design decision in learner-hours.
 
+**[Read the paper](https://heated.github.io/conlang/paper.html)** ·
+**[Read RZ cold and score yourself](https://heated.github.io/conlang/)**
+(both also render from `docs/` if you clone this)
+
 ## Read one of them right now
 
 > Le vento del norte e le sol disputava sobre qui era le plus forte,

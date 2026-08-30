@@ -671,11 +671,18 @@ enters the vocabulary if it is attested in at least three of four
 control-language groups (English, French, Italian, Spanish/Portuguese
 counted as one), with German and Russian as substitutable secondary
 controls, and the form chosen is the historical prototype the attested
-variants descend from [TODO-verify against the 1951 grammar]. The grammar is stripped Romance: no
-noun–adjective agreement, no personal verb inflection, no grammatical
-gender, no case, no subjunctive [TODO-verify against the 1951
-grammar]. The orthography is 26-letter, diacritic-free and mildly
-etymological (double consonants, Greek digraphs) [TODO-verify]. The receptive claim — readability at sight for Romance
+variants descend from [TODO-verify against the 1951 grammar]. The grammar is stripped Romance: adjectives
+never agree with their nouns; there are no personal verb inflections
+(optionally excepting *esser* 'to be'); there is no grammatical
+gender, animate nouns being sex-neutral unless they refer
+specifically to a male or a female; and the indicative covers the
+subjunctive and imperative, so there is no distinct subjunctive.
+Case is absent, though one can argue for a residual prepositional
+case in the third-person pronouns. [Sourced from the English
+Wikipedia's *Interlingua grammar* article, read 2026-08-30; still
+secondary — TODO-verify against Gode and Blair directly.] The
+orthography is 26-letter, diacritic-free and mildly etymological
+(double consonants, Greek digraphs) [TODO-verify]. The receptive claim — readability at sight for Romance
 speakers and educated English speakers — rests on practice rather than
 measurement. Roughly thirty scientific and mainly medical journals
 carried article summaries in Interlingua (the survey dates this to the
