@@ -31,7 +31,8 @@ method, which declares a learner's most probable deviations
 grammatical; closed-class discipline (in RZ: a 96-form function-word
 inventory, of which the 60 forms attested in the current 628-token
 corpus carry 49.2% of its tokens); chorded input over the phonology;
-and an optional featural display script. These are patterns, not
+and an optional featural display script — restated zone-agnostically,
+with prices and transfer conditions, in §10. These are patterns, not
 drop-in parts: each is priced against RZ, and running one on
 Interlingua itself would take a fresh realization and a fresh price. (3) A **result from a
 coding-theory treatment of the lexicon**, simulated: the *assignment
@@ -40,7 +41,7 @@ dominates the modeled check-channel configuration in this simulation
 (silent-substitution rate 22% → 3.9%) —
 together with an in-flight companion measurement of the *repair*
 frontier, which reversed direction under adversarial review and now
-reports a Pareto exchange rather than a dominance (§12). (4) An **instrument**: a zero-study cloze protocol
+reports a Pareto exchange rather than a dominance (§13). (4) An **instrument**: a zero-study cloze protocol
 with a stated objective function (readers above a usability
 threshold, not mean comprehension) that turns the source-weighting
 question into a measurement. The demonstration instance is RZ, a
@@ -75,7 +76,7 @@ three-of-four control-language rule and strips the grammar of
 agreement and personal inflection. Its at-sight claim has substantial
 informal historical support and, as far as this project's survey
 located, no controlled comprehension percentage — so the baseline's
-own score is unknown, and the instrument of §11 is designed to produce
+own score is unknown, and the instrument of §12 is designed to produce
 it alongside RZ's. The zonal language this project ships (RZ,
 §9b–9c) is roughly 80–85% Interlingua at the grammar level, form for
 form. A paper whose contribution was "another Romance auxlang" would
@@ -123,10 +124,11 @@ Contributions, stated against the baseline:
    kill criterion, under two gates
    — optional and invisible add-ons must cost the first-contact reader
    nothing, while changes to inherited surfaces are admitted only as
-   falsifiable bets measured against the baseline (§9b, §11). No
+   falsifiable bets measured against the baseline (§9b, §12). No
    auxlang, Interlingua included, has applied such a discipline to
    itself as far as this project's survey located.
-2. The **add-on toolkit** (§7, §9c): mode subsystems fenced
+2. The **add-on toolkit** (§10; mechanisms in §7 and §9c): mode
+   subsystems fenced
    by reserved boundary particles with a provably
    transposition-catching checksum and written-layer anti-check
    marking; a conversation-repair register; error-absorption
@@ -136,11 +138,11 @@ Contributions, stated against the baseline:
    patterns, not drop-in artifacts**: each is priced against RZ and
    would need an Interlingua-specific realization and a fresh price to
    run on the unprofiled baseline (§9b).
-3. A **coding-theory result** on lexicon design (§4, §12): assignment
+3. A **coding-theory result** on lexicon design (§4, §13): assignment
    policy dominates the check channel. A companion measurement of the
    repair-versus-minting frontier is in flight and is reported as an
-   exchange rate, not a dominance (§12).
-4. The **instrument** (§11): a zero-study cloze with a stated
+   exchange rate, not a dominance (§13).
+4. The **instrument** (§12): a zero-study cloze with a stated
    objective function, in a profile-versus-baseline design where every
    surface delta is a treatment with a control.
 
@@ -238,7 +240,7 @@ but since a root's noun/verb/modifier forms share one onset–vowel body,
 only 50 monosyllabic root bodies exist before spacing. The implemented
 spacing engine then gives the honest count: after the glide-cell ban
 (48) and the humility policy adopted after the deconfounding study
-(§12) — no unrelated minimal pairs on high-confusion substitutions — an
+(§13) — no unrelated minimal pairs on high-confusion substitutions — an
 exact maximum-independent-set computation yields **22 monosyllabic root
 bodies** (18 under strict weighted-inclusive spacing), of which 15 are
 initially assigned and the rest held in reserve for coinage and
@@ -277,7 +279,7 @@ channel — always present in glyphs and available to machines,
 optionally realized as vowel length in careful and safety-critical
 speech registers, absent from casual speech, whose protection instead
 comes from the humility assignment policy, templates, context, and
-repair (§12). A uniform minimum-distance-2 code over this space is
+repair (§13). A uniform minimum-distance-2 code over this space is
 not available at this price — a binary check cannot separate all values
 of a ten-valued channel, and the honest distance-2 construction (a
 mod-10 check over the largest channel) collapses the space to 20
@@ -318,7 +320,7 @@ is the glottal stop (full deletion with cross-boundary resyllabification
 — /tas ha/ surfacing as [ta.sa] — is unlicensed, and the lexicon's
 anti-resyllabification constraint makes such reductions fail to parse
 rather than parse wrongly), and parse robustness under degraded stress is
-an explicit simulation target (§11) rather than a theorem about
+an explicit simulation target (§12) rather than a theorem about
 connected speech.
 
 The final-syllable coda of a content word encodes part of speech (∅
@@ -393,7 +395,7 @@ transparent limit of that scale — but fluent reading runs on a trained
 whole-word visual lexicon that any novel script resets to zero, so we
 claim fast decoding acquisition and make no expert-speed claims beyond
 the saccade-scaling observation of §2 [@rayner2016]. The script is also
-where this design parts company with Toaq's tone-grammar insight (§10):
+where this design parts company with Toaq's tone-grammar insight (§11):
 grammar-on-a-channel is kept, but relocated from the worst-perceived
 auditory channel to the best-perceived visual ones — height, position,
 and silhouette.
@@ -442,7 +444,7 @@ with cluster onsets and diphthongs — is open work, and its larger
 monosyllabic vocabulary changes the compression arithmetic in the
 page's favor.) The feature grammar has headroom by
 construction: 18 usable onset cells against 11 assigned, nine vowel grid positions against five, so
-the wider codepoint model (§12) fits, with any new modifier required to
+the wider codepoint model (§13) fits, with any new modifier required to
 pass the same robustness bar. The block diagram is simultaneously the
 chord diagram — one input axis per zone — which is what makes glyph,
 chord, and pronunciation three projections of one channel vector
@@ -586,7 +588,7 @@ sources located, not a proof of absence.
   controlled comprehension percentage for Interlingua; the only zonal
   auxlang this project's survey found one for is Interslavic (84%), in a
 different zone. The
-  protocol of §11 is designed to produce Interlingua's number
+  protocol of §12 is designed to produce Interlingua's number
   alongside RZ's, on the same texts.
 - *No model of the learner's errors.* Interlingua's collateral forms
   function as an absorption move, but we located no evidence that this
@@ -669,13 +671,13 @@ defeat the method this paper is arguing for. Pricing them is open work
 | delta | kind | ledger price [H] | status |
 |---|---|---|---|
 | shallow orthography | surface | **UNPRICED** | bet; falsifiable by the kill-gate |
-| Ibero lexical weighting | surface | **UNPRICED** | bet; *is* the objective-function question (§11) |
+| Ibero lexical weighting | surface | **UNPRICED** | bet; *is* the objective-function question (§12) |
 | adjective number agreement + `les` | surface | **UNPRICED** | bet |
 | analytic future and conditional | surface | **UNPRICED** | bet |
 | negative concord | surface | **UNPRICED** | bet |
 | *es*/*sta* split | surface | **UNPRICED** | bet |
 | *tener* perfect, *sta* progressive | surface | **UNPRICED** | bet |
-| repair of highest-damage paradigms (§12) | surface | **UNPRICED** (measured in error-rate and donor-text terms only) | in flight; human gate on the forms |
+| repair of highest-damage paradigms (§13) | surface | **UNPRICED** (measured in error-rate and donor-text terms only) | in flight; human gate on the forms |
 | closed-class guarantee (96 forms) | pattern (RZ inventory is RZ-specific) | ~0 | bought |
 | error-absorption declarations D1–D7 | pattern (the seven as written are RZ-specific) | ~0 | bought |
 | number mode + checksum | pattern | +2h casual, +2h readback; cohort-flat | bought (tentative) |
@@ -909,7 +911,194 @@ position on a single greenfield↔zonal axis, and the open design
 decision is which point, or nested pair of points, to commit to
 (docs/design/width-ladder.md).
 
-## 10. Related systems
+## 10. The portable toolkit
+
+This is the part of the project that is not a language. Each entry
+below is a mechanism developed in the laboratory (§§3–8), priced
+against RZ on the learning-budget ledger, and restated here so that
+another auxiliary-language designer can shop from it. Two warnings
+govern the whole list, and they are the reason it is written as
+patterns rather than parts.
+
+**Entries are conditional, not universal.** Every price is RZ's
+price, under RZ's phonology, orthography and cohorts. Moving an entry
+to another host means re-implementing it there and re-pricing it
+there. Nothing below is a drop-in component, and where this paper's
+own baseline is concerned — Interlingua — the re-implementation has
+not been attempted (§9b).
+
+**Adoption is not a design property.** The survey of partial
+constructed systems is unambiguous: sub-language conventions win
+through mandated professional domains (ICAO phraseology, ASD-STE100),
+institutional written standards (ISO 8601, SI), or maintained
+broadcast registers (VOA Learning English, in continuous use since
+1959) — and essentially never through individuals deciding to study
+them. Basic English had 850 words and died; the NATO spelling
+alphabet has 26 and is the most widely adopted constructed convention
+in history, because aviation and the military mandated it. A designer
+shopping this list should choose entries whose adoption path is a
+mandate, an institution or a tool, not a curriculum.
+
+### 10.1 The method entries
+
+**The learner-hour ledger.** Price every candidate feature in
+learner-hours before adopting it; record the price, the cohort it
+falls on, and the evidence class; never adopt an unpriced feature.
+The instrument is boring and its value is structural: it converts
+"should we add X" from a taste argument into an accounting one, and
+it makes the cost of a feature visible to the people who will pay it
+rather than to the designer who wants it. *Price: the designer's time.
+Evidence: none — this is a discipline, not a result, and this paper's
+own ledger has an admitted hole where the profile's surface deltas
+should be (§9b).*
+
+**Two gates, not one.** Separate mechanisms that are invisible or
+optional to a first-contact reader (which can be admitted on price
+alone) from changes to inherited word forms (which cannot, and must
+be measured against the unmodified host). Conflating them is the
+error this project made and had to correct: a single "costs the first
+reader nothing" rule either forbids every surface improvement or gets
+quietly ignored.
+
+**Precommit the kill criterion.** State, before measuring, what
+result would make you revert. This is the entry most likely to be
+skipped and most likely to matter: an auxlang designer is the party
+least able to evaluate their own language's readability.
+
+### 10.2 The language entries
+
+**Closed-class discipline.** Close the function-word inventory by
+rule and publish the list; additions become major-version events. The
+learner-facing promise — *under a hundred short words are all the
+grammar there will ever be* — is a curriculum hook and a marketing
+asset, and the cost is zero because it codifies what a designed
+language already does. In RZ the closed class is 96 forms, and the 60
+of them attested in the current corpus carry 49.2% of running tokens,
+which is squarely inside the natural-language band. *Price: ~0.
+Transfers to: any designed language. Repricing needed: none, but the
+inventory itself is host-specific.*
+
+**Error absorption.** Score the grammar against the documented error
+classes of second-language learners of the host family, then declare
+the learner's most probable deviations to be grammatical variation
+rather than error, leaving the preferred register unchanged. RZ's
+seven declarations each forgive one first-language family's signature
+mistake — single negation alongside negative concord, article
+omission as a telegraphic register, optional adjective agreement,
+free adjective position, a one-clitic rule that deletes ordering
+errors instead of regulating them. Spoken French is the precedent
+that such variation reads as accent rather than brokenness. *Price:
+~0 — declarations remove rules rather than adding them. Transfers to:
+any language whose learner error profile is documented. Repricing
+needed: the seven declarations as written presuppose RZ's grammar;
+the method transfers, the list does not.*
+
+**Mode subsystems.** Numbers, dates, times and coordinates form
+closed semantic grids, so they can be coded densely and checked
+mechanically while the rest of the language stays redundant. Fence
+each payload with reserved boundary particles so it is self-
+delimiting, and add a mod-101 checksum that provably catches
+single-digit errors and adjacent transpositions. The trick that makes
+this cheap is finding a *vacant region of the host's phonology* to
+put the frame particles in: RZ's orthography declares `h` silent, so
+the entire `h`-onset region is free and mode frames colonise it at no
+cost to a single inherited word. *Price: ~2h casual, ~2h readback;
+cohort-flat. Transfers to: any host with a vacant phonological
+region — which is the condition to check first, and which Interlingua
+does not obviously satisfy.*
+
+**A conversation-repair register.** Aviation and maritime radio
+solved the noisy-channel protocol problem decades ago; the result
+reduces to a handful of particles — say-again, correction, confirm,
+readback, spell — living in the same reserved region as the modes.
+This completes an error budget in three layers: a confusion screen
+prevents dangerous pairs at design time, the codebook spaces them at
+signal time, and the repair protocol recovers whatever is left in
+conversation. *Price: ~1h, cohort-flat, and optional — conversation
+without it is just conversation. Transfers to: any host. Repricing:
+the particle forms must not collide with the host's lexicon.*
+
+**Confusion-aware assignment (the "humility" policy).** When
+minting vocabulary, refuse to place unrelated words at a distance of
+one high-confusion substitution — do not rely on a check channel to
+catch them afterwards. This is the paper's clearest simulation
+result: licensing such pairs among frequent words produces a 22%
+silent-substitution rate for listeners who cannot hear the check
+contrast, and refusing them cuts it to 3.9% whether or not the check
+exists, at a cost of a third of the monosyllabic codespace (§13).
+*Price: ~0 to learners, real to the codespace. Transfers to: any
+language that mints vocabulary. Does not transfer to: inherited
+lexicons, which cannot be re-spaced without changing the words.*
+
+**Targeted lexicon repair.** For an inherited lexicon that was never
+spaced for error, damage is extremely concentrated: in RZ, five of
+478 paradigms carry half the total silent-error mass, and the largest
+carriers are all one- and two-segment function words. Eight paradigm
+repairs take the cross-unit silent-error rate from 10.73% to under
+2% while leaving about 82% of running text on the donor's exact form.
+The generalisation is the concentration itself — before minting a new
+lexicon for robustness, measure how much of your problem lives in a
+handful of frequent short words. *Price: unmeasured in hours;
+measured in transparency, which is the currency a zonal language
+cannot spend freely. Status: simulated, and a human decision, not an
+adopted change.*
+
+### 10.3 The tooling entries
+
+**Chorded input over the phonology.** If word forms decompose into a
+small number of channels, a chord layout follows mechanically from
+the phonology instead of from memorised briefs — which is precisely
+where stenography's learning curve is steepest. The claim this paper
+does *not* make is that this raises a ceiling; §2 argues the ceilings
+are elsewhere. *Price: ~5–10h to competence, optional, speed is
+practice. Transfers to: any host — but for English specifically the
+honest advice is to adopt Plover rather than build, since the
+marginal contribution is near zero.*
+
+**A display-script layer.** A featural script whose glyphs are their
+own pronunciation guide can ride along as an optional display mode
+without touching the primary orthography. Keeping it optional is the
+whole trick: a zonal language that makes a new script primary spends
+its entire bootstrap, which is why this project's script work lives
+on the greenfield line and reaches the shipping language only as a
+re-skin.
+
+**Defining-vocabulary discipline.** Fix a small defining vocabulary
+aligned with the curriculum's first hours, and require dictionary
+entries to be written inside it. Longman's precedent is decades old;
+the transferable part is the *alignment* — a defining vocabulary that
+matches lesson order makes the dictionary usable to a learner who has
+finished lesson two.
+
+**A spoken reference standard.** Specify pronunciation as "say the
+spelling" — cardinal vowels, syllable-timed, with an explicit
+tolerance band for accent — so that recorded material has an
+audible skeleton and no learner is wrong for having an accent.
+
+**A comprehension instrument with a stated objective.** A cloze test
+is cheap and standard; what this project adds is insisting that the
+objective function be written down first, because the weighting of
+source languages, the tie-break rules in the lexicon recipe and the
+metric on the scoreboard will otherwise each optimise a different
+unstated target. Whether a language should maximise mean
+comprehension or the population above a usability threshold changes
+what it should be; it is an empirical question, and it is answerable
+with the same instrument (§12).
+
+### 10.4 What the shape of this list means
+
+The mechanisms that port cheaply are, without exception, the ones
+that are **cohort-flat and lexicon-free**: modes, repair, chording,
+display script, closed-class closure. The ones that price badly all
+touch inherited word shapes, and they price badly for exactly the
+cohort the host language already serves, while their value is
+concentrated in the cohorts it does not. That asymmetry is the whole
+argument between a zonal language and an engineered one, restated as
+accounting: a zonal language buys its first hour from the reader's
+existing knowledge and can then only add machinery that leaves that
+purchase intact.
+
+## 11. Related systems
 
 Interlingua is not related work here but the baseline, and is treated
 as such in §9b. Every other load-bearing mechanism has a precedent that demonstrates
@@ -958,7 +1147,7 @@ and aviation English show institutions adopt constrained registers when
 reliability wins are legible — the model for this design's safety-critical
 register profile.
 
-## 11. Evaluation plan
+## 12. Evaluation plan
 
 The design makes falsifiable claims; each maps to a measurable study, and
 several run without human subjects. To restate the evidence status: **no
@@ -977,7 +1166,7 @@ comparative kill-gate) are armed, not scheduled.
   English wordlists under matched noise. Claim under test: humility
   assignment yields fewer silent substitutions per unit of codespace
   than uniform spacing or natural lexicons — supported in simulation
-  (§12) under assumed confusion weights, pending calibrated data.
+  (§13) under assumed confusion weights, pending calibrated data.
 - *Segmentation stress test.* Generate syllable streams with and without
   the prosodic boundary signal degraded; verify the unique-parse property
   holds and measure how gracefully parsing degrades when stress detection
@@ -1050,7 +1239,7 @@ dense script should NOT exceed matched Latin-orthography reading
 cross-linguistic band [@coupe2019]. Finding otherwise would falsify the
 throughput-ceiling framing, not vindicate the design.
 
-## 12. Discussion, limitations, and live alternatives
+## 13. Discussion, limitations, and live alternatives
 
 Two structural humilities bound everything above: meaning stays soft no
 matter how hard the form layer is engineered (Lojban's lesson), and
