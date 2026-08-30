@@ -2,7 +2,8 @@
 title: "Engineering Languages for Learning Speed: Interlingua as the Baseline, a Ledger-Priced Toolkit of Add-Ons, and the Channel-Coded Laboratory Behind Them"
 author: "Edward Swernofsky (with Claude)"
 date: 2026-08-08
-status: living draft — grows with the build; sections marked [TODO] are stubs
+status: complete draft — every section written; [TODO-verify] marks a
+  claim sourced secondarily and not yet checked against a primary artifact
 bibliography: references.bib
 ---
 
@@ -249,7 +250,12 @@ assignment-time checks) dwarfs the 1,500–3,000-root target, so the
 language is disyllable-dominant by consequence: monosyllables cover only
 the very top of the Zipf curve, as in Japanese or Hawaiian. Whether this
 profile clears the working-memory comfort line is an explicit evaluation
-target. [TODO: cite mora inventories, word-length effect @baddeley1975.]
+target: the word-length effect predicts that shorter phonological forms
+occupy less of the rehearsal loop and so are held in greater numbers
+[@baddeley1975], which is the mechanism the digit-span study of §12
+is designed to test directly on the mode subsystem — the one place
+where this design's forms are dramatically shorter than a natural
+language's.
 
 ### 3.4 Rejected alternatives, and the expansion path
 
@@ -511,16 +517,139 @@ adoption gradients rather than cliffs.
 
 ## 8. Input methods
 
-[TODO: chord layout derived from channel structure; expected WPM band and
-the steno comparison; **phone/touch input** as a first-class target —
-channel-per-gesture-axis designs; number/date modes as standalone mobile
-keyboard wedge.]
+Stenography demonstrates that chorded entry reaches 200+ words per
+minute, and locates its own bottleneck precisely: the cost is not the
+motor skill but the *dictionary* — thousands of arbitrary briefs, and
+a sound-to-spelling mapping made irregular by English orthography. A
+language whose word forms decompose into channels removes both. The
+chord layout is then not designed at all; it is read off the
+phonology.
+
+**The layout falls out of the channels.** For the zonal language the
+banks are the syllable's own coordinates: a left bank of about nine
+keys for onsets, with clusters formed compositionally (a liquid key
+chords onto any obstruent to give *pr*, *bl*; an s-key gives *st*,
+*sp*), a five-key thumb bank for the vowels, and — the gift of
+Romance phonotactics — a right bank of only four keys, because under
+onset-maximal syllabification the entire coda inventory collapses to
+`l n r s`. English stenography cannot do this; its codas are the hard
+part. The mapping from chord to text has **zero exceptions**, because
+the orthography is regular by construction, which is exactly the pain
+that dominates learning English steno.
+
+**What that buys, and what it does not.** The measurable shape of the
+zonal language is ~1.83 syllables per word (function words are
+monosyllabic, content words average ~2.7). At the professional motor
+rate on which three independent systems converge — steno at 3–4
+strokes/second, Yawei at 2 working to 4.3 terminal, Velotype at
+roughly 3.3–4.2 — one stroke per syllable gives **~100–130 wpm with
+no memorised briefs at all** [H]. Steno parity (180–225 wpm) needs a
+brief layer, which reintroduces exactly the memorisation this design
+removed; we therefore treat briefs as an optional power tier rather
+than part of the system.
+
+The engineered greenfield does better, and the comparison quantifies
+what the naturalistic surface costs. Mirrored hands with one syllable
+per hand — the mechanism of the Yawei Chinese steno machine, which is
+professionally used at 200–400 characters per minute over a syllable
+inventory about twice the greenfield's — gives roughly **one stroke
+per word** against the zonal language's 1.8. At equal stroke rate
+that is a ~1.8× ceiling difference, with no brief dictionary ever.
+Chorded input survives the Romance constraint at roughly half
+efficiency with its no-memorisation property intact.
+
+**Time to speed is the honest question, and steno is the wrong
+anchor.** English steno's one-to-two years and Yawei's ~two are
+dominated by brief memorisation, dictionary debugging and vocational
+certification — none of which this design has. The right anchor is
+Velotype, which is orthographic, systematic and brief-free, and whose
+documented ladder runs: basics in two to four weeks at half an hour a
+day, 40–50 wpm at two to four months, 80–100 at five to eight,
+professional speeds from seven months. We expect a curve near
+Velotype's plus one surcharge Velotype does not pay — the early cost
+of bimanual independence in the mirrored mode [H]. The ledger prices
+competence at ~5–10 hours and treats everything past it as practice.
+
+**Because the layout is derived, the confusion screen can audit the
+motor graph too.** Where the phonology is co-designed with the chord
+banks, the same machinery that keeps acoustically confusable words
+apart can keep *motorically* confusable ones apart — chords one
+directional slip from each other. On the digit bank this is computed:
+a hill-climbed assignment places every numerically adjacent digit
+pair at motor distance ≥2, where a naive layout incurs ten violations
+[D].
+
+**Touch input is a first-class target, not an afterthought.** The same
+channel decomposition that gives a chord its keys gives a gesture its
+axes, and the closed grids of §7 are the natural wedge: a
+number-and-date mode is a self-contained keyboard accessory that
+works inside a host language, needs no lexicon, and delivers its
+density and its checksum on a phone. That is the adoption gradient
+argument in its most concrete form — the input engineering ships
+before, and independently of, the language.
 
 ## 9a. Morphology and lexicon design
 
-[TODO: closed core of roots + fully productive derivation; correlative
-grids for all closed paradigms; Zipf assignment of monosyllables as designed
-policy rather than diachronic erosion; governance.]
+Vocabulary, not grammar, is the long pole of adult language learning,
+so the lexicon is where a learnability-optimised design spends most of
+its attention — and the two tracks spend it in opposite directions.
+The engineered line mints forms and can therefore place them; the
+zonal line inherits forms and can therefore only choose among them.
+Four policies apply to both.
+
+**A closed core plus productive derivation.** Fix a small root
+inventory and make everything else derivable, on the Esperanto model:
+a learner who knows a root and the affix grid knows every word in its
+family. The zonal language's derivational family is inherited whole
+from the baseline (`-itate`, `-mente`, `-al`, `-or`, `-ista`, `-ia`,
+`-bile`, `re-`, `des-`, `in-`), which is a large part of why an
+inherited lexicon is cheap: the affixes are already known to the
+zone. The measurable dividend is in *forms to recognise* rather than
+in roots: a zonal lemma presents about 3.7 exceptionless forms
+against roughly 20 synthetic forms for a Spanish lemma — a five-fold
+reduction, and a grammar fact [D] rather than a measured learning
+effect. It accrues precisely to the cohorts the zone's cognate
+transfer does not serve.
+
+**Correlative grids for every closed paradigm.** Esperanto's 5×9
+correlative table is the one part of that language its speakers
+report as the easiest, and the mechanism generalises: wherever a
+paradigm is semantically a grid — demonstratives, quantifiers,
+interrogatives, the number system — realise it as a grid in the
+forms. The engineered line does this throughout. The zonal line
+mostly cannot, and the reason is instructive: replacing natural
+question words with a regular grid fails the first-contact gate, so
+the mechanism is declined for the shipping language and kept as a
+conditional toolkit entry for greenfields (§10).
+
+**Zipf assignment as a design decision.** In natural languages the
+correlation between frequency and brevity is the residue of
+centuries of erosion. A designed language can simply do it: assign
+the short forms to the frequent meanings from the first dictionary
+draft. This has a consequence the engineered line takes seriously and
+which the coding-theory treatment then complicates — the shortest
+forms are the frequent ones, so the words carrying the most traffic
+are also the ones with the least redundancy, which is why damage in
+an inherited lexicon concentrates in short function words (§13).
+
+**Governance: small frozen core, versioned spec, open periphery.**
+Esperanto's characteristic failure was not a design error but a
+governance one — unregulated borrowing duplicated words the
+derivation grid already generated. The corrective is boring and
+structural: an owned specification, versioned releases, a core that
+freezes early, a periphery that stays open, and a published
+headroom policy (this project reserves at least 30% of monosyllable
+slots per class at every release, so that growth does not require
+breaking changes). The zonal line adds two authorship rules on top: a
+mandatory false-friend screen on inherited words, an acoustic
+confusion screen on minted ones, and a defining vocabulary that
+future dictionary entries must be written inside, so the lexicon
+becomes self-hosting past the curriculum's head.
+
+The full grammar reference, the field-organised lexicon, and the
+recipe that elects each form are in the repository
+(`docs/design/zonal/`); §9c reports what has been measured over
+them.
 
 ## 9b. The baseline: Interlingua, and what it never had
 
