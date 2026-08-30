@@ -63,7 +63,7 @@ ZIPF_S = 1.0
 N_DISYLL_ROOTS = 800
 POS_CODAS = ("", "n", "s")          # noun / verb / modifier wordforms
 POS_FREQ = (0.5, 0.3, 0.2)
-SEED = 7
+SEED = int(os.environ.get("NOPARITY_SEED", 7))
 
 ARCHS = {  # name -> (assignment_level, has_register)
     "A": ("spec", True),

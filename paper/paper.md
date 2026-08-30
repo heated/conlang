@@ -39,7 +39,9 @@ Interlingua itself would take a fresh realization and a fresh price. (3) A **res
 coding-theory treatment of the lexicon**, simulated: the *assignment
 policy* — refusing unrelated minimal pairs on likely mishearings —
 dominates the modeled check-channel configuration in this simulation
-(silent-substitution rate 22% → 3.9%) —
+(silent-substitution rate 22% → 3.9% at the assumed confusion ratio;
+the ordering and the codespace price hold across a 30-configuration
+sweep, the magnitude does not) —
 together with an in-flight companion measurement of the *repair*
 frontier, which reversed direction under adversarial review and now
 reports a Pareto exchange rather than a dominance (§13). (4) An **instrument and a design**: a zero-study cloze protocol with
@@ -226,10 +228,18 @@ Every lexical contrast must be perceptible by speakers of essentially any
 L1: no voicing pairs, no r/l contrast, no tone, five cardinal vowels. Two
 deliberate accommodations go further. First, the particle onset /h/ is
 *substitution-robust*: since content syllables never begin with a weak
-onset, a particle realized [h], [x], or [ʔ] (the normative floor — full
-deletion with resyllabification is not licensed, and the lexicon carries
-an anti-resyllabification constraint as backstop) remains unambiguously a
-particle. Second, the check channel carries no lexical information and
+onset, a particle realized [h], [x], or [ʔ] remains unambiguously a
+particle. That robustness is against *substitution*, and the wording
+should not be read as robustness against deletion, which is a
+different and harder problem: for exactly the h-less L1s this design
+targets — Spanish, French, Italian, Portuguese — the likeliest
+realization of /h/ is deletion, and those are languages where
+cross-boundary resyllabification is automatic rather than occasional.
+The spec's answer is a normative floor (deletion with resyllabification
+is unlicensed, with an anti-resyllabification constraint on the lexicon
+as backstop) plus the segmentation redundancy of §5 — which is a
+*specification*, not a prediction about what speakers will do. §5
+states the failure mode plainly; this section previously did not. Second, the check channel carries no lexical information and
 (since v0.2) is not carried in casual speech at all — it lives in the
 written layer, optionally realized as vowel length in careful registers
 — so no speaker or listener is ever asked to produce or perceive a
@@ -1530,11 +1540,31 @@ all speakers (length production, a stress-duration conflict, erosion
 exposure of a zero-load contrast). Whether that insurance justifies its
 costs, or belongs only in the written layer and a careful-speech
 register, is a values decision the simulation cannot make; what it
-supports is the humility policy — under the simulation's assumed
-confusion weights, single seed, and assumed POS token-frequency
-split — and that the original
-configuration was the one choice strictly wrong for the population the
-design claims to serve. [Resolution, adopted tentatively: humility
+supports is the humility policy — under the simulation's assumed POS
+token-frequency split — and that the original configuration was the
+one choice strictly wrong for the population the design claims to
+serve.
+
+**How much of that survives its assumptions?** The numbers above were
+computed under one assumed confusion-weight ratio and one lexicon
+seed, which is the objection to make, so we swept both
+(`tools/humility_sensitivity.py`): the high-confusion weight from 2x
+to 50x, across five lexicon seeds — thirty configurations. Three
+results, of different strengths. The **ordering is invariant**:
+humility beats the licensing policy in 30 of 30. The **capacity price
+is invariant too**, and for a structural reason — 34 to 22
+monosyllabic root bodies in every run, because the assignment graph is
+built from the confusion pair *tables*, not from the weights placed on
+them; so the cost side of this trade is not an artifact of a guessed
+parameter. The **magnitudes are not** invariant: the licensing
+policy's silent rate ranges 19.0%-30.2% and humility's 0.9%-11.8% as
+the ratio moves, with the headline 22% / 3.9% sitting at 10x. The seed
+is nearly irrelevant (+/-0.03 points), so the lexicon draw does no
+work here. The honest summary: *that* the policy pays and *what it
+costs in codespace* are robust; *how much* it pays is a function of a
+confusion model never calibrated against measured confusion data
+(§11), and the headline pair should not be quoted without the ratio
+that produced it. [Resolution, adopted tentatively: humility
 assignment in the core, the check bit demoted to a written-layer
 channel with optional careful-register realization — the configuration
 described throughout this paper. Re-promoting the check to a mandatory
