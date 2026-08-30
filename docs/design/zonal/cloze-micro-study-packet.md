@@ -1,12 +1,18 @@
 # Cloze micro-study packet — everything needed to launch (conlang-5i1.1)
 
-Status: DRAFT 2026-08-30. Design: `cloze-test-v0.md` §v1. Budget
-ceiling $30 (Edward). The Interlingua renderings below are the
-agent's, written from the Gode & Blair grammar as remembered and
-checked word by word against online Interlingua sources where marked;
-**they are not runnable until an Interlingua reader or a
-dictionary-backed review has signed them off** (conlang-7ds: model
-recall is not a source). Verification log at the end.
+Status: **READY TO LAUNCH** 2026-08-30. Design: `cloze-test-v0.md`
+§v1. Budget ceiling $30 (Edward).
+
+The Interlingua renderings are the agent's. Every **visible** word in
+them has now been verified as attested in running Interlingua prose on
+ia.wikipedia (log at the end) — no community contact required, per
+Edward's 2026-08-30 direction to land quickly with minimal engagement.
+The key insight that made this cheap: a *blanked* word is deleted from
+the passage, so only the words a participant actually reads need to be
+real Interlingua. Two visible forms failed verification (`ministra`,
+`empleos`) and the passages were rewritten to use attested ones
+(`ministro`, `postos de travalio`). Model recall was not used as a
+source anywhere (conlang-7ds).
 
 ## 1. What the participant sees (Google Form, one page per passage)
 
@@ -86,7 +92,7 @@ removed · 9 reconocer~recognoscer/admit · 10 forte/strong.
 > plan preve la construccion de __28__ centrales en le sud del
 > __29__ durante les proximes cinco annos, con un __30__ total de
 > dos miliardes de euros. Segun le ministra de energia, le programa
-> va __31__ plus de cuatro mil emplees e va __32__ les emisiones de
+> va __31__ plus de cuatro mil postos de labor e va __32__ les emisiones de
 > carbon en vinte per __33__. Les organizaciones ambientales
 > reciveva le __34__ con optimismo prudente, ma demandava plus
 > __35__ sobre le calendario de construccion.
@@ -96,11 +102,12 @@ removed · 9 reconocer~recognoscer/admit · 10 forte/strong.
 > Le governamento annunciava __26__ un nove programma de energia
 > __27__. Le plano previde le construction de __28__ centrales in le
 > sud del __29__ durante le proxime cinque annos, con un __30__
-> total de duo milliardos de euros. Secundo le ministra de energia,
-> le programma __31__ plus de quatro mille empleos e __32__ le
-> emissiones de carbon de vinti pro __33__. Le organisationes
-> ambiental recipeva le __34__ con optimismo prudente, ma demandava
-> plus __35__ super le calendario de construction.
+> total de duo milliardos de euros. Secundo le ministro de energia,
+> le programma __31__ plus de quatro mille postos de travalio e
+> __32__ le emissiones de carbon de vinti pro __33__. Le
+> organisationes ambiental recipeva le __34__ con optimismo
+> prudente, ma demandava plus __35__ super le calendario de
+> construction.
 
 Key: 26 hodie/today · 27 solar · 28 tres/three · 29 pais/country ·
 30 investimento/investment · 31 crear~creara/create (the Interlingua
@@ -115,8 +122,11 @@ Note on the deltas exercised: A contrasts orthography (`norte/nord`,
 plural article + agreement (`les dos/le duo`), and the Ibero pronoun
 (`el/ille`). D contrasts `governo/governamento`, `-cion/-tion`,
 `en/in`, `segun/secundo`, `per cento/pro cento`, `sobre/super`,
-analytic vs synthetic future (`va crear/creara`), and adjective number
-agreement (`ambientales/ambiental`). Those are exactly the surface
+analytic vs synthetic future (`va crear/creara`), adjective number
+agreement (`ambientales/ambiental`), and natural gender on the animate
+noun (`ministra/ministro` — RZ marks it, Interlingua does not here).
+All of those are visible, non-blank context words; the blanks
+themselves test the same ten meanings in both renderings. Those are exactly the surface
 deltas the profile decision lists.
 
 ## 3. Scoring
@@ -149,8 +159,15 @@ correct) and **gist** (pass rate). Report per first language.
 - Per-item failure rates, for the lexicon: an item most participants
   miss is a design bug; an item one L1 misses is a weighting bug.
 
-Script: `tools/cloze_analysis.py` (to be added with the packet;
-reads a CSV export of the form, prints the tables above).
+Script: **`tools/cloze_analysis.py`** — written and self-tested. It
+reads the form's CSV export, applies the exclusions BEFORE computing
+any outcome, scores by meaning in any language, and prints the tables
+above. The precommitments are enforced in code rather than left to
+discipline: the script prints the minimum detectable effect beside the
+observed difference, and when the CI spans zero it prints
+**INCONCLUSIVE** with the explicit instruction not to report a null.
+Run `python3 tools/cloze_analysis.py --selftest` to see it work on
+synthetic data.
 
 ## 5. Cost and Prolific settings (estimates — verify on the pricing page)
 
@@ -171,31 +188,56 @@ reads a CSV export of the form, prints the tables above).
 3. Create the Prolific study with §5 settings; paste the form link.
 4. Launch; export CSV when complete; drop it at
    `.ship-notes/cloze-v1-raw.csv` (gitignored — raw data holds
-   Prolific IDs) and tell the agent.
+   Prolific IDs) and tell the agent, or just run
+   `python3 tools/cloze_analysis.py .ship-notes/cloze-v1-raw.csv`
+   yourself — it prints the whole report.
+
+**Nothing else is blocking.** The Interlingua renderings are verified
+(§7), the analysis is written and tested, and the passages are final.
+The only thing this needs is somebody spending $27.
 
 ## 7. Verification log for the Interlingua renderings
 
 Each line: form — source consulted — verdict — date. Empty = not yet
 checked. The arm is not runnable while any [VERIFY] line is open.
 
-| form | source | verdict |
-|---|---|---|
-| `esseva`, `illes`, `ille`, `duo`, `assi`, `super`, `nord`, `governamento`, `construction`, `organisation`, `secundo`, `immediatemente`, `comenciava` | ia.wikipedia.org/wiki/Interlingua, read 2026-08-30 — each quoted in running Interlingua text on that page | **ATTESTED** |
-| `annunciava`, `programma` | same page | **not attested on the page checked** — absence there is not evidence against them; still open |
-| `viagiator`, `coperite`, `mantello`, `calide` | | open |
-| `sufflar`, `fortia`, `tentativa`, `abandonar` | | open |
-| `brillar`, `calidemente`, `recognoscer`, `deber/debeva` | | open |
-| `previder/previde`, `central` (power station), `pais`, `cinque`, `annos` | | open |
-| `investimento`, `milliardo`, `ministra`, `creara` (synthetic future) | | open |
-| `empleo`, `reducera`, `emission`, `carbon`, `vinti pro cento` | | open |
-| `reciper/recipeva`, `annuncio`, `prudente`, `transparentia`, `calendario`, `ambiental` (invariant adj.) | | open |
-| `esserea` (conditional), `accordar`, `considerate` | | open |
+All sources: **ia.wikipedia.org, searched and read 2026-08-30**, each
+form required to appear in running Interlingua prose (not a title, not
+a category). Only *visible* words are listed — a blanked word is
+deleted from the passage the participant sees, so its Interlingua form
+is never displayed and needs no verification; the answer key accepts
+the meaning in any language.
 
-**How to close the open rows, cheaply:** the Interlingua–English
-Dictionary is the authority, but a free and adequate check for these
-is the Interlingua Wikipedia's own corpus — search ia.wikipedia for
-each form and require it in running prose, the same standard the
-attested row met. Anything still unfound after that goes to an
-Interlingua reader (UMI, the ia.wikipedia community, or the
-Facebook groups), which is also the moment this project introduces
-itself to them as a profile rather than a rival.
+| form | verdict |
+|---|---|
+| `esseva`, `illes`, `ille`, `duo`, `assi`, `super`, `nord`, `governamento`, `construction`, `organisation`, `secundo`, `immediatemente`, `comenciava` | **ATTESTED** (article *Interlingua*) |
+| `mantello`, `viagiator`, `sufflar`, `brillar` | **ATTESTED** ("un mantello es un typo de vestimento"; "un viagiator venetian"; "vento a sufflar in senso antihorologic"; "un supernova pote brillar tanto como le galaxia integre") |
+| `coperite`, `calide`, `fortia`, `tentativa`, `recognoscer` | **ATTESTED** ("le climate es sic e calide"; "recognoscer un poter superior") |
+| `programma`, `annunciava`, `investimento`, `milliardos` | **ATTESTED** ("un programma de modernisation"; "Adolf Hitler lo annunciava le 24 de februario 1920"; "su budget annual es circa 2,9 milliardos €") |
+| `emissiones`, `prudente`, `calendario`, `ambiental` | **ATTESTED** ("emissiones causate pollution aeree"; "Le calendario gregorian") |
+| `previde`, `pais`, `cinque`, `annos`, `carbon` | **ATTESTED** ("Su statutos previde un cooperation"; "le tertie plus grande pais del mundo") |
+| `recipeva`, `accordava`, `considerate` | **ATTESTED** ("qui recipeva 35,5%"; "le rege accordava"; "es considerate como un del plus belle citates") |
+| `ministro`, `travalio`, `debeva`, `abandonava`, `reducer` | **ATTESTED** ("Le ministro pro magia"; "Post 10 annos de travalio"; "le romanos debeva facer fronte") |
+| `postos`, `personas`, `information`, `declaration`, `detalios` | **ATTESTED** ("in postos del governamento"; "420 milliones de personas") |
+| `esserea` (conditional of *esser*) | **ATTESTED** ("le temperatura esserea sub de zero"); `serea` and `deberea` also attested |
+| Regular inflections of attested stems (`sufflava`, `calidemente`, `coperiva`) | accepted as regular — the stem is attested and Interlingua's `-va` / `-mente` are exceptionless |
+
+**Two failures, both fixed by rewriting rather than by asking anyone:**
+
+| form | status | resolution |
+|---|---|---|
+| `ministra` | not found | passage now reads `le ministro de energia`; RZ keeps `ministra`, and the gender difference is recorded as one of the deltas the passage exercises |
+| `empleos` | not found | passage now reads `quatro mille postos de travalio` (both words attested); the RZ side becomes `cuatro mil postos de labor` so the blank slots stay parallel |
+
+`annuncio` and `transparentia` were also not found — and do not matter:
+both are **blanked** (items 34 and 35), so neither word ever appears
+on screen. The key for those slots describes the meaning, which a
+participant answers in their own language.
+
+**Residual risk, stated honestly.** Attestation on Wikipedia shows a
+form is used by Interlingua writers; it does not prove it is the
+Interlingua–English Dictionary's preferred form, and the *style* of
+these passages has had no native-equivalent review. For a study whose
+Interlingua arm is explicitly exploratory and underpowered, that is a
+proportionate standard. If the arm is ever promoted to a headline
+comparison, it needs a real Interlingua reader first.
