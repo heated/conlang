@@ -131,9 +131,25 @@ deltas the profile decision lists.
 
 ## 3. Scoring
 
-Semantic match against the key, by hand, blind to condition (the
-scorer sees the answer and the slot key, not which passage variant
-the participant saw). Accept any language. Accept synonyms that fit
+Semantic match against the key, **by hand, blind to condition** —
+and the tooling now enforces that rather than trusting it. Stage 1,
+`export-blind`, emits one row per (participant, item), shuffled, with
+the condition stripped out entirely; the scorer sees the response, the
+committed meaning of the slot, and a non-binding `suggestion` flag.
+Stage 2 is a human filling a 0/1 `correct` column. Stage 3, `analyse`,
+joins the conditions back and reports. **The tool never judges an
+answer.**
+
+Why this is not over-engineering: the first version of the script did
+try to auto-score, using an allow-list plus a five-character prefix
+rule. A review found ten false positives and ten false negatives in
+one pass — `mantener` scored as *manteau*, `decree` as *decrease*,
+`clarinet` as *clarity*, `per capita` as *per cent*, while `retirar`,
+`ôter`, `pelerină`, `astăzi` and `el más fuerte` were all rejected.
+Every one was reproduced before the rewrite. An allow-list cannot
+implement "accept the meaning in any language."
+
+The scorer's rules: Accept any language. Accept synonyms that fit
 the slot (*cape* for *manto*; *admit / acknowledge / recognise* for
 *reconocer*). Reject wrong-meaning near-cognates (*remover* → "to
 move" is wrong; "remove / take off" is right). Gist: pass if the
@@ -154,20 +170,38 @@ correct) and **gist** (pass rate). Report per first language.
   paired effect of roughly 15 points on a 10-item passage; a small
   real delta will read as a null and must be reported as
   "inconclusive," never as "no difference."**
-- Exclusions, decided before unblinding: self-reported conlang
-  study; median completion under 90 s; all blanks empty.
+- Exclusions, decided before unblinding and applied before any
+  outcome is computed: self-reported conlang study; **individual**
+  completion under 90 s (not a median — the earlier wording was
+  loose); all twenty blanks empty. Missing or unparseable exclusion
+  metadata is a **fatal** error, never a silent inclusion.
 - Per-item failure rates, for the lexicon: an item most participants
   miss is a design bug; an item one L1 misses is a weighting bug.
 
-Script: **`tools/cloze_analysis.py`** — written and self-tested. It
-reads the form's CSV export, applies the exclusions BEFORE computing
-any outcome, scores by meaning in any language, and prints the tables
-above. The precommitments are enforced in code rather than left to
-discipline: the script prints the minimum detectable effect beside the
-observed difference, and when the CI spans zero it prints
-**INCONCLUSIVE** with the explicit instruction not to report a null.
-Run `python3 tools/cloze_analysis.py --selftest` to see it work on
-synthetic data.
+Script: **`tools/cloze_analysis.py`** — three subcommands
+(`export-blind`, `analyse`, `selftest`). The precommitments are
+enforced in code rather than left to discipline:
+
+- It **refuses to report** rather than guess. The export schema is
+  exact and validated first: a missing or duplicated item column, an
+  unrecognised condition value, a participant without exactly one RZ
+  and one IA passage, an unparseable duration, or an unscored response
+  each abort the run. Fuzzy column matching is gone — it could resolve
+  item 1 to a column named `L1`.
+- It reports a **minimum detectable effect** beside the observed
+  difference, states the assumed paired-difference SD, and prints a
+  sensitivity range across SD 0.20-0.35 (11-20 points at n=25).
+- When the interval spans zero it prints **INCONCLUSIVE** and says in
+  words that this is not evidence of a null. The verdict travels in
+  the `--json` object too, so no renderer can drop it.
+- Below n=8, or with no variance, it prints **"CI not estimable"**
+  instead of a zero-width interval.
+- Breakdowns are by arm x passage x L1, with per-item rates split by
+  arm, so "an item one L1 misses is a weighting bug" is checkable.
+
+`python3 tools/cloze_analysis.py selftest` runs 34 adversarial checks
+— every failure mode above, plus the specific prefix collisions that
+killed the first version.
 
 ## 5. Cost and Prolific settings (estimates — verify on the pricing page)
 
@@ -186,7 +220,11 @@ synthetic data.
    single-page HTML form on the reader site with a completion code
    and a form-submission endpoint, if preferred).
 3. Create the Prolific study with §5 settings; paste the form link.
-4. Launch; export CSV when complete; drop it at
+4. Export the responses to the exact schema the script validates:
+   `participant_id, first_language, studied_conlang, duration_seconds,
+   condition_A, condition_D, gist_A, gist_D, item_1 ... item_35`.
+5. `export-blind`, score the `correct` column by hand, then `analyse`.
+6. Launch; export CSV when complete; drop it at
    `.ship-notes/cloze-v1-raw.csv` (gitignored — raw data holds
    Prolific IDs) and tell the agent, or just run
    `python3 tools/cloze_analysis.py .ship-notes/cloze-v1-raw.csv`
