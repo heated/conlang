@@ -1,0 +1,188 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Speed Limit on Language</title>
+<meta name="description" content="Can you design a language that's faster to speak? We tried. Speech throughput converges near the same rate across every language measured — here's the evidence, what Speedtalk and Ithkuil get wrong, and what you can actually make faster.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --paper:#F7F7F5; --ink:#1B1D20; --soft:#585E66; --faint:#8A9098;
+  --rule:#E2E4E0; --accent:#2244AA; --accent-soft:#EAEEF9;
+  --marker:#8A5F28; --marker-bg:#F5EEE2; --panel:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15171B; --ink:#E9EAE6; --soft:#A4ABB4; --faint:#767D86;
+  --rule:#2A2F35; --accent:#8AA6F2; --accent-soft:#1D2540;
+  --marker:#C79A55; --marker-bg:#292317; --panel:#1C1F25;
+}}
+:root[data-theme="dark"]{
+  --paper:#15171B; --ink:#E9EAE6; --soft:#A4ABB4; --faint:#767D86;
+  --rule:#2A2F35; --accent:#8AA6F2; --accent-soft:#1D2540;
+  --marker:#C79A55; --marker-bg:#292317; --panel:#1C1F25;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Spectral,Georgia,"Times New Roman",serif;
+  font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:0 24px 96px}
+
+header.t{padding:76px 0 34px;border-bottom:1px solid var(--rule);margin-bottom:40px}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
+h1{font-size:clamp(30px,4.4vw,42px);line-height:1.14;margin:0 0 20px;
+  font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+.standfirst{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:17.5px;
+  line-height:1.55;color:var(--soft)}
+
+h2{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:20px;font-weight:600;
+  margin:52px 0 16px;text-wrap:balance;letter-spacing:-.005em}
+h3{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;font-weight:600;
+  margin:32px 0 10px}
+p{margin:0 0 19px}
+ul,ol{margin:0 0 19px;padding-left:24px}li{margin-bottom:10px}
+a{color:var(--accent)}
+em{font-style:italic}
+
+.answer{border:1px solid var(--accent);background:var(--accent-soft);
+  border-radius:2px;padding:26px 28px;margin:0 0 34px}
+.answer p{margin:0}
+.answer p+p{margin-top:14px}
+.answer strong{font-weight:600}
+
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-variant-numeric:tabular-nums;font-size:.93em}
+.marker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72em;
+  color:var(--marker);background:var(--marker-bg);padding:1px 5px;border-radius:2px;
+  white-space:nowrap;letter-spacing:.02em}
+
+.caveat{border-left:2px solid var(--marker);padding-left:18px;color:var(--soft);
+  font-size:16.5px;margin:0 0 22px}
+.caveat b{color:var(--marker);font-weight:600}
+
+.pull{font-size:22px;line-height:1.45;font-weight:300;color:var(--ink);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:24px 0;margin:34px 0;text-wrap:balance}
+
+table{width:100%;border-collapse:collapse;font-size:15px;
+  font-family:"IBM Plex Sans",system-ui,sans-serif;margin:0 0 22px}
+.tw{overflow-x:auto}
+th,td{text-align:left;padding:9px 16px 9px 0;border-bottom:1px solid var(--rule);
+  vertical-align:top}
+th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:500}
+
+footer{border-top:1px solid var(--rule);margin-top:56px;padding-top:28px;
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;color:var(--soft)}
+footer a{display:inline-block;margin-right:20px}
+.refs{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;
+  color:var(--faint);margin-top:26px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="t">
+  <div class="eyebrow">A question, and what happened when we took it seriously</div>
+  <h1>Do you want to build a faster language?</h1>
+  <p class="standfirst">Almost everyone who thinks about constructed languages has the thought. Speech feels slow. Ithkuil fits a paragraph into a word. Heinlein's Speedtalk promised that a denser language would make you think faster. So: could you engineer a language people can simply talk and read faster in? We spent a while trying. The answer is no — and the reason is more interesting than the question.</p>
+</header>
+
+<div class="answer">
+  <p><strong>The short version.</strong> Across every language measured, speech carries information at close to the same rate. Languages with dense syllables get spoken slower; languages with sparse syllables get spoken faster; the product lands in roughly the same place. Reading converges the same way, from the other direction, and for a different reason.</p>
+  <p>The bottleneck is not your mouth, your eyes, or your notation. It is somewhere behind them — and compression doesn't relieve a comprehension bottleneck, it just moves the work.</p>
+  <p><strong>But the ceiling only covers the axis everyone reaches for.</strong> How fast a language is to <em>learn</em>, and how fast it is to <em>type</em>, are wide open, barely engineered, and worth much more than the speed you were after.</p>
+</div>
+
+<h2>Three versions of the dream</h2>
+
+<p><strong>Speedtalk</strong>, from Heinlein's 1949 novella <em>Gulf</em>, is the purest form. Give the language a very large phoneme inventory and assign one phoneme to each word. A sentence collapses into a word. Thought, the story argues, accelerates to match. It is a wonderful premise and it contains its own refutation, which we'll get to.</p>
+
+<p><strong>Ithkuil</strong> is the real, enormously careful attempt. Every content word is grammatically specified across roughly a dozen dimensions, fused into compact forms, over a phonology big enough to pay for the fusion. It is the most impressive constructed language ever built and it is not spoken fluently by anyone, including its author — which is a datum, not a jab.</p>
+
+<p><strong>"Just talk faster"</strong> is the folk version: surely some languages are more efficient, so copy the efficient one. Spanish sounds fast. German sounds dense. Someone must be winning.</p>
+
+<h2>What the measurements say</h2>
+
+<p>Nobody is winning. The cleanest result comes from a study of 17 typologically diverse languages: information rate in read speech clusters near a mean of about <span class="num">39 bits per second</span>. Languages whose syllables carry more information are read proportionally slower; languages whose syllables carry less are read faster. Japanese is fast and sparse. Vietnamese is slow and dense. They arrive at nearly the same rate.</p>
+
+<p class="caveat"><b>What that result does and doesn't establish.</b> It is a controlled reading task, not spontaneous conversation. The compensation is a cross-linguistic correlation, not a demonstrated mechanism. "Information rate" is an information-theoretic measure, which is not the same object as the number of semantic distinctions a grammar marks. And — the limit that matters most for anyone reading this page — <b>no constructed language was in the sample.</b> So this is not proof that a designed language cannot beat the band. It is strong evidence that the expected return on trying is small and might be zero.</p>
+
+<p>Reading tells the same story from the other side, and it's worth separating because the reasons are different. Comprehension of normal prose degrades in proportion to speed past roughly <span class="num">400–500 words per minute</span>. Rapid serial visual presentation — flashing words one at a time in place — demonstrates that eye movements were never the constraint. And subvocalization, the inner voice speed-reading courses tell you to suppress, turns out to be load-bearing for the working-memory rehearsal that comprehension runs on. It is not a removable inefficiency. It is the mechanism.</p>
+
+<p>Nor does a denser script pass through to throughput. Chinese and English readers show similar reading rates, with Chinese forward saccades about half as long — the denser script induces proportionally shorter jumps, holding information per fixation roughly constant. You can make text more compact. You cannot make the reader faster by doing it.</p>
+
+<h2>The natural experiment nobody designed</h2>
+
+<p>If a language could buy throughput with a structural change, signed languages should show it. They assign referents to locations in space and then reuse those locations — genuinely parallel reference tracking, exactly the kind of mechanism a designer would reach for.</p>
+
+<p>What the classic comparison found: signers produce roughly <em>half</em> as many signs per second as English speakers produce words — while conveying propositions at the same rate. The spatial machinery buys back the difference and lands you level. It buys parity, not surplus.</p>
+
+<p class="pull">Every mechanism that looks like it should raise the ceiling turns out, on measurement, to be paying for something else that was already costing you.</p>
+
+<h2>Why compression specifically fails</h2>
+
+<p>Here is the trap, and it is worth stating plainly because it catches serious designers.</p>
+
+<p>If the constraint were articulation — how fast a mouth can move — then packing more meaning into each syllable would be a straightforward win. Fewer syllables, same content, less time. That is the intuition behind both Speedtalk and Ithkuil's fusion.</p>
+
+<p>But the evidence points at comprehension, not articulation. And if the bottleneck is comprehension, compression doesn't remove work — it relocates it. A word carrying twelve grammatical specifications takes less time to say and more time to unpack. You have moved effort from the channel, which was not the constraint, to the decoder, which was.</p>
+
+<p>Ithkuil's own revision history is the most direct evidence available. Across versions it dropped tone and roughly a third of its case inventory — which is to say, when its author reconsidered, the things that went were the expensive ones. And the fluency datum stands: a language optimized for concision that nobody achieves fluency in has not demonstrated that concision was the constraint.</p>
+
+<p>Speedtalk fails earlier and more simply. A one-phoneme-per-word language needs a phoneme inventory large enough to cover the lexicon, which means asking every learner to reliably hear distinctions their native language never taught them to hear. Push the other way and you hit the opposite wall: Solresol's seven notes sit below the articulatory floor, and you need somewhere around 20–25 usable syllables before a language can function at all. There is a workable band, it is not very wide, and every natural language already sits in it.</p>
+
+<h2>So what <em>can</em> you make faster?</h2>
+
+<p>This is the part worth taking away, and it's why we kept going after the speed question closed.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th>Axis</th><th>Bounded?</th><th>What we think</th></tr></thead>
+  <tbody>
+    <tr><td>Speaking rate</td><td>Yes, near the band</td><td>Non-goal. Expected return small, possibly zero.</td></tr>
+    <tr><td>Reading rate</td><td>Yes, separately</td><td>Non-goal. Density buys compactness, not speed.</td></tr>
+    <tr><td><strong>Time to learn</strong></td><td><strong>No</strong></td><td>Wide open, large, and barely engineered by anyone.</td></tr>
+    <tr><td><strong>Typing rate</strong></td><td><strong>No</strong></td><td>Chorded systems hit 200+ wpm; the cost is memorisation, which is designable-away.</td></tr>
+    <tr><td>Reading at sight, in-family</td><td>No</td><td>Receptive transfer is real and mostly free.</td></tr>
+    <tr><td>Compactness, scannability, machine legibility</td><td>No</td><td>Real gains. Just not speed.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>Learning time is the striking one.</strong> Transparent orthographies reach accurate decoding in about a year of schooling; English takes two to three times that. That is a factor-of-two-or-three difference in a basic skill, produced by a spelling convention. Nothing bounds it the way the throughput band bounds speech, and almost nobody designs against it deliberately.</p>
+
+<p><strong>Typing is the other one</strong>, and it's the case where the "faster" intuition is actually correct — because keyboard entry really is articulation-bound in a way speech isn't. Stenography demonstrates 200+ words per minute. Its cost is not the motor skill; it is a dictionary of thousands of arbitrary abbreviations plus a sound-to-spelling mapping made irregular by English. A language whose word forms decompose into regular components deletes both: the chord layout falls out of the phonology instead of being memorised.</p>
+
+<h2>Where we got</h2>
+
+<p>We built two languages to test this. One from scratch, treating a syllable as a vector of independent channels so coding theory could be applied to the lexicon. One by inheriting a Romance vocabulary the target readers already know, so that first-contact reading is nearly free.</p>
+
+<p>Some honest results, in descending order of how much we'd defend them:</p>
+
+<ul>
+  <li><strong>Refusing confusable word pairs beats adding a check channel.</strong> In simulation, licensing high-confusion minimal pairs among frequent words produces about a 22% silent-substitution rate for listeners who can't hear the check contrast; refusing them cuts it to 3.9%. We swept the assumption behind those numbers across 30 configurations: the <em>ordering</em> holds in all 30, and the codespace price is identical in every run. The <em>magnitude</em> moves with the assumed confusion weights, so that pair of numbers should never be quoted without its ratio. <span class="marker">simulated</span></li>
+  <li><strong>The shipping language turned out to be substantially an existing one.</strong> Pricing the zonal approach honestly, we found our Romance auxiliary language shares roughly 80–85% of its grammar with Interlingua, published in 1951. On matched passages chosen to <em>exercise</em> our differences, 63% of visible words are literally identical. We now describe it as a profile of Interlingua rather than a new language, which is a demotion we think improves the work. <span class="marker">measured, small sample</span></li>
+  <li><strong>Nobody has ever measured this zone.</strong> Interlingua has claimed at-sight readability for seventy years without, as far as we could find, a published comprehension number. Neither has any other Romance auxiliary language. Interslavic's 84% is the only figure in this family of projects, it is from a different language family, and it comes from self-selected respondents. <span class="marker">gap</span></li>
+  <li><strong>We have zero human subjects.</strong> Every learner-facing number in our work is a labelled hypothesis. That is a statement about our evidence, not modesty. <span class="marker">hypothesis</span></li>
+</ul>
+
+<p>We also wrote down, in advance, what would falsify our framing rather than confirm it: expert reading speed in our dense script should <em>not</em> exceed matched ordinary text, and conversational rate should sit inside the normal band. If either improved, the throughput argument on this page would be wrong, and we'd rather find that out than not.</p>
+
+<h2>What would change our mind</h2>
+
+<p>The honest gap in everything above: the 39 bits/s result had no constructed language in it, and every speaker of ours would be a deliberate second-language composer rather than a native. That is precisely the population the study didn't cover. A well-run measurement of information rate in fluent constructed-language speech would be genuinely new, and we'd read it immediately.</p>
+
+<p>Short of that, the case stands where the evidence puts it: the speed axis is a poor investment, the learning axis is a good one, and the most useful thing we did was stop optimizing the first and start pricing the second.</p>
+
+<footer>
+  <a href="paper.html">The full paper</a>
+  <a href="./">Read the language cold</a>
+  <a href="https://github.com/heated/conlang">Source, spec and data</a>
+  <div class="refs">
+    Evidence drawn from: Coupé et al. (2019) on cross-linguistic information rate; Rayner et al. (2016) on reading speed and comprehension; Sun et al. (1985) on Chinese and English saccades; Seymour et al. (2003) on orthographic depth and decoding acquisition; Bellugi &amp; Fischer (1972) on signed versus spoken propositional rate; Baddeley et al. (1975) on the word-length effect. Full citations and the limits of each are in the paper.
+  </div>
+</footer>
+
+</div>
