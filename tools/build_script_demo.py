@@ -1,156 +1,296 @@
-"""Build docs/script-demo.html: RZ text beside the featural display script.
+#!/usr/bin/env python3
+"""Build docs/script-demo.html: RZ text paired word by word with the script.
 
 Usage: python3 tools/build_script_demo.py
-Renders the SVGs first, then writes the page. Safe to re-run.
+
+Two things this has to get right, both learned the hard way:
+
+  * Every glyph renders at the SAME scale. rz_script.py emits a constant
+    viewBox height (142), so sizing the SVG by HEIGHT gives a uniform
+    scale everywhere. Sizing by width does not: it scales each SVG to
+    its container, so a long sentence comes out small and a short word
+    comes out huge, and a fixed-height box then clips it.
+  * Vertical alignment is shared. Each word keeps its own horizontal
+    extent but takes the union vertical extent of every word on the
+    page, so baselines line up across words instead of each word being
+    cropped to itself.
 """
-import json, os, html, subprocess, sys
+
+import html
+import os
+import re
+import subprocess
+import sys
 from pathlib import Path
+
 os.chdir(Path(__file__).resolve().parent.parent)
-subprocess.run([sys.executable, "tools/build_script_demo_render.py"], check=True)
-parts = json.load(open(".rz_parts.json"))
 
-lines = [p for p in parts if p[0] == 'line']
-dlg = [p for p in parts if p[0] == 'dlg']
-words = [p for p in parts if p[0] == 'word']
-letters = [p for p in parts if p[0] == 'letter']
+GLYPH_H = 56          # px. Deliberately larger than the Latin: matching the
+                      # two by height would flatter the script, since the marks
+                      # that tell its letters apart are small relative to the
+                      # letter. Set nearer equal legibility instead.
+PAD = 4               # viewBox padding in source units
 
-CSS = """
-:root{
+
+def render(word):
+    out = subprocess.run([sys.executable, "tools/rz_script.py", "word", word],
+                         capture_output=True, text=True)
+    if out.returncode != 0:
+        raise SystemExit(f"render failed for {word!r}:\n{out.stderr}")
+    return out.stdout.strip()
+
+
+def bbox(svg):
+    """Ink bounds of an SVG made of <line> and <circle>, stroke included."""
+    xs, ys = [], []
+    for m in re.finditer(r'<line x1="([\d.-]+)" y1="([\d.-]+)" '
+                         r'x2="([\d.-]+)" y2="([\d.-]+)"[^>]*?'
+                         r'stroke-width="([\d.]+)"', svg):
+        x1, y1, x2, y2, w = (float(g) for g in m.groups())
+        xs += [min(x1, x2) - w / 2, max(x1, x2) + w / 2]
+        ys += [min(y1, y2) - w / 2, max(y1, y2) + w / 2]
+    for m in re.finditer(r'<circle cx="([\d.-]+)" cy="([\d.-]+)" r="([\d.]+)"'
+                         r'[^>]*?stroke-width="([\d.]+)"', svg):
+        cx, cy, r, w = (float(g) for g in m.groups())
+        xs += [cx - r - w / 2, cx + r + w / 2]
+        ys += [cy - r - w / 2, cy + r + w / 2]
+    if not xs:
+        return None
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def recrop(svg, y0, y1):
+    """Tight horizontal crop, shared vertical extent, sized by height."""
+    b = bbox(svg)
+    if b is None:
+        return svg
+    x0, _, x1, _ = b
+    w = (x1 - x0) + 2 * PAD
+    h = (y1 - y0) + 2 * PAD
+    svg = re.sub(r'viewBox="[^"]*"',
+                 f'viewBox="{x0-PAD:.1f} {y0-PAD:.1f} {w:.1f} {h:.1f}"', svg, 1)
+    svg = re.sub(r'\swidth="[\d.]+"\s*height="[\d.]+"',
+                 f' height="{GLYPH_H}" width="{GLYPH_H*w/h:.1f}"', svg, 1)
+    return svg.replace(' style="color:#1a1a1a"', '').replace('<svg ', '<svg class="rz" ')
+
+
+WORD_RE = re.compile(r"[A-Za-zÀ-ÿ]+")
+
+
+def pairs(text):
+    """[(display token, svg or None)] preserving punctuation for display."""
+    out = []
+    for tok in text.split():
+        m = WORD_RE.search(tok)
+        out.append((tok, render(m.group(0)) if m else None))
+    return out
+
+
+# ------------------------------------------------------------------ content
+
+LINES = [
+    ("Le vento del norte e le sol disputava sobre qui era le plus forte.",
+     "The north wind and the sun were arguing about which of them was stronger."),
+    ("Un viajator passava, coprite de un manto calde.",
+     "A traveller came by, wrapped in a warm cloak."),
+]
+
+DIALOGUE = [
+    ("Bon dia! Cuante costa istes pomos?", "Good morning. How much are these apples?"),
+    ("Dos euros le kilo.", "Two euros a kilo."),
+    ("Alora io prende tres kilos.", "Then I will take three kilos."),
+]
+
+LETTERS = [("pa", "p"), ("ba", "b"), ("ta", "t"), ("da", "d")]
+CODAS = [("pan", "n"), ("pas", "s"), ("pal", "l"), ("par", "r")]
+GRAMMAR = [
+    ("parla", "speaks", "plain verb, no suffix mark"),
+    ("parlava", "was speaking", "past. The <b>-va</b> suffix is the arrow at the end."),
+    ("parlaria", "would speak", "conditional. Same verb, fork instead of arrow."),
+    ("rapidemente", "quickly", "<b>-mente</b> makes an adverb. It gets its own block."),
+    ("construccion", "construction", "<b>-cion</b> makes a noun."),
+]
+
+# render everything, then compute one shared vertical extent
+work = {}
+for txt, _ in LINES + DIALOGUE:
+    work[txt] = pairs(txt)
+singles = {w: render(w) for w, *_ in LETTERS + CODAS + GRAMMAR}
+
+allsvg = [s for ps in work.values() for _, s in ps if s] + list(singles.values())
+boxes = [bbox(s) for s in allsvg]
+Y0 = min(b[1] for b in boxes if b)
+Y1 = max(b[3] for b in boxes if b)
+
+work = {t: [(tok, recrop(s, Y0, Y1) if s else None) for tok, s in ps]
+        for t, ps in work.items()}
+singles = {w: recrop(s, Y0, Y1) for w, s in singles.items()}
+
+# ------------------------------------------------------------------ page
+
+CSS = f"""
+:root{{
   --paper:#F7F7F5; --ink:#1B1D20; --soft:#585E66; --faint:#8A9098;
-  --rule:#E2E4E0; --accent:#2244AA; --accent-soft:#EAEEF9; --panel:#FFFFFF;
+  --rule:#E2E4E0; --accent:#2244AA; --panel:#FFFFFF;
   --ochre:#8A5F28; --ochre-soft:#F5EEE2;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+}}
+@media (prefers-color-scheme: dark){{:root:not([data-theme="light"]){{
   --paper:#15171B; --ink:#E9EAE6; --soft:#A4ABB4; --faint:#767D86;
-  --rule:#2A2F35; --accent:#8AA6F2; --accent-soft:#1D2540; --panel:#1C1F25;
+  --rule:#2A2F35; --accent:#8AA6F2; --panel:#1C1F25;
+  --ochre:#C79A55; --ochre-soft:#292317;
+}}}}
+:root[data-theme="dark"]{{
+  --paper:#15171B; --ink:#E9EAE6; --soft:#A4ABB4; --faint:#767D86;
+  --rule:#2A2F35; --accent:#8AA6F2; --panel:#1C1F25;
   --ochre:#C79A55; --ochre-soft:#292317;
 }}
-:root[data-theme="dark"]{
-  --paper:#15171B; --ink:#E9EAE6; --soft:#A4ABB4; --faint:#767D86;
-  --rule:#2A2F35; --accent:#8AA6F2; --accent-soft:#1D2540; --panel:#1C1F25;
-  --ochre:#C79A55; --ochre-soft:#292317;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);
+*{{box-sizing:border-box}}
+body{{margin:0;background:var(--paper);color:var(--ink);
   font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
-  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:0 24px 90px}
-header.t{padding:64px 0 28px;border-bottom:1px solid var(--rule);margin-bottom:8px}
-.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
-h1{font-family:Spectral,Georgia,serif;font-size:clamp(28px,4vw,38px);
-  line-height:1.15;margin:0 0 16px;font-weight:600;letter-spacing:-.01em}
-.sub{font-size:17px;color:var(--soft);line-height:1.55;max-width:62ch}
-h2{font-size:19px;font-weight:600;margin:52px 0 6px;letter-spacing:-.005em}
-.h2note{color:var(--soft);font-size:15.5px;margin:0 0 24px;max-width:62ch}
-p{margin:0 0 16px}
-a{color:var(--accent)}
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}}
+.wrap{{max-width:780px;margin:0 auto;padding:0 24px 90px}}
+header.t{{padding:64px 0 30px;border-bottom:1px solid var(--rule)}}
+.eyebrow{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}}
+h1{{font-family:Spectral,Georgia,serif;font-size:clamp(28px,4vw,38px);
+  line-height:1.15;margin:0 0 16px;font-weight:600;letter-spacing:-.01em}}
+.sub{{font-size:17px;color:var(--soft);line-height:1.55;max-width:62ch}}
+h2{{font-size:19px;font-weight:600;margin:54px 0 6px;letter-spacing:-.005em}}
+.h2note{{color:var(--soft);font-size:15.5px;margin:0 0 22px;max-width:62ch}}
+p{{margin:0 0 16px}}
+a{{color:var(--accent)}}
 
-/* the script itself */
-svg.rz{width:100%;height:auto;display:block;color:var(--ink)}
-svg.rz.sm{max-width:190px}
+/* every glyph at one scale: height is fixed, width follows */
+svg.rz{{display:block;color:var(--ink);overflow:visible}}
 
-.line{border-bottom:1px solid var(--rule);padding:26px 0}
-.line:last-child{border-bottom:none}
-.latin{font-family:Spectral,Georgia,serif;font-size:20px;line-height:1.5;
-  margin:0 0 4px}
-.gloss{color:var(--faint);font-size:15px;margin:0 0 16px}
-.script-box{background:var(--panel);border:1px solid var(--rule);border-radius:3px;
-  padding:16px 20px;overflow-x:auto}
+.sent{{border-bottom:1px solid var(--rule);padding:26px 0}}
+.sent:last-of-type{{border-bottom:none}}
+.cmp{{display:grid;grid-template-columns:max-content 1fr;gap:0 32px;
+  align-items:center;margin-bottom:16px}}
+.cmp .hd{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
+  padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:8px}}
+.cmp .lat{{font-family:Spectral,Georgia,serif;font-size:22px;line-height:1.2;
+  color:var(--ink);white-space:nowrap;text-align:right;padding:9px 0}}
+.cmp .sc{{display:flex;align-items:center;min-height:{GLYPH_H}px;padding:9px 0}}
+.gloss{{color:var(--faint);font-size:15px;margin:0}}
+.sizenote{{font-size:14.5px;color:var(--faint);margin:0 0 22px;max-width:64ch}}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
-  gap:18px;margin-bottom:10px}
-.card{background:var(--panel);border:1px solid var(--rule);border-radius:3px;
-  padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px}
-.card .glyphs{height:70px;display:flex;align-items:center;justify-content:center}
-.card .w{font-family:Spectral,Georgia,serif;font-size:18px;font-weight:600}
-.card .g{color:var(--faint);font-size:14px;margin-top:-6px}
-.card .n{color:var(--soft);font-size:14px;line-height:1.45}
-.card .n b{color:var(--ink);font-weight:600}
-.tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;
-  background:var(--ochre-soft);color:var(--ochre);padding:2px 7px;border-radius:2px;
-  align-self:flex-start}
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:16px;margin-bottom:8px}}
+.card{{background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:16px;display:flex;flex-direction:column;gap:12px}}
+.card .sc{{min-height:{GLYPH_H}px;display:flex;align-items:flex-end}}
+.card .w{{font-family:Spectral,Georgia,serif;font-size:18px;font-weight:600}}
+.card .g{{color:var(--faint);font-size:14px;margin-top:-8px}}
+.card .n{{color:var(--soft);font-size:14px;line-height:1.45}}
+.card .n b{{color:var(--ink);font-weight:600}}
 
-.note{border-left:2px solid var(--accent);padding-left:16px;color:var(--soft);
-  font-size:15.5px;margin:28px 0}
-.note b{color:var(--ink);font-weight:600}
-footer{border-top:1px solid var(--rule);margin-top:60px;padding-top:26px;
-  font-size:15px;color:var(--soft)}
-footer a{margin-right:20px}
+.note{{border-left:2px solid var(--accent);padding-left:16px;color:var(--soft);
+  font-size:15.5px;margin:26px 0}}
+.note b{{color:var(--ink);font-weight:600}}
+.status{{background:var(--ochre-soft);border-radius:3px;padding:18px 20px;
+  font-size:15px;color:var(--soft);margin:34px 0 0}}
+.status b{{color:var(--ochre)}}
+.status ul{{margin:8px 0 0;padding-left:20px}}
+.status li{{margin-bottom:5px}}
+footer{{border-top:1px solid var(--rule);margin-top:54px;padding-top:24px;
+  font-size:15px;color:var(--soft)}}
+footer a{{margin-right:20px}}
 """
 
 
-def card(w, label, note, svg, tag=None):
-    t = f'<div class="tag">{html.escape(tag)}</div>' if tag else ''
-    return f"""<div class="card">
-      <div class="glyphs">{svg.replace('class="rz"','class="rz sm"')}</div>
-      <div><div class="w">{html.escape(w)}</div><div class="g">{label}</div></div>
-      <div class="n">{note}</div>{t}</div>"""
+def sentence_block(txt, gloss):
+    rows = '<div class="hd">Latin spelling</div><div class="hd">Script</div>'
+    for tok, s in work[txt]:
+        rows += (f'<div class="lat">{html.escape(tok)}</div>'
+                 f'<div class="sc">{s or ""}</div>')
+    return (f'<div class="sent"><div class="cmp">{rows}</div>'
+            f'<p class="gloss">{html.escape(gloss)}</p></div>')
 
 
-body = []
-B = body.append
+def card(w, title, note):
+    return (f'<div class="card"><div class="sc">{singles[w]}</div>'
+            f'<div><div class="w">{html.escape(w)}</div>'
+            f'<div class="g">{title}</div></div>'
+            f'<div class="n">{note}</div></div>')
 
-B('<header class="t"><div class="eyebrow">RZ &middot; Romance zonal &middot; display script</div>')
-B('<h1>A language, and the script it is written in</h1>')
-B('<p class="sub">RZ is a constructed language built so that people who already read '
-  'Spanish, Portuguese, Italian or French can read it <em>without studying it first</em>. '
-  'Its everyday spelling is the Latin alphabet. This page also shows the optional '
-  'display script — a featural one, where the shape of each letter tells you how '
-  'to say it.</p></header>')
 
-B('<h2>Read this first, before any explanation</h2>')
-B('<p class="h2note">If you read any Romance language, try the line before you read the '
-  'grey translation under it. The script underneath is the same sentence again.</p>')
-for _, latin, gloss, s in lines:
-    B(f'<div class="line"><p class="latin">{html.escape(latin)}</p>'
-      f'<p class="gloss">{html.escape(gloss)}</p>'
-      f'<div class="script-box">{s}</div></div>')
+B = []
+a = B.append
 
-B('<div class="note"><b>That’s Aesop’s north wind and sun</b> — the passage '
-  'phoneticians use as a standard text. If you guessed most of it cold, that’s the '
-  'entire point of the language; if you didn’t, that’s the measurement we '
-  'haven’t run yet.</div>')
+a('<header class="t"><div class="eyebrow">RZ, a Romance zonal language</div>')
+a('<h1>RZ and its script</h1>')
+a('<p class="sub">RZ is built so that people who already read Spanish, Portuguese, '
+  'Italian or French can read it without studying it first. Normally it is written '
+  'in the Latin alphabet. It also has a second, optional script, shown here under '
+  'each word. In that script the shape of a letter tells you how to say it.</p>'
+  '</header>')
 
-B('<h2>At the market</h2>')
-B('<p class="h2note">Ordinary conversational register, with numbers.</p>')
-for _, latin, gloss, s in dlg:
-    B(f'<div class="line"><p class="latin">{html.escape(latin)}</p>'
-      f'<p class="gloss">{html.escape(gloss)}</p>'
-      f'<div class="script-box">{s}</div></div>')
+a('<h2>Try reading these</h2>')
+a('<p class="h2note">The translation sits under each sentence. Have a go at the RZ '
+  'before you look at it. Every word appears twice, once in each writing system.</p>')
+a('<p class="sizenote">The script is set larger than the Latin on purpose. Matching '
+  'them by height would flatter it, because the marks that tell one script letter '
+  'from another are small next to the letter itself. Sized nearer to equal '
+  'legibility, you can see what it costs in width.</p>')
+for t, g in LINES:
+    a(sentence_block(t, g))
 
-B('<h2>How a letter works</h2>')
-B('<p class="h2note">The script is <em>featural</em>: related sounds get related shapes, '
-  'so the writing system doubles as a pronunciation guide. Voicing isn’t a new '
-  'letter — it’s a bar underneath.</p>')
-B('<div class="grid">')
-for _, w, label, note, s in letters[:6]:
-    B(card(w, f'the <b>{html.escape(label)}</b> onset', note, s))
-B('</div>')
+a('<div class="note"><b>That is Aesop, the north wind and the sun.</b> '
+  'Phoneticians use it as a standard passage, so versions of it exist in most '
+  'languages.</div>')
 
-B('<h2>How a syllable ends</h2>')
-B('<p class="h2note">Every coda is one mark in a strip after the vowel. RZ only needs a '
-  'handful — which is exactly why a chorded keyboard for it is easy.</p>')
-B('<div class="grid">')
-for _, w, label, note, s in letters[6:]:
-    B(card(w, f'coda <b>{html.escape(label)}</b>', note, s))
-B('</div>')
+a('<h2>At the market</h2>')
+a('<p class="h2note">Everyday speech, with numbers.</p>')
+for t, g in DIALOGUE:
+    a(sentence_block(t, g))
 
-B('<h2>Grammar gets its own ink</h2>')
-B('<p class="h2note">Suffixes that carry grammar — tense, adverbs, nominalisation — '
-  'are drawn as dedicated blocks rather than spelled out. You can see the tense of a '
-  'verb without reading the word.</p>')
-B('<div class="grid">')
-for _, w, gloss, note, s in words:
-    B(card(w, html.escape(gloss), note, s))
-B('</div>')
+a('<h2>How a letter works</h2>')
+a('<p class="h2note">Sounds that are related get shapes that are related. '
+  'Voicing is the clearest case. To turn p into b you do not learn a new letter, '
+  'you add a bar underneath.</p>')
+a('<div class="grid">')
+for w, lab in LETTERS:
+    a(card(w, f'the <b>{lab}</b> sound',
+           'bar underneath means voiced' if lab in ('b', 'd')
+           else 'no bar, so unvoiced'))
+a('</div>')
 
-B('<div class="note"><b>Honest labelling, since this is a research project.</b> '
-  'The language is real and complete enough to read. The script is a working prototype, '
-  'not a finished typeface. And nobody outside the project has been tested yet — '
-  'every claim about how learnable this is remains a hypothesis until that happens.</div>')
+a('<h2>How a syllable ends</h2>')
+a('<p class="h2note">A syllable can end in one of four consonants, and each is a '
+  'single mark after the vowel. Four is a small number, which is part of why a '
+  'chorded keyboard for RZ is easy to build.</p>')
+a('<div class="grid">')
+for w, lab in CODAS:
+    a(card(w, f'ending in <b>{lab}</b>', {
+        'n': 'one bar', 's': 'two bars', 'l': 'a hook downward',
+        'r': 'a tick upward'}[lab]))
+a('</div>')
 
-B('<footer><a href="./">Read more, and score yourself</a>'
+a('<h2>Grammar suffixes</h2>')
+a('<p class="h2note">Endings that carry grammar get their own mark instead of being '
+  'spelled out. The useful part is that you can see what a verb is doing without '
+  'reading the whole word.</p>')
+a('<div class="grid">')
+for w, g, n in GRAMMAR:
+    a(card(w, html.escape(g), n))
+a('</div>')
+
+a('<div class="status"><b>Where this actually stands.</b>'
+  '<ul><li>The language works. There is a grammar, a lexicon and enough text to '
+  'read.</li>'
+  '<li>The script is a working prototype, not a finished typeface. '
+  'Single letters are in decent shape. Consonant clusters are not: they are '
+  'drawn by shrinking one letter and tucking another above it, and the result '
+  'is cramped. That is the next thing to redraw.</li>'
+  '<li>Two stroke weights is deliberate, not a rendering fault. Structural '
+  'strokes are heavy, marks are light, which is what keeps a mark from reading '
+  'as a letter.</li>'
+  '<li>Nobody outside the project has been tested on any of it, so how easy it is '
+  'to read is still a guess.</li></ul></div>')
+
+a('<footer><a href="./">Read more, and score yourself</a>'
   '<a href="faster-language.html">Why not just make it faster?</a>'
   '<a href="paper.html">The paper</a></footer>')
 
@@ -162,8 +302,9 @@ page = f"""<meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>{CSS}</style>
 <div class="wrap">
-{chr(10).join(body)}
+{chr(10).join(B)}
 </div>
 """
-open('docs/script-demo.html', 'w', encoding='utf-8').write(page)
-print("wrote docs/script-demo.html", len(page), "bytes")
+Path("docs/script-demo.html").write_text(page, encoding="utf-8")
+print(f"wrote docs/script-demo.html ({len(page)} bytes), "
+      f"shared vertical extent {Y0:.1f}..{Y1:.1f}, glyph height {GLYPH_H}px")
