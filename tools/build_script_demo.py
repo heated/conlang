@@ -187,11 +187,6 @@ svg.rz{{display:block;color:var(--ink);overflow:visible}}
 .note{{border-left:2px solid var(--accent);padding-left:16px;color:var(--soft);
   font-size:15.5px;margin:26px 0}}
 .note b{{color:var(--ink);font-weight:600}}
-.status{{background:var(--ochre-soft);border-radius:3px;padding:18px 20px;
-  font-size:15px;color:var(--soft);margin:34px 0 0}}
-.status b{{color:var(--ochre)}}
-.status ul{{margin:8px 0 0;padding-left:20px}}
-.status li{{margin-bottom:5px}}
 footer{{border-top:1px solid var(--rule);margin-top:54px;padding-top:24px;
   font-size:15px;color:var(--soft)}}
 footer a{{margin-right:20px}}
@@ -271,19 +266,6 @@ a('<div class="grid">')
 for w, g, n in GRAMMAR:
     a(card(w, html.escape(g), n))
 a('</div>')
-
-a('<div class="status"><b>Where this actually stands.</b>'
-  '<ul><li>The language works. There is a grammar, a lexicon and enough text to '
-  'read.</li>'
-  '<li>The script is a working prototype, not a finished typeface. '
-  'Single letters are in decent shape. Consonant clusters are not: they are '
-  'drawn by shrinking one letter and tucking another above it, and the result '
-  'is cramped. That is the next thing to redraw.</li>'
-  '<li>Two stroke weights is deliberate, not a rendering fault. Structural '
-  'strokes are heavy, marks are light, which is what keeps a mark from reading '
-  'as a letter.</li>'
-  '<li>Nobody outside the project has been tested on any of it, so how easy it is '
-  'to read is still a guess.</li></ul></div>')
 
 a('<footer><a href="./">Read more, and score yourself</a>'
   '<a href="faster-language.html">Why not just make it faster?</a>'
