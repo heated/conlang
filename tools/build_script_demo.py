@@ -25,10 +25,10 @@ from pathlib import Path
 
 os.chdir(Path(__file__).resolve().parent.parent)
 
-GLYPH_H = 56          # px. Deliberately larger than the Latin: matching the
-                      # two by height would flatter the script, since the marks
-                      # that tell its letters apart are small relative to the
-                      # letter. Set nearer equal legibility instead.
+GLYPH_H = 32          # px. A little larger than the Latin beside it, because
+                      # the marks that tell script letters apart are small next
+                      # to the letter. Not much larger: the point is to compare
+                      # them, and an oversized script wins on nothing.
 PAD = 4               # viewBox padding in source units
 
 
@@ -165,14 +165,12 @@ svg.rz{{display:block;color:var(--ink);overflow:visible}}
 
 .sent{{border-bottom:1px solid var(--rule);padding:26px 0}}
 .sent:last-of-type{{border-bottom:none}}
-.cmp{{display:grid;grid-template-columns:max-content 1fr;gap:0 32px;
-  align-items:center;margin-bottom:16px}}
-.cmp .hd{{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10.5px;
-  letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
-  padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:8px}}
-.cmp .lat{{font-family:Spectral,Georgia,serif;font-size:22px;line-height:1.2;
-  color:var(--ink);white-space:nowrap;text-align:right;padding:9px 0}}
-.cmp .sc{{display:flex;align-items:center;min-height:{GLYPH_H}px;padding:9px 0}}
+.words{{display:flex;flex-wrap:wrap;align-items:flex-end;
+  gap:14px 18px;margin-bottom:16px}}
+.wd{{display:flex;flex-direction:column;align-items:center;gap:3px}}
+.wd .lat{{font-family:Spectral,Georgia,serif;font-size:20px;line-height:1.25;
+  color:var(--ink);white-space:nowrap}}
+.wd .sc{{height:{GLYPH_H}px;display:flex;align-items:flex-end}}
 .gloss{{color:var(--faint);font-size:15px;margin:0}}
 .sizenote{{font-size:14.5px;color:var(--faint);margin:0 0 22px;max-width:64ch}}
 
@@ -201,11 +199,11 @@ footer a{{margin-right:20px}}
 
 
 def sentence_block(txt, gloss):
-    rows = '<div class="hd">Latin spelling</div><div class="hd">Script</div>'
-    for tok, s in work[txt]:
-        rows += (f'<div class="lat">{html.escape(tok)}</div>'
-                 f'<div class="sc">{s or ""}</div>')
-    return (f'<div class="sent"><div class="cmp">{rows}</div>'
+    ws = "".join(
+        f'<div class="wd"><div class="lat">{html.escape(tok)}</div>'
+        f'<div class="sc">{s or ""}</div></div>'
+        for tok, s in work[txt])
+    return (f'<div class="sent"><div class="words">{ws}</div>'
             f'<p class="gloss">{html.escape(gloss)}</p></div>')
 
 
@@ -228,12 +226,9 @@ a('<p class="sub">RZ is built so that people who already read Spanish, Portugues
   '</header>')
 
 a('<h2>Try reading these</h2>')
-a('<p class="h2note">The translation sits under each sentence. Have a go at the RZ '
-  'before you look at it. Every word appears twice, once in each writing system.</p>')
-a('<p class="sizenote">The script is set larger than the Latin on purpose. Matching '
-  'them by height would flatter it, because the marks that tell one script letter '
-  'from another are small next to the letter itself. Sized nearer to equal '
-  'legibility, you can see what it costs in width.</p>')
+a('<p class="h2note">Every word is set twice, the Latin spelling above and the '
+  'script below it. The translation is under each sentence, so have a go at the RZ '
+  'before you look at it.</p>')
 for t, g in LINES:
     a(sentence_block(t, g))
 
