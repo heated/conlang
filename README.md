@@ -5,6 +5,7 @@ an adult learner gets to functional use in a fraction of the usual
 time? This project builds two languages to find out, and prices every
 design decision in learner-hours.
 
+**[The language and its script](https://heated.github.io/conlang/script-demo.html)** ·
 **[Do you want to build a faster language?](https://heated.github.io/conlang/faster-language.html)** ·
 **[Read the paper](https://heated.github.io/conlang/paper.html)** ·
 **[Read RZ cold and score yourself](https://heated.github.io/conlang/)**
